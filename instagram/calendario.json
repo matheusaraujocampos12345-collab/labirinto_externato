@@ -91,8 +91,11 @@
       ],
       "legenda": "Seu cliente viu dez sites iguais hoje.\nNão seja o décimo primeiro. Chama no direct.\n\n#siteparaempresa #sitesobmedida #webdesign",
       "modo": "auto",
-      "status": "agendado",
-      "nota": "Aprovado pelo dono para o robô publicar hoje, 23/11, ao meio-dia."
+      "status": "publicado",
+      "nota": "Aprovado pelo dono para o robô publicar hoje, 23/11, ao meio-dia.",
+      "publicado_em": "2026-11-23T15:01:23.854Z",
+      "media_id": "18108452531574649",
+      "permalink": "https://www.instagram.com/p/DgFp2Slj3_e/"
     },
     {
       "id": "raio-x-primeira-tela",
