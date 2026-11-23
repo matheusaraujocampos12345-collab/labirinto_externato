@@ -19,7 +19,7 @@ Escreva os slides num arquivo de texto e as artes saem prontas no padrão da mar
 node instagram/fabrica/carrossel.mjs instagram/posts/como-funciona.json
 ```
 
-Tipos de slide: `capa`, `texto`, `lista`, `passos`, `numeros`, `chamada`, `imagem-anotada` (recorte de site com marcadores numerados), `mito` (frase + selo MITO/DEPENDE + resposta) `frase` (foto única com frase grande) e `foto` (foto única com uma tela em destaque). Exemplos no topo de `fabrica/carrossel.mjs`.
+Tipos de slide: `capa`, `texto`, `lista`, `passos`, `numeros`, `chamada`, `imagem-anotada` (recorte de site com marcadores numerados), `mito` (frase + selo MITO/DEPENDE + resposta) `frase` (foto única com frase grande), `foto` (foto única com uma tela em destaque) e `paleta` (amostras de cor com nome e origem). Exemplos no topo de `fabrica/carrossel.mjs`.
 As imagens vão para `instagram/posts/<nome>/` junto com a `legenda.txt`.
 
 Prints do site e do vídeo para os posts: `node instagram/fabrica/capturar.mjs` (salva em `instagram/recortes/`).

@@ -1,186 +1,177 @@
 {
   "slug": "feito-para-padaria",
-  "legenda": "Toda padaria tem foto de pão. Essa tem relógio de fornada.\nQual negócio é o próximo? Vota no domingo, nos stories.\n\n#siteparapadaria #siteparaempresa #padariaartesanal",
+  "legenda": "Toda padaria posta foto de pão. Essa tem painel de senha.\nQual negócio é o próximo? Vota no domingo, nos stories.\n\n#siteparapadaria #siteparaempresa #padaria",
   "slides": [
     {
       "tipo": "capa",
       "eyebrow": "Feito para… padaria",
-      "titulo": "Por que o site da padaria tem um relógio de fornada.",
-      "destaque": "relógio de fornada",
-      "imagem": "instagram/sites-conceito/padaria/captura/quadros/04-relogio.jpg",
+      "titulo": "Por que o site da padaria tem um painel de senha.",
+      "destaque": "painel de senha",
+      "imagem": "instagram/sites-conceito/padaria/captura/quadros/03-relogio-da-fornada.jpg",
       "recorte": [
         0,
-        0.3,
+        0.335,
         1,
-        0.7
+        0.535
       ],
       "cores": true,
-      "rotuloImagem": "Casca & Miolo · celular",
+      "rotuloImagem": "Padaria Quatro Horas · próxima fornada",
       "rodape": "Padaria fictícia. Site de verdade. →"
     },
     {
       "tipo": "imagem-anotada",
-      "eyebrow": "Decisão · O relógio",
+      "eyebrow": "Decisão · O painel",
       "titulo": "Padaria vende o que está saindo agora.",
-      "imagem": "instagram/sites-conceito/padaria/captura/quadros/04-relogio.jpg",
-      "cores": true,
-      "rotuloImagem": "Próxima fornada",
-      "marcadores": [
-        {
-          "x": 0.81,
-          "y": 0.6,
-          "texto": "O site mostra quanto falta para a próxima fornada."
-        },
-        {
-          "x": 0.66,
-          "y": 0.84,
-          "texto": "O cliente chega com o pão ainda quente."
-        }
-      ]
-    },
-    {
-      "tipo": "imagem-anotada",
-      "eyebrow": "Decisão · A primeira tela",
-      "titulo": "Um pão saindo do forno, não foto de banco.",
-      "imagem": "instagram/sites-conceito/padaria/captura/quadros/08-vapor-detalhe.jpg",
-      "cores": true,
-      "rotuloImagem": "Primeira tela · detalhe",
-      "marcadores": [
-        {
-          "x": 0.42,
-          "y": 0.2,
-          "texto": "O vapor se mexe quando a pessoa rola a tela."
-        },
-        {
-          "x": 0.8,
-          "y": 0.56,
-          "texto": "O pão é desenhado, feito só para este site."
-        }
-      ]
-    },
-    {
-      "tipo": "imagem-anotada",
-      "eyebrow": "Decisão · O título",
-      "titulo": "O título fala como padeiro.",
       "imagem": "instagram/sites-conceito/padaria/captura/quadros/01-primeira-tela.jpg",
       "recorte": [
         0,
-        0.09,
+        0.38,
         1,
-        0.39
+        0.6
       ],
       "cores": true,
       "rotuloImagem": "Primeira tela",
       "marcadores": [
         {
-          "x": 0.45,
-          "y": 0.82,
-          "texto": "Cantando: o estalo da casca esfriando."
+          "x": 0.52,
+          "y": 0.79,
+          "texto": "A próxima fornada e quanto falta, já na primeira tela."
         }
       ],
-      "texto": "Quem entende de pão reconhece. E confia."
+      "texto": "O mesmo painel vermelho do balcão."
     },
     {
       "tipo": "imagem-anotada",
-      "eyebrow": "Decisão · O balcão",
-      "titulo": "O cliente vê o balcão antes de sair de casa.",
-      "imagem": "instagram/sites-conceito/padaria/captura/quadros/03-cardapio.jpg",
+      "sangria": true,
+      "eyebrow": "Decisão · O vídeo",
+      "titulo": "O pão sai do forno\ncom a rolagem.",
+      "imagem": "instagram/sites-conceito/padaria/captura/quadros/02-pao-saindo-do-forno.jpg",
+      "foco": [
+        0.5,
+        0.4
+      ],
+      "cores": true,
+      "rotuloImagem": "Primeira tela · vídeo",
+      "texto": [
+        "O vídeo anda com o dedo.",
+        "Num cliente real, filmado no forno dele."
+      ]
+    },
+    {
+      "tipo": "imagem-anotada",
+      "eyebrow": "Decisão · O cardápio",
+      "titulo": "O cardápio é o quadro de letras da parede.",
+      "imagem": "instagram/sites-conceito/padaria/captura/quadros/05-cardapio.jpg",
       "recorte": [
         0,
-        0.155,
+        0.37,
         1,
-        0.615
+        0.63
       ],
       "cores": true,
       "rotuloImagem": "Cardápio",
       "marcadores": [
         {
-          "x": 0.86,
-          "y": 0.167,
-          "texto": "A vitrine se enche enquanto ele desce a tela."
+          "x": 0.56,
+          "y": 0.354,
+          "texto": "Acabou? Vai um bilhete, igual no balcão."
         },
         {
-          "x": 0.65,
-          "y": 0.865,
-          "texto": "O que acabou aparece como acabou."
+          "x": 0.53,
+          "y": 0.133,
+          "texto": "As letras entram uma por uma com a rolagem."
         }
       ]
     },
     {
-      "tipo": "imagem-anotada",
+      "tipo": "paleta",
       "eyebrow": "Decisão · As cores",
-      "titulo": "As cores saíram da casca e do miolo.",
-      "imagem": "instagram/sites-conceito/padaria/captura/quadros/05-paleta.jpg",
-      "recorte": [
-        0,
-        0.575,
-        1,
-        0.425
-      ],
-      "cores": true,
-      "rotuloImagem": "Paleta medida no pão",
-      "marcadores": [
+      "titulo": "As cores saíram do forno.",
+      "cores": [
         {
-          "x": 0.0925,
-          "y": 0.905,
-          "texto": "A borda tostada virou o fundo."
+          "hex": "#05020A",
+          "nome": "Forno",
+          "origem": "Dentro do forno"
         },
         {
-          "x": 0.441,
-          "y": 0.905,
-          "texto": "A casca no ponto virou o destaque."
+          "hex": "#2A2426",
+          "nome": "Inox",
+          "origem": "Sombra da grade"
         },
         {
-          "x": 0.789,
-          "y": 0.905,
-          "texto": "O miolo da fatia virou o claro."
+          "hex": "#563827",
+          "nome": "Parede",
+          "origem": "Parede da padaria"
+        },
+        {
+          "hex": "#9B6530",
+          "nome": "Casca",
+          "origem": "Casca do pão"
+        },
+        {
+          "hex": "#C18A4E",
+          "nome": "Dourado",
+          "origem": "Casca dourada"
+        },
+        {
+          "hex": "#E5AC68",
+          "nome": "Luz do forno",
+          "origem": "Luz na grade"
+        },
+        {
+          "hex": "#F8DCB3",
+          "nome": "Farinha",
+          "origem": "Farinha no pão"
+        },
+        {
+          "hex": "#FAF1DF",
+          "nome": "Brilho",
+          "origem": "Brilho da assadeira"
         }
       ],
-      "texto": "Cores medidas em fotos de pão de verdade."
-    },
-    {
-      "tipo": "imagem-anotada",
-      "eyebrow": "Decisão · O mapa",
-      "titulo": "O mapa desenha o caminho até a porta.",
-      "imagem": "instagram/sites-conceito/padaria/captura/quadros/06-mapa.jpg",
-      "recorte": [
-        0,
-        0.3,
-        1,
-        0.7
-      ],
-      "cores": true,
-      "rotuloImagem": "Endereço",
-      "marcadores": [
-        {
-          "x": 0.4,
-          "y": 0.8,
-          "texto": "O caminho, desenhado no estilo do site."
-        },
-        {
-          "x": 0.82,
-          "y": 0.6,
-          "texto": "Quantos minutos a pé, no próprio mapa."
-        }
+      "texto": [
+        "Cada cor foi medida no vídeo da primeira tela.",
+        "Só o vermelho do painel não veio do forno."
       ]
     },
     {
       "tipo": "imagem-anotada",
-      "eyebrow": "Decisão · A encomenda",
-      "titulo": "Encomendar é um toque no WhatsApp.",
-      "imagem": "instagram/sites-conceito/padaria/captura/quadros/07-encomenda-whatsapp.jpg",
+      "eyebrow": "Decisão · A história",
+      "titulo": "A padaria que acorda às 4h.",
+      "imagem": "instagram/sites-conceito/padaria/captura/quadros/07-madrugada.jpg",
+      "recorte": [
+        0,
+        0.41,
+        1,
+        0.59
+      ],
       "cores": true,
-      "rotuloImagem": "Encomenda",
+      "rotuloImagem": "Quem acorda às 4h",
+      "texto": "O neon, o bairro de madrugada e o cartão de ponto mostram o trabalho que o cliente não vê."
+    },
+    {
+      "tipo": "imagem-anotada",
+      "eyebrow": "Decisão · Mapa e WhatsApp",
+      "titulo": "Tudo a um toque.",
+      "imagem": "instagram/sites-conceito/padaria/captura/quadros/06-mapa-e-whatsapp.jpg",
+      "recorte": [
+        0,
+        0.02,
+        1,
+        0.88
+      ],
+      "cores": true,
+      "rotuloImagem": "Endereço e encomenda",
       "marcadores": [
         {
-          "x": 0.67,
-          "y": 0.83,
-          "texto": "O botão também fica sempre no alto da tela."
+          "x": 0.2,
+          "y": 0.17,
+          "texto": "O WhatsApp a um toque, sempre no alto da tela."
         },
         {
-          "x": 0.93,
-          "y": 0.17,
-          "texto": "O pedido sai no saco, com o nome."
+          "x": 0.33,
+          "y": 0.82,
+          "texto": "O caminho até a porta, no bairro de madrugada."
         }
       ]
     },
