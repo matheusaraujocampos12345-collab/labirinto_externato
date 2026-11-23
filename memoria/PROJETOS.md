@@ -40,7 +40,15 @@ Propostas de marca publicadas como páginas (claude.ai, privadas): Talhe, Macte 
 - Para mudar a página: editar `instagram/pauta/gerar_pauta.py` (conteúdo) ou `pagina.html` (visual), rodar `python3 gerar_pauta.py && python3 montar.py` e publicar `pauta-mach.html` no mesmo link.
 - Atenção: a publicação automática não põe música da biblioteca do Instagram nem stickers. Reels com música e stories com enquete ficam no modo manual.
 
-### 1. Automação do Instagram (em andamento)
+### 1. Automação do Instagram (LIGADA em 23/11/2026)
+- **Robô ligado:** a tarefa `.github/workflows/instagram-publicar.yml` está na `main` e roda a cada hora (minuto 7, UTC). O teste de leitura passou ("@mach.sites"). A Meta baixou uma imagem do `raw.githubusercontent.com` sem problema.
+- **Chave:** está no segredo **`IG_ACESS_TOKEN`** (com um "C" só, como o dono salvou). O workflow aceita esse nome e também `IG_ACCESS_TOKEN`. A chave antiga, colada no chat, ainda funciona: o dono preferiu não revogar.
+- **Regra do dono:** **perguntar antes de cada post que o robô vai publicar.** Só depois do "pode" o post vira `modo: auto` no calendário da `main`. O dono autorizou editar o `calendario.json` direto na `main`; para qualquer outra mudança, abrir pedido e juntar.
+- **Trava contra post repetido:** antes de publicar, o robô compara a legenda com os posts dos últimos 3 dias.
+- **Reels:** sempre manuais. O dono põe a música no app.
+- **Primeiro post do robô:** manifesto, 23/11 ao meio-dia.
+
+#### Histórico da automação
 - **Decisões do dono (23/11):** repositório **público, sem nada pessoal** (a origem do nome, o nome do dono e os prints da Meta saíram dos arquivos e do histórico, e ficam só no pacote de memória privado). **Reels com música, postos por ele:** os Reels ficam em modo manual e ele escolhe a música no app. Carrosséis e fotos saem sozinhos.
 - Enquanto o GitHub não volta, os posts saem pelo agendamento do app do Instagram, usando o kit da semana (uma pasta por post, com a legenda).
 - **Conexão com a Meta pronta (22/11/2026).** Login unificado, app "Mach Publicado", portfólio MachEstudio, @mach.sites ligada ao portfólio.
