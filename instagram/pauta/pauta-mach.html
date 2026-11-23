@@ -1,0 +1,435 @@
+<title>Pauta MACH</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Saira:wdth,wght@100..125,300..600&display=swap">
+<style>
+/* Layout: uma coluna de leitura com abas fixas no topo; ideias em grade de cartões; a régua de Mach mede quanto da pauta já foi decidido. */
+:root {
+  --bg: #0A0C0F;          /* estratosfera */
+  --surface: #12161B;
+  --surface-2: #1B2026;   /* titânio */
+  --line: rgba(223, 227, 231, .10);
+  --line-2: rgba(223, 227, 231, .20);
+  --fg: #DFE3E7;          /* alumínio */
+  --muted: #8A929B;       /* névoa */
+  --accent: #FF6B1A;      /* laranja de teste */
+  --ok: #6CCB9C;
+  --warn: #E2B04E;
+  --no: #E2706E;
+  --f-display: 'Saira', 'Hanken Grotesk', system-ui, sans-serif;
+  --f-text: 'Hanken Grotesk', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --f-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --r: 10px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+  background: var(--bg); color: var(--fg);
+  font: 400 15px/1.55 var(--f-text);
+  -webkit-font-smoothing: antialiased;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+a { color: var(--fg); text-underline-offset: 3px; text-decoration-color: var(--line-2); }
+a:hover { text-decoration-color: var(--fg); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* topo */
+.topo { padding-block: 28px 18px; display: grid; gap: 18px; }
+.marca { display: flex; align-items: center; gap: 12px; color: var(--muted); font: 500 11px/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; }
+.marca svg { width: 72px; height: auto; }
+h1 { margin: 0; font: 300 clamp(30px, 5vw, 46px)/1.05 var(--f-display); font-stretch: 112%; letter-spacing: -.01em; text-wrap: balance; }
+.sub { margin: 0; color: var(--muted); max-width: 62ch; }
+.regua { display: grid; gap: 8px; max-width: 560px; }
+.regua-trilho { position: relative; height: 22px; }
+.regua-trilho .linha { position: absolute; left: 0; right: 0; top: 10px; height: 2px; background: var(--line-2); }
+.regua-trilho .cheio { position: absolute; left: 0; top: 10px; height: 2px; background: var(--accent); transition: width .5s cubic-bezier(.2,.7,.2,1); }
+.regua-trilho .tick { position: absolute; top: 5px; width: 1px; height: 12px; background: var(--line-2); }
+.regua-legenda { display: flex; justify-content: space-between; font: 400 11px/1 var(--f-mono); color: var(--muted); letter-spacing: .08em; font-variant-numeric: tabular-nums; }
+.regua-legenda b { color: var(--fg); font-weight: 500; }
+.contagem { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--line-2); border-radius: 999px; background: transparent; font: 500 12px/1 var(--f-mono); letter-spacing: .06em; color: var(--muted); cursor: pointer; font-variant-numeric: tabular-nums; }
+.pill i { width: 7px; height: 7px; border-radius: 50%; background: var(--line-2); }
+.pill[data-s="aprovado"] i { background: var(--ok); }
+.pill[data-s="ajustar"] i { background: var(--warn); }
+.pill[data-s="recusado"] i { background: var(--no); }
+.pill b { color: var(--fg); font-weight: 500; }
+.pill[aria-pressed="true"] { border-color: var(--fg); color: var(--fg); }
+.aviso { font: 400 12px/1.4 var(--f-mono); color: var(--muted); letter-spacing: .02em; }
+.aviso[data-tom="erro"] { color: var(--no); }
+
+/* abas */
+.abas { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+.abas .wrap { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.aba { flex: none; padding: 14px 14px 12px; border: 0; border-bottom: 2px solid transparent; background: none; cursor: pointer; font: 500 13px/1 var(--f-display); font-stretch: 125%; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.aba[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--fg); }
+.aba span { font: 400 11px/1 var(--f-mono); letter-spacing: 0; margin-left: 6px; color: var(--muted); }
+
+main { padding-block: 24px 64px; }
+section[hidden] { display: none; }
+h2 { margin: 0 0 6px; font: 400 22px/1.2 var(--f-display); font-stretch: 112%; text-wrap: balance; }
+h2 + .sub { margin-bottom: 20px; }
+.rotulo { font: 500 11px/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+/* filtros */
+.filtros { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.chipbtn { padding: 7px 12px; border-radius: 6px; border: 1px solid var(--line-2); background: transparent; cursor: pointer; font: 500 12px/1 var(--f-mono); letter-spacing: .06em; color: var(--muted); }
+.chipbtn[aria-pressed="true"] { background: var(--surface-2); color: var(--fg); border-color: var(--fg); }
+
+/* cartões de ideia */
+.grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr)); gap: 14px; align-items: start; }
+.card { position: relative; display: grid; gap: 12px; padding: 18px 18px 16px 20px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); min-width: 0; }
+.card::before { content: ""; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px; border-radius: 0 3px 3px 0; background: var(--line-2); }
+.card[data-status="aprovado"]::before { background: var(--ok); }
+.card[data-status="ajustar"]::before { background: var(--warn); }
+.card[data-status="recusado"]::before { background: var(--no); }
+.card[data-status="recusado"] .card-corpo { opacity: .55; }
+.card-topo { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.tipo { padding: 4px 8px; border-radius: 4px; background: var(--surface-2); font: 500 11px/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; }
+.meta { font: 400 11px/1.3 var(--f-mono); color: var(--muted); letter-spacing: .04em; }
+.meta.num { margin-left: auto; }
+.card-corpo { display: grid; gap: 10px; min-width: 0; }
+.card h3 { margin: 0; font: 500 18px/1.25 var(--f-display); font-stretch: 105%; text-wrap: balance; }
+.gancho { margin: 0; padding-left: 12px; border-left: 1px solid var(--line-2); font-size: 16px; line-height: 1.45; }
+.gancho small { display: block; margin-bottom: 4px; font: 500 10px/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+details { border-top: 1px solid var(--line); padding-top: 10px; }
+summary { cursor: pointer; font: 500 12px/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); list-style: none; display: flex; gap: 8px; align-items: center; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; display: inline-block; width: 12px; color: var(--fg); }
+details[open] summary::before { content: "−"; }
+details ol, details ul { margin: 10px 0 0; padding-left: 20px; display: grid; gap: 6px; }
+details li::marker { color: var(--muted); font-family: var(--f-mono); font-size: 12px; }
+.ref { margin: 0; font-size: 13px; color: var(--muted); }
+.ref b { color: var(--fg); font-weight: 500; }
+.voce { display: inline-flex; gap: 6px; align-items: center; font: 500 11px/1 var(--f-mono); letter-spacing: .06em; color: var(--warn); }
+.previa { width: 100%; max-width: 100%; border-radius: 6px; border: 1px solid var(--line); background: #000; }
+video.previa { max-height: 70vh; aspect-ratio: 9 / 16; object-fit: contain; }
+.galeria { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px; max-width: 100%; }
+.galeria img { flex: 0 0 78%; max-width: 78%; scroll-snap-align: start; border-radius: 6px; border: 1px solid var(--line); }
+.galeria[data-tipo="story"] img { flex-basis: 48%; max-width: 48%; }
+.galeria[data-tipo="foto"] img { flex-basis: 100%; max-width: 100%; }
+.legenda { margin: 6px 0 0; white-space: pre-line; font-size: 14px; line-height: 1.5; padding: 10px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 7px; }
+.mudou { margin: 0; font-size: 13px; color: var(--warn); }
+.mudou b { font-weight: 600; }
+
+.decisao { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.btn { padding: 10px 6px; border-radius: 7px; border: 1px solid var(--line-2); background: transparent; cursor: pointer; font: 500 13px/1 var(--f-text); color: var(--fg); transition: background .15s, border-color .15s; }
+.btn:hover { background: var(--surface-2); }
+.btn[aria-pressed="true"][data-s="aprovado"] { background: color-mix(in srgb, var(--ok) 18%, transparent); border-color: var(--ok); }
+.btn[aria-pressed="true"][data-s="ajustar"] { background: color-mix(in srgb, var(--warn) 18%, transparent); border-color: var(--warn); }
+.btn[aria-pressed="true"][data-s="recusado"] { background: color-mix(in srgb, var(--no) 18%, transparent); border-color: var(--no); }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+.nota { display: grid; gap: 6px; }
+.nota textarea { width: 100%; min-height: 64px; resize: vertical; padding: 10px 12px; border-radius: 7px; border: 1px solid var(--line-2); background: var(--bg); color: var(--fg); font: 400 14px/1.45 var(--f-text); }
+.nota textarea::placeholder { color: var(--muted); }
+.nota-acoes { display: flex; justify-content: space-between; align-items: center; gap: 8px; min-height: 30px; }
+.salvar { padding: 7px 12px; border-radius: 6px; border: 1px solid var(--fg); background: var(--fg); color: var(--bg); cursor: pointer; font: 600 12px/1 var(--f-text); }
+.salvar[hidden] { display: none; }
+.vazio { padding: 28px; border: 1px dashed var(--line-2); border-radius: var(--r); color: var(--muted); text-align: center; }
+
+/* rotina */
+.numeros { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; margin-bottom: 28px; }
+.numero { background: var(--surface); padding: 16px 18px; display: grid; gap: 4px; min-width: 0; }
+.numero b { font: 300 34px/1 var(--f-display); font-stretch: 110%; font-variant-numeric: tabular-nums; }
+.numero span { font-weight: 500; }
+.numero small { color: var(--muted); font-size: 13px; }
+.tabela-rolagem { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); margin-bottom: 12px; }
+table { border-collapse: collapse; width: 100%; min-width: 760px; }
+th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+th { font: 500 11px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); background: var(--surface); }
+tr:last-child td { border-bottom: 0; }
+td.dia { font: 500 13px/1.2 var(--f-display); font-stretch: 120%; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.slot { display: grid; gap: 3px; }
+.slot .tipo { justify-self: start; }
+.slot small { color: var(--muted); font-size: 13px; line-height: 1.35; }
+.bloco { margin-top: 32px; }
+.lista-simples { margin: 0; padding-left: 20px; display: grid; gap: 8px; max-width: 75ch; }
+.fonte { font-size: 12px; color: var(--muted); }
+.decisao-geral { margin-top: 28px; padding: 18px; border: 1px solid var(--line-2); border-radius: var(--r); background: var(--surface); display: grid; gap: 12px; max-width: 640px; position: relative; }
+.decisao-geral::before { content: ""; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px; border-radius: 0 3px 3px 0; background: var(--line-2); }
+.decisao-geral[data-status="aprovado"]::before { background: var(--ok); }
+.decisao-geral[data-status="ajustar"]::before { background: var(--warn); }
+.decisao-geral[data-status="recusado"]::before { background: var(--no); }
+
+/* referências */
+.refs { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(360px, 100%), 1fr)); align-items: start; }
+.refcard { padding: 18px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); display: grid; gap: 10px; min-width: 0; }
+.refcard h3 { margin: 0; font: 500 17px/1.25 var(--f-display); font-stretch: 105%; }
+.refcard p { margin: 0; }
+.refcard .k { font: 500 10px/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 3px; }
+.links { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; }
+.links a { overflow-wrap: anywhere; }
+.plataformas { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.dados { display: grid; gap: 10px; margin: 0 0 28px; padding: 0; list-style: none; }
+.dados li { padding: 12px 14px; border-left: 2px solid var(--line-2); background: var(--surface); border-radius: 0 6px 6px 0; }
+
+.toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); padding: 10px 14px; border-radius: 8px; background: var(--fg); color: var(--bg); font: 500 13px/1.3 var(--f-text); max-width: calc(100% - 32px); z-index: 20; }
+.toast[hidden] { display: none; }
+
+@media (max-width: 520px) {
+  .card { padding: 16px 14px 14px 16px; }
+  .btn { font-size: 12px; padding: 10px 4px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<header class="wrap topo">
+  <div class="marca">
+    <svg viewBox="-14 -16 548 128" role="img" aria-label="MACH"><clipPath id="pe"><rect x="-40" y="-40" width="620" height="143.5"/></clipPath><g fill="none" stroke-width="7"><path d="M0 100 V0 L55 72 L110 0 V100 M390 0 H312 Q282 0 282 30 V70 Q282 100 312 100 H390 M420 0 V100 M520 0 V100 M420 50 H520" stroke="#DFE3E7" stroke-linecap="square"/><path d="M137.68 108 L196 0 L254.32 108" stroke="#FF6B1A" clip-path="url(#pe)"/></g></svg>
+    <span id="rodada"></span>
+  </div>
+  <h1>Pauta de conteúdo</h1>
+  <p class="sub" id="sub"></p>
+  <div class="regua" aria-live="polite">
+    <div class="regua-trilho" aria-hidden="true"><div class="linha"></div><div class="cheio" id="cheio" style="width:0"></div></div>
+    <div class="regua-legenda"><span>M 0.40</span><span id="progresso">0 de 0 decididas</span><span>M 1.20</span></div>
+  </div>
+  <div class="contagem" id="contagem"></div>
+  <p class="aviso" id="aviso">Conectando para salvar suas respostas…</p>
+</header>
+
+<nav class="abas" aria-label="Seções">
+  <div class="wrap" role="tablist">
+    <button class="aba" role="tab" id="aba-ideias" data-aba="ideias">Ideias<span id="n-ideias"></span></button>
+    <button class="aba" role="tab" id="aba-rotina" data-aba="rotina">Rotina</button>
+    <button class="aba" role="tab" id="aba-referencias" data-aba="referencias">Referências<span id="n-refs"></span></button>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="sec-ideias" role="tabpanel" aria-labelledby="aba-ideias"></section>
+  <section id="sec-rotina" role="tabpanel" aria-labelledby="aba-rotina" hidden></section>
+  <section id="sec-referencias" role="tabpanel" aria-labelledby="aba-referencias" hidden></section>
+</main>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script type="application/json" id="dados">{"rodada": "Rodada 2 · peças da semana 1 · 23/11/2026", "instrucao": "Agora são as peças prontas. Assista, passe os slides e leia a legenda. Toque em Aprovar, Ajustar ou Não gostei. O que for aprovado entra no calendário.", "tituloIdeias": "Peças da semana 1", "subIdeias": "Vídeos, carrosséis, fotos e stories na ordem em que vão ao ar.", "tituloRefs": "O que está funcionando", "subRefs": "Formatos encontrados no TikTok, no Instagram e no YouTube. Usamos o formato, nunca o conteúdo de ninguém.", "rotina": {"titulo": "Calendário da semana 1", "resumo": "De 30/11 a 05/12, mais o manifesto no domingo 29/11. Os 3 posts já agendados desta semana (24, 26 e 28/11) continuam.", "numeros": [{"valor": "11", "rotulo": "posts na semana", "nota": "7 Reels e 4 carrosséis, mais o manifesto no domingo."}, {"valor": "4", "rotulo": "modelos de stories", "nota": "Eu preparo as telas; você põe os stickers no app."}], "colunas": ["12h", "19h", "Stories"], "semana": [{"dia": "Dom 29/11", "slots": [null, {"tipo": "foto", "texto": "Manifesto"}, {"tipo": "story", "texto": "Bancada"}]}, {"dia": "Seg 30/11", "slots": [{"tipo": "carrossel", "texto": "Raio-X de uma primeira tela"}, {"tipo": "reels", "texto": "Caixa-preta #1"}, {"tipo": "story", "texto": "Bancada"}]}, {"dia": "Ter 01/12", "slots": [{"tipo": "reels", "texto": "Isso não é vídeo"}, {"tipo": "carrossel", "texto": "Checklist antes de contratar"}, {"tipo": "story", "texto": "Bancada"}]}, {"dia": "Qua 02/12", "slots": [{"tipo": "reels", "texto": "Parallax em 30 s"}, {"tipo": "reels", "texto": "Feito para padaria"}, {"tipo": "story", "texto": "Bancada"}]}, {"dia": "Qui 03/12", "slots": [{"tipo": "carrossel", "texto": "Padaria: as decisões"}, {"tipo": "reels", "texto": "O site que todo mundo tem"}, {"tipo": "story", "texto": "Bancada"}]}, {"dia": "Sex 04/12", "slots": [{"tipo": "reels", "texto": "1 segundo, 30 quadros"}, {"tipo": "carrossel", "texto": "Mito ou verdade"}, {"tipo": "story", "texto": "Sexta do site"}]}, {"dia": "Sáb 05/12", "slots": [{"tipo": "reels", "texto": "Do zero à primeira tela", "nota": "11h"}, null, {"tipo": "story", "texto": "Leve"}]}, {"dia": "Dom 06/12", "slots": [null, null, {"tipo": "story", "texto": "Você escolhe o nicho"}]}], "notaTabela": "Reels: ficam prontos e você só escolhe a música e publica. Carrosséis e fotos: saem sozinhos quando o GitHub estiver ligado; até lá, agendamos pelo próprio Instagram.", "quadros": [{"id": "isso-e-um-site", "nome": "Isso é um site", "tipo": "reels", "dia": "Ter e Sex, 12h", "descricao": "10 a 20 segundos de um site nosso rolando como se fosse filme, sem fala, com texto na tela. Começa e termina no mesmo quadro.", "formato": "Revelação de animação de scroll (TikTok) e scroll de cinema (Instagram)"}, {"id": "caixa-preta", "nome": "Caixa-preta", "tipo": "reels", "dia": "Seg, 19h", "descricao": "Um efeito dos sites mais premiados do mundo, recriado por nós e aberto em camadas. Termina com o que aquilo faz pelo cliente do negócio.", "formato": "\"Como fizeram isso?\" (YouTube) e desmontagem em camadas (Instagram)"}, {"id": "feito-para", "nome": "Feito para…", "tipo": "reels", "dia": "Qua 19h (Reels) e Qui 12h (carrossel)", "descricao": "Toda semana, um site-conceito para um tipo de negócio: padaria, clínica, academia, imobiliária. O público escolhe o próximo no domingo. Vira portfólio.", "formato": "Série com um negócio por episódio (TikTok) e antes/depois com o \"antes\" inventado"}, {"id": "em-30-segundos", "nome": "Em 30 segundos", "tipo": "reels", "dia": "Qua, 12h", "descricao": "Um termo por episódio (parallax, scroll animado, microinteração), mostrado funcionando e traduzido para o dono do negócio: quando vale e quando não vale.", "formato": "Explicador de duração fixa (série \"in 100 Seconds\" do Fireship)"}, {"id": "template-x-sob-medida", "nome": "Template × sob medida", "tipo": "reels", "dia": "Qui, 19h", "descricao": "O mesmo elemento (botão, menu, primeira tela) na versão de template e na versão sob medida, lado a lado.", "formato": "Antes/depois template → sob medida e \"site padrão × site com direção\" (TikTok)"}, {"id": "raio-x", "nome": "Raio-X", "tipo": "carrossel", "dia": "Seg, 12h", "descricao": "Um site desmontado em 7 a 10 slides, cada um com um trecho anotado: o que está ali e por quê.", "formato": "Carrossel \"anatomia de um site\" (Instagram)"}, {"id": "pra-salvar", "nome": "Pra salvar", "tipo": "carrossel", "dia": "Ter e Sex, 19h", "descricao": "Checklists, glossário e mito × verdade. Conteúdo que o dono salva para a hora de contratar e manda para o sócio.", "formato": "Carrosséis de checklist e mito × verdade (Instagram)"}, {"id": "seu-site", "nome": "Seu site em 3 detalhes", "tipo": "reels", "dia": "Sáb, 11h", "descricao": "Um site enviado por seguidor na caixinha de sexta, com autorização. Três pontos e um conserto mostrado. Nunca para zoar.", "formato": "Crítica rápida com sites enviados pelo público (TikTok e YouTube)"}, {"id": "barreira-do-som", "nome": "Barreira do som", "tipo": "reels", "dia": "Sáb, a cada 15 dias", "descricao": "A reforma de verdade do site de um negócio que autorizou, com a régua M 0.40 → M 1.20 como barra de progresso.", "formato": "\"Achei um site e refiz\" (TikTok) e redesign com antes e depois (YouTube)"}, {"id": "bancada", "nome": "Bancada", "tipo": "story", "dia": "Todo dia", "descricao": "Stories de bastidor cru (código, render, rascunho), uma enquete e o post do dia. Às sextas, a caixinha. Aos domingos, a votação do nicho.", "formato": "Sequência enquete → caixinha (Instagram)"}], "porque": [], "regras": [], "idDecisao": "calendario-s1", "rotuloDecisao": "Sua decisão sobre o calendário da semana 1", "placeholderDecisao": "Ex.: troque a ordem de quarta, mude um horário…"}, "ideias": [{"id": "p-c01", "numero": "Seg 30/11 · 12h", "tipo": "carrossel", "quadro": "raio-x", "esforco": "pronto", "titulo": "Raio-X de uma primeira tela", "gancho": "O que seu site diz nos primeiros segundos.", "galeria": ["previas/c01/slide-01.jpg", "previas/c01/slide-02.jpg", "previas/c01/slide-03.jpg", "previas/c01/slide-04.jpg", "previas/c01/slide-05.jpg", "previas/c01/slide-06.jpg", "previas/c01/slide-07.jpg", "previas/c01/slide-08.jpg"], "legenda": "Antes de ler uma palavra, o cliente já decidiu se fica.\nSua primeira tela passa no raio-X? Salve e confira.\n\n#siteparaempresa #criacaodesites #webdesign", "roteiro": ["Sai sozinho pela publicação automática quando o GitHub estiver ligado.", "Se quiser música, eu deixo no modo manual e você escolhe no app."]}, {"id": "p-i04", "numero": "Seg 30/11 · 19h", "tipo": "reels", "quadro": "caixa-preta", "esforco": "pronto", "titulo": "Caixa-preta #1", "gancho": "Esse efeito está nos sites mais premiados do mundo. Abrimos a caixa-preta.", "previa": "previas/i04.mp4", "poster": "previas/i04-capa.jpg", "legenda": "Um efeito, três camadas e um motivo: o cliente lê no ritmo dele.\nQual efeito a gente abre na próxima?\n\n#siteanimado #webdesign #siteparaempresa", "roteiro": ["Sem música: você escolhe uma no app do Instagram na hora de publicar.", "Os cortes funcionam em qualquer música de ritmo médio."]}, {"id": "p-i01", "numero": "Ter 01/12 · 12h", "tipo": "reels", "quadro": "isso-e-um-site", "esforco": "pronto", "titulo": "Isso não é vídeo", "gancho": "Isso não é vídeo. É um site.", "previa": "previas/i01.mp4", "poster": "previas/i01-capa.jpg", "legenda": "Isso é um site rodando no celular.\nComenta SITE que eu te mostro como ficaria o seu.\n\n#siteanimado #criacaodesites #siteparaempresa", "roteiro": ["Sem música: você escolhe uma no app do Instagram na hora de publicar.", "Os cortes funcionam em qualquer música de ritmo médio."]}, {"id": "p-c02", "numero": "Ter 01/12 · 19h", "tipo": "carrossel", "quadro": "pra-salvar", "esforco": "pronto", "titulo": "Checklist antes de contratar", "gancho": "8 perguntas antes de contratar um site.", "galeria": ["previas/c02/slide-01.jpg", "previas/c02/slide-02.jpg", "previas/c02/slide-03.jpg", "previas/c02/slide-04.jpg", "previas/c02/slide-05.jpg", "previas/c02/slide-06.jpg", "previas/c02/slide-07.jpg", "previas/c02/slide-08.jpg", "previas/c02/slide-09.jpg", "previas/c02/slide-10.jpg"], "legenda": "Site bom se descobre antes de pagar, não depois.\nSalve para a hora de fechar. E manda para o sócio.\n\n#siteparaempresa #criacaodesites #pequenasempresas", "roteiro": ["Sai sozinho pela publicação automática quando o GitHub estiver ligado.", "Se quiser música, eu deixo no modo manual e você escolhe no app."]}, {"id": "p-i05", "numero": "Qua 02/12 · 12h", "tipo": "reels", "quadro": "em-30-segundos", "esforco": "pronto", "titulo": "Em 30 segundos: parallax", "gancho": "Parallax. Você já viu. Só não sabia o nome.", "previa": "previas/i05.mp4", "poster": "previas/i05-capa.jpg", "legenda": "Parallax: camadas em velocidades diferentes. Dá profundidade sem pesar o site.\nQual termo eu explico na próxima?\n\n#webdesign #siteanimado #designdesites", "roteiro": ["Sem música: você escolhe uma no app do Instagram na hora de publicar.", "Os cortes funcionam em qualquer música de ritmo médio."]}, {"id": "p-i03", "numero": "Qua 02/12 · 19h", "tipo": "reels", "quadro": "feito-para", "esforco": "pronto", "titulo": "Feito para padaria (ep. 1)", "gancho": "Esse site é de uma padaria. Ninguém acredita.", "previa": "previas/i03.mp4", "poster": "previas/i03-capa.jpg", "legenda": "Padaria fictícia. Site de verdade.\nQual negócio ganha o próximo? Vota nos stories de domingo.\n\n#siteparapadaria #sitesobmedida #siteanimado", "roteiro": ["Sem música: você escolhe uma no app do Instagram na hora de publicar.", "Os cortes funcionam em qualquer música de ritmo médio."]}, {"id": "p-c04", "numero": "Qui 03/12 · 12h", "tipo": "carrossel", "quadro": "feito-para", "esforco": "pronto", "titulo": "Padaria: as decisões por trás", "gancho": "Por que o site da padaria tem um relógio de fornada.", "galeria": ["previas/c04/slide-01.jpg", "previas/c04/slide-02.jpg", "previas/c04/slide-03.jpg", "previas/c04/slide-04.jpg", "previas/c04/slide-05.jpg", "previas/c04/slide-06.jpg", "previas/c04/slide-07.jpg", "previas/c04/slide-08.jpg", "previas/c04/slide-09.jpg"], "legenda": "Toda padaria tem foto de pão. Essa tem relógio de fornada.\nQual negócio é o próximo? Vota no domingo, nos stories.\n\n#siteparapadaria #siteparaempresa #padariaartesanal", "roteiro": ["Sai sozinho pela publicação automática quando o GitHub estiver ligado.", "Se quiser música, eu deixo no modo manual e você escolhe no app."]}, {"id": "p-i02", "numero": "Qui 03/12 · 19h", "tipo": "reels", "quadro": "template-x-sob-medida", "esforco": "pronto", "titulo": "O site que todo mundo tem", "gancho": "Seu concorrente tem o mesmo site que você.", "previa": "previas/i02.mp4", "poster": "previas/i02-capa.jpg", "legenda": "Três barbearias. Um template. Ninguém lembra de nenhuma.\nSeu site é o quarto da fila?\n\n#siteparaempresa #sitesobmedida #criacaodesites", "roteiro": ["Sem música: você escolhe uma no app do Instagram na hora de publicar.", "Os cortes funcionam em qualquer música de ritmo médio."]}, {"id": "p-i06", "numero": "Sex 04/12 · 12h", "tipo": "reels", "quadro": "isso-e-um-site", "esforco": "pronto", "titulo": "1 segundo, 30 quadros", "gancho": "Um segundo de animação tem 30 desenhos. Olha um por um.", "previa": "previas/i06.mp4", "poster": "previas/i06-capa.jpg", "legenda": "Um segundo. Trinta quadros. Nenhum deles por acaso.\nÉ esse o cuidado que vai no seu site.\n\n#motiondesign #siteanimado #webdesign", "roteiro": ["Sem música: você escolhe uma no app do Instagram na hora de publicar.", "Os cortes funcionam em qualquer música de ritmo médio."]}, {"id": "p-c03", "numero": "Sex 04/12 · 19h", "tipo": "carrossel", "quadro": "pra-salvar", "esforco": "pronto", "titulo": "Mito ou verdade", "gancho": "Animação deixa o site lento?", "galeria": ["previas/c03/slide-01.jpg", "previas/c03/slide-02.jpg", "previas/c03/slide-03.jpg", "previas/c03/slide-04.jpg", "previas/c03/slide-05.jpg", "previas/c03/slide-06.jpg", "previas/c03/slide-07.jpg", "previas/c03/slide-08.jpg"], "legenda": "O problema nunca foi a animação. É como ela é feita.\nManda para quem vai fazer o seu site.\n\n#siteparaempresa #sitesobmedida #motiondesign", "roteiro": ["Sai sozinho pela publicação automática quando o GitHub estiver ligado.", "Se quiser música, eu deixo no modo manual e você escolhe no app."]}, {"id": "p-i11", "numero": "Sáb 05/12 · 11h", "tipo": "reels", "quadro": "caixa-preta", "esforco": "pronto", "titulo": "Do zero à primeira tela", "gancho": "Do zero à primeira tela.", "previa": "previas/i11.mp4", "poster": "previas/i11-capa.jpg", "legenda": "Do rascunho em caixas ao pão saindo do forno.\nCada etapa é uma decisão sobre o cliente de quem vai usar o site.\n\n#webdesign #siteparapadaria #bastidores", "mudou": "Era \"60 minutos contra o relógio\". Virou bastidores sem cronômetro: o tempo real foi outro, e mostrar \"site feito em X minutos\" desvaloriza o trabalho, como a pesquisa apontou.", "roteiro": ["Sem música: você escolhe uma no app do Instagram na hora de publicar.", "Os cortes funcionam em qualquer música de ritmo médio."]}, {"id": "p-f02", "numero": "Dom 29/11 · 19h", "tipo": "foto", "quadro": "", "esforco": "pronto", "titulo": "Manifesto", "gancho": "Se parece com todos, ninguém lembra.", "galeria": ["previas/f02/slide-01.jpg"], "legenda": "Seu cliente viu dez sites iguais hoje.\nNão seja o décimo primeiro. Chama no direct.\n\n#siteparaempresa #sitesobmedida #webdesign", "roteiro": ["Sai sozinho pela publicação automática quando o GitHub estiver ligado.", "Se quiser música, eu deixo no modo manual e você escolhe no app."]}, {"id": "p-f01", "numero": "Reserva · semana 2", "tipo": "foto", "quadro": "feito-para", "esforco": "pronto", "titulo": "Quadro-herói da padaria", "gancho": "Isso é a primeira tela de uma padaria.", "galeria": ["previas/f01/slide-01.jpg"], "legenda": "Uma primeira tela que dá fome antes do primeiro clique.\nPadaria fictícia. Site de verdade. Chama no direct.\n\n#siteparapadaria #siteparaempresa #padariaartesanal", "roteiro": ["Sai sozinho pela publicação automática quando o GitHub estiver ligado.", "Se quiser música, eu deixo no modo manual e você escolhe no app."]}, {"id": "p-s01", "numero": "Todo dia", "tipo": "story", "quadro": "bancada", "esforco": "pronto", "titulo": "Bancada do dia", "gancho": "Hoje na bancada.", "galeria": ["previas/s01/s01-bancada-modelo.jpg", "previas/s01/s01-bancada-exemplo-filme.jpg", "previas/s01/s01-bancada-exemplo-site.jpg", "previas/s01/s01-post-do-dia-modelo.jpg", "previas/s01/s01-post-do-dia-exemplo.jpg"], "roteiro": ["Eu preencho o bastidor do dia e o \"post do dia\".", "Você põe o sticker de enquete e o de link no app (a publicação automática não coloca stickers)."]}, {"id": "p-s02", "numero": "Sex 04/12", "tipo": "story", "quadro": "bancada", "esforco": "pronto", "titulo": "Sexta do site", "gancho": "Manda o link do seu site.", "galeria": ["previas/s02/s02-sexta-do-site.jpg"], "roteiro": ["Você põe o sticker de caixinha no espaço do meio."]}, {"id": "p-s03", "numero": "Dom 06/12", "tipo": "story", "quadro": "bancada", "esforco": "pronto", "titulo": "Domingo: você escolhe", "gancho": "Qual negócio ganha um site-conceito esta semana?", "galeria": ["previas/s03/s03-domingo-enquete-1.jpg", "previas/s03/s03-domingo-enquete-2.jpg"], "roteiro": ["Você põe o sticker de enquete em cada tela."]}, {"id": "p-s04", "numero": "Quando houver data", "tipo": "story", "quadro": "bancada", "esforco": "pronto", "titulo": "Contagem do lançamento", "gancho": "Contagem regressiva.", "galeria": ["previas/s04/s04-contagem.jpg"], "roteiro": ["Você põe o sticker de contagem com a data do lançamento do site."]}], "referencias": [{"plataforma": "TikTok", "esforco": "baixo", "formato": "Antes/depois: template → sob medida", "como": "0–2 s o site \"antes\" com rótulo, corte na batida e 10 a 15 s rolando o \"depois\". Fecha com \"comenta SITE\".", "porque": "O contraste se entende sem som, e o dono se reconhece no \"antes\".", "adaptacao": "Quadro Template × sob medida, sempre com um \"antes\" inventado por nós.", "exemplos": [{"rotulo": "@capriandrome", "url": "https://www.tiktok.com/@capriandrome/video/7355970641230695722"}]}, {"plataforma": "TikTok", "esforco": "médio", "formato": "\"Achei um site esquecido e refiz\"", "como": "Mostra o site real e o desafio, acelera o processo, revela o novo e pergunta qual é o próximo.", "porque": "É uma história completa. A série faz o público voltar e os comentários escolhem o próximo.", "adaptacao": "Quadro Barreira do som, só com negócios que autorizarem. A Equus pode ser o episódio 1.", "exemplos": [{"rotulo": "@marcinteodoru", "url": "https://www.tiktok.com/@marcinteodoru/video/7553061336658300191"}, {"rotulo": "@caiolimadesign · Hora do Design ep. 6", "url": "https://www.tiktok.com/@caiolimadesign/video/7320661789820112133"}, {"rotulo": "ep. 11", "url": "https://www.tiktok.com/@caiolimadesign/video/7364514700136140037"}]}, {"plataforma": "TikTok", "esforco": "médio", "formato": "Reação a sites / \"manda seu site\"", "como": "Opinião rápida sobre um site na tela, de preferência enviado pelo público.", "porque": "Gera comentário, e quem manda o site vira contato. Zombar de pequena empresa afasta quem compra.", "adaptacao": "Quadro Seu site em 3 detalhes, com tom de ajuda e autorização.", "exemplos": [{"rotulo": "@designertom · série Bad UI", "url": "https://www.tiktok.com/@designertom/playlist/Bad%20UI-7234537502646733611"}, {"rotulo": "@il_webdesign", "url": "https://www.tiktok.com/@il_webdesign/video/7124430288591162670"}]}, {"plataforma": "TikTok", "esforco": "baixo", "formato": "Site premiado explicado", "como": "O efeito mais forte no primeiro segundo e depois a rolagem com 3 destaques em texto.", "porque": "O \"uau\" faz salvar e compartilhar. Atrai mais designers, então é preciso traduzir para o dono do negócio.", "adaptacao": "Quadro Caixa-preta, com o efeito recriado por nós.", "exemplos": [{"rotulo": "@joshfromyolkk", "url": "https://www.tiktok.com/@joshfromyolkk/video/7491224302071663894"}, {"rotulo": "@max_magier", "url": "https://www.tiktok.com/@max_magier/video/7551058359080766742"}, {"rotulo": "@oproductdesigner", "url": "https://www.tiktok.com/@oproductdesigner/video/7507760923008879877"}]}, {"plataforma": "TikTok", "esforco": "baixo", "formato": "Revelação de animação de scroll", "como": "O efeito pronto, depois as camadas por trás e o efeito de novo, fechando o loop.", "porque": "Mostra o diferencial em 1 segundo e pede para ver de novo.", "adaptacao": "Quadro Isso é um site. É o que já renderizamos.", "exemplos": [{"rotulo": "@radwebdesigns", "url": "https://www.tiktok.com/@radwebdesigns/video/7447938339778350379"}, {"rotulo": "@webloved", "url": "https://www.tiktok.com/@webloved/video/7634628979529452832"}]}, {"plataforma": "TikTok", "esforco": "baixo", "formato": "Site padrão × site com direção", "como": "\"Esse é o site que sai por padrão. Esse é o que sai com direção.\"", "porque": "É a conversa de 2026: todo mundo está testando ferramentas que fazem site sozinhas.", "adaptacao": "Entra no quadro Template × sob medida, falando de direção e não de ferramenta.", "exemplos": [{"rotulo": "@jonocatliff", "url": "https://www.tiktok.com/@jonocatliff/video/7624902183384927506"}]}, {"plataforma": "Instagram", "esforco": "baixo", "formato": "Scroll de cinema", "como": "10 a 20 s de um site animado rolando, sem fala, com cortes no ritmo da música.", "porque": "As pessoas assistem de novo e mandam para alguém.", "adaptacao": "Só com sites nossos: curadoria de sites alheios perde alcance desde 2026.", "exemplos": [{"rotulo": "@awwwards", "url": "https://www.instagram.com/awwwards/"}, {"rotulo": "@godlywebsite", "url": "https://www.instagram.com/godlywebsite/"}, {"rotulo": "@madewithgsap", "url": "https://www.instagram.com/madewithgsap/"}]}, {"plataforma": "Instagram", "esforco": "médio", "formato": "Desmontagem em camadas", "como": "Wireframe, depois 3D, depois a animação final, uma camada por vez.", "porque": "Gera salvamentos e autoridade, e prova que o trabalho é feito à mão.", "adaptacao": "Quadro Caixa-preta. O nosso código já separa as camadas.", "exemplos": [{"rotulo": "@lusionltd", "url": "https://www.instagram.com/lusionltd/"}, {"rotulo": "@locomotivemtl", "url": "https://www.instagram.com/locomotivemtl/"}, {"rotulo": "@basementdotstudio", "url": "https://www.instagram.com/basementdotstudio/"}, {"rotulo": "@programatorio (Brasil)", "url": "https://www.instagram.com/programatorio/"}]}, {"plataforma": "Instagram", "esforco": "baixo", "formato": "Carrossel \"anatomia de um site\"", "como": "Cada slide mostra um trecho de site com uma anotação.", "porque": "Carrossel gera 9 vezes mais salvamentos que foto, e o 2º slide ganha uma segunda chance no feed.", "adaptacao": "Quadro Raio-X, feito na fábrica de carrosséis.", "exemplos": [{"rotulo": "@welovewebdesign", "url": "https://www.instagram.com/welovewebdesign/"}]}, {"plataforma": "Instagram", "esforco": "médio", "formato": "Pessoa + tela", "como": "O dono fala de 20 a 40 s com o site ao fundo.", "porque": "Gera confiança. Web designers contam que fecham clientes assim.", "adaptacao": "Só se você quiser aparecer. Pode começar só com a voz.", "exemplos": [{"rotulo": "Josh Hall ep. 374 (Blaze Smith)", "url": "https://www.buzzsprout.com/636862/episodes/16919330-374-how-to-get-web-design-clients-through-social-media-videos-with-blaze-smith"}, {"rotulo": "ep. 392 (Marie Brown)", "url": "https://www.buzzsprout.com/636862/episodes/17666971-392-getting-clients-through-instagram-with-marie-brown"}]}, {"plataforma": "Instagram", "esforco": "baixo", "formato": "Stories: enquete → caixinha", "como": "Enquete primeiro, depois caixinha sobre o tema mais votado. Até 9 stories antes de cansar.", "porque": "Abre conversa no direct com quem já segue.", "adaptacao": "Quadro Bancada, com a caixinha às sextas e a votação aos domingos.", "exemplos": [{"rotulo": "Socialinsider: benchmarks de stories", "url": "https://www.socialinsider.io/pt/social-media-benchmarks/instagram-stories-benchmarks"}, {"rotulo": "JivoChat: enquetes", "url": "https://www.jivochat.com.br/blog/ferramentas/enquetes-para-instagram.html"}]}, {"plataforma": "YouTube", "esforco": "médio", "formato": "Redesign de produto famoso", "como": "O original com um defeito marcado, o processo acelerado e os dois lado a lado.", "porque": "O público já conhece o original e quer opinar. É o formato com mais visualizações do nicho.", "adaptacao": "Mais para frente: a home de uma marca brasileira conhecida, como conceito não oficial.", "exemplos": [{"rotulo": "Juxtopposed · YouTube (≈1,7 mi)", "url": "https://www.youtube.com/watch?v=OUM6XmhViN4"}, {"rotulo": "Juxtopposed · VLC (≈1,6 mi)", "url": "https://www.youtube.com/watch?v=ERFeOgqk324"}]}, {"plataforma": "YouTube", "esforco": "baixo", "formato": "\"Como fizeram isso?\"", "como": "O efeito pronto, a pergunta \"como?\", as camadas e o efeito de novo.", "porque": "O efeito aparece antes da explicação, e o selo de premiado desperta curiosidade.", "adaptacao": "Quadro Caixa-preta, trocando o código pela pergunta do dono: \"o que isso faz pelo meu cliente?\"", "exemplos": [{"rotulo": "Hyperplexed (≈362 mil)", "url": "https://www.youtube.com/watch?v=W5oawMJaXbU"}, {"rotulo": "Olivier Larose", "url": "https://www.youtube.com/watch?v=WmvpJ4KX30s"}]}, {"plataforma": "YouTube", "esforco": "médio", "formato": "Desafio contra o tempo", "como": "A meta e o cronômetro no primeiro segundo, marcos de tempo e a revelação.", "porque": "O cronômetro cria tensão e prende até o fim.", "adaptacao": "Ideia #11: uma primeira tela em 60 minutos.", "exemplos": [{"rotulo": "NetworkChuck · 24 sites em 24 h", "url": "https://www.youtube.com/watch?v=2VvWM6gdDlk"}, {"rotulo": "CodeTV · Web Dev Challenge", "url": "https://www.youtube.com/watch?v=wPL13VR88iY"}]}, {"plataforma": "YouTube", "esforco": "baixo", "formato": "Explicador de duração fixa", "como": "Um assunto por episódio, sempre no mesmo tempo: o que é, como funciona e quando usar.", "porque": "O nome fixo com a duração cria hábito.", "adaptacao": "Quadro Em 30 segundos.", "exemplos": [{"rotulo": "Fireship · React in 100 Seconds", "url": "https://www.youtube.com/watch?v=Tn6-PIqc4UM"}]}, {"plataforma": "YouTube", "esforco": "baixo", "formato": "Bastidores em 30 s", "como": "Tela vazia, código, cena 3D pronta.", "porque": "Mostra o trabalho real em pouco tempo.", "adaptacao": "Ideia #06 e os stories da Bancada.", "exemplos": [{"rotulo": "3eyes · three.js (≈236 mil)", "url": "https://www.youtube.com/shorts/fCJ465Da4S4"}]}, {"plataforma": "Evitar", "esforco": "", "formato": "O que não vamos fazer", "como": "\"Site de R$ 50 mil feito com IA em 5 minutos\", listas \"sites que parecem ilegais\", \"como vender sites\" e repost de conteúdo alheio.", "porque": "Esses formatos atraem quem quer fazer sozinho, já saturaram ou perdem alcance desde 2026.", "adaptacao": "Tudo o que postamos é nosso e fala com o dono do negócio.", "exemplos": [{"rotulo": "Instagram contra repost (TechCrunch)", "url": "https://techcrunch.com/2026/04/30/instagram-restricts-reach-of-content-aggregators-in-new-crackdown/"}]}], "dados": [{"texto": "O painel do Instagram mostra quem sai nos 3 primeiros segundos. O primeiro quadro decide o Reels.", "fonte": {"rotulo": "Social Media Today", "url": "https://www.socialmediatoday.com/news/instagram-adds-retention-insights-reels/758464/"}}, {"texto": "Os Reels de 45 a 60 s tiveram o melhor engajamento num estudo de 2026 com 9,77 milhões de Reels.", "fonte": {"rotulo": "Socialinsider", "url": "https://socialinsider.io/blog/instagram-reels-length/"}}, {"texto": "Carrossel com música pode aparecer na aba Reels. Quem passou direto pode vê-lo de novo a partir do 2º slide.", "fonte": {"rotulo": "Social Media Today", "url": "https://www.socialmediatoday.com/news/ig-chief-recommends-posting-carousels-to-improve-reach/730232/"}}, {"texto": "Reels de teste (mostrados primeiro só para quem não segue) liberam a partir de 1.000 seguidores. Com 24, ainda não temos acesso.", "fonte": {"rotulo": "BetaNews", "url": "https://betanews.com/2025/07/14/instagram-opens-up-trial-reels-feature-to-more-creators/"}}, {"texto": "Nos stories, o público começa a cansar depois do 9º story do dia.", "fonte": {"rotulo": "Socialinsider", "url": "https://www.socialinsider.io/pt/social-media-benchmarks/instagram-stories-benchmarks"}}, {"texto": "Mosseri: o feed \"perfeito\" morreu e o bastidor real virou prova de que algo é verdadeiro.", "fonte": {"rotulo": "Tom's Guide", "url": "https://www.tomsguide.com/ai/instagram-says-ai-killed-the-curated-feed-now-its-scrambling-to-prove-whats-real"}}, {"texto": "No Brasil, quase não há perfil grande mostrando sites animados premium para pequenas e médias empresas. O espaço está livre.", "fonte": null}]}</script>
+<script>
+(function () {
+  const D = JSON.parse(document.getElementById('dados').textContent);
+  const TIPOS = { reels: 'Reels', carrossel: 'Carrossel', foto: 'Foto', story: 'Stories' };
+  const STATUS = [['aprovado', 'Aprovar'], ['ajustar', 'Ajustar'], ['recusado', 'Não gostei']];
+  const NOME_STATUS = { aprovado: 'Aprovadas', ajustar: 'Ajustar', recusado: 'Não gostei', pendente: 'Faltam' };
+  const QUADROS = Object.fromEntries((D.rotina.quadros || []).map(q => [q.id, q]));
+  const ROT_ID = D.rotina.idDecisao || 'rotina';
+
+  let resp = {};
+  const rasc = {};
+  let db = null;
+  let somenteLeitura = false;
+  let filtroTipo = 'todas';
+  let filtroStatus = 'todas';
+  const ABAS = ['ideias', 'rotina', 'referencias'];
+  let aba = ABAS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'ideias';
+
+  const $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const statusDe = (id) => (resp[id] && resp[id].status) || 'pendente';
+
+  function aviso(txt, tom) { const a = $('#aviso'); a.textContent = txt; if (tom) a.dataset.tom = tom; else delete a.dataset.tom; }
+  let tt;
+  function toast(txt) { const t = $('#toast'); t.textContent = txt; t.hidden = false; clearTimeout(tt); tt = setTimeout(() => { t.hidden = true; }, 3200); }
+
+  /* ---------- itens que recebem decisão ---------- */
+  function idsDecidiveis() { return D.ideias.map(i => i.id); }
+
+  function renderTopo() {
+    $('#rodada').textContent = D.rodada || '';
+    $('#sub').textContent = D.instrucao || '';
+    const ids = idsDecidiveis();
+    const c = { aprovado: 0, ajustar: 0, recusado: 0, pendente: 0 };
+    ids.forEach(id => { c[statusDe(id)]++; });
+    const feitas = ids.length - c.pendente;
+    $('#progresso').innerHTML = `<b>${feitas}</b> de ${ids.length} decididas`;
+    $('#cheio').style.width = (ids.length ? (feitas / ids.length) * 100 : 0) + '%';
+    $('#contagem').innerHTML = ['aprovado', 'ajustar', 'recusado', 'pendente'].map(s =>
+      `<button class="pill" data-s="${s}" data-filtro-status="${s}" aria-pressed="${filtroStatus === s}"><i></i>${NOME_STATUS[s]} <b>${c[s]}</b></button>`).join('');
+    $('#n-ideias').textContent = ids.length;
+    $('#n-refs').textContent = (D.referencias || []).length;
+  }
+
+  function botoes(id) {
+    const s = statusDe(id);
+    return `<div class="decisao" role="group" aria-label="Sua decisão">${STATUS.map(([k, r]) =>
+      `<button class="btn" data-s="${k}" data-decidir="${esc(id)}" aria-pressed="${s === k}" ${somenteLeitura ? 'disabled' : ''}>${r}</button>`).join('')}</div>`;
+  }
+  function campoNota(id, ph) {
+    const salvo = (resp[id] && resp[id].nota) || '';
+    const valor = rasc[id] ?? salvo;
+    const sujo = rasc[id] !== undefined && rasc[id] !== salvo;
+    return `<div class="nota"><label class="rotulo" for="nota-${esc(id)}">Comentário</label>
+      <textarea id="nota-${esc(id)}" data-nota="${esc(id)}" placeholder="${esc(ph || 'O que mudar? (opcional)')}" ${somenteLeitura ? 'disabled' : ''}>${esc(valor)}</textarea>
+      <div class="nota-acoes"><span class="meta">${salvo && !sujo ? 'Comentário salvo' : ''}</span><button class="salvar" data-salvar="${esc(id)}" ${sujo ? '' : 'hidden'}>Salvar comentário</button></div></div>`;
+  }
+
+  /* ---------- aba Ideias ---------- */
+  function renderIdeias() {
+    const tiposPresentes = [...new Set(D.ideias.map(i => i.tipo))];
+    const lista = D.ideias.filter(i => (filtroTipo === 'todas' || i.tipo === filtroTipo) && (filtroStatus === 'todas' || statusDe(i.id) === filtroStatus));
+    const filtros = `<div class="filtros" role="group" aria-label="Filtrar por formato">
+      <button class="chipbtn" data-filtro-tipo="todas" aria-pressed="${filtroTipo === 'todas'}">Todas</button>
+      ${tiposPresentes.map(t => `<button class="chipbtn" data-filtro-tipo="${t}" aria-pressed="${filtroTipo === t}">${TIPOS[t] || t} · ${D.ideias.filter(i => i.tipo === t).length}</button>`).join('')}
+      ${filtroStatus !== 'todas' ? `<button class="chipbtn" data-filtro-status="todas" aria-pressed="false">Mostrar todas as decisões</button>` : ''}
+    </div>`;
+    const cards = lista.map(i => {
+      const q = QUADROS[i.quadro];
+      return `<article class="card" data-status="${statusDe(i.id)}" id="card-${esc(i.id)}">
+        <div class="card-topo"><span class="tipo">${TIPOS[i.tipo] || esc(i.tipo)}</span><span class="meta">${q ? esc(q.nome) + ' · ' : ''}${i.esforco === 'pronto' ? 'pronto' : 'esforço ' + esc(i.esforco)}</span><span class="meta num">${esc(i.numero)}</span></div>
+        <div class="card-corpo">
+          <h3>${esc(i.titulo)}</h3>
+          <p class="gancho"><small>${i.tipo === 'carrossel' ? 'Capa' : i.tipo === 'story' ? 'Primeira tela' : 'Primeiros segundos'}</small>${esc(i.gancho)}</p>
+          ${i.previa ? (/\.(mp4|webm)$/i.test(i.previa) ? `<video class="previa" src="${esc(i.previa)}" ${i.poster ? `poster="${esc(i.poster)}"` : ''} controls muted playsinline preload="none"></video>` : `<img class="previa" src="${esc(i.previa)}" alt="Prévia: ${esc(i.titulo)}" loading="lazy">`) : ''}
+          ${(i.galeria || []).length ? `<div class="galeria" data-tipo="${esc(i.tipo)}" tabindex="0" aria-label="Slides de ${esc(i.titulo)}">${i.galeria.map((g, n) => `<img src="${esc(g)}" alt="Slide ${n + 1}" loading="lazy">`).join('')}</div><span class="meta">${i.galeria.length} ${i.tipo === 'story' ? 'telas' : 'slides'} · arraste para o lado</span>` : ''}
+          ${i.mudou ? `<p class="mudou"><b>Mudou desde a aprovação:</b> ${esc(i.mudou)}</p>` : ''}
+          ${i.legenda ? `<div><span class="rotulo">Legenda</span><p class="legenda">${esc(i.legenda)}</p></div>` : ''}
+          <details><summary>${i.tipo === 'carrossel' ? 'Slides' : i.tipo === 'story' ? 'Sequência' : 'Roteiro'}</summary><ol>${(i.roteiro || []).map(p => `<li>${esc(p)}</li>`).join('')}</ol>
+            ${i.producao ? `<p class="ref" style="margin-top:10px"><b>Como fazemos:</b> ${esc(i.producao)}</p>` : ''}</details>
+          ${i.formato ? `<p class="ref"><b>Formato de referência:</b> ${esc(i.formato)}</p>` : ''}
+          ${i.precisaVoce ? `<span class="voce">● Precisa de você na câmera ou na voz</span>` : ''}
+        </div>
+        ${botoes(i.id)}
+        ${campoNota(i.id)}
+      </article>`;
+    }).join('');
+    $('#sec-ideias').innerHTML = `<h2>${esc(D.tituloIdeias || 'Ideias para aprovar')}</h2><p class="sub">${esc(D.subIdeias || '')}</p>${filtros}
+      ${lista.length ? `<div class="grade">${cards}</div>` : `<div class="vazio">Nenhuma ideia com esse filtro.</div>`}`;
+  }
+
+  /* ---------- aba Rotina ---------- */
+  function renderRotina() {
+    const R = D.rotina;
+    const numeros = (R.numeros || []).map(n => `<div class="numero"><b>${esc(n.valor)}</b><span>${esc(n.rotulo)}</span><small>${esc(n.nota || '')}</small></div>`).join('');
+    const cab = (R.colunas || []).map(c => `<th scope="col">${esc(c)}</th>`).join('');
+    const linhas = (R.semana || []).map(d => `<tr><td class="dia">${esc(d.dia)}</td>${d.slots.map(s => s ? `<td><div class="slot"><span class="tipo">${TIPOS[s.tipo] || esc(s.tipo)}</span><span>${esc(s.texto)}</span>${s.nota ? `<small>${esc(s.nota)}</small>` : ''}</div></td>` : `<td><span class="meta">—</span></td>`).join('')}</tr>`).join('');
+    const quadros = (R.quadros || []).map(q => `<article class="refcard"><span class="rotulo">${esc(q.dia)} · ${TIPOS[q.tipo] || esc(q.tipo)}</span><h3>${esc(q.nome)}</h3><p>${esc(q.descricao)}</p>${q.formato ? `<p class="ref"><b>Inspirado em:</b> ${esc(q.formato)}</p>` : ''}</article>`).join('');
+    const porque = (R.porque || []).map(p => `<li>${esc(p.texto)}${p.fonte ? ` <a class="fonte" href="${esc(p.fonte.url)}" target="_blank" rel="noopener">${esc(p.fonte.rotulo)}</a>` : ''}</li>`).join('');
+    const regras = (R.regras || []).map(r => `<li>${esc(r)}</li>`).join('');
+    $('#sec-rotina').innerHTML = `<h2>${esc(R.titulo)}</h2><p class="sub">${esc(R.resumo)}</p>
+      ${numeros ? `<div class="numeros">${numeros}</div>` : ''}
+      <p class="rotulo" style="margin-bottom:10px">Semana-modelo</p>
+      <div class="tabela-rolagem"><table><thead><tr><th scope="col">Dia</th>${cab}</tr></thead><tbody>${linhas}</tbody></table></div>
+      <p class="meta">${esc(R.notaTabela || '')}</p>
+      <div class="bloco"><p class="rotulo" style="margin-bottom:12px">Quadros fixos</p><div class="refs">${quadros}</div></div>
+      ${porque ? `<div class="bloco"><p class="rotulo" style="margin-bottom:12px">Por que assim</p><ul class="lista-simples">${porque}</ul></div>` : ''}
+      ${regras ? `<div class="bloco"><p class="rotulo" style="margin-bottom:12px">Regras de produção</p><ul class="lista-simples">${regras}</ul></div>` : ''}
+      <div class="decisao-geral" data-status="${statusDe(ROT_ID)}"><p class="rotulo">${esc(R.rotuloDecisao || 'Sua decisão sobre a rotina')}</p>${botoes(ROT_ID)}${campoNota(ROT_ID, R.placeholderDecisao || 'Ex.: quero mais Reels, menos stories, outro horário…')}</div>`;
+  }
+
+  /* ---------- aba Referências ---------- */
+  let filtroPlat = 'todas';
+  function renderRefs() {
+    const refs = D.referencias || [];
+    const plats = [...new Set(refs.map(r => r.plataforma))];
+    const lista = refs.filter(r => filtroPlat === 'todas' || r.plataforma === filtroPlat);
+    const dados = (D.dados || []).map(d => `<li>${esc(d.texto)}${d.fonte ? ` <a class="fonte" href="${esc(d.fonte.url)}" target="_blank" rel="noopener">${esc(d.fonte.rotulo)}</a>` : ''}</li>`).join('');
+    $('#sec-referencias').innerHTML = `<h2>${esc(D.tituloRefs || 'Referências')}</h2><p class="sub">${esc(D.subRefs || '')}</p>
+      ${dados ? `<p class="rotulo" style="margin-bottom:10px">O que o algoritmo valoriza</p><ul class="dados">${dados}</ul>` : ''}
+      <div class="plataformas" role="group" aria-label="Filtrar por plataforma"><button class="chipbtn" data-filtro-plat="todas" aria-pressed="${filtroPlat === 'todas'}">Todas</button>${plats.map(p => `<button class="chipbtn" data-filtro-plat="${esc(p)}" aria-pressed="${filtroPlat === p}">${esc(p)}</button>`).join('')}</div>
+      <div class="refs">${lista.map(r => `<article class="refcard">
+        <span class="rotulo">${esc(r.plataforma)}${r.esforco ? ' · esforço ' + esc(r.esforco) : ''}</span>
+        <h3>${esc(r.formato)}</h3>
+        <p><span class="k">Como é</span>${esc(r.como)}</p>
+        <p><span class="k">Por que funciona</span>${esc(r.porque)}</p>
+        <p><span class="k">Como a MACH usa</span>${esc(r.adaptacao)}</p>
+        ${(r.exemplos || []).length ? `<div><span class="k">Exemplos</span><div class="links">${r.exemplos.map(e => `<a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.rotulo)}</a>`).join('')}</div></div>` : ''}
+      </article>`).join('')}</div>`;
+  }
+
+  function renderAbas() {
+    ABAS.forEach(a => {
+      $('#aba-' + a).setAttribute('aria-selected', String(a === aba));
+      $('#sec-' + a).hidden = a !== aba;
+    });
+  }
+
+  function render() {
+    const ativo = document.activeElement;
+    const foco = ativo && ativo.dataset && ativo.dataset.nota ? { id: ativo.dataset.nota, s: ativo.selectionStart, e: ativo.selectionEnd } : null;
+    renderTopo(); renderAbas();
+    if (aba === 'ideias') renderIdeias();
+    if (aba === 'rotina') renderRotina();
+    if (aba === 'referencias') renderRefs();
+    if (foco) { const t = document.getElementById('nota-' + foco.id); if (t) { t.focus(); try { t.setSelectionRange(foco.s, foco.e); } catch (_) {} } }
+  }
+
+  /* ---------- gravação ---------- */
+  const fila = {};
+  function gravar(id, corpo) {
+    const ref = db.doc('respostas/' + id);
+    fila[id] = (fila[id] || Promise.resolve()).then(() => corpo ? ref.set(corpo) : ref.delete()).catch(e => {
+      if (e && e.code === 'invalid_argument') { somenteLeitura = true; render(); toast('Você só pode ver esta pauta. Peça acesso de edição ao dono.'); }
+      else if (e && e.code === 'quota_exceeded') toast('O espaço da pauta encheu. Me avise no chat.');
+      else toast('Não consegui salvar agora. Tente de novo em alguns segundos.');
+    });
+  }
+  function decidir(id, s) {
+    if (!db) { toast('Abra esta página no Claude, com sua conta, para salvar.'); return; }
+    const atual = resp[id] || {};
+    const nota = rasc[id] ?? atual.nota ?? '';
+    if (atual.status === s) {
+      if (nota) { resp[id] = { nota, em: new Date().toISOString() }; gravar(id, resp[id]); }
+      else { delete resp[id]; gravar(id, null); }
+    } else {
+      resp[id] = { status: s, nota, em: new Date().toISOString() };
+      gravar(id, resp[id]);
+    }
+    delete rasc[id];
+    render();
+    if (s === 'ajustar' && atual.status !== s && !nota) { const t = document.getElementById('nota-' + id); if (t) t.focus(); }
+  }
+  function salvarNota(id) {
+    if (!db) { toast('Abra esta página no Claude, com sua conta, para salvar.'); return; }
+    const atual = resp[id] || {};
+    resp[id] = Object.assign({}, atual, { nota: rasc[id] ?? '', em: new Date().toISOString() });
+    delete rasc[id];
+    gravar(id, resp[id]);
+    render();
+    toast('Comentário salvo.');
+  }
+
+  /* ---------- eventos ---------- */
+  document.addEventListener('click', (ev) => {
+    const b = ev.target.closest('button');
+    if (!b) return;
+    if (b.dataset.decidir) return decidir(b.dataset.decidir, b.dataset.s);
+    if (b.dataset.salvar) return salvarNota(b.dataset.salvar);
+    if (b.dataset.aba) { aba = b.dataset.aba; history.replaceState(null, '', '#' + aba); render(); window.scrollTo({ top: Math.min(window.scrollY, document.querySelector('.abas').offsetTop) }); return; }
+    if (b.dataset.filtroTipo) { filtroTipo = b.dataset.filtroTipo; render(); return; }
+    if (b.dataset.filtroStatus) { filtroStatus = (filtroStatus === b.dataset.filtroStatus) ? 'todas' : b.dataset.filtroStatus; if (filtroStatus !== 'todas') aba = 'ideias'; render(); return; }
+    if (b.dataset.filtroPlat) { filtroPlat = b.dataset.filtroPlat; render(); return; }
+  });
+  document.addEventListener('input', (ev) => {
+    const t = ev.target;
+    if (!t.dataset || !t.dataset.nota) return;
+    const id = t.dataset.nota;
+    rasc[id] = t.value;
+    const salvo = (resp[id] && resp[id].nota) || '';
+    const btn = t.closest('.nota').querySelector('.salvar');
+    if (btn) btn.hidden = t.value === salvo;
+  });
+  window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (ABAS.includes(h) && h !== aba) { aba = h; render(); } });
+
+  render();
+
+  /* ---------- conexão com o banco de respostas ---------- */
+  (async () => {
+    const c = window.claude;
+    if (!c || !c.use) { aviso('Pré-visualização: abra no Claude para salvar suas respostas.'); return; }
+    let user = null;
+    try { [db, user] = await Promise.all([c.use('db'), c.use('user')]); } catch (_) { db = null; }
+    if (!db) { aviso('Não deu para conectar. Abra a página logado na sua conta do Claude para salvar.', 'erro'); render(); return; }
+    try { const pode = user ? await user.can('data.write') : null; if (pode === false) somenteLeitura = true; } catch (_) {}
+    const timer = setTimeout(() => aviso('As respostas estão demorando para carregar. Verifique a internet.', 'erro'), 10000);
+    db.collection('respostas').onSnapshot((snap) => {
+      const novo = {};
+      snap.docs.forEach(d => { novo[d.id] = d.data(); });
+      resp = novo;
+      if (!snap.metadata.fromCache) { clearTimeout(timer); aviso(somenteLeitura ? 'Você está vendo a pauta sem poder editar.' : 'Suas respostas são salvas na hora.'); }
+      render();
+    }, () => { clearTimeout(timer); aviso('A conexão com as respostas caiu. Recarregue a página.', 'erro'); });
+  })();
+})();
+</script>

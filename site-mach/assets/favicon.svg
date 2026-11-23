@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-22 -24 152 232" role="img" aria-label="Símbolo MACH">
+  <title>Símbolo MACH</title>
+  <clipPath id="ps-escuro"><rect x="-40" y="-40" width="200" height="144.5"/></clipPath>
+  <path d="M-4.32 108 L54 0 L112.32 108" fill="none" stroke="#FF6B1A" stroke-width="9" stroke-linejoin="miter" clip-path="url(#ps-escuro)"/>
+  <g>
+    <path d="M54 114 L63 128 L54 142 L45 128 Z" fill="#FF6B1A" opacity="1.0"/>
+    <path d="M54 147 L60.5 157 L54 167 L47.5 157 Z" fill="#FF6B1A" opacity="0.62"/>
+    <path d="M54 173 L58.5 180 L54 187 L49.5 180 Z" fill="#FF6B1A" opacity="0.34"/>
+  </g>
+</svg>

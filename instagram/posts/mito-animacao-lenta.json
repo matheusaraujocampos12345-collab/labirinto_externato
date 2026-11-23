@@ -1,0 +1,87 @@
+{
+  "slug": "mito-animacao-lenta",
+  "legenda": "O problema nunca foi a animação. É como ela é feita.\nManda para quem vai fazer o seu site.\n\n#siteparaempresa #sitesobmedida #motiondesign",
+  "slides": [
+    {
+      "tipo": "capa",
+      "aspas": true,
+      "eyebrow": "Mito ou verdade",
+      "titulo": "Animação deixa o site lento?",
+      "destaque": "lento?",
+      "rodape": "5 frases que você já ouviu →"
+    },
+    {
+      "tipo": "mito",
+      "eyebrow": "Frase 01 / 05",
+      "frase": "Animação deixa o site lento.",
+      "selo": "DEPENDE",
+      "resposta": "Pesa quando é mal feita.",
+      "texto": "Bem feita, pode pesar menos que uma foto grande."
+    },
+    {
+      "tipo": "mito",
+      "eyebrow": "Frase 02 / 05",
+      "frase": "Site bonito não vende.",
+      "selo": "MITO",
+      "resposta": "O bonito que guia\no olho vende.",
+      "texto": [
+        "Beleza sem direção é enfeite.",
+        "Com direção, leva ao botão."
+      ]
+    },
+    {
+      "tipo": "mito",
+      "eyebrow": "Frase 03 / 05",
+      "frase": "Tanto faz, todo mundo usa template.",
+      "selo": "MITO",
+      "resposta": "Por isso ninguém lembra.",
+      "texto": "Site igual a todos some da memória."
+    },
+    {
+      "tipo": "mito",
+      "eyebrow": "Frase 04 / 05",
+      "frase": "Site animado só funciona no computador.",
+      "selo": "MITO",
+      "resposta": "Dá para ser multiplataforma.",
+      "texto": [
+        "Celular, tablet e computador.",
+        "Cada tela com o movimento que cabe nela."
+      ]
+    },
+    {
+      "tipo": "mito",
+      "eyebrow": "Frase 05 / 05",
+      "frase": "Animação é enfeite.",
+      "selo": "DEPENDE",
+      "resposta": "A boa explica o produto.",
+      "texto": "Mostra como funciona e para onde olhar."
+    },
+    {
+      "tipo": "lista",
+      "eyebrow": "Então o que pesa?",
+      "titulo": "O que deixa um site lento de verdade.",
+      "itens": [
+        {
+          "titulo": "Foto gigante",
+          "texto": "Direto da câmera, sem compressão."
+        },
+        {
+          "titulo": "Vídeo sem tratamento",
+          "texto": "Pesa no 4G de quem está na rua."
+        },
+        {
+          "titulo": "Plugin demais",
+          "texto": "Cada um carrega o seu peso."
+        }
+      ],
+      "texto": "Animação bem feita não está na lista."
+    },
+    {
+      "tipo": "chamada",
+      "titulo": "Mande para quem\nvai fazer um site.",
+      "texto": "Antes que alguém diga que animação deixa lento.",
+      "botao": "Chama no direct",
+      "arroba": "@mach.sites"
+    }
+  ]
+}

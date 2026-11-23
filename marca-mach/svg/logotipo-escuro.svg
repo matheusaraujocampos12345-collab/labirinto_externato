@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-14 -16 548 128" role="img" aria-label="MACH">
+  <title>MACH</title>
+  <clipPath id="pe-escuro"><rect x="-40" y="-40" width="620" height="143.5"/></clipPath>
+  <g fill="none" stroke-width="7" stroke-linejoin="miter" stroke-miterlimit="4">
+    <path d="M0 100 V0 L55 72 L110 0 V100 M390 0 H312 Q282 0 282 30 V70 Q282 100 312 100 H390 M420 0 V100 M520 0 V100 M420 50 H520" stroke="#DFE3E7" stroke-linecap="square"/>
+    <path d="M137.68 108 L196 0 L254.32 108" stroke="#FF6B1A" stroke-linecap="butt" clip-path="url(#pe-escuro)"/>
+  </g>
+</svg>

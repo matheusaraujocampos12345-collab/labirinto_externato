@@ -1,0 +1,1067 @@
+{
+ "rodada": "Rodada 1 · 22/11/2026",
+ "instrucao": "Em cada ideia, toque em Aprovar, Ajustar ou Não gostei. Se pedir ajuste, escreva o que mudar. Faça o mesmo com a rotina, na segunda aba. Eu só produzo o que você aprovar.",
+ "tituloIdeias": "Ideias para as duas primeiras semanas",
+ "subIdeias": "Reels, carrosséis, fotos e stories, com o começo de cada um. Toque em Roteiro para ver o resto.",
+ "tituloRefs": "O que está funcionando",
+ "subRefs": "Formatos encontrados no TikTok, no Instagram e no YouTube. Usamos o formato, nunca o conteúdo de ninguém.",
+ "rotina": {
+  "titulo": "Rotina proposta",
+  "resumo": "Dois posts por dia de segunda a sexta, um no sábado e stories todos os dias. Os posts saem de quadros fixos, para o público aprender o que esperar e para a produção ficar rápida sem perder qualidade.",
+  "numeros": [
+   {
+    "valor": "2",
+    "rotulo": "posts no feed por dia",
+    "nota": "Segunda a sexta, às 12h e às 19h."
+   },
+   {
+    "valor": "11",
+    "rotulo": "posts por semana",
+    "nota": "7 Reels e 4 carrosséis. Sábado tem 1 post. Domingo, só stories."
+   },
+   {
+    "valor": "3 a 5",
+    "rotulo": "stories por dia",
+    "nota": "Bastidor, enquete e o post do dia."
+   },
+   {
+    "valor": "01/12",
+    "rotulo": "início da rotina",
+    "nota": "Até lá seguem os 3 posts já agendados desta semana."
+   }
+  ],
+  "colunas": [
+   "12h",
+   "19h",
+   "Stories"
+  ],
+  "semana": [
+   {
+    "dia": "Seg",
+    "slots": [
+     {
+      "tipo": "carrossel",
+      "texto": "Raio-X",
+      "nota": "Um site desmontado em partes, com anotações."
+     },
+     {
+      "tipo": "reels",
+      "texto": "Caixa-preta",
+      "nota": "Um efeito premiado recriado e explicado."
+     },
+     {
+      "tipo": "story",
+      "texto": "Bancada",
+      "nota": "Bastidor + enquete A ou B."
+     }
+    ]
+   },
+   {
+    "dia": "Ter",
+    "slots": [
+     {
+      "tipo": "reels",
+      "texto": "Isso é um site",
+      "nota": "Rolagem de cinema de um site nosso."
+     },
+     {
+      "tipo": "carrossel",
+      "texto": "Pra salvar",
+      "nota": "Checklist, glossário ou mito × verdade."
+     },
+     {
+      "tipo": "story",
+      "texto": "Bancada",
+      "nota": "Bastidor + post do dia."
+     }
+    ]
+   },
+   {
+    "dia": "Qua",
+    "slots": [
+     {
+      "tipo": "reels",
+      "texto": "Em 30 segundos",
+      "nota": "Um termo de site explicado para o dono do negócio."
+     },
+     {
+      "tipo": "reels",
+      "texto": "Feito para…",
+      "nota": "O site-conceito do nicho da semana."
+     },
+     {
+      "tipo": "story",
+      "texto": "Bancada",
+      "nota": "Prévia do site da semana."
+     }
+    ]
+   },
+   {
+    "dia": "Qui",
+    "slots": [
+     {
+      "tipo": "carrossel",
+      "texto": "Feito para…",
+      "nota": "As decisões por trás do site da semana."
+     },
+     {
+      "tipo": "reels",
+      "texto": "Template × sob medida",
+      "nota": "O mesmo elemento nas duas versões."
+     },
+     {
+      "tipo": "story",
+      "texto": "Bancada",
+      "nota": "Enquete sobre o site da semana."
+     }
+    ]
+   },
+   {
+    "dia": "Sex",
+    "slots": [
+     {
+      "tipo": "reels",
+      "texto": "Isso é um site",
+      "nota": "Outra rolagem, outro detalhe."
+     },
+     {
+      "tipo": "carrossel",
+      "texto": "Pra salvar",
+      "nota": "Conteúdo útil para salvar e enviar."
+     },
+     {
+      "tipo": "story",
+      "texto": "Caixinha",
+      "nota": "\"Manda seu site\" para o quadro de sábado."
+     }
+    ]
+   },
+   {
+    "dia": "Sáb",
+    "slots": [
+     {
+      "tipo": "reels",
+      "texto": "Seu site em 3 detalhes",
+      "nota": "11h. A cada 15 dias vira Barreira do som."
+     },
+     null,
+     {
+      "tipo": "story",
+      "texto": "Leve",
+      "nota": "Repost e respostas da caixinha."
+     }
+    ]
+   },
+   {
+    "dia": "Dom",
+    "slots": [
+     null,
+     null,
+     {
+      "tipo": "story",
+      "texto": "Você escolhe",
+      "nota": "Enquete do nicho da próxima semana."
+     }
+    ]
+   }
+  ],
+  "notaTabela": "Horários de partida. Depois de duas semanas eu olho os números e ajusto dia e hora.",
+  "quadros": [
+   {
+    "id": "isso-e-um-site",
+    "nome": "Isso é um site",
+    "tipo": "reels",
+    "dia": "Ter e Sex, 12h",
+    "descricao": "10 a 20 segundos de um site nosso rolando como se fosse filme, sem fala, com texto na tela. Começa e termina no mesmo quadro.",
+    "formato": "Revelação de animação de scroll (TikTok) e scroll de cinema (Instagram)"
+   },
+   {
+    "id": "caixa-preta",
+    "nome": "Caixa-preta",
+    "tipo": "reels",
+    "dia": "Seg, 19h",
+    "descricao": "Um efeito dos sites mais premiados do mundo, recriado por nós e aberto em camadas. Termina com o que aquilo faz pelo cliente do negócio.",
+    "formato": "\"Como fizeram isso?\" (YouTube) e desmontagem em camadas (Instagram)"
+   },
+   {
+    "id": "feito-para",
+    "nome": "Feito para…",
+    "tipo": "reels",
+    "dia": "Qua 19h (Reels) e Qui 12h (carrossel)",
+    "descricao": "Toda semana, um site-conceito para um tipo de negócio: padaria, clínica, academia, imobiliária. O público escolhe o próximo no domingo. Vira portfólio.",
+    "formato": "Série com um negócio por episódio (TikTok) e antes/depois com o \"antes\" inventado"
+   },
+   {
+    "id": "em-30-segundos",
+    "nome": "Em 30 segundos",
+    "tipo": "reels",
+    "dia": "Qua, 12h",
+    "descricao": "Um termo por episódio (parallax, scroll animado, microinteração), mostrado funcionando e traduzido para o dono do negócio: quando vale e quando não vale.",
+    "formato": "Explicador de duração fixa (série \"in 100 Seconds\" do Fireship)"
+   },
+   {
+    "id": "template-x-sob-medida",
+    "nome": "Template × sob medida",
+    "tipo": "reels",
+    "dia": "Qui, 19h",
+    "descricao": "O mesmo elemento (botão, menu, primeira tela) na versão de template e na versão sob medida, lado a lado.",
+    "formato": "Antes/depois template → sob medida e \"site padrão × site com direção\" (TikTok)"
+   },
+   {
+    "id": "raio-x",
+    "nome": "Raio-X",
+    "tipo": "carrossel",
+    "dia": "Seg, 12h",
+    "descricao": "Um site desmontado em 7 a 10 slides, cada um com um trecho anotado: o que está ali e por quê.",
+    "formato": "Carrossel \"anatomia de um site\" (Instagram)"
+   },
+   {
+    "id": "pra-salvar",
+    "nome": "Pra salvar",
+    "tipo": "carrossel",
+    "dia": "Ter e Sex, 19h",
+    "descricao": "Checklists, glossário e mito × verdade. Conteúdo que o dono salva para a hora de contratar e manda para o sócio.",
+    "formato": "Carrosséis de checklist e mito × verdade (Instagram)"
+   },
+   {
+    "id": "seu-site",
+    "nome": "Seu site em 3 detalhes",
+    "tipo": "reels",
+    "dia": "Sáb, 11h",
+    "descricao": "Um site enviado por seguidor na caixinha de sexta, com autorização. Três pontos e um conserto mostrado. Nunca para zoar.",
+    "formato": "Crítica rápida com sites enviados pelo público (TikTok e YouTube)"
+   },
+   {
+    "id": "barreira-do-som",
+    "nome": "Barreira do som",
+    "tipo": "reels",
+    "dia": "Sáb, a cada 15 dias",
+    "descricao": "A reforma de verdade do site de um negócio que autorizou, com a régua M 0.40 → M 1.20 como barra de progresso.",
+    "formato": "\"Achei um site e refiz\" (TikTok) e redesign com antes e depois (YouTube)"
+   },
+   {
+    "id": "bancada",
+    "nome": "Bancada",
+    "tipo": "story",
+    "dia": "Todo dia",
+    "descricao": "Stories de bastidor cru (código, render, rascunho), uma enquete e o post do dia. Às sextas, a caixinha. Aos domingos, a votação do nicho.",
+    "formato": "Sequência enquete → caixinha (Instagram)"
+   }
+  ],
+  "porque": [
+   {
+    "texto": "No Instagram, o que mais pesa é tempo assistido, curtidas e envios por pessoa alcançada. Por isso todo Reels abre em movimento e fecha em loop.",
+    "fonte": {
+     "rotulo": "Mosseri, via Social Media Today",
+     "url": "https://www.socialmediatoday.com/news/instagram-shares-algorithm-2025/738034/"
+    }
+   },
+   {
+    "texto": "Em contas com menos de 50 mil seguidores, o Reels é o formato que mais leva a conta para quem ainda não segue. Por isso são 7 por semana.",
+    "fonte": {
+     "rotulo": "Metricool",
+     "url": "https://metricool.com/press-release-instagram-content-playbook/"
+    }
+   },
+   {
+    "texto": "O carrossel tem o melhor engajamento e gera 9 vezes mais salvamentos que a foto. Por isso são 4 por semana e a foto entra só de vez em quando.",
+    "fonte": {
+     "rotulo": "Metricool 2026",
+     "url": "https://metricool.com/press-release-instagram-study-2026/"
+    }
+   },
+   {
+    "texto": "Quem mais ganha seguidores posta 10 ou mais Reels por mês. A rotina dá cerca de 30.",
+    "fonte": {
+     "rotulo": "Instagram Creators",
+     "url": "https://creators.instagram.com/faq"
+    }
+   },
+   {
+    "texto": "O maior ganho vem de sair de 1–2 para 3–5 posts por semana. De 6 a 9 ainda ajuda, mas menos. Por isso não recomendo passar de 2 por dia: a qualidade cai antes de o alcance subir.",
+    "fonte": {
+     "rotulo": "Buffer, 2 milhões de posts",
+     "url": "https://buffer.com/resources/how-often-to-post-on-instagram/"
+    }
+   },
+   {
+    "texto": "No Brasil, o pico do Instagram vai das 18h às 22h. 19h pega o começo do pico, e 12h pega o almoço, com menos concorrência.",
+    "fonte": {
+     "rotulo": "Comscore, via Meio & Mensagem",
+     "url": "https://www.meioemensagem.com.br/midia/os-melhores-horarios-para-postar-nas-midias-sociais"
+    }
+   },
+   {
+    "texto": "Desde abril de 2026, o Instagram deixa de recomendar quem só reposta conteúdo alheio. Por isso tudo é feito por nós: efeitos recriados e sites-conceito próprios.",
+    "fonte": {
+     "rotulo": "TechCrunch",
+     "url": "https://techcrunch.com/2026/04/30/instagram-restricts-reach-of-content-aggregators-in-new-crackdown/"
+    }
+   }
+  ],
+  "regras": [
+   "Todo vídeo abre já com o site em movimento, nunca com o logo.",
+   "Texto na tela em todo Reels, para funcionar sem som.",
+   "Só mostramos sites nossos, conceitos nossos ou sites com autorização do dono. Nunca zoamos o site de uma pequena empresa.",
+   "Carrosséis de 7 a 10 slides. O 2º slide funciona como segunda capa.",
+   "No máximo uma referência de aviação por peça. Legenda de 2 a 3 linhas e 3 hashtags, com as palavras que o cliente busca (\"site para clínica\").",
+   "Música: a publicação automática não consegue pôr música da biblioteca do Instagram. Os Reels com música ficam prontos e você só escolhe a música e publica (uns 2 minutos). Carrosséis e fotos saem sozinhos.",
+   "Sugestão: os mesmos Reels podem ir para o TikTok e o YouTube Shorts sem produção extra. Se aprovar a rotina, me diga se quer abrir essas contas."
+  ]
+ },
+ "ideias": [
+  {
+   "id": "i01",
+   "tipo": "reels",
+   "quadro": "isso-e-um-site",
+   "esforco": "baixo",
+   "titulo": "Isso não é vídeo",
+   "gancho": "Isso não é vídeo. É um site.",
+   "roteiro": [
+    "0–1 s: a primeira tela do site da MACH já em movimento, com o texto \"Isso não é vídeo.\"",
+    "1–3 s: o cursor aparece e começa a rolar. Texto: \"É um site.\"",
+    "3–12 s: três momentos da rolagem, a régua, o estrondo e o cartão de embarque, com cortes na batida.",
+    "12–15 s: volta ao primeiro quadro, fechando o loop. Legenda: \"Comenta SITE que eu te mostro como ficaria o seu.\""
+   ],
+   "producao": "Gravação de tela do site da MACH no navegador, mais texto na tela.",
+   "formato": "Revelação de animação de scroll",
+   "numero": "#01"
+  },
+  {
+   "id": "i02",
+   "tipo": "reels",
+   "quadro": "template-x-sob-medida",
+   "esforco": "baixo",
+   "titulo": "O site que todo mundo tem",
+   "gancho": "Seu concorrente tem o mesmo site que você.",
+   "roteiro": [
+    "0–2 s: três sites genéricos lado a lado. Só muda a cor.",
+    "2–6 s: texto: \"Mesmo layout. Mesmo botão. Mesma frase.\"",
+    "6–7 s: corte seco para o preto.",
+    "7–18 s: o mesmo negócio na versão sob medida, com movimento.",
+    "18–20 s: \"Qual dos dois o seu cliente lembra?\""
+   ],
+   "producao": "Reaproveita a cena dos sites genéricos do vídeo de 30 s, mais uma cena nova.",
+   "formato": "Antes/depois template → sob medida",
+   "numero": "#02"
+  },
+  {
+   "id": "i03",
+   "tipo": "reels",
+   "quadro": "feito-para",
+   "esforco": "alto",
+   "titulo": "Feito para padaria (episódio 1)",
+   "gancho": "Esse site é de uma padaria. Ninguém acredita.",
+   "roteiro": [
+    "0–2 s: a primeira tela com o pão saindo do forno, o vapor se mexendo com a rolagem.",
+    "2–10 s: o cardápio que se monta, o aviso \"próxima fornada em 12 min\" e o mapa.",
+    "10–14 s: \"Padaria fictícia. Site de verdade.\"",
+    "14–16 s: \"Qual negócio eu faço na próxima?\" (pede comentário)"
+   ],
+   "producao": "Um site-conceito de uma página, feito por nós e gravado no navegador. O mesmo site rende o carrossel de quinta, uma foto e stories.",
+   "formato": "Série com um negócio por episódio",
+   "numero": "#03"
+  },
+  {
+   "id": "i04",
+   "tipo": "reels",
+   "quadro": "caixa-preta",
+   "esforco": "baixo",
+   "titulo": "Caixa-preta #1: o texto que acende com a rolagem",
+   "gancho": "Esse efeito está nos sites mais premiados do mundo. Abrimos a caixa-preta.",
+   "roteiro": [
+    "0–2 s: o efeito pronto em tela cheia: as palavras acendem uma a uma conforme a rolagem.",
+    "2–10 s: \"O que é: o texto acompanha o seu dedo.\"",
+    "10–25 s: as camadas em wireframe: o texto apagado, a máscara e a linha do tempo ligada à rolagem.",
+    "25–35 s: \"Pra que serve: o cliente lê a frase inteira, no ritmo dele.\"",
+    "35–40 s: volta ao efeito pronto, fechando o loop."
+   ],
+   "producao": "Motion por código, sem rosto.",
+   "formato": "\"Como fizeram isso?\" e desmontagem em camadas",
+   "numero": "#04"
+  },
+  {
+   "id": "i05",
+   "tipo": "reels",
+   "quadro": "em-30-segundos",
+   "esforco": "baixo",
+   "titulo": "Em 30 segundos: parallax",
+   "gancho": "Parallax. Você já viu. Só não sabia o nome.",
+   "roteiro": [
+    "0–3 s: uma cena com três camadas se movendo em velocidades diferentes.",
+    "3–12 s: as camadas se separam e ganham rótulo: fundo lento, meio, frente rápida.",
+    "12–22 s: \"Quando vale: marca, portfólio, turismo.\" \"Quando não vale: página de pagamento, texto longo.\"",
+    "22–30 s: \"Qual termo eu explico na próxima? Comenta.\""
+   ],
+   "producao": "Motion por código.",
+   "formato": "Explicador de duração fixa",
+   "numero": "#05"
+  },
+  {
+   "id": "i06",
+   "tipo": "reels",
+   "quadro": "isso-e-um-site",
+   "esforco": "baixo",
+   "titulo": "1 segundo, 30 quadros",
+   "gancho": "Um segundo de animação tem 30 desenhos. Olha um por um.",
+   "roteiro": [
+    "0–1 s: a montagem do logo MΛCH na velocidade normal.",
+    "1–12 s: os mesmos 30 quadros desacelerados, com o contador \"quadro 01/30\".",
+    "12–15 s: velocidade normal de novo. Texto: \"Cada um foi pensado.\""
+   ],
+   "producao": "Usa os quadros que já existem do vídeo de 30 s.",
+   "formato": "Bastidores em 30 s",
+   "numero": "#06"
+  },
+  {
+   "id": "i07",
+   "tipo": "reels",
+   "quadro": "template-x-sob-medida",
+   "esforco": "baixo",
+   "titulo": "Os dois botões",
+   "gancho": "Os dois botões fazem a mesma coisa. Só um dá vontade de clicar.",
+   "roteiro": [
+    "0–2 s: dois botões \"Fale conosco\" lado a lado. O da direita reage quando o cursor chega perto.",
+    "2–10 s: o cursor passa nos dois, em close.",
+    "10–16 s: \"Detalhe que o cliente sente, mesmo sem perceber.\"",
+    "16–18 s: volta ao início (loop)."
+   ],
+   "producao": "Motion por código.",
+   "formato": "Antes/depois template → sob medida",
+   "numero": "#07"
+  },
+  {
+   "id": "i08",
+   "tipo": "reels",
+   "quadro": "feito-para",
+   "esforco": "alto",
+   "titulo": "Feito para clínica (episódio 2)",
+   "gancho": "Site de clínica não precisa parecer bula de remédio.",
+   "roteiro": [
+    "0–2 s: uma primeira tela calma, com uma onda lenta que respira.",
+    "2–10 s: o agendamento em três toques se montando na tela e a equipe entrando em profundidade.",
+    "10–14 s: \"Clínica fictícia. Site de verdade.\"",
+    "14–16 s: \"Vota no próximo nicho no domingo.\""
+   ],
+   "producao": "Site-conceito de uma página, gravado no navegador.",
+   "formato": "Série com um negócio por episódio",
+   "numero": "#08"
+  },
+  {
+   "id": "i09",
+   "tipo": "reels",
+   "quadro": "barreira-do-som",
+   "esforco": "alto",
+   "titulo": "Barreira do som #1: a reforma da Equus Genetics",
+   "gancho": "Esse site vai passar por uma reforma completa. Acompanha.",
+   "roteiro": [
+    "0–2 s: corte seco do antes para o depois (só um vislumbre).",
+    "2–12 s: três problemas marcados no site atual.",
+    "12–40 s: o processo acelerado, com a régua M 0.40 → M 1.20 como barra de progresso.",
+    "40–55 s: o site novo rodando. No fim, volta ao antes (loop)."
+   ],
+   "producao": "Gravação de tela e motion. Depende da autorização da Equus Genetics para mostrar o site e marcar o perfil.",
+   "formato": "\"Achei um site e refiz\" e redesign com antes e depois",
+   "numero": "#09"
+  },
+  {
+   "id": "i10",
+   "tipo": "reels",
+   "quadro": "seu-site",
+   "esforco": "médio",
+   "precisaVoce": true,
+   "titulo": "Seu site em 3 detalhes (episódio 1)",
+   "gancho": "Você mandou seu site. Eu achei 3 coisas.",
+   "roteiro": [
+    "0–2 s: o site do seguidor na tela (com autorização), com o texto \"Site enviado pelo @fulano\".",
+    "2–20 s: três pontos marcados em sequência, explicados com a sua voz (ou só com texto).",
+    "20–30 s: um conserto mostrado num esboço rápido.",
+    "30–35 s: \"Manda o seu na caixinha de sexta.\""
+   ],
+   "producao": "Gravação de tela e esboço por código. Rende mais com a sua voz, mas funciona só com texto.",
+   "formato": "Crítica rápida com sites enviados pelo público",
+   "numero": "#10"
+  },
+  {
+   "id": "i11",
+   "tipo": "reels",
+   "quadro": "caixa-preta",
+   "esforco": "médio",
+   "titulo": "Contra o relógio: uma primeira tela em 60 minutos",
+   "gancho": "60 minutos para fazer a primeira tela de um site. Valendo.",
+   "roteiro": [
+    "0–1 s: cronômetro na tela, \"00:00\".",
+    "1–30 s: marcos de 10, 30 e 50 minutos com a tela gravada e acelerada.",
+    "30–40 s: a revelação da primeira tela rodando.",
+    "40–45 s: \"Um site inteiro leva semanas. Essa é a parte que o cliente vê primeiro.\""
+   ],
+   "producao": "Gravação de tela acelerada, mais o cronômetro.",
+   "formato": "Desafio contra o tempo",
+   "numero": "#11"
+  },
+  {
+   "id": "c01",
+   "tipo": "carrossel",
+   "quadro": "raio-x",
+   "esforco": "baixo",
+   "titulo": "Raio-X de uma primeira tela",
+   "gancho": "O que acontece nos primeiros segundos do seu site.",
+   "roteiro": [
+    "Capa: a frase acima, sobre um recorte de primeira tela.",
+    "O visitante decide rápido se fica.",
+    "O título diz o que você faz, em uma frase.",
+    "O movimento leva o olho até o botão.",
+    "Uma prova logo no começo: cliente, foto real ou número.",
+    "Um botão, um pedido só.",
+    "Carregar rápido também é design.",
+    "\"Salve para revisar o seu.\" + @mach.sites"
+   ],
+   "producao": "Fábrica de carrosséis, com recortes anotados.",
+   "formato": "Carrossel \"anatomia de um site\"",
+   "numero": "#12"
+  },
+  {
+   "id": "c02",
+   "tipo": "carrossel",
+   "quadro": "pra-salvar",
+   "esforco": "baixo",
+   "titulo": "Checklist antes de contratar um site",
+   "gancho": "8 perguntas para fazer antes de contratar um site.",
+   "roteiro": [
+    "Capa: a frase acima.",
+    "O domínio fica no meu nome?",
+    "O site é meu ou é alugado?",
+    "Funciona no celular, no tablet e no computador?",
+    "Quem atualiza depois que ficar pronto?",
+    "Quanto tempo leva para abrir?",
+    "Posso ver um site parecido funcionando?",
+    "O que acontece se eu quiser mudar algo?",
+    "Quanto custa manter por ano?",
+    "\"Salve para a hora de fechar.\" + @mach.sites"
+   ],
+   "producao": "Fábrica de carrosséis.",
+   "formato": "Carrossel de checklist",
+   "numero": "#13"
+  },
+  {
+   "id": "c03",
+   "tipo": "carrossel",
+   "quadro": "pra-salvar",
+   "esforco": "baixo",
+   "titulo": "Mito ou verdade: animação deixa o site lento?",
+   "gancho": "Animação deixa o site lento? Mito ou verdade.",
+   "roteiro": [
+    "Capa: a pergunta acima.",
+    "\"Animação deixa o site lento.\" Depende de como é feita.",
+    "\"Site bonito não vende.\" O bonito que guia o olho vende.",
+    "\"Tanto faz, todo mundo usa template.\" É por isso que ninguém lembra.",
+    "\"Site animado só funciona no computador.\" Dá para ser multiplataforma.",
+    "\"Animação é enfeite.\" Boa animação explica o produto.",
+    "\"Mande para quem vai fazer um site.\" + @mach.sites"
+   ],
+   "producao": "Fábrica de carrosséis.",
+   "formato": "Carrossel mito × verdade",
+   "numero": "#14"
+  },
+  {
+   "id": "c04",
+   "tipo": "carrossel",
+   "quadro": "feito-para",
+   "esforco": "baixo",
+   "titulo": "Feito para padaria: as decisões por trás",
+   "gancho": "Por que o site da padaria tem um relógio de fornada.",
+   "roteiro": [
+    "Capa: a frase acima, com o quadro do relógio.",
+    "O problema: padaria vende o que está saindo agora.",
+    "A decisão: avisar a próxima fornada.",
+    "O cardápio que se monta: o cliente vê o que tem antes de sair de casa.",
+    "As cores vieram da casca do pão.",
+    "O mapa e o WhatsApp a um toque.",
+    "\"Qual negócio é o próximo? Vota no domingo.\""
+   ],
+   "producao": "Quadros do site-conceito da semana, na fábrica de carrosséis.",
+   "formato": "Bastidores do site da semana",
+   "numero": "#15"
+  },
+  {
+   "id": "c05",
+   "tipo": "carrossel",
+   "quadro": "raio-x",
+   "esforco": "médio",
+   "titulo": "O mesmo site, sem e com movimento",
+   "gancho": "O mesmo site. Sem e com movimento.",
+   "roteiro": [
+    "Capa: a frase acima.",
+    "Slides alternados: um trecho parado e o mesmo trecho em vídeo curto, se mexendo.",
+    "Cada par tem uma frase que explica o que o movimento muda.",
+    "Último slide: \"Qual você lembraria amanhã?\""
+   ],
+   "producao": "Carrossel com vídeos curtos. Esse tipo não aceita música.",
+   "formato": "Carrossel de vídeo",
+   "numero": "#16"
+  },
+  {
+   "id": "c06",
+   "tipo": "carrossel",
+   "quadro": "pra-salvar",
+   "esforco": "baixo",
+   "titulo": "8 palavras que ninguém explica",
+   "gancho": "8 palavras que o seu designer fala e ninguém explica.",
+   "roteiro": [
+    "Capa: a frase acima.",
+    "Primeira tela, dobra, CTA, parallax, scroll animado, microinteração, responsivo e carregamento: uma por slide, com desenho e uma frase.",
+    "\"Salve para a próxima reunião.\" + @mach.sites"
+   ],
+   "producao": "Fábrica de carrosséis.",
+   "formato": "Carrossel de glossário",
+   "numero": "#17"
+  },
+  {
+   "id": "f01",
+   "tipo": "foto",
+   "quadro": "feito-para",
+   "esforco": "baixo",
+   "titulo": "Quadro-herói da padaria",
+   "gancho": "Isso é a primeira tela de uma padaria.",
+   "roteiro": [
+    "Um quadro do site-conceito da semana em tela cheia, com a frase acima em letra pequena embaixo.",
+    "Entra no lugar de um carrossel quando há site novo para mostrar."
+   ],
+   "producao": "Quadro tirado do site da semana.",
+   "formato": "Foto única \"quadro-herói\"",
+   "numero": "#18"
+  },
+  {
+   "id": "f02",
+   "tipo": "foto",
+   "quadro": "",
+   "esforco": "baixo",
+   "titulo": "Manifesto",
+   "gancho": "Se parece com todos, ninguém lembra.",
+   "roteiro": [
+    "Fundo escuro, a frase grande e o Λ laranja pequeno no canto.",
+    "Para dias de anúncio ou como post fixado de apoio."
+   ],
+   "producao": "Fábrica de carrosséis (1 slide).",
+   "formato": "Foto única com frase-manifesto",
+   "numero": "#19"
+  },
+  {
+   "id": "s01",
+   "tipo": "story",
+   "quadro": "bancada",
+   "esforco": "baixo",
+   "titulo": "Bancada do dia",
+   "gancho": "Hoje na bancada.",
+   "roteiro": [
+    "Um bastidor cru: código, render ou rascunho.",
+    "Uma enquete A ou B: \"Qual abertura fica?\"",
+    "O post do dia com sticker de link para o post.",
+    "Se houver novidade, um quarto story com contagem ou pergunta."
+   ],
+   "producao": "Prints e trechos da produção da semana, no estilo HUD da marca.",
+   "formato": "Sequência de stories com enquete",
+   "numero": "#20"
+  },
+  {
+   "id": "s02",
+   "tipo": "story",
+   "quadro": "bancada",
+   "esforco": "baixo",
+   "titulo": "Sexta do site (caixinha)",
+   "gancho": "Manda o link do seu site. Escolho um para analisar no sábado.",
+   "roteiro": [
+    "A caixinha de perguntas com a frase acima.",
+    "As regras: só o seu próprio site, com autorização para mostrar.",
+    "Repost de algumas respostas, sem expor ninguém."
+   ],
+   "producao": "Sticker do Instagram, feito por você no app (stickers não saem pela publicação automática).",
+   "formato": "Caixinha de perguntas",
+   "numero": "#21"
+  },
+  {
+   "id": "s03",
+   "tipo": "story",
+   "quadro": "bancada",
+   "esforco": "baixo",
+   "titulo": "Domingo: você escolhe o nicho",
+   "gancho": "Qual negócio ganha um site-conceito esta semana?",
+   "roteiro": [
+    "Enquete 1: Padaria ou Clínica?",
+    "Enquete 2: Academia ou Imobiliária?",
+    "Na segunda, o resultado e o começo da produção."
+   ],
+   "producao": "Stickers de enquete, feitos por você no app.",
+   "formato": "Sequência enquete → caixinha",
+   "numero": "#22"
+  },
+  {
+   "id": "s04",
+   "tipo": "story",
+   "quadro": "bancada",
+   "esforco": "baixo",
+   "titulo": "Contagem para o lançamento do site",
+   "gancho": "Faltam 7 dias.",
+   "roteiro": [
+    "Sticker de contagem regressiva para o dia do lançamento do site.",
+    "Três prévias curtas, uma por dia, sem mostrar tudo.",
+    "No dia, o link."
+   ],
+   "producao": "Prévias gravadas do site da MACH. Precisa da data do lançamento.",
+   "formato": "Contagem regressiva",
+   "numero": "#23"
+  }
+ ],
+ "referencias": [
+  {
+   "plataforma": "TikTok",
+   "esforco": "baixo",
+   "formato": "Antes/depois: template → sob medida",
+   "como": "0–2 s o site \"antes\" com rótulo, corte na batida e 10 a 15 s rolando o \"depois\". Fecha com \"comenta SITE\".",
+   "porque": "O contraste se entende sem som, e o dono se reconhece no \"antes\".",
+   "adaptacao": "Quadro Template × sob medida, sempre com um \"antes\" inventado por nós.",
+   "exemplos": [
+    {
+     "rotulo": "@capriandrome",
+     "url": "https://www.tiktok.com/@capriandrome/video/7355970641230695722"
+    }
+   ]
+  },
+  {
+   "plataforma": "TikTok",
+   "esforco": "médio",
+   "formato": "\"Achei um site esquecido e refiz\"",
+   "como": "Mostra o site real e o desafio, acelera o processo, revela o novo e pergunta qual é o próximo.",
+   "porque": "É uma história completa. A série faz o público voltar e os comentários escolhem o próximo.",
+   "adaptacao": "Quadro Barreira do som, só com negócios que autorizarem. A Equus pode ser o episódio 1.",
+   "exemplos": [
+    {
+     "rotulo": "@marcinteodoru",
+     "url": "https://www.tiktok.com/@marcinteodoru/video/7553061336658300191"
+    },
+    {
+     "rotulo": "@caiolimadesign · Hora do Design ep. 6",
+     "url": "https://www.tiktok.com/@caiolimadesign/video/7320661789820112133"
+    },
+    {
+     "rotulo": "ep. 11",
+     "url": "https://www.tiktok.com/@caiolimadesign/video/7364514700136140037"
+    }
+   ]
+  },
+  {
+   "plataforma": "TikTok",
+   "esforco": "médio",
+   "formato": "Reação a sites / \"manda seu site\"",
+   "como": "Opinião rápida sobre um site na tela, de preferência enviado pelo público.",
+   "porque": "Gera comentário, e quem manda o site vira contato. Zombar de pequena empresa afasta quem compra.",
+   "adaptacao": "Quadro Seu site em 3 detalhes, com tom de ajuda e autorização.",
+   "exemplos": [
+    {
+     "rotulo": "@designertom · série Bad UI",
+     "url": "https://www.tiktok.com/@designertom/playlist/Bad%20UI-7234537502646733611"
+    },
+    {
+     "rotulo": "@il_webdesign",
+     "url": "https://www.tiktok.com/@il_webdesign/video/7124430288591162670"
+    }
+   ]
+  },
+  {
+   "plataforma": "TikTok",
+   "esforco": "baixo",
+   "formato": "Site premiado explicado",
+   "como": "O efeito mais forte no primeiro segundo e depois a rolagem com 3 destaques em texto.",
+   "porque": "O \"uau\" faz salvar e compartilhar. Atrai mais designers, então é preciso traduzir para o dono do negócio.",
+   "adaptacao": "Quadro Caixa-preta, com o efeito recriado por nós.",
+   "exemplos": [
+    {
+     "rotulo": "@joshfromyolkk",
+     "url": "https://www.tiktok.com/@joshfromyolkk/video/7491224302071663894"
+    },
+    {
+     "rotulo": "@max_magier",
+     "url": "https://www.tiktok.com/@max_magier/video/7551058359080766742"
+    },
+    {
+     "rotulo": "@oproductdesigner",
+     "url": "https://www.tiktok.com/@oproductdesigner/video/7507760923008879877"
+    }
+   ]
+  },
+  {
+   "plataforma": "TikTok",
+   "esforco": "baixo",
+   "formato": "Revelação de animação de scroll",
+   "como": "O efeito pronto, depois as camadas por trás e o efeito de novo, fechando o loop.",
+   "porque": "Mostra o diferencial em 1 segundo e pede para ver de novo.",
+   "adaptacao": "Quadro Isso é um site. É o que já renderizamos.",
+   "exemplos": [
+    {
+     "rotulo": "@radwebdesigns",
+     "url": "https://www.tiktok.com/@radwebdesigns/video/7447938339778350379"
+    },
+    {
+     "rotulo": "@webloved",
+     "url": "https://www.tiktok.com/@webloved/video/7634628979529452832"
+    }
+   ]
+  },
+  {
+   "plataforma": "TikTok",
+   "esforco": "baixo",
+   "formato": "Site padrão × site com direção",
+   "como": "\"Esse é o site que sai por padrão. Esse é o que sai com direção.\"",
+   "porque": "É a conversa de 2026: todo mundo está testando ferramentas que fazem site sozinhas.",
+   "adaptacao": "Entra no quadro Template × sob medida, falando de direção e não de ferramenta.",
+   "exemplos": [
+    {
+     "rotulo": "@jonocatliff",
+     "url": "https://www.tiktok.com/@jonocatliff/video/7624902183384927506"
+    }
+   ]
+  },
+  {
+   "plataforma": "Instagram",
+   "esforco": "baixo",
+   "formato": "Scroll de cinema",
+   "como": "10 a 20 s de um site animado rolando, sem fala, com cortes no ritmo da música.",
+   "porque": "As pessoas assistem de novo e mandam para alguém.",
+   "adaptacao": "Só com sites nossos: curadoria de sites alheios perde alcance desde 2026.",
+   "exemplos": [
+    {
+     "rotulo": "@awwwards",
+     "url": "https://www.instagram.com/awwwards/"
+    },
+    {
+     "rotulo": "@godlywebsite",
+     "url": "https://www.instagram.com/godlywebsite/"
+    },
+    {
+     "rotulo": "@madewithgsap",
+     "url": "https://www.instagram.com/madewithgsap/"
+    }
+   ]
+  },
+  {
+   "plataforma": "Instagram",
+   "esforco": "médio",
+   "formato": "Desmontagem em camadas",
+   "como": "Wireframe, depois 3D, depois a animação final, uma camada por vez.",
+   "porque": "Gera salvamentos e autoridade, e prova que o trabalho é feito à mão.",
+   "adaptacao": "Quadro Caixa-preta. O nosso código já separa as camadas.",
+   "exemplos": [
+    {
+     "rotulo": "@lusionltd",
+     "url": "https://www.instagram.com/lusionltd/"
+    },
+    {
+     "rotulo": "@locomotivemtl",
+     "url": "https://www.instagram.com/locomotivemtl/"
+    },
+    {
+     "rotulo": "@basementdotstudio",
+     "url": "https://www.instagram.com/basementdotstudio/"
+    },
+    {
+     "rotulo": "@programatorio (Brasil)",
+     "url": "https://www.instagram.com/programatorio/"
+    }
+   ]
+  },
+  {
+   "plataforma": "Instagram",
+   "esforco": "baixo",
+   "formato": "Carrossel \"anatomia de um site\"",
+   "como": "Cada slide mostra um trecho de site com uma anotação.",
+   "porque": "Carrossel gera 9 vezes mais salvamentos que foto, e o 2º slide ganha uma segunda chance no feed.",
+   "adaptacao": "Quadro Raio-X, feito na fábrica de carrosséis.",
+   "exemplos": [
+    {
+     "rotulo": "@welovewebdesign",
+     "url": "https://www.instagram.com/welovewebdesign/"
+    }
+   ]
+  },
+  {
+   "plataforma": "Instagram",
+   "esforco": "médio",
+   "formato": "Pessoa + tela",
+   "como": "O dono fala de 20 a 40 s com o site ao fundo.",
+   "porque": "Gera confiança. Web designers contam que fecham clientes assim.",
+   "adaptacao": "Só se você quiser aparecer. Pode começar só com a voz.",
+   "exemplos": [
+    {
+     "rotulo": "Josh Hall ep. 374 (Blaze Smith)",
+     "url": "https://www.buzzsprout.com/636862/episodes/16919330-374-how-to-get-web-design-clients-through-social-media-videos-with-blaze-smith"
+    },
+    {
+     "rotulo": "ep. 392 (Marie Brown)",
+     "url": "https://www.buzzsprout.com/636862/episodes/17666971-392-getting-clients-through-instagram-with-marie-brown"
+    }
+   ]
+  },
+  {
+   "plataforma": "Instagram",
+   "esforco": "baixo",
+   "formato": "Stories: enquete → caixinha",
+   "como": "Enquete primeiro, depois caixinha sobre o tema mais votado. Até 9 stories antes de cansar.",
+   "porque": "Abre conversa no direct com quem já segue.",
+   "adaptacao": "Quadro Bancada, com a caixinha às sextas e a votação aos domingos.",
+   "exemplos": [
+    {
+     "rotulo": "Socialinsider: benchmarks de stories",
+     "url": "https://www.socialinsider.io/pt/social-media-benchmarks/instagram-stories-benchmarks"
+    },
+    {
+     "rotulo": "JivoChat: enquetes",
+     "url": "https://www.jivochat.com.br/blog/ferramentas/enquetes-para-instagram.html"
+    }
+   ]
+  },
+  {
+   "plataforma": "YouTube",
+   "esforco": "médio",
+   "formato": "Redesign de produto famoso",
+   "como": "O original com um defeito marcado, o processo acelerado e os dois lado a lado.",
+   "porque": "O público já conhece o original e quer opinar. É o formato com mais visualizações do nicho.",
+   "adaptacao": "Mais para frente: a home de uma marca brasileira conhecida, como conceito não oficial.",
+   "exemplos": [
+    {
+     "rotulo": "Juxtopposed · YouTube (≈1,7 mi)",
+     "url": "https://www.youtube.com/watch?v=OUM6XmhViN4"
+    },
+    {
+     "rotulo": "Juxtopposed · VLC (≈1,6 mi)",
+     "url": "https://www.youtube.com/watch?v=ERFeOgqk324"
+    }
+   ]
+  },
+  {
+   "plataforma": "YouTube",
+   "esforco": "baixo",
+   "formato": "\"Como fizeram isso?\"",
+   "como": "O efeito pronto, a pergunta \"como?\", as camadas e o efeito de novo.",
+   "porque": "O efeito aparece antes da explicação, e o selo de premiado desperta curiosidade.",
+   "adaptacao": "Quadro Caixa-preta, trocando o código pela pergunta do dono: \"o que isso faz pelo meu cliente?\"",
+   "exemplos": [
+    {
+     "rotulo": "Hyperplexed (≈362 mil)",
+     "url": "https://www.youtube.com/watch?v=W5oawMJaXbU"
+    },
+    {
+     "rotulo": "Olivier Larose",
+     "url": "https://www.youtube.com/watch?v=WmvpJ4KX30s"
+    }
+   ]
+  },
+  {
+   "plataforma": "YouTube",
+   "esforco": "médio",
+   "formato": "Desafio contra o tempo",
+   "como": "A meta e o cronômetro no primeiro segundo, marcos de tempo e a revelação.",
+   "porque": "O cronômetro cria tensão e prende até o fim.",
+   "adaptacao": "Ideia #11: uma primeira tela em 60 minutos.",
+   "exemplos": [
+    {
+     "rotulo": "NetworkChuck · 24 sites em 24 h",
+     "url": "https://www.youtube.com/watch?v=2VvWM6gdDlk"
+    },
+    {
+     "rotulo": "CodeTV · Web Dev Challenge",
+     "url": "https://www.youtube.com/watch?v=wPL13VR88iY"
+    }
+   ]
+  },
+  {
+   "plataforma": "YouTube",
+   "esforco": "baixo",
+   "formato": "Explicador de duração fixa",
+   "como": "Um assunto por episódio, sempre no mesmo tempo: o que é, como funciona e quando usar.",
+   "porque": "O nome fixo com a duração cria hábito.",
+   "adaptacao": "Quadro Em 30 segundos.",
+   "exemplos": [
+    {
+     "rotulo": "Fireship · React in 100 Seconds",
+     "url": "https://www.youtube.com/watch?v=Tn6-PIqc4UM"
+    }
+   ]
+  },
+  {
+   "plataforma": "YouTube",
+   "esforco": "baixo",
+   "formato": "Bastidores em 30 s",
+   "como": "Tela vazia, código, cena 3D pronta.",
+   "porque": "Mostra o trabalho real em pouco tempo.",
+   "adaptacao": "Ideia #06 e os stories da Bancada.",
+   "exemplos": [
+    {
+     "rotulo": "3eyes · three.js (≈236 mil)",
+     "url": "https://www.youtube.com/shorts/fCJ465Da4S4"
+    }
+   ]
+  },
+  {
+   "plataforma": "Evitar",
+   "esforco": "",
+   "formato": "O que não vamos fazer",
+   "como": "\"Site de R$ 50 mil feito com IA em 5 minutos\", listas \"sites que parecem ilegais\", \"como vender sites\" e repost de conteúdo alheio.",
+   "porque": "Esses formatos atraem quem quer fazer sozinho, já saturaram ou perdem alcance desde 2026.",
+   "adaptacao": "Tudo o que postamos é nosso e fala com o dono do negócio.",
+   "exemplos": [
+    {
+     "rotulo": "Instagram contra repost (TechCrunch)",
+     "url": "https://techcrunch.com/2026/04/30/instagram-restricts-reach-of-content-aggregators-in-new-crackdown/"
+    }
+   ]
+  }
+ ],
+ "dados": [
+  {
+   "texto": "O painel do Instagram mostra quem sai nos 3 primeiros segundos. O primeiro quadro decide o Reels.",
+   "fonte": {
+    "rotulo": "Social Media Today",
+    "url": "https://www.socialmediatoday.com/news/instagram-adds-retention-insights-reels/758464/"
+   }
+  },
+  {
+   "texto": "Os Reels de 45 a 60 s tiveram o melhor engajamento num estudo de 2026 com 9,77 milhões de Reels.",
+   "fonte": {
+    "rotulo": "Socialinsider",
+    "url": "https://socialinsider.io/blog/instagram-reels-length/"
+   }
+  },
+  {
+   "texto": "Carrossel com música pode aparecer na aba Reels. Quem passou direto pode vê-lo de novo a partir do 2º slide.",
+   "fonte": {
+    "rotulo": "Social Media Today",
+    "url": "https://www.socialmediatoday.com/news/ig-chief-recommends-posting-carousels-to-improve-reach/730232/"
+   }
+  },
+  {
+   "texto": "Reels de teste (mostrados primeiro só para quem não segue) liberam a partir de 1.000 seguidores. Com 24, ainda não temos acesso.",
+   "fonte": {
+    "rotulo": "BetaNews",
+    "url": "https://betanews.com/2025/07/14/instagram-opens-up-trial-reels-feature-to-more-creators/"
+   }
+  },
+  {
+   "texto": "Nos stories, o público começa a cansar depois do 9º story do dia.",
+   "fonte": {
+    "rotulo": "Socialinsider",
+    "url": "https://www.socialinsider.io/pt/social-media-benchmarks/instagram-stories-benchmarks"
+   }
+  },
+  {
+   "texto": "Mosseri: o feed \"perfeito\" morreu e o bastidor real virou prova de que algo é verdadeiro.",
+   "fonte": {
+    "rotulo": "Tom's Guide",
+    "url": "https://www.tomsguide.com/ai/instagram-says-ai-killed-the-curated-feed-now-its-scrambling-to-prove-whats-real"
+   }
+  },
+  {
+   "texto": "No Brasil, quase não há perfil grande mostrando sites animados premium para pequenas e médias empresas. O espaço está livre.",
+   "fonte": null
+  }
+ ]
+}

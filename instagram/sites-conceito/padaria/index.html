@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Casca & Miolo · Padaria de fermentação natural</title>
+<meta name="description" content="Padaria de fermentação natural na Vila Serena. Fornada nova a cada 40 minutos. Veja o balcão de hoje e a próxima fornada.">
+<meta name="theme-color" content="#1F0A03">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%231F0A03'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23F5F2EC' stroke-width='1.6'/%3E%3Cpath d='M9.5 18.5c3-5 7.8-7.4 13.4-7' fill='none' stroke='%23CFAB86' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="pular" href="#cardapio">Pular para o balcão de hoje</a>
+
+<header class="nav" data-tema="hero">
+  <a class="marca" href="#topo" aria-label="Casca e Miolo, início">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8.5 19.5c3.2-5.8 8.6-8.6 15-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".6"/></svg>
+    <span>Casca <i>&amp;</i> Miolo</span></a>
+  <nav class="nav-links" aria-label="Seções">
+    <a href="#cardapio">Balcão</a><a href="#fornada">Fornadas</a><a href="#endereco">Endereço</a>
+  </nav>
+  <a class="nav-zap" href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-zap"/></svg>Encomendar</a>
+</header>
+
+<main>
+  <!-- 1. Primeira tela -->
+  <section class="hero" id="topo" data-tema="hero">
+    <div class="hero-pin">
+      <div class="hero-texto">
+        <p class="rotulo">Padaria de fermentação natural · Vila Serena</p>
+        <h1><span class="l"><span>Saiu do forno.</span></span><span class="l"><span>Ainda está</span></span><span class="l"><span><em>cantando.</em></span></span></h1>
+        <p class="apoio">Cantar é o estalo da casca quando esfria. Aqui sai fornada nova a cada 40 minutos.</p>
+      </div>
+      <canvas class="cena" aria-hidden="true"></canvas>
+      <a class="chip-fornada" href="#fornada"><span class="ponto" aria-hidden="true"></span><span>Próxima fornada <span data-fornada-prep>em</span> <b data-fornada-min>12 min</b></span></a>
+      <span class="rolar" aria-hidden="true">Role</span>
+    </div>
+  </section>
+
+  <!-- 2. Vitrine: o cardápio que se monta -->
+  <section class="vitrine claro" id="cardapio" data-tema="claro">
+    <svg class="borda-casca" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 40V22Q200 -10 400 22V40Z" fill="#441608"/><path d="M0 40V27Q200 -3 400 27V40Z" fill="#834C24"/>
+      <path d="M0 40V31Q200 3 400 31V40Z" fill="#B18455"/><path d="M0 40V34Q200 8 400 34V40Z" fill="#F2E9D8"/>
+    </svg>
+    <div class="vitrine-pin">
+      <header class="cab">
+        <p class="rotulo"><span class="num">01</span>O balcão de hoje</p>
+        <h2>Veja o balcão antes de sair de casa.</h2>
+        <p class="ao-vivo"><span class="ponto" aria-hidden="true"></span>Atualizado às <b data-hora-agora>15h28</b> · <b data-contagem>9</b> itens no balcão</p>
+      </header>
+      <div class="estante" aria-label="Itens no balcão agora">
+        <div class="prateleira"><p class="prateleira-nome">Pães</p><div class="itens"></div><div class="vidro" aria-hidden="true"></div></div>
+        <div class="prateleira"><p class="prateleira-nome">Doces</p><div class="itens"></div><div class="vidro" aria-hidden="true"></div></div>
+        <div class="prateleira"><p class="prateleira-nome">Salgados e café</p><div class="itens"></div><div class="vidro" aria-hidden="true"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cardapio-completo claro" data-tema="claro">
+    <details>
+      <summary><span>Ver cardápio completo</span><span class="mais" aria-hidden="true"></span></summary>
+      <div class="lista">
+        <div><h3>Pães</h3><ul>
+          <li><span>Pão francês</span><i></i><b>R$ 0,90</b></li>
+          <li><span>Fermentação natural, 1 kg</span><i></i><b>R$ 24</b></li>
+          <li><span>Fermentação natural integral</span><i></i><b>R$ 26</b></li>
+          <li><span>Baguete</span><i></i><b>R$ 12</b></li>
+          <li><span>Ciabatta</span><i></i><b>R$ 6</b></li>
+          <li><span>Pão de forma da casa</span><i></i><b>R$ 18</b></li>
+          <li><span>Broa de milho</span><i></i><b>R$ 6</b></li></ul></div>
+        <div><h3>Doces</h3><ul>
+          <li><span>Croissant</span><i></i><b>R$ 11</b></li>
+          <li><span>Pain au chocolat</span><i></i><b>R$ 13</b></li>
+          <li><span>Sonho de creme</span><i></i><b>R$ 9</b></li>
+          <li><span>Bolo de fubá, fatia</span><i></i><b>R$ 8</b></li>
+          <li><span>Bolo de fubá inteiro</span><i></i><b>R$ 42</b></li>
+          <li><span>Cuca de banana</span><i></i><b>R$ 28</b></li></ul></div>
+        <div><h3>Salgados</h3><ul>
+          <li><span>Pão de queijo</span><i></i><b>R$ 3,50</b></li>
+          <li><span>Pão na chapa</span><i></i><b>R$ 7</b></li>
+          <li><span>Misto quente</span><i></i><b>R$ 14</b></li>
+          <li><span>Empada de palmito</span><i></i><b>R$ 9</b></li>
+          <li><span>Torrada com manteiga da casa</span><i></i><b>R$ 8</b></li></ul></div>
+        <div><h3>Para beber</h3><ul>
+          <li><span>Café coado</span><i></i><b>R$ 7</b></li>
+          <li><span>Pingado</span><i></i><b>R$ 7,50</b></li>
+          <li><span>Média</span><i></i><b>R$ 8</b></li>
+          <li><span>Chocolate quente</span><i></i><b>R$ 10</b></li>
+          <li><span>Suco de laranja</span><i></i><b>R$ 9</b></li></ul></div>
+      </div>
+    </details>
+  </section>
+
+  <!-- 3. Próxima fornada -->
+  <section class="fornada escuro" id="fornada" data-tema="escuro">
+    <header class="cab">
+      <p class="rotulo"><span class="num">02</span>Próxima fornada</p>
+      <h2>Pão bom é pão de agora.</h2>
+      <p class="sub">Saiba quando sai a próxima fornada e chegue com ela quentinha.</p>
+    </header>
+    <div class="relogio" role="timer" aria-live="off">
+      <svg class="mostrador" viewBox="0 0 320 320" aria-hidden="true">
+        <defs>
+          <linearGradient id="g-arco" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A25C1A"/><stop offset="1" stop-color="#F0954A"/></linearGradient>
+          <radialGradient id="g-brasa"><stop offset="0" stop-color="#FFD9A8"/><stop offset=".35" stop-color="#F0954A"/><stop offset="1" stop-color="#F0954A" stop-opacity="0"/></radialGradient>
+        </defs>
+        <circle cx="160" cy="160" r="150" fill="none" stroke="rgb(207 171 134 / .10)" stroke-width="1"/>
+        <g class="tiques"></g>
+        <circle class="trilho" cx="160" cy="160" r="128" fill="none" stroke="rgb(207 171 134 / .12)" stroke-width="3"/>
+        <circle class="arco" cx="160" cy="160" r="128" fill="none" stroke="url(#g-arco)" stroke-width="3" stroke-linecap="round" pathLength="1" stroke-dasharray="0 1" transform="rotate(-90 160 160)"/>
+        <g class="brasa"><circle r="16" fill="url(#g-brasa)"/><circle r="3.4" fill="#FFE7C7"/></g>
+      </svg>
+      <div class="relogio-centro">
+        <p class="em">sai em</p>
+        <p class="min" aria-label="12 minutos"><span class="digito"><span class="fita"></span></span><span class="digito"><span class="fita"></span></span></p>
+        <p class="un">minutos</p>
+        <p class="hora-longe">5h40</p>
+        <p class="seg" data-fornada-seg>12:30</p>
+      </div>
+    </div>
+    <p class="saindo">Às <b data-fornada-hora>15h40</b> sai <span data-fornada-nome>fermentação natural</span>, <span data-fornada-qtd>24 unidades</span>.</p>
+    <ol class="fornadas" aria-label="Fornadas de hoje"></ol>
+    <button class="avise" type="button" aria-pressed="false"><span class="sino" aria-hidden="true"></span><span data-avise>Me avise 5 min antes</span></button>
+  </section>
+
+  <!-- 4. Da casca ao miolo (a paleta) -->
+  <section class="anatomia claro" id="pao" data-tema="claro">
+    <header class="cab">
+      <p class="rotulo"><span class="num">03</span>Da casca ao miolo</p>
+      <h2>36 horas de fermentação. Dá para ver.</h2>
+      <p class="sub">Farinha, água, sal e fermento natural. O resto é tempo.</p>
+    </header>
+    <figure class="corte">
+      <svg viewBox="0 0 400 252" aria-label="Corte de um pão de fermentação natural">
+        <defs>
+          <linearGradient id="g-casca" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#441608"/><stop offset=".45" stop-color="#663116"/><stop offset=".8" stop-color="#834C24"/><stop offset="1" stop-color="#A25C1A"/></linearGradient>
+          <radialGradient id="g-miolo" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#F5F2EC"/><stop offset=".7" stop-color="#F2E9D8"/><stop offset="1" stop-color="#CFAB86"/></radialGradient>
+          <clipPath id="c-miolo"><path id="p-miolo" d="M31 212C26 128 96 56 200 54 304 56 374 128 369 212 369 220 352 224 200 224S31 220 31 212Z"/></clipPath>
+        </defs>
+        <ellipse cx="200" cy="236" rx="190" ry="9" fill="#1F0A03" opacity=".12"/>
+        <path class="casca-fora" d="M18 216C12 118 90 38 200 36 310 38 388 118 382 216 382 228 362 234 200 234S18 228 18 216Z" fill="url(#g-casca)"/>
+        <path class="orelha" d="M222 44C244 24 280 14 306 20 300 32 280 42 252 50Z" fill="#441608"/>
+        <path d="M232 46C252 32 276 25 296 25 288 33 270 40 250 48Z" fill="#B18455" opacity=".8"/>
+        <use href="#p-miolo" fill="url(#g-miolo)"/>
+        <path d="M31 212C26 128 96 56 200 54 304 56 374 128 369 212" fill="none" stroke="#CFAB86" stroke-width="3" opacity=".9"/>
+        <g class="alveolos" clip-path="url(#c-miolo)"></g>
+        <g class="marcas" font-family="DM Mono, monospace" font-size="11" text-anchor="middle">
+          <g class="marca-n" data-n="1" transform="translate(286 30)"><circle r="10"/><text y="4">1</text></g>
+          <g class="marca-n" data-n="2" transform="translate(30 178)"><circle r="10"/><text y="4">2</text></g>
+          <g class="marca-n" data-n="3" transform="translate(150 178)"><circle r="10"/><text y="4">3</text></g>
+          <g class="marca-n" data-n="4" transform="translate(236 118)"><circle r="10"/><text y="4">4</text></g>
+        </g>
+      </svg>
+      <figcaption>
+        <ol class="legenda">
+          <li><b>Pestana.</b> A orelha que abre no forno. É a parte mais crocante.</li>
+          <li><b>Casca.</b> Caramelizada a 250 °C, por isso estala ao esfriar.</li>
+          <li><b>Miolo.</b> Úmido e brilhante, sinal de fermentação longa.</li>
+          <li><b>Alvéolos.</b> As bolhas que o fermento natural deixa.</li>
+        </ol>
+      </figcaption>
+    </figure>
+    <div class="paleta">
+      <p class="paleta-nota">As cores desta página saíram deste pão.</p>
+      <ul>
+        <li style="--c:#441608;--t:#F5F2EC"><span class="nome">Pestana</span><span class="hex">#441608</span></li>
+        <li style="--c:#663116;--t:#F5F2EC"><span class="nome">Casca escura</span><span class="hex">#663116</span></li>
+        <li style="--c:#834C24;--t:#F5F2EC"><span class="nome">Casca</span><span class="hex">#834C24</span></li>
+        <li style="--c:#A25C1A;--t:#F5F2EC"><span class="nome">No ponto</span><span class="hex">#A25C1A</span></li>
+        <li style="--c:#B18455;--t:#1F0A03"><span class="nome">Dourado</span><span class="hex">#B18455</span></li>
+        <li style="--c:#CFAB86;--t:#1F0A03"><span class="nome">Abertura</span><span class="hex">#CFAB86</span></li>
+        <li style="--c:#F2E9D8;--t:#1F0A03"><span class="nome">Miolo</span><span class="hex">#F2E9D8</span></li>
+        <li style="--c:#F5F2EC;--t:#1F0A03"><span class="nome">Farinha</span><span class="hex">#F5F2EC</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. Encomenda -->
+  <section class="encomenda escuro" id="encomenda" data-tema="escuro">
+    <div class="saco" aria-hidden="true">
+      <svg viewBox="0 0 260 300">
+        <defs>
+          <linearGradient id="g-kraft" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9A6E45"/><stop offset=".35" stop-color="#C9A06E"/><stop offset=".7" stop-color="#B18455"/><stop offset="1" stop-color="#8E6440"/></linearGradient>
+          <linearGradient id="g-bag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D9B27A"/><stop offset=".5" stop-color="#A25C1A"/><stop offset="1" stop-color="#834C24"/></linearGradient>
+        </defs>
+        <ellipse cx="130" cy="290" rx="110" ry="8" fill="#000" opacity=".35"/>
+        <g class="saco-pao">
+          <g transform="rotate(-14 150 70)"><rect x="120" y="-20" width="34" height="170" rx="17" fill="url(#g-bag)"/>
+            <path d="M126 10c8-6 18-7 24-4M126 40c8-6 18-7 24-4M126 70c8-6 18-7 24-4" stroke="#CFAB86" stroke-width="5" stroke-linecap="round" fill="none"/></g>
+          <path d="M58 116C58 80 84 64 108 64S158 80 158 116Z" fill="#834C24"/>
+          <path d="M78 92C92 82 116 78 136 84" stroke="#CFAB86" stroke-width="5" stroke-linecap="round" fill="none"/>
+        </g>
+        <path d="M40 110H220L232 286H28Z" fill="url(#g-kraft)"/>
+        <path d="M40 110H220L216 128H44Z" fill="#000" opacity=".12"/>
+        <path d="M40 110L50 98H210L220 110Z" fill="#D2AE7E"/>
+        <g transform="translate(130 196)" opacity=".85">
+          <circle r="34" fill="none" stroke="#441608" stroke-width="2"/>
+          <path d="M-18 8c7-13 19-19 34-18" fill="none" stroke="#441608" stroke-width="2.4" stroke-linecap="round"/>
+          <text y="52" text-anchor="middle" font-family="Fraunces, serif" font-size="15" fill="#441608">Casca &amp; Miolo</text>
+        </g>
+        <g class="etiqueta" transform="translate(164 132) rotate(8)">
+          <rect x="0" y="0" width="104" height="40" rx="4" fill="#F5F2EC"/>
+          <circle cx="10" cy="20" r="3" fill="#B18455"/>
+          <text x="58" y="26" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="16" fill="#441608">Dona Lúcia</text>
+        </g>
+      </svg>
+    </div>
+    <div class="encomenda-texto">
+      <p class="rotulo"><span class="num">04</span>Encomenda</p>
+      <h2>Peça pelo WhatsApp. Retire sem fila.</h2>
+      <p class="sub">Mande a lista até as 18h. A gente separa no saco de papel, com o seu nome.</p>
+      <a class="botao-zap" href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-zap"/></svg>Pedir pelo WhatsApp</a>
+      <p class="miudo">Entrega na Vila Serena de segunda a sábado.</p>
+    </div>
+  </section>
+
+  <!-- 6. Endereço e horário -->
+  <section class="mapa claro" id="endereco" data-tema="claro">
+    <header class="cab">
+      <p class="rotulo"><span class="num">05</span>Endereço e horário</p>
+      <h2>Rua Alcina Prado, 214.</h2>
+      <p class="sub">Vila Serena, de frente para a praça do coreto.</p>
+    </header>
+    <div class="mapa-caixa">
+      <svg class="mapa-svg" viewBox="0 0 400 420" aria-label="Mapa desenhado do bairro com o caminho até a padaria">
+        <defs>
+          <path id="r-moinhos" d="M-20 352C110 322 250 232 420 170"/>
+          <path id="r-alcina" d="M150 -10C160 120 172 250 182 430"/>
+          <path id="r-trigo" d="M-10 120C120 112 280 100 410 92"/>
+          <path id="r-paineiras" d="M292 -10C296 120 300 260 310 430"/>
+          <path id="r-forno" d="M178 246C220 244 260 246 302 252"/>
+          <path id="r-bento" d="M-10 236C50 238 110 240 172 244"/>
+          <pattern id="pt-quadra" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V6" stroke="#CFAB86" stroke-width="1" opacity=".35"/></pattern>
+        </defs>
+        <rect width="400" height="420" fill="#E9DCC6"/>
+        <rect width="400" height="420" fill="url(#pt-quadra)"/>
+        <g class="ruas" fill="none" stroke-linecap="round">
+          <g stroke="#CFAB86" stroke-width="30"><use href="#r-moinhos"/></g>
+          <g stroke="#CFAB86" stroke-width="20"><use href="#r-alcina"/><use href="#r-trigo"/><use href="#r-paineiras"/></g>
+          <g stroke="#CFAB86" stroke-width="14"><use href="#r-forno"/><use href="#r-bento"/></g>
+          <g stroke="#F5F2EC" stroke-width="27"><use href="#r-moinhos"/></g>
+          <g stroke="#F5F2EC" stroke-width="17"><use href="#r-alcina"/><use href="#r-trigo"/><use href="#r-paineiras"/></g>
+          <g stroke="#F5F2EC" stroke-width="11"><use href="#r-forno"/><use href="#r-bento"/></g>
+          <use href="#r-moinhos" stroke="#CFAB86" stroke-width="1" stroke-dasharray="6 7"/>
+        </g>
+        <g class="praca">
+          <path d="M196 116C230 112 262 110 284 108 286 150 288 196 290 240 258 236 222 236 190 236 188 196 188 156 196 116Z" fill="#DCC9A6"/>
+          <g fill="#B18455" opacity=".55">
+            <circle cx="212" cy="132" r="9"/><circle cx="268" cy="128" r="10"/><circle cx="206" cy="218" r="10"/><circle cx="272" cy="222" r="9"/>
+            <circle cx="238" cy="126" r="6"/><circle cx="282" cy="176" r="7"/><circle cx="200" cy="174" r="7"/><circle cx="244" cy="226" r="6"/></g>
+          <circle cx="240" cy="174" r="26" fill="none" stroke="#CFAB86" stroke-width="2" stroke-dasharray="3 4"/>
+          <path d="M240 158l11 5 5 11-5 11-11 5-11-5-5-11 5-11z" fill="#F2E9D8" stroke="#834C24" stroke-width="1.5"/>
+          <text x="240" y="208" font-family="DM Mono, monospace" font-size="8.5" letter-spacing="1.2" fill="#834C24" text-anchor="middle">CORETO</text>
+        </g>
+        <g class="nomes" font-family="DM Mono, monospace" font-size="8.5" letter-spacing="1.6" fill="#834C24">
+          <text dy="-3.5" font-size="7.5" letter-spacing="1.2"><textPath href="#r-moinhos" startOffset="75%">AV. DOS MOINHOS</textPath></text>
+          <text dy="3"><textPath href="#r-alcina" startOffset="7%">R. ALCINA PRADO</textPath></text>
+          <text dy="3"><textPath href="#r-trigo" startOffset="4%">R. DO TRIGO</textPath></text>
+          <text dy="3"><textPath href="#r-paineiras" startOffset="62%">R. DAS PAINEIRAS</textPath></text>
+          <text dy="3" font-size="7.5"><textPath href="#r-forno" startOffset="18%">TV. DO FORNO</textPath></text>
+          <text dy="3" font-size="7.5"><textPath href="#r-bento" startOffset="10%">R. BENTO LIMA</textPath></text>
+        </g>
+        <path class="rota-base" d="M64 335C100 323 140 305 175 291 178 276 177 264 175 252" fill="none" stroke="#A25C1A" stroke-width="4" stroke-linecap="round" stroke-dasharray="0.1 9" opacity=".25"/>
+        <path class="rota" d="M64 335C100 323 140 305 175 291 178 276 177 264 175 252" fill="none" stroke="#A25C1A" stroke-width="4" stroke-linecap="round" pathLength="1" stroke-dasharray="0 1"/>
+        <g class="voce" transform="translate(64 335)">
+          <circle class="voce-onda" r="10" fill="#441608" opacity=".2"/><circle r="6" fill="#441608" stroke="#F5F2EC" stroke-width="2.5"/>
+          <text x="0" y="24" text-anchor="middle" font-family="DM Mono, monospace" font-size="9" letter-spacing="1.4" fill="#441608">VOCÊ</text>
+        </g>
+        <g class="alfinete" transform="translate(175 250)">
+          <g class="fumaca-mapa" stroke="#834C24" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".7">
+            <path d="M-5 -40c-4-5 3-9-1-15" pathLength="1"/><path d="M4 -40c-4-6 4-10 0-17" pathLength="1"/></g>
+          <path d="M0 0C-4-8-18-14-18-26A18 18 0 1 1 18-26C18-14 4-8 0 0Z" fill="#441608"/>
+          <circle cy="-26" r="11" fill="none" stroke="#F5F2EC" stroke-width="1.5"/>
+          <path d="M-6 -23c2.5-4.5 6.5-6.5 11.5-6" fill="none" stroke="#CFAB86" stroke-width="1.8" stroke-linecap="round"/>
+          <g class="alfinete-rotulo" transform="translate(24 -40)">
+            <rect width="112" height="40" rx="8" fill="#F5F2EC" stroke="#CFAB86"/>
+            <text x="12" y="17" font-family="Fraunces, serif" font-size="13" fill="#1F0A03">Casca &amp; Miolo</text>
+            <text x="12" y="31" font-family="DM Mono, monospace" font-size="8.5" letter-spacing="1" fill="#834C24" class="tempo-a-pe">6 MIN A PÉ</text>
+          </g>
+        </g>
+        <g transform="translate(366 30)" font-family="DM Mono, monospace" font-size="9" fill="#834C24" text-anchor="middle">
+          <path d="M0 -14L6 4 0 0-6 4Z" fill="#834C24"/><text y="18">N</text></g>
+        <g transform="translate(20 400)" font-family="DM Mono, monospace" font-size="8" fill="#834C24">
+          <path d="M0 0H60" stroke="#834C24" stroke-width="1.5"/><path d="M0 -4V4M60 -4V4" stroke="#834C24" stroke-width="1.5"/><text x="68" y="3">100 M</text></g>
+      </svg>
+    </div>
+    <div class="horario-caixa">
+      <p class="status-loja"><span class="ponto" aria-hidden="true"></span><span data-status>Aberto agora · fecha às 20h</span></p>
+      <ul class="horario">
+        <li data-dias="1,2,3,4,5"><span>Segunda a sexta</span><i></i><b>6h às 20h</b></li>
+        <li data-dias="6"><span>Sábado</span><i></i><b>6h às 18h</b></li>
+        <li data-dias="0"><span>Domingo</span><i></i><b>7h às 13h</b></li>
+      </ul>
+      <div class="acoes">
+        <a class="botao-zap pequeno" href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-zap"/></svg>WhatsApp</a>
+        <button class="botao-linha" type="button" data-copiar="Rua Alcina Prado, 214 · Vila Serena">Copiar endereço</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="rodape escuro" data-tema="escuro">
+  <p class="rodape-marca">Casca <i>&amp;</i> Miolo</p>
+  <div class="rodape-info">
+    <p>Rua Alcina Prado, 214 · Vila Serena</p>
+    <p>Fornada nova a cada 40 minutos, das 5h40 às 19h.</p>
+  </div>
+  <p class="assinatura">Site-conceito por MACH Estúdio · @mach.sites · negócio fictício</p>
+</footer>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-zap" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.2-.3-.3-.5-.4Z"/></symbol>
+</svg>
+
+<script src="js/forno.js"></script>
+<script src="js/vitrine.js"></script>
+<script src="js/site.js"></script>
+</body>
+</html>
