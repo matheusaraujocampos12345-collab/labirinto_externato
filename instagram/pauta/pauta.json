@@ -1,13 +1,13 @@
 {
- "rodada": "Rodada 2 · peças da semana 1 · 23/11/2026",
- "instrucao": "Agora são as peças prontas. Assista, passe os slides e leia a legenda. Toque em Aprovar, Ajustar ou Não gostei. O que for aprovado entra no calendário.",
- "tituloIdeias": "Peças da semana 1",
- "subIdeias": "Vídeos, carrosséis, fotos e stories na ordem em que vão ao ar.",
+ "rodada": "Rodada 3 · peças refeitas · 23/11/2026",
+ "instrucao": "São as 5 peças que você pediu para ajustar, já refeitas. Assista, passe os slides e aprove, peça ajuste ou recuse.",
+ "tituloIdeias": "Peças refeitas",
+ "subIdeias": "Padaria nova (com Natal) e o novo \"O site que todo mundo tem\".",
  "tituloRefs": "O que está funcionando",
  "subRefs": "Formatos encontrados no TikTok, no Instagram e no YouTube. Usamos o formato, nunca o conteúdo de ninguém.",
  "rotina": {
   "titulo": "Calendário da semana 1",
-  "resumo": "De 30/11 a 05/12, mais o manifesto no domingo 29/11. Os 3 posts já agendados desta semana (24, 26 e 28/11) continuam.",
+  "resumo": "Semana de 30/11 a 05/12. O manifesto já saiu (23/11). Os 3 posts já agendados desta semana continuam.",
   "numeros": [
    {
     "valor": "11",
@@ -26,20 +26,6 @@
    "Stories"
   ],
   "semana": [
-   {
-    "dia": "Dom 29/11",
-    "slots": [
-     null,
-     {
-      "tipo": "foto",
-      "texto": "Manifesto"
-     },
-     {
-      "tipo": "story",
-      "texto": "Bancada"
-     }
-    ]
-   },
    {
     "dia": "Seg 30/11",
     "slots": [
@@ -243,236 +229,79 @@
  },
  "ideias": [
   {
-   "id": "p-c01",
-   "numero": "Seg 30/11 · 12h",
-   "tipo": "carrossel",
-   "quadro": "raio-x",
-   "esforco": "pronto",
-   "titulo": "Raio-X de uma primeira tela",
-   "gancho": "O que seu site diz nos primeiros segundos.",
-   "galeria": [
-    "previas/c01/slide-01.jpg",
-    "previas/c01/slide-02.jpg",
-    "previas/c01/slide-03.jpg",
-    "previas/c01/slide-04.jpg",
-    "previas/c01/slide-05.jpg",
-    "previas/c01/slide-06.jpg",
-    "previas/c01/slide-07.jpg",
-    "previas/c01/slide-08.jpg"
-   ],
-   "legenda": "Antes de ler uma palavra, o cliente já decidiu se fica.\nSua primeira tela passa no raio-X? Salve e confira.\n\n#siteparaempresa #criacaodesites #webdesign",
-   "roteiro": [
-    "Sai sozinho pela publicação automática quando o GitHub estiver ligado.",
-    "Se quiser música, eu deixo no modo manual e você escolhe no app."
-   ]
-  },
-  {
-   "id": "p-i04",
-   "numero": "Seg 30/11 · 19h",
-   "tipo": "reels",
-   "quadro": "caixa-preta",
-   "esforco": "pronto",
-   "titulo": "Caixa-preta #1",
-   "gancho": "Esse efeito está nos sites mais premiados do mundo. Abrimos a caixa-preta.",
-   "previa": "previas/i04.mp4",
-   "poster": "previas/i04-capa.jpg",
-   "legenda": "Um efeito, três camadas e um motivo: o cliente lê no ritmo dele.\nQual efeito a gente abre na próxima?\n\n#siteanimado #webdesign #siteparaempresa",
-   "roteiro": [
-    "Sem música: você escolhe uma no app do Instagram na hora de publicar.",
-    "Os cortes funcionam em qualquer música de ritmo médio."
-   ]
-  },
-  {
-   "id": "p-i01",
-   "numero": "Ter 01/12 · 12h",
-   "tipo": "reels",
-   "quadro": "isso-e-um-site",
-   "esforco": "pronto",
-   "titulo": "Isso não é vídeo",
-   "gancho": "Isso não é vídeo. É um site.",
-   "previa": "previas/i01.mp4",
-   "poster": "previas/i01-capa.jpg",
-   "legenda": "Isso é um site rodando no celular.\nComenta SITE que eu te mostro como ficaria o seu.\n\n#siteanimado #criacaodesites #siteparaempresa",
-   "roteiro": [
-    "Sem música: você escolhe uma no app do Instagram na hora de publicar.",
-    "Os cortes funcionam em qualquer música de ritmo médio."
-   ]
-  },
-  {
-   "id": "p-c02",
-   "numero": "Ter 01/12 · 19h",
-   "tipo": "carrossel",
-   "quadro": "pra-salvar",
-   "esforco": "pronto",
-   "titulo": "Checklist antes de contratar",
-   "gancho": "8 perguntas antes de contratar um site.",
-   "galeria": [
-    "previas/c02/slide-01.jpg",
-    "previas/c02/slide-02.jpg",
-    "previas/c02/slide-03.jpg",
-    "previas/c02/slide-04.jpg",
-    "previas/c02/slide-05.jpg",
-    "previas/c02/slide-06.jpg",
-    "previas/c02/slide-07.jpg",
-    "previas/c02/slide-08.jpg",
-    "previas/c02/slide-09.jpg",
-    "previas/c02/slide-10.jpg"
-   ],
-   "legenda": "Site bom se descobre antes de pagar, não depois.\nSalve para a hora de fechar. E manda para o sócio.\n\n#siteparaempresa #criacaodesites #pequenasempresas",
-   "roteiro": [
-    "Sai sozinho pela publicação automática quando o GitHub estiver ligado.",
-    "Se quiser música, eu deixo no modo manual e você escolhe no app."
-   ]
-  },
-  {
-   "id": "p-i05",
-   "numero": "Qua 02/12 · 12h",
-   "tipo": "reels",
-   "quadro": "em-30-segundos",
-   "esforco": "pronto",
-   "titulo": "Em 30 segundos: parallax",
-   "gancho": "Parallax. Você já viu. Só não sabia o nome.",
-   "previa": "previas/i05.mp4",
-   "poster": "previas/i05-capa.jpg",
-   "legenda": "Parallax: camadas em velocidades diferentes. Dá profundidade sem pesar o site.\nQual termo eu explico na próxima?\n\n#webdesign #siteanimado #designdesites",
-   "roteiro": [
-    "Sem música: você escolhe uma no app do Instagram na hora de publicar.",
-    "Os cortes funcionam em qualquer música de ritmo médio."
-   ]
-  },
-  {
-   "id": "p-i03",
+   "id": "r3-i03",
    "numero": "Qua 02/12 · 19h",
    "tipo": "reels",
    "quadro": "feito-para",
    "esforco": "pronto",
    "titulo": "Feito para padaria (ep. 1)",
    "gancho": "Esse site é de uma padaria. Ninguém acredita.",
-   "previa": "previas/i03.mp4",
-   "poster": "previas/i03-capa.jpg",
+   "previa": "previas/r3/i03.mp4",
+   "poster": "previas/r3/i03-capa.jpg",
    "legenda": "Padaria fictícia. Site de verdade.\nQual negócio ganha o próximo? Vota nos stories de domingo.\n\n#siteparapadaria #sitesobmedida #siteanimado",
+   "mudou": "Site novo (Padaria Quatro Horas): pão real saindo do forno, cardápio de verdade e Natal.",
    "roteiro": [
-    "Sem música: você escolhe uma no app do Instagram na hora de publicar.",
-    "Os cortes funcionam em qualquer música de ritmo médio."
+    "Sem música: você escolhe uma no app do Instagram na hora de publicar."
    ]
   },
   {
-   "id": "p-c04",
+   "id": "r3-c04",
    "numero": "Qui 03/12 · 12h",
    "tipo": "carrossel",
    "quadro": "feito-para",
    "esforco": "pronto",
    "titulo": "Padaria: as decisões por trás",
-   "gancho": "Por que o site da padaria tem um relógio de fornada.",
+   "gancho": "Por que o site da padaria conta os dias até o Natal.",
    "galeria": [
-    "previas/c04/slide-01.jpg",
-    "previas/c04/slide-02.jpg",
-    "previas/c04/slide-03.jpg",
-    "previas/c04/slide-04.jpg",
-    "previas/c04/slide-05.jpg",
-    "previas/c04/slide-06.jpg",
-    "previas/c04/slide-07.jpg",
-    "previas/c04/slide-08.jpg",
-    "previas/c04/slide-09.jpg"
+    "previas/r3/c04/slide-01.jpg",
+    "previas/r3/c04/slide-02.jpg",
+    "previas/r3/c04/slide-03.jpg",
+    "previas/r3/c04/slide-04.jpg",
+    "previas/r3/c04/slide-05.jpg",
+    "previas/r3/c04/slide-06.jpg",
+    "previas/r3/c04/slide-07.jpg",
+    "previas/r3/c04/slide-08.jpg"
    ],
-   "legenda": "Toda padaria tem foto de pão. Essa tem relógio de fornada.\nQual negócio é o próximo? Vota no domingo, nos stories.\n\n#siteparapadaria #siteparaempresa #padariaartesanal",
+   "legenda": "Padaria brasileira com neve no site? Aqui não.\nO painel de LED conta os dias para o panetone.\nQual negócio é o próximo? Vota no domingo.\n\n#siteparapadaria #siteparaempresa #padaria",
+   "mudou": "Refeito com o site novo. Ganhou um slide de Natal e a capa nova.",
    "roteiro": [
-    "Sai sozinho pela publicação automática quando o GitHub estiver ligado.",
-    "Se quiser música, eu deixo no modo manual e você escolhe no app."
+    "Sai sozinho pelo robô, se você aprovar a data."
    ]
   },
   {
-   "id": "p-i02",
+   "id": "r3-i02",
    "numero": "Qui 03/12 · 19h",
    "tipo": "reels",
    "quadro": "template-x-sob-medida",
    "esforco": "pronto",
    "titulo": "O site que todo mundo tem",
    "gancho": "Seu concorrente tem o mesmo site que você.",
-   "previa": "previas/i02.mp4",
-   "poster": "previas/i02-capa.jpg",
-   "legenda": "Três barbearias. Um template. Ninguém lembra de nenhuma.\nSeu site é o quarto da fila?\n\n#siteparaempresa #sitesobmedida #criacaodesites",
+   "previa": "previas/r3/i02.mp4",
+   "poster": "previas/r3/i02-capa.jpg",
+   "legenda": "Seis barbearias. Seis modelos. Ninguém lembra de nenhuma.\nSeu site é o sétimo da fila?\n\n#siteparaempresa #sitesobmedida #criacaodesites",
+   "mudou": "Agora são seis tipos de site genérico, e não um só. A barbearia sob medida ganhou letra de letreiro (estêncil).",
    "roteiro": [
-    "Sem música: você escolhe uma no app do Instagram na hora de publicar.",
-    "Os cortes funcionam em qualquer música de ritmo médio."
+    "Sem música: você escolhe uma no app do Instagram na hora de publicar."
    ]
   },
   {
-   "id": "p-i06",
-   "numero": "Sex 04/12 · 12h",
-   "tipo": "reels",
-   "quadro": "isso-e-um-site",
-   "esforco": "pronto",
-   "titulo": "1 segundo, 30 quadros",
-   "gancho": "Um segundo de animação tem 30 desenhos. Olha um por um.",
-   "previa": "previas/i06.mp4",
-   "poster": "previas/i06-capa.jpg",
-   "legenda": "Um segundo. Trinta quadros. Nenhum deles por acaso.\nÉ esse o cuidado que vai no seu site.\n\n#motiondesign #siteanimado #webdesign",
-   "roteiro": [
-    "Sem música: você escolhe uma no app do Instagram na hora de publicar.",
-    "Os cortes funcionam em qualquer música de ritmo médio."
-   ]
-  },
-  {
-   "id": "p-c03",
-   "numero": "Sex 04/12 · 19h",
-   "tipo": "carrossel",
-   "quadro": "pra-salvar",
-   "esforco": "pronto",
-   "titulo": "Mito ou verdade",
-   "gancho": "Animação deixa o site lento?",
-   "galeria": [
-    "previas/c03/slide-01.jpg",
-    "previas/c03/slide-02.jpg",
-    "previas/c03/slide-03.jpg",
-    "previas/c03/slide-04.jpg",
-    "previas/c03/slide-05.jpg",
-    "previas/c03/slide-06.jpg",
-    "previas/c03/slide-07.jpg",
-    "previas/c03/slide-08.jpg"
-   ],
-   "legenda": "O problema nunca foi a animação. É como ela é feita.\nManda para quem vai fazer o seu site.\n\n#siteparaempresa #sitesobmedida #motiondesign",
-   "roteiro": [
-    "Sai sozinho pela publicação automática quando o GitHub estiver ligado.",
-    "Se quiser música, eu deixo no modo manual e você escolhe no app."
-   ]
-  },
-  {
-   "id": "p-i11",
+   "id": "r3-i11",
    "numero": "Sáb 05/12 · 11h",
    "tipo": "reels",
    "quadro": "caixa-preta",
    "esforco": "pronto",
    "titulo": "Do zero à primeira tela",
    "gancho": "Do zero à primeira tela.",
-   "previa": "previas/i11.mp4",
-   "poster": "previas/i11-capa.jpg",
-   "legenda": "Do rascunho em caixas ao pão saindo do forno.\nCada etapa é uma decisão sobre o cliente de quem vai usar o site.\n\n#webdesign #siteparapadaria #bastidores",
-   "mudou": "Era \"60 minutos contra o relógio\". Virou bastidores sem cronômetro: o tempo real foi outro, e mostrar \"site feito em X minutos\" desvaloriza o trabalho, como a pesquisa apontou.",
+   "previa": "previas/r3/i11.mp4",
+   "poster": "previas/r3/i11-capa.jpg",
+   "legenda": "Do rascunho em caixas ao pão saindo do forno.\nCada etapa é uma decisão sobre quem vai usar o site.\n\n#webdesign #siteparapadaria #bastidores",
+   "mudou": "Refeito com as etapas do site novo da padaria.",
    "roteiro": [
-    "Sem música: você escolhe uma no app do Instagram na hora de publicar.",
-    "Os cortes funcionam em qualquer música de ritmo médio."
+    "Sem música: você escolhe uma no app do Instagram na hora de publicar."
    ]
   },
   {
-   "id": "p-f02",
-   "numero": "Dom 29/11 · 19h",
-   "tipo": "foto",
-   "quadro": "",
-   "esforco": "pronto",
-   "titulo": "Manifesto",
-   "gancho": "Se parece com todos, ninguém lembra.",
-   "galeria": [
-    "previas/f02/slide-01.jpg"
-   ],
-   "legenda": "Seu cliente viu dez sites iguais hoje.\nNão seja o décimo primeiro. Chama no direct.\n\n#siteparaempresa #sitesobmedida #webdesign",
-   "roteiro": [
-    "Sai sozinho pela publicação automática quando o GitHub estiver ligado.",
-    "Se quiser música, eu deixo no modo manual e você escolhe no app."
-   ]
-  },
-  {
-   "id": "p-f01",
+   "id": "r3-f01",
    "numero": "Reserva · semana 2",
    "tipo": "foto",
    "quadro": "feito-para",
@@ -480,78 +309,12 @@
    "titulo": "Quadro-herói da padaria",
    "gancho": "Isso é a primeira tela de uma padaria.",
    "galeria": [
-    "previas/f01/slide-01.jpg"
+    "previas/r3/f01/slide-01.jpg"
    ],
-   "legenda": "Uma primeira tela que dá fome antes do primeiro clique.\nPadaria fictícia. Site de verdade. Chama no direct.\n\n#siteparapadaria #siteparaempresa #padariaartesanal",
+   "legenda": "O forno acende às 4h. E o panetone já tem data.\nPadaria fictícia. Site de verdade. Chama no direct.\n\n#siteparapadaria #siteparaempresa #padaria",
+   "mudou": "Primeira tela do site novo, com o selo de Natal.",
    "roteiro": [
-    "Sai sozinho pela publicação automática quando o GitHub estiver ligado.",
-    "Se quiser música, eu deixo no modo manual e você escolhe no app."
-   ]
-  },
-  {
-   "id": "p-s01",
-   "numero": "Todo dia",
-   "tipo": "story",
-   "quadro": "bancada",
-   "esforco": "pronto",
-   "titulo": "Bancada do dia",
-   "gancho": "Hoje na bancada.",
-   "galeria": [
-    "previas/s01/s01-bancada-modelo.jpg",
-    "previas/s01/s01-bancada-exemplo-filme.jpg",
-    "previas/s01/s01-bancada-exemplo-site.jpg",
-    "previas/s01/s01-post-do-dia-modelo.jpg",
-    "previas/s01/s01-post-do-dia-exemplo.jpg"
-   ],
-   "roteiro": [
-    "Eu preencho o bastidor do dia e o \"post do dia\".",
-    "Você põe o sticker de enquete e o de link no app (a publicação automática não coloca stickers)."
-   ]
-  },
-  {
-   "id": "p-s02",
-   "numero": "Sex 04/12",
-   "tipo": "story",
-   "quadro": "bancada",
-   "esforco": "pronto",
-   "titulo": "Sexta do site",
-   "gancho": "Manda o link do seu site.",
-   "galeria": [
-    "previas/s02/s02-sexta-do-site.jpg"
-   ],
-   "roteiro": [
-    "Você põe o sticker de caixinha no espaço do meio."
-   ]
-  },
-  {
-   "id": "p-s03",
-   "numero": "Dom 06/12",
-   "tipo": "story",
-   "quadro": "bancada",
-   "esforco": "pronto",
-   "titulo": "Domingo: você escolhe",
-   "gancho": "Qual negócio ganha um site-conceito esta semana?",
-   "galeria": [
-    "previas/s03/s03-domingo-enquete-1.jpg",
-    "previas/s03/s03-domingo-enquete-2.jpg"
-   ],
-   "roteiro": [
-    "Você põe o sticker de enquete em cada tela."
-   ]
-  },
-  {
-   "id": "p-s04",
-   "numero": "Quando houver data",
-   "tipo": "story",
-   "quadro": "bancada",
-   "esforco": "pronto",
-   "titulo": "Contagem do lançamento",
-   "gancho": "Contagem regressiva.",
-   "galeria": [
-    "previas/s04/s04-contagem.jpg"
-   ],
-   "roteiro": [
-    "Você põe o sticker de contagem com a data do lançamento do site."
+    "Sai sozinho pelo robô, se você aprovar a data."
    ]
   }
  ],
