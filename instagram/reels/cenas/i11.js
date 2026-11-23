@@ -4,7 +4,7 @@
 //   0–3 s      etapa 1 (rascunho em caixas) + "Do zero à primeira tela."
 //   3–9 s      etapas 2, 3 e 4, cortes secos a cada 2 s (4 batidas a 120 bpm)
 //   9–10,5 s   etapa 5 (movimento), ainda parada
-//   10,5–20 s  a mesma tela ganha vida: rolagem real do site (o pão na luz, a fornada, o cardápio)
+//   10,5–20 s  a mesma tela ganha vida: rolagem real da versão final (o pão na luz, a fornada, o Natal)
 //              "Cada etapa é uma decisão."
 //   20–22 s    volta à etapa 1; o último quadro emenda no primeiro (loop)
 import { W, H, clamp, ease, carregarImagem } from '../motor/tempo.js';
@@ -28,7 +28,7 @@ const LISTA = [
 // [início, fim, etapa] no Reels
 const CORTES = [[0, 3, 0], [3, 5, 1], [5, 7, 2], [7, 9, 3], [9, 10.5, 4], [20, 22, 0]];
 const DUR = 22;
-const ROLAGEM_INI = 4.0; // a rolagem entra no ponto em que a etapa 5 foi capturada (o pão na luz)
+const ROLAGEM_INI = 4.0; // a rolagem da versão final entra com o pão já na luz, como na etapa 5
 
 const etapaNo = (t) => CORTES.find(([a, b]) => t >= a && t < b);
 
@@ -107,9 +107,11 @@ export default {
       faixaEtapa(ctx, t, 4, Y_ALTO, 9.0, 12.0, { saida: 'fecha' });
     } else if (t >= 16.5 && t < 20) {
       // sobre o escuro vazio acima do quadro de letras do cardápio
-      // sai antes de o cardápio subir (a rolagem acelera em 19,4 s)
-      bloco(ctx, t, { texto: 'Cada etapa é uma decisão.', x: 90, y: 268, tamanho: 62, entra: 16.5, sai: 19.0, durEntrada: 0.5 });
-      assinatura(ctx, t, { y: 362, entra: 17.0, sai: 19.0 });
+      // na faixa de baixo, no mesmo lugar dos rótulos das etapas (o alto mostra as luzes do Natal)
+      const y = Y_BAIXO - 8;
+      faixa(ctx, t, { y, h: 206, entra: 16.5, sai: 19.9, saida: 'corte', cor: 'rgba(5,2,10,0.985)', linha: LINHA });
+      bloco(ctx, t, { texto: 'Cada etapa é uma decisão.', x: 90, y: y + 34, tamanho: 62, entra: 16.62, sai: 19.9, saida: 'corte', durEntrada: 0.5 });
+      assinatura(ctx, t, { y: y + 136, entra: 17.0, sai: 19.9, saida: 'corte' });
     } else if (t >= 20) abertura(ctx, t, 20.0, false);
   },
 
