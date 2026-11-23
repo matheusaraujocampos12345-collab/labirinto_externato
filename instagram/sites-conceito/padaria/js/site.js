@@ -1,4 +1,4 @@
-/* Padaria Quatro Horas — motor do site.
+/* Padaria Quatro Horas — motor do site e primeira tela.
    Tudo o que se mexe é função de (tempo, rolagem). No navegador o tempo é o relógio e a
    rolagem é a do dedo. Em ?captura=1 quem manda é window.__quadro(t, y, vel): dá para filmar
    quadro a quadro, sempre igual. */
@@ -9,11 +9,11 @@
   const reduzir = !captura && matchMedia('(prefers-reduced-motion: reduce)').matches;
   const root = document.documentElement;
   if (captura) root.classList.add('captura');
-  if (/[?&]paleta=1/.test(qs)) root.classList.add('modo-paleta');
 
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const suave = (a, b, v) => { const x = clamp((v - a) / (b - a), 0, 1); return x * x * (3 - 2 * x); };
   const saida = (x) => 1 - Math.pow(1 - clamp(x, 0, 1), 3);
+  const lerp = (a, b, x) => a + (b - a) * x;
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
   const topoDoc = (el) => el.getBoundingClientRect().top + scrollY;
@@ -36,61 +36,85 @@
     const s = d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds() + d.getMilliseconds() / 1000;
     let i = FORNADAS.findIndex((f) => f.h * 3600 > s), amanha = false, falta;
     if (i < 0) { i = 0; amanha = true; falta = 86400 - s + FORNADAS[0].h * 3600; } else falta = FORNADAS[i].h * 3600 - s;
-    const desde = i > 0 && !amanha ? s - FORNADAS[i - 1].h * 3600 : 1e9;   // segundos desde a última fornada
-    return { i, prox: FORNADAS[i], falta, amanha, desde, s };
+    return { i, prox: FORNADAS[i], falta, amanha, s };
+  }
+  // próxima fornada que traz um produto (para o cardápio: "sai às 16h")
+  function proximaDe(produto, d) {
+    const f = fornada(d);
+    for (let k = 0; k < FORNADAS.length; k++) {
+      const j = (f.i + k) % FORNADAS.length;
+      if (FORNADAS[j].nome.toLowerCase().includes(produto.toLowerCase())) return { h: FORNADAS[j].h, amanha: f.amanha || j < f.i };
+    }
+    return null;
   }
   function loja(d) {
     const [a, f] = HORARIO[d.getDay()], h = d.getHours() + d.getMinutes() / 60;
     return { aberta: h >= a && h < f, abre: a, fecha: f };
   }
   const dois = (n) => String(n).padStart(2, '0');
-  window.QH = { agora, fornada, loja, FORNADAS, HORARIO, dois, suave, saida, clamp, $, $$, topoDoc, setTxt, cenas, S, captura, reduzir };
+  window.QH = { agora, fornada, proximaDe, loja, FORNADAS, HORARIO, dois, suave, saida, lerp, clamp, $, $$, topoDoc, setTxt, cenas, S, captura, reduzir };
 
-  // ---------- marca e painéis ----------
-  $$('[data-marca]').forEach((el) => { el.innerHTML = Marca.svg({ forma: el.dataset.marca, neon: el.dataset.neon !== 'nao', cor: el.dataset.cor }); });
+  $$('[data-marca]').forEach((el) => { el.innerHTML = Marca.svg({ forma: el.dataset.marca }); });
 
   // ---------- 1. primeira tela ----------
   const hero = $('.hero'), tela = $('.filme');
   const filme = new Filme(tela, { pasta: 'video', n: 96 });
-  const letreiro = $('.hero-letreiro'), texto = $('.hero-texto'), rola = $('.rola');
+  const letreiro = $('.hero-letreiro'), texto = $('.hero-texto');
   const placa = $('.placa-quente'), etiqueta = $('.etiqueta'), marcaNav = $('.nav .marca');
   const painelLed = $('.painel-led'), painelFalta = $('.painel-falta b'), painel = $('.painel');
-  let heroTopo = 0, heroCurso = 1;
-  // a placa acende como neon de verdade: dois piscos e fica
-  const acesa = (x) => x > 0.10 || (x > 0.02 && x < 0.045) || (x > 0.065 && x < 0.08);
+  let heroTopo = 0, heroCurso = 1, textoFim = 0, painelTopo = 0;
   cenas.push({
     medir() {
       heroTopo = topoDoc(hero); heroCurso = Math.max(1, hero.offsetHeight - S.vh);
       const r = tela.getBoundingClientRect();
       filme.tamanho(r.width, r.height, captura ? (devicePixelRatio || 1) : Math.min(devicePixelRatio || 1, 2));
+      const pin = $('.hero-pin').getBoundingClientRect();
+      const ult = $$('.hero-texto > *').filter((el) => el.offsetParent).pop();
+      textoFim = ult.getBoundingClientRect().bottom - pin.top;
+      painelTopo = painel.getBoundingClientRect().top - pin.top;
     },
     atualizar(s) {
       const d = agora(), f = fornada(d);
-      const hh = f.amanha ? '06:00' : `${dois(f.prox.h)}:00`;
-      LED.aplicar(painelLed, hh, `Próxima fornada às ${f.prox.h}h`);
+      LED.aplicar(painelLed, f.amanha ? '06:00' : `${dois(f.prox.h)}:00`, `Próxima fornada às ${f.prox.h}h`);
       const min = Math.floor(f.falta / 60);
-      setTxt(painelFalta, f.amanha || min >= 90 ? (f.amanha ? 'amanhã' : `às ${f.prox.h}h`) : `${Math.max(1, min)} min`);
+      setTxt(painelFalta, f.amanha ? 'amanhã' : min >= 90 ? `às ${f.prox.h}h` : `${Math.max(1, min)} min`);
       painel.setAttribute('aria-label', `Próxima fornada às ${f.prox.h}h: ${f.prox.nome}`);
       painel.classList.toggle('pisca', Math.floor(s.t * 2) % 2 === 0);
       if (s.y > heroTopo + heroCurso + s.vh) return;
       const p = clamp((s.y - heroTopo) / heroCurso, 0, 1);
-      // o vídeo: 0 a 92% da rolagem percorre os 96 quadros; o fim segura o pão com vapor
-      filme.desenhar(clamp(p / 0.92, 0, 1) * 95);
-      // o letreiro acende piscando quando a página abre
-      const liga = s.t;
-      const ligado = liga > 0.9 || (liga > 0.25 && liga < 0.38) || (liga > 0.55 && liga < 0.7) ? 1 : 0.18;
-      const sai = suave(0.06, 0.34, p);
-      letreiro.style.transform = `translate3d(0, ${(-sai * s.vh * 0.18).toFixed(2)}px, 0)`;
-      letreiro.style.opacity = (ligado * (1 - suave(0.10, 0.28, p))).toFixed(3);
-      texto.style.opacity = (1 - suave(0.08, 0.30, p)).toFixed(3);
-      texto.style.transform = `translate3d(0, ${(-sai * s.vh * 0.12).toFixed(2)}px, 0)`;
-      rola.style.opacity = (1 - suave(0.01, 0.06, p)).toFixed(3);
-      marcaNav.style.opacity = suave(0.22, 0.34, p).toFixed(3);
-      // pão na luz: a placa PÃO QUENTE acende e a plaquinha de preço entra
-      placa.classList.toggle('acesa', acesa(p - 0.58));
-      const et = suave(0.58, 0.68, p);
+      const W = s.vw, H = tela.clientHeight;
+      // onde fica o quadro nítido: sempre inteiro (16:9), nunca cortado
+      let cx, cy, cw, ch;
+      if (W / H > 1.05) {
+        cw = Math.min(W, H * 16 / 9); ch = cw * 9 / 16; cx = (W - cw) / 2; cy = (H - ch) / 2;
+      } else {
+        cw = W; ch = W * 9 / 16; cx = 0;
+        // em repouso, logo abaixo do texto (em tela baixa pode encostar no painel, nunca no título)
+        const repouso = Math.min(textoFim + 18, H - ch);
+        const centro = (H - ch) / 2 - H * 0.03;
+        cy = lerp(repouso, centro, suave(0.04, 0.34, p));
+      }
+      const zoom = 1;   // sem aproximação: o quadro fica sempre inteiro
+      filme.desenhar(clamp(p / 0.9, 0, 1) * 95, { x: cx, y: cy, w: cw, h: ch }, zoom);
+      // o letreiro acende uma vez quando a página abre
+      const ligado = s.t > 0.7 || (s.t > 0.25 && s.t < 0.4) ? 1 : 0.2;
+      const sai = suave(0.04, 0.30, p);
+      letreiro.style.opacity = (ligado * (1 - suave(0.06, 0.24, p))).toFixed(3);
+      letreiro.style.transform = `translate3d(0, ${(-sai * 40).toFixed(2)}px, 0)`;
+      texto.style.opacity = (1 - suave(0.06, 0.26, p)).toFixed(3);
+      texto.style.transform = `translate3d(0, ${(-sai * 40).toFixed(2)}px, 0)`;
+      marcaNav.style.opacity = suave(0.18, 0.30, p).toFixed(3);
+      // pão na luz: a placa PÃO QUENTE acende e a plaquinha de preço aparece em cima do pão
+      const x = p - 0.60;
+      placa.classList.toggle('acesa', x > 0.05 || (x > 0.015 && x < 0.03));
+      const et = suave(0.60, 0.70, p);
       etiqueta.style.opacity = et.toFixed(3);
-      etiqueta.style.transform = `translate3d(0, ${((1 - et) * 18).toFixed(2)}px, 0) rotate(${(-4 + et * 2).toFixed(2)}deg)`;
+      // a plaquinha acompanha o pão quando a imagem aproxima
+      const px = 0.76, py = 0.12;
+      const sx = 0.6 + (px - 0.6) * zoom, sy = 0.62 + (py - 0.62) * zoom;
+      etiqueta.style.left = `${(cx + cw * sx - etiqueta.offsetWidth / 2).toFixed(1)}px`;
+      etiqueta.style.top = `${(cy + ch * Math.max(0.02, sy)).toFixed(1)}px`;
+      etiqueta.style.transform = `translate3d(0, ${((1 - et) * 12).toFixed(2)}px, 0) rotate(-2.5deg)`;
     },
   });
 
@@ -102,11 +126,11 @@
     if (h !== alturaAnt) { alturaAnt = h; medir(); }
     cenas.forEach((c) => c.atualizar(S));
   }
-  QH.medir = medir;
+  QH.medir = medir; QH.quadro = quadro;
 
   if (captura) {
     const moveis = [$('main'), $('.rodape')].filter(Boolean);
-    const presos = $$('.hero-pin, [data-preso]');
+    const presos = $$('.hero-pin');
     let ultT = null, ultY = 0;
     window.__quadro = function (t, y, vel) {
       moveis.concat(presos).forEach((el) => { el.style.translate = ''; });
@@ -125,7 +149,8 @@
     };
     window.__marcos = () => {
       const m = { hero: heroTopo, heroCurso };
-      $$('[data-marco]').forEach((el) => { m[el.dataset.marco] = topoDoc(el); if (el.dataset.preso != null || el.querySelector('[data-preso]')) m[el.dataset.marco + 'Curso'] = el.offsetHeight - innerHeight; });
+      $$('[data-marco]').forEach((el) => { m[el.dataset.marco] = topoDoc(el); });
+      $$('.menu-secao').forEach((el) => { m[el.id] = topoDoc(el); });
       return m;
     };
     document.fonts.ready.then(() => requestAnimationFrame(() => {

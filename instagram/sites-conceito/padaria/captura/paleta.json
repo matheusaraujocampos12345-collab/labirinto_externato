@@ -1,21 +1,20 @@
 {
   "padaria": "Padaria Quatro Horas (negócio fictício)",
   "a_frase": "As cores saíram do forno.",
-  "como_foi_feita": "Cada cor foi medida nos quadros do vídeo da primeira tela, já com a correção de cor '4 da manhã' que o site mostra (scripts ferramentas/medir_cores.py e ferramentas/montar_paleta.py). Nenhuma cor foi escolhida no olho: o código hex é a média de um trecho real do quadro indicado. O quadro 08-paleta.jpg mostra o ponto exato de cada uma.",
-  "video_de_origem": "Coverr, 'Taking bread out of the oven' (https://coverr.co/videos/taking-bread-out-of-the-oven-5wqvt1ulxt), Licença Coverr.",
+  "como_foi_feita": "Cada cor foi medida nos quadros do vídeo da primeira tela, já com a correção de cor '4 da manhã' que o site mostra (scripts ferramentas/medir_cores.py e ferramentas/montar_paleta.py). Nenhuma cor foi escolhida no olho: o código hex é a média de um trecho real do quadro indicado (diferença menor que 2 em 255). O quadro captura/quadros/08-paleta.jpg mostra o ponto de cada uma. A posição vai em frações do quadro inteiro (0 a 1, da esquerda e de cima).",
+  "video_de_origem": "Coverr, 'Taking bread out of the oven' (https://coverr.co/videos/taking-bread-out-of-the-oven-5wqvt1ulxt), Licença Coverr. Quadros em video/m (1080x608).",
   "cores": [
-    { "numero": 1, "nome": "Forno", "hex": "#05020A", "de_onde_saiu": "O fundo de dentro do forno, quadro 6 do vídeo (ponto a 43% da largura e 49% da altura).", "uso_no_site": "Fundo de quase todo o site." },
-    { "numero": 2, "nome": "Inox", "hex": "#2A2426", "de_onde_saiu": "A sombra do inox da grade do forno, quadro 6.", "uso_no_site": "Linhas, bordas e divisórias." },
-    { "numero": 3, "nome": "Parede", "hex": "#563827", "de_onde_saiu": "A parede da padaria, desfocada atrás do pão, quadro 76.", "uso_no_site": "Fundo da seção de encomenda (o saco de pão)." },
-    { "numero": 4, "nome": "Casca", "hex": "#9B6530", "de_onde_saiu": "A casca do pão, no lado esquerdo do pão, quadro 76.", "uso_no_site": "Pães desenhados no saco e no carimbo." },
-    { "numero": 5, "nome": "Dourado", "hex": "#C18A4E", "de_onde_saiu": "A casca dourada, no lado direito do pão, quadro 76.", "uso_no_site": "O papel kraft do saco de pão." },
-    { "numero": 6, "nome": "Luz do forno", "hex": "#E5AC68", "de_onde_saiu": "A luz do forno refletida na grade, quadro 6.", "uso_no_site": "O tubo do letreiro de neon, os rótulos, os postes do mapa e o caminho até a porta." },
-    { "numero": 7, "nome": "Farinha", "hex": "#F8DCB3", "de_onde_saiu": "A farinha em cima do pão, na luz, quadro 76.", "uso_no_site": "O título 'Preços de hoje' no quadro de letras." },
-    { "numero": 8, "nome": "Brilho", "hex": "#FAF1DF", "de_onde_saiu": "O brilho da luz na borda da assadeira, quadro 76.", "uso_no_site": "Texto principal e botões claros." }
+    { "numero": 1, "nome": "Forno", "hex": "#05020A", "de_onde_saiu": "O fundo de dentro do forno, quadro 6 (0,39; 0,49).", "uso_no_site": "Fundo do site." },
+    { "numero": 2, "nome": "Inox", "hex": "#2A2426", "de_onde_saiu": "A sombra do inox da grade, quadro 6 (0,32; 0,37).", "uso_no_site": "Bordas do painel de senha." },
+    { "numero": 3, "nome": "Luz do forno", "hex": "#E5AC68", "de_onde_saiu": "A luz do forno refletida na grade de cima, quadro 6 (0,51; 0,16).", "uso_no_site": "O tubo do letreiro de neon, os títulos pequenos das seções, os postes e o caminho no mapa, a marca 'hoje' no horário." },
+    { "numero": 4, "nome": "Parede", "hex": "#563827", "de_onde_saiu": "A parede da padaria, desfocada atrás do pão, quadro 88 (0,47; 0,13).", "uso_no_site": "O fundo quente da seção de encomendas." },
+    { "numero": 5, "nome": "Casca", "hex": "#9B6530", "de_onde_saiu": "A casca do pão, na ponta esquerda, quadro 88 (0,34; 0,67).", "uso_no_site": "Os números dos passos da encomenda." },
+    { "numero": 6, "nome": "Dourado", "hex": "#C18A4E", "de_onde_saiu": "A casca dourada, no lado direito do pão, quadro 88 (0,67; 0,56).", "uso_no_site": "A cor dos botões quando o mouse passa por cima." },
+    { "numero": 7, "nome": "Farinha", "hex": "#F8DCB3", "de_onde_saiu": "A farinha em cima do pão, na luz, quadro 88 (0,52; 0,58).", "uso_no_site": "A aba ativa do cardápio." },
+    { "numero": 8, "nome": "Brilho", "hex": "#FAF1DF", "de_onde_saiu": "O brilho da luz na borda da assadeira, quadro 88 (0,59; 0,73).", "uso_no_site": "Texto principal e botões claros." }
   ],
   "fora_do_video": [
-    { "nome": "Painel", "hex": "#FF3B30", "por_que": "É o vermelho do painel de senha de LED. Aparece só no que é relógio: o painel da próxima fornada, a placa PÃO QUENTE e a fornada que é a próxima na lista." },
-    { "nome": "Preço da plaquinha", "hex": "#D62A22", "por_que": "O vermelho do preço impresso na plaquinha de balcão (Pão italiano 24,90)." },
-    { "nome": "Carimbo do cartão de ponto", "hex": "#B3261E", "por_que": "A tinta do relógio de ponto no cartão da turma da madrugada." }
+    { "nome": "Painel", "hex": "#FF3B30", "por_que": "É o vermelho do painel de senha de LED. Aparece só no que é horário de fornada: o painel, a placa PÃO QUENTE, a próxima fornada na lista e a marca 'sai às 16h' no cardápio." },
+    { "nome": "Preço da plaquinha", "hex": "#D62A22", "por_que": "O vermelho do preço impresso na plaquinha de balcão (Pão italiano 24,90)." }
   ]
 }

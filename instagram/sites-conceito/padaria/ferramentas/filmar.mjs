@@ -17,19 +17,17 @@ const SAIDA = path.join(RAIZ, 'captura', 'rolagem-bruta.mp4');
 // Roteiro: [segundo do vídeo, marco da página, deslocamento em px]
 const ROTEIRO = [
   [0.0, 'topo', 0],
-  [1.2, 'topo', 0],              // letreiro aceso, forno escuro
-  [5.2, 'hero', 'heroCurso'],    // a mão puxa a assadeira, o pão sai para a luz
-  [5.7, 'hero', 'heroCurso+14'], // placa PÃO QUENTE acesa, plaquinha de preço
-  [7.3, 'senha', -282],          // painel de senha liga (teste 88:88) e mostra 16:00
-  [8.0, 'senha', -264],          // dois-pontos piscando, faltam 12 min
-  [9.1, 'cardapio', -210],
-  [12.2, 'cardapio', 1150],      // as letras entram no quadro; o bilhete de acabou
-  [12.5, 'cardapio', 1163],
-  [14.3, 'cartao', -150],        // cartão de ponto carimbando 03:40, 04:00...
-  [14.6, 'cartao', -140],
-  [15.8, 'encomenda', 60],       // o saco de pão com a comanda
-  [18.6, 'mapa', -100],          // o caminho até a porta, de madrugada
-  [20.0, 'mapa', -78],
+  [1.1, 'topo', 0],              // letreiro aceso, forno escuro
+  [4.9, 'hero', 'heroCurso'],    // a mão puxa a assadeira e o pão sai do forno, sempre inteiro
+  [5.4, 'hero', 'heroCurso+14'], // placa PÃO QUENTE acesa, plaquinha de preço
+  [7.0, 'senha', -290],          // título e painel da próxima fornada
+  [7.6, 'senha', -272],          // dois-pontos piscando, faltam 12 min
+  [9.2, 'cardapio', 40],         // cardápio: título e abas
+  [12.1, 'c-doces', -160],       // passa por pães e salgados; a aba acompanha
+  [12.6, 'c-doces', -140],       // o "acabou" no sonho
+  [14.2, 'c-bebidas', 220],
+  [16.4, 'mapa', -140],          // endereço e o caminho até a porta
+  [20.0, 'mapa', -112],
 ];
 
 // Interpolação cúbica monotônica (Fritsch-Carlson): sem tranco e sem passar do ponto.
