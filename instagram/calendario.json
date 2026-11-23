@@ -210,14 +210,14 @@
     },
     {
       "id": "feito-para-padaria-reels",
-      "data": "2026-11-23T19:00:00-03:00",
+      "data": "2026-12-02T19:00:00-03:00",
       "tipo": "reels",
       "arquivos": [
         "instagram/reels/i03-feito-para-padaria.mp4"
       ],
       "capa": "instagram/reels/i03-capa.jpg",
       "legenda": "Padaria fictícia. Site de verdade.\nQual negócio ganha o próximo? Vota nos stories de domingo.\n\n#siteparapadaria #sitesobmedida #siteanimado",
-      "nota": "Aprovado na rodada 3 (23/11). O dono posta hoje pelo app, com música.",
+      "nota": "Aprovado na rodada 3 (23/11). Versão curta (18 s); o dono posta pelo app, com música.",
       "modo": "manual",
       "status": "agendado"
     },
@@ -246,6 +246,19 @@
       "nota": "Aprovado na rodada 3 (23/11).",
       "modo": "manual",
       "status": "agendado"
+    },
+    {
+      "id": "padaria-em-uso",
+      "data": "2026-11-23T19:00:00-03:00",
+      "tipo": "reels",
+      "modo": "manual",
+      "status": "agendado",
+      "arquivos": [
+        "instagram/reels/i12-padaria-em-uso.mp4"
+      ],
+      "capa": "instagram/reels/i12-capa.jpg",
+      "legenda": "Esse ninguém confunde com template.\nDo pão saindo do forno ao panetone encomendado, em 47 segundos.\nPadaria fictícia. Site de verdade. Chama no direct.\n\n#siteparapadaria #sitesobmedida #siteanimado",
+      "nota": "Vídeo completo de uso (47 s). O dono posta hoje pelo app, com música, logo depois do manifesto do meio-dia."
     }
   ]
 }
