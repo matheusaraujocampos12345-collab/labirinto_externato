@@ -63,7 +63,8 @@ const servidor = http.createServer((req, res) => {
   fs.createReadStream(p).pipe(res);
 });
 await new Promise((r) => servidor.listen(0, '127.0.0.1', r));
-const url = `http://127.0.0.1:${servidor.address().port}/${cfg.pasta}/${cfg.pagina ?? 'index.html'}`;
+// cfg.url grava um site publicado (só navegação e rolagem); senão, a pasta local cfg.pasta
+const url = cfg.url || `http://127.0.0.1:${servidor.address().port}/${cfg.pasta}/${cfg.pagina ?? 'index.html'}`;
 
 const browser = await playwright.chromium.launch({ args: ['--font-render-hinting=none', '--hide-scrollbars'] });
 const contexto = await browser.newContext({
@@ -72,6 +73,7 @@ const contexto = await browser.newContext({
   isMobile: true,
   hasTouch: true,
   reducedMotion: 'no-preference',
+  locale: 'pt-BR',
 });
 const page = await contexto.newPage();
 page.on('pageerror', (e) => console.error('erro na página:', e.message));
@@ -88,6 +90,7 @@ await page.addInitScript((semente) => {
 }, cfg.semente ?? 42);
 await page.clock.install({ time: new Date('2026-12-01T15:00:00Z') });
 for (const padrao of cfg.bloquear || []) await page.route(padrao, (r) => r.abort());
+if (cfg.bloquearRegex) await page.route(cfg.bloquearRegex, (r) => r.abort());
 await page.goto(url, { waitUntil: 'load' });
 await page.evaluate(() => document.fonts.ready);
 // o relógio para: daqui em diante o tempo só anda quando o motor manda (runFor)
@@ -120,6 +123,11 @@ const rolar = (y) =>
 
 // aquecimento: a página roda um pouco antes do primeiro quadro
 await rolar(cfg.rolagem(0));
+// espera real para imagens e fontes da posição inicial chegarem pela rede (sites publicados)
+if (cfg.esperaReal) {
+  await page.waitForTimeout(cfg.esperaReal);
+  await rolar(cfg.rolagem(0));
+}
 for (let k = 0; k < Math.round((cfg.aquecer ?? 1500) / passo); k++) {
   await page.clock.runFor(passo);
   await sincronizar();

@@ -1,0 +1,1 @@
+Arquivos do three.js r170 (licença MIT, ver video-anuncio/vendor/THREE-LICENSE): examples/jsm/lights/RectAreaLight*.

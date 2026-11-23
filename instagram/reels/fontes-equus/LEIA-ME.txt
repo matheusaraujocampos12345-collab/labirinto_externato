@@ -1,0 +1,10 @@
+Material do equusbr.com (site da Equus Genetics, feito pelo dono da MACH) usado no Reels i13.
+Gravado só com navegação e rolagem: nenhum formulário, nenhuma conta, nenhum clique.
+
+- celular/        uma foto de cada batida, 1080 × 1920 (viewport 432 × 768 a 2,5×)
+- computador/     as mesmas seções em 1440 × 900
+- logo-equus-4x.png   o logo (emblema + "Equus Genetics") recortado da primeira tela, a 4×
+- texto-do-site.txt   o texto lido do site, de onde saíram os títulos
+
+As sequências completas (81 quadros por batida) ficam em instagram/reels/.quadros/equus-b*/,
+fora do git. Para gravar de novo: node instagram/reels/motor/capturar.mjs instagram/reels/cenas/equus/b1-teste.mjs (e b2…b5).

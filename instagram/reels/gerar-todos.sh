@@ -18,3 +18,9 @@ fi
 for r in i01 i02 i03 i04 i05 i06 i11 i12; do
   node $M/render.mjs $C/$r.js --workers 2
 done
+# i13: grava o equusbr.com (só rolagem), renderiza o filme de tela cheia (guardando os quadros) e a mesa
+for b in b1-teste b2-coleta b3-dna b4-nextgen b5-nextbreed; do
+  [ -f $Q/equus-$b/meta.json ] || node $M/capturar.mjs $C/equus/$b.mjs
+done
+node $M/render.mjs $C/i13-tela-cheia.js --workers 2 --manter
+node $M/render.mjs $C/i13-mesa.js --workers 2

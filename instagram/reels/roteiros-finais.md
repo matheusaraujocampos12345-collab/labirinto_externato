@@ -194,3 +194,44 @@ Como foi feito e por quê:
 - **Cortes secos em 3, 5, 10,5, 13, 16, 27,5, 33 e 42 s** (todos na batida de 120 bpm). Dentro do cardápio a rolagem é contínua, como o cliente faria.
 - **Sem referência de aviação e nada de Apple.** Tela cheia, sem moldura de aparelho.
 - O nome do cliente não aparece; os itens, preços, endereço e a padaria são do site-conceito (negócio fictício). O vídeo do forno dentro do site é do Coverr (licença permite editar e usar comercialmente).
+
+---
+
+## i13 · Equus Genetics: o filme de lançamento do site (mesa 19,5 s · tela cheia 16,5 s)
+
+Um Reels no estilo "lançamento de app" com o site **equusbr.com** (Equus Genetics, testes genéticos de cavalos), que o dono fez para o cliente. As telas dentro do celular são o site de verdade, gravado no tamanho de celular (432×768 a 2,5×) só com rolagem: nenhum formulário, nenhuma conta, nenhum clique (`cenas/equus/b*.mjs` com `motor/capturar.mjs`). As fotos de cada seção, no celular e no computador, o logo e o texto lido do site estão em `fontes-equus/`. As cores e as fontes do filme vêm do site: preto #030303, dourado #FFAB00, creme #F3EDE2, Playfair Display (títulos, com a segunda parte em itálico dourado, como no site) e JetBrains Mono.
+
+### `i13-equus-tela-cheia.mp4` (16,5 s): só a animação
+
+Cinco batidas de 2,5 s, cada uma com um título de verbo + substantivo que se revela letra a letra, um selo em mono e um celular 3D genérico (sem desenho de aparelho de marca, câmera frontal num furo pequeno na moldura) com a tela real do site. Atrás, ondas douradas que pulsam a cada segundo; na tela, uma faixa de luz que passa; o celular gira, a câmera se aproxima ou inclina.
+
+| Tempo | Selo | Título | Tela do site |
+|---|---|---|---|
+| 0–2,5 s | 01 — Testes genéticos | **Escolha *o teste.*** | "Teste exatamente o que você precisa saber.", os painéis e o medidor de 25 resultados |
+| 2,5–5 s | 02 — 30 a 40 fios com raiz | **Colete *o pelo.*** | o passo 02 de "Como testar": "Colete a amostra" |
+| 5–7,5 s | 03 — Pelagem revelada pelo DNA | **Revele *o DNA.*** | a primeira tela: "Todo cavalo tem uma história. Nós revelamos quem ele realmente é." com as marcações de DNA no cavalo |
+| 7,5–10 s | 04 — NextGen™ | **Conheça *seu cavalo.*** | "Conheça cada animal pelo que está no DNA." e o perfil genômico |
+| 10–12,5 s | 05 — NextBreed | **Planeje *a cobertura.*** | "Veja as chances do potro antes de ele nascer." e as 12 pelagens possíveis |
+| 12,5–13,5 s | — | — | um círculo de toque na tela, ondas e um clarão dourado |
+| 13,5–16,5 s | — | — | logo da Equus (do próprio site) · "Todo cavalo tem uma história." · equusbr.com · "Site por MACH Estúdio · @mach.sites" (pequeno) |
+
+### `i13-equus-mesa.mp4` (19,5 s): versão principal
+
+A mesma animação passando num monitor genérico em pé, numa mesa montada por computador em three.js (`cenas/equus/mesa.js`): parede de ripas de madeira, mesa de nogueira com verniz, barra de luz sobre o monitor, luz de fundo atrás dele, caneca e teclado mecânico em primeiro plano desfocado. A tela ilumina a mesa e o teclado com uma luz de área do tamanho dela, que muda de cor com o que está passando; o vidro tem um reflexo leve. A profundidade de campo é feita por camadas (fundo levemente desfocado, monitor nítido, teclado bem desfocado). A câmera se move devagar, como se fosse de mão.
+
+| Tempo | Na tela |
+|---|---|
+| 0–3,1 s | plano aberto, o monitor mostra o logo da Equus · **Isso não é um app.** · **É o site de um laboratório de genética de cavalos.** |
+| 2,5–6,5 s | a câmera se aproxima; o filme começa no monitor em 3 s |
+| 3–19,5 s | o filme inteiro no monitor (as 5 batidas, o toque e o logo) |
+| 16,5–19,5 s | a câmera recua ao plano do começo · **Site sob medida · equusbr.com** · @mach.sites |
+
+O fim emenda no começo: o monitor termina no logo e a câmera volta ao plano aberto.
+
+O que mudou e por quê:
+- **Títulos em PT-BR tirados do site:** "Escolha os testes", "Colete a amostra", "Nós revelamos quem ele realmente é", "Conheça cada animal pelo que está no DNA" e "Veja as chances do potro antes de ele nascer" viraram os cinco verbos + substantivos.
+- **O monitor fica em pé (retrato),** porque o filme é vertical: deitado, a animação ficaria pequena no meio da tela.
+- **O toque é um círculo,** não uma mão 3D.
+- **O botão flutuante de WhatsApp do site foi escondido só na gravação,** e os rastreadores de terceiros (Analytics) foram bloqueados para não contar visitas falsas para o cliente.
+- **A versão de tela cheia termina no logo** (quadro calmo), como no vídeo de referência; a versão da mesa fecha em loop.
+- Sem referência de aviação e nada de Apple.
