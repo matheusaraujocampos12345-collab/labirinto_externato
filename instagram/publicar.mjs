@@ -191,7 +191,24 @@ async function main() {
     console.error('Faltam IG_USER_ID e/ou MEDIA_BASE_URL. Nada foi publicado.');
     process.exit(1);
   }
+  // Trava contra post repetido: se a mesma legenda já está no perfil (últimos 3 dias), não publica de novo.
+  let recentes = [];
+  try {
+    const r = await graph('GET', `${IG}/media`, { fields: 'caption,timestamp,permalink', limit: '15' });
+    recentes = (r.data || []).filter((m) => Date.now() - Date.parse(m.timestamp) < 3 * 864e5);
+  } catch (e) {
+    console.error('Não consegui ler os posts recentes; por segurança, nada será publicado agora: ' + e.message);
+    return;
+  }
+  const mesmaLegenda = (a, b) => (a || '').trim() === (b || '').trim();
   for (const p of vencidos) {
+    const igual = recentes.find((m) => p.legenda && mesmaLegenda(m.caption, p.legenda));
+    if (igual) {
+      Object.assign(p, { status: 'publicado', permalink: igual.permalink, nota: (p.nota || '') + ' Já estava no perfil; o robô não repetiu.' });
+      console.log(`${p.id}: já está no perfil (${igual.permalink}). Não publiquei de novo.`);
+      fs.writeFileSync(CAL, JSON.stringify(cal, null, 2) + '\n');
+      continue;
+    }
     try {
       console.log(`Publicando ${p.id}…`);
       const r = await publicar(p);
