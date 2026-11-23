@@ -6,14 +6,17 @@ uso comercial e pessoal grátis, sem atribuição; pode editar; não pode revend
 https://coverr.co/videos/taking-bread-out-of-the-oven-5wqvt1ulxt
 
 O arquivo original NÃO fica no repositório (a licença não deixa redistribuir o arquivo).
-Este script baixa para uma pasta temporária, corrige a cor ("4 da manhã"), recorta e
-salva só os quadros que o site usa:
-  video/v/000.webp ... (608x1080, vertical, celular e tablet em pé)
-  video/h/000.webp ... (1280x720, horizontal, computador)
-  video/capa-v.jpg e video/capa-h.jpg (primeiro quadro, para pintar a tela na hora)
+Este script baixa para uma pasta temporária, corrige a cor ("4 da manhã") e salva só o que o site usa.
+O quadro vai INTEIRO (16:9, sem corte): a mão, a assadeira e o pão aparecem sempre por completo.
+  video/m/000.webp ...  1080x608   telas em pé (celular e tablet)
+  video/h/000.webp ...  1440x810   telas deitadas (computador)
+  video/b/000.webp ...  192x108    o mesmo quadro desfocado, para preencher o resto da tela
+  video/capa-b.jpg                 fundo desfocado do primeiro quadro (aparece antes do resto carregar)
+  foto/pao-vapor.jpg               foto da seção de encomenda (segundo plano do mesmo vídeo)
 Uso: python3 ferramentas/preparar_video.py [pasta-temporaria]
 """
-import os, sys, json, subprocess, tempfile, urllib.request
+import os, sys, json, shutil, subprocess, tempfile, urllib.request
+import numpy as np
 from PIL import Image, ImageFilter
 
 URL = 'https://cdn.coverr.co/videos/coverr-taking-bread-out-of-the-oven-1288/1080p.mp4'
@@ -27,17 +30,17 @@ if not os.path.exists(fonte):
         f.write(r.read())
 
 FPS = 24
-INI, FIM, N = 22, 236, 96          # quadros 22 a 236 do clipe (0,9 s a 9,8 s), 96 amostras
+INI, FIM, N = 22, 200, 96      # 0,9 s a 8,3 s: um plano só, do forno escuro até o pão na assadeira
+FOTO = 216                     # 9,0 s: o pão com vapor, no segundo plano do vídeo
 bruto = os.path.join(TMP, 'bruto-original')
 os.makedirs(bruto, exist_ok=True)
-if not os.path.exists(os.path.join(bruto, f'{FIM:04d}.png')):
+if not os.path.exists(os.path.join(bruto, f'{FOTO:04d}.png')):
     subprocess.run(['ffmpeg', '-loglevel', 'error', '-y', '-i', fonte, '-start_number', '0',
                     os.path.join(bruto, '%04d.png')], check=True)
 
-import numpy as np
 def cor_4h(im, t):
     """'4 da manhã': contraste maior, sombra puxada para o azul da madrugada, luz quente no pão.
-    No começo (pão ainda dentro do forno) a exposição sobe um pouco para o pão aparecer."""
+    No começo (pão ainda dentro do forno) a exposição sobe para o pão aparecer atrás da grade."""
     a = np.asarray(im).astype(np.float32) / 255.0
     ganho = 1.0 + 1.0 * min(1.0, max(0.0, (3.0 - t) / 1.6))
     a = np.clip(a * ganho, 0, 1)
@@ -48,37 +51,34 @@ def cor_4h(im, t):
     h, w = a.shape[:2]
     yy, xx = np.mgrid[0:h, 0:w]
     r = np.sqrt(((xx - w / 2) / (w / 2)) ** 2 + ((yy - h / 2) / (h / 2)) ** 2) / 1.42
-    a = a * (1 - 0.32 * np.clip(r, 0, 1) ** 2.4)[..., None]
+    a = a * (1 - 0.30 * np.clip(r, 0, 1) ** 2.4)[..., None]
     return Image.fromarray((np.clip(a, 0, 1) * 255 + 0.5).astype(np.uint8))
 
-# O recorte vertical acompanha o pão (centro x, de 0 a 1, ao longo do tempo em segundos)
-CAMINHO = [(0.9, 0.55), (2.2, 0.55), (3.4, 0.56), (5.4, 0.60), (6.0, 0.70), (6.9, 0.68), (7.6, 0.58), (8.6, 0.52), (9.8, 0.50)]
-def centro(t):
-    for (t0, x0), (t1, x1) in zip(CAMINHO, CAMINHO[1:]):
-        if t <= t1:
-            k = max(0.0, min(1.0, (t - t0) / (t1 - t0)))
-            k = k * k * (3 - 2 * k)
-            return x0 + (x1 - x0) * k
-    return CAMINHO[-1][1]
+def abrir(q): return cor_4h(Image.open(os.path.join(bruto, f'{q:04d}.png')).convert('RGB'), q / FPS)
 
-for d in ('v', 'h'):
+for d in ('m', 'h', 'b', 'v'):
+    shutil.rmtree(os.path.join(RAIZ, 'video', d), ignore_errors=True)
+for d in ('m', 'h', 'b'):
     os.makedirs(os.path.join(RAIZ, 'video', d), exist_ok=True)
+nitido = lambda im: im.filter(ImageFilter.UnsharpMask(radius=1.2, percent=60, threshold=2))
 quadros = [round(INI + (FIM - INI) * i / (N - 1)) for i in range(N)]
 for i, q in enumerate(quadros):
-    im = cor_4h(Image.open(os.path.join(bruto, f'{q:04d}.png')).convert('RGB'), q / FPS)
-    W, H = im.size
-    cw = round(H * 9 / 16)
-    cx = centro(q / FPS) * W
-    x0 = int(max(0, min(W - cw, cx - cw / 2)))
-    vert = im.crop((x0, 0, x0 + cw, H)).filter(ImageFilter.UnsharpMask(radius=1.4, percent=70, threshold=2))  # no celular o quadro é ampliado
-    vert.save(os.path.join(RAIZ, 'video', 'v', f'{i:03d}.webp'), quality=72, method=6)
-    im.resize((1280, 720), Image.LANCZOS).save(os.path.join(RAIZ, 'video', 'h', f'{i:03d}.webp'), quality=68, method=6)
+    im = abrir(q)
+    nitido(im.resize((1080, 608), Image.LANCZOS)).save(os.path.join(RAIZ, 'video', 'm', f'{i:03d}.webp'), quality=70, method=6)
+    nitido(im.resize((1440, 810), Image.LANCZOS)).save(os.path.join(RAIZ, 'video', 'h', f'{i:03d}.webp'), quality=66, method=6)
+    pequeno = im.resize((192, 108), Image.LANCZOS).filter(ImageFilter.GaussianBlur(4))
+    pequeno.save(os.path.join(RAIZ, 'video', 'b', f'{i:03d}.webp'), quality=60, method=6)
     if i == 0:
-        im.crop((x0, 0, x0 + cw, H)).resize((304, 540), Image.LANCZOS).save(os.path.join(RAIZ, 'video', 'capa-v.jpg'), quality=72)
-        im.resize((960, 540), Image.LANCZOS).save(os.path.join(RAIZ, 'video', 'capa-h.jpg'), quality=72)
+        pequeno.save(os.path.join(RAIZ, 'video', 'capa-b.jpg'), quality=70)
+for velho in ('capa-v.jpg', 'capa-h.jpg'):
+    if os.path.exists(os.path.join(RAIZ, 'video', velho)): os.remove(os.path.join(RAIZ, 'video', velho))
+
+os.makedirs(os.path.join(RAIZ, 'foto'), exist_ok=True)
+abrir(FOTO).resize((1280, 720), Image.LANCZOS).save(os.path.join(RAIZ, 'foto', 'pao-vapor.jpg'), quality=82, optimize=True, progressive=True)
 
 info = {'fonte': 'https://coverr.co/videos/taking-bread-out-of-the-oven-5wqvt1ulxt', 'licenca': 'Coverr License',
-        'quadros': N, 'trecho': [INI / FPS, FIM / FPS], 'vertical': [608, 1080], 'horizontal': [1280, 720]}
+        'quadros': N, 'trecho_em_segundos': [round(INI / FPS, 2), round(FIM / FPS, 2)], 'foto_em_segundos': round(FOTO / FPS, 2),
+        'conjuntos': {'m': [1080, 608], 'h': [1440, 810], 'b': [192, 108]}}
 with open(os.path.join(RAIZ, 'video', 'info.json'), 'w') as f:
     json.dump(info, f, ensure_ascii=False, indent=1)
 print('ok', N, 'quadros')

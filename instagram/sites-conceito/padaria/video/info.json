@@ -2,16 +2,23 @@
  "fonte": "https://coverr.co/videos/taking-bread-out-of-the-oven-5wqvt1ulxt",
  "licenca": "Coverr License",
  "quadros": 96,
- "trecho": [
-  0.9166666666666666,
-  9.833333333333334
+ "trecho_em_segundos": [
+  0.92,
+  8.33
  ],
- "vertical": [
-  608,
-  1080
- ],
- "horizontal": [
-  1280,
-  720
- ]
+ "foto_em_segundos": 9.0,
+ "conjuntos": {
+  "m": [
+   1080,
+   608
+  ],
+  "h": [
+   1440,
+   810
+  ],
+  "b": [
+   192,
+   108
+  ]
+ }
 }

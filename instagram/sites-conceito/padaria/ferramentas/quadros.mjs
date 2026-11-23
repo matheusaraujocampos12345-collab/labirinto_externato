@@ -14,12 +14,14 @@ const browser = await navegador();
 // recorte: topo em px CSS de uma janela 432 x 540 (sem a barra do topo)
 const LISTA = [
   { arq: '01-primeira-tela.jpg', tela: [432, 540, 2.5], t: 4.6, y: 0 },
-  { arq: '02-pao-saindo-do-forno.jpg', tela: [432, 540, 2.5], t: 4.6, y: ['hero', 0.735] },
+  { arq: '02-pao-saindo-do-forno.jpg', tela: [432, 540, 2.5], t: 4.6, y: ['hero', 0.74] },
   { arq: '03-relogio-da-fornada.jpg', tela: [432, 768, 2.5], t: 4.6, y: ['senha', -262], recorte: 64 },
-  { arq: '04-cardapio-se-montando.jpg', tela: [432, 768, 2.5], t: 4.6, y: ['cardapio', 560], recorte: 120 },
-  { arq: '05-cardapio.jpg', tela: [432, 768, 2.5], t: 4.6, y: ['cardapio', 1163], recorte: 120 },
-  { arq: '06-mapa-e-whatsapp.jpg', tela: [432, 768, 2.5], t: 4.6, y: ['mapa', -200], recorte: 100 },
-  { arq: '07-madrugada.jpg', tela: [432, 768, 2.5], t: 4.6, y: ['turma', 0], recorte: 60 },
+  { arq: '04-cardapio-se-montando.jpg', tela: [432, 768, 2.5], t: 4.6, y: ['cardapio', -10], recorte: 64 },
+  { arq: '05-cardapio.jpg', tela: [432, 768, 2.5], t: 4.6, y: ['c-doces', -132], recorte: 62 },
+  { arq: '06-mapa-e-whatsapp.jpg', tela: [432, 768, 2.5], t: 4.6, y: ['mapa', -180], recorte: 64 },
+  { arq: '07-encomenda.jpg', tela: [432, 768, 2.5], t: 4.6, y: ['encomenda', 40], recorte: 64 },
+  { arq: '09-natal-encomendas.jpg', tela: [432, 768, 2.5], t: 4.6, y: ['natal', -66], recorte: 64 },
+  { arq: '10-natal-cardapio.jpg', tela: [432, 768, 2.5], t: 4.6, y: ['c-natal', -134], recorte: 62 },
   { arq: '../primeira-tela-1080x1920.jpg', tela: [432, 768, 2.5], t: 4.6, y: 0 },
 ];
 

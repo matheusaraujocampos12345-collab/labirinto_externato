@@ -1,78 +1,64 @@
-/* Padaria Quatro Horas — as seções depois da primeira tela. Usa o motor de js/site.js (window.QH). */
+/* Padaria Quatro Horas — fornadas, endereço e encomenda. Usa o motor de js/site.js (window.QH). */
 (function () {
   'use strict';
-  const { agora, fornada, loja, FORNADAS, HORARIO, dois, suave, saida, clamp, $, $$, topoDoc, setTxt, cenas, reduzir } = window.QH;
-  const aleatorio = (semente) => () => { semente = (semente * 16807) % 2147483647; return semente / 2147483647; };
+  const { agora, fornada, loja, proximaAbertura, NATAL_ON, N, md, maisDias, DIAS, dois, suave, saida, clamp, $, $$, topoDoc, setTxt, cenas, reduzir } = window.QH;
 
-  // ---------- barra e status ----------
+  // ---------- barra e status da loja ----------
   const nav = $('.nav'), hero = $('.hero');
   const statusCurto = $('[data-status]'), statusLongo = $('[data-status-longo]'), statusBox = $('.status-loja');
-  const diasLi = $$('.horario li');
-  let heroFim = 0;
+  const diasLi = $$('.horario li'), linksNav = $$('.nav-links a').filter((a) => NATAL_ON || !a.classList.contains('so-natal'));
+  const alvosNav = linksNav.map((a) => document.querySelector(a.getAttribute('href')));
+  let heroFim = 0, toposNav = [];
   cenas.push({
-    medir() { heroFim = topoDoc(hero) + hero.offsetHeight - innerHeight; },
+    medir() { heroFim = topoDoc(hero) + hero.offsetHeight - innerHeight; toposNav = alvosNav.map((el) => topoDoc(el)); },
     atualizar(s) {
-      const d = agora(), l = loja(d);
-      const amanha = HORARIO[(d.getDay() + (d.getHours() >= l.fecha ? 1 : 0)) % 7][0];
-      setTxt(statusCurto, l.aberta ? `Aberta até ${l.fecha}h` : `Fechada · abre às ${amanha}h`);
-      setTxt(statusLongo, l.aberta ? `Aberta agora · fecha às ${l.fecha}h` : `Fechada agora · abre às ${amanha}h`);
+      const d = agora(), l = loja(d), ab = proximaAbertura(d);
+      const abre = ab.quando === 'hoje' ? `abre às ${ab.h}h` : ab.quando === 'amanhã' ? `abre amanhã às ${ab.h}h` : `abre ${ab.quando} às ${ab.h}h`;
+      setTxt(statusCurto, l.aberta ? `Aberta até ${l.fecha}h` : `Fechada · ${abre}`);
+      setTxt(statusLongo, l.aberta ? `Aberta agora · fecha às ${l.fecha}h` : `Fechada agora · ${abre}`);
       statusBox.classList.toggle('fechada', !l.aberta);
-      diasLi.forEach((li) => li.classList.toggle('hoje', li.dataset.dias.split(',').includes(String(d.getDay()))));
+      nav.classList.toggle('fechada', !l.aberta);
+      diasLi.forEach((li) => li.dataset.dias && li.classList.toggle('hoje', li.dataset.dias.split(',').includes(String(d.getDay()))));
       nav.classList.toggle('com-fundo', s.y > heroFim - 40);
+      let k = -1;
+      toposNav.forEach((t, i) => { if (s.y + s.vh * 0.4 >= t) k = i; });
+      linksNav.forEach((a, i) => a.classList.toggle('ativa', i === k));
     },
   });
 
-  // ---------- 2. próxima fornada: painel de senha ----------
+  // ---------- 2. fornadas: painel de senha e a lista do dia ----------
   const senha = $('.senha'), ledG = $('[data-led-grande]'), ledF = $('[data-led-falta]');
-  const fHora = $('[data-f-hora]'), fNome = $('[data-f-nome]'), lista = $('.lista-fornadas');
-  const regua = $('.regua'), reguaAgora = $('.regua-agora'), agoraTxt = $('[data-agora]');
-  const marcas = FORNADAS.map((f) => {
-    const m = document.createElement('span');
-    m.className = 'regua-marca' + (f.h % 3 === 0 ? ' longa' : '');
-    m.style.left = `${((f.h - 6) / 13) * 100}%`;
-    if (f.h % 3 === 0) m.dataset.h = `${f.h}h`;
-    regua.insertBefore(m, reguaAgora);
-    return m;
-  });
+  const fNome = $('[data-f-nome]'), lista = $('.lista-fornadas'), diaTitulo = $('.dia-titulo');
   let senhaTopo = 0, chaveLista = '';
   cenas.push({
     medir() { senhaTopo = topoDoc(senha); },
     atualizar(s) {
       const d = agora(), f = fornada(d);
-      setTxt(fHora, f.amanha ? '6h' : `${f.prox.h}h`);
-      setTxt(fNome, `${f.prox.nome}.`);
-      // linha de agora na régua
-      const frac = clamp((f.s / 3600 - 6) / 13, 0, 1);
-      reguaAgora.style.left = `${(frac * 100).toFixed(3)}%`;
-      setTxt(agoraTxt, `agora ${d.getHours()}h${dois(d.getMinutes())}`);
-      marcas.forEach((m, k) => {
-        m.classList.toggle('feita', !f.amanha && k < f.i);
-        m.classList.toggle('proxima', k === f.i && !f.amanha);
-      });
-      const chave = `${f.i}-${f.amanha}-${Math.floor(f.falta / 60)}`;
+      setTxt(fNome, f.prox.nome.toLowerCase());
+      const chave = `${f.i}-${f.outroDia}-${Math.floor(f.falta / 60)}`;
       if (chave !== chaveLista) {
         chaveLista = chave;
-        const ini = clamp(f.i - 2, 0, FORNADAS.length - 5);
-        lista.innerHTML = FORNADAS.slice(ini, ini + 5).map((x, k) => {
+        // a lista é do dia: hoje, ou o próximo dia aberto quando as fornadas de hoje acabaram
+        const doDia = f.outroDia ? f.proxLista : f.lista;
+        setTxt(diaTitulo, f.outroDia ? `${f.quando === 'amanhã' ? 'Amanhã' : f.quando[0].toUpperCase() + f.quando.slice(1)} no forno` : 'Hoje no forno');
+        const ini = clamp(f.outroDia ? 0 : f.i - 1, 0, Math.max(0, doDia.length - 5));
+        lista.innerHTML = doDia.slice(ini, ini + 5).map((x, k) => {
           const j = ini + k;
           let cls = '', est;
-          if (f.amanha) est = 'amanhã';
+          if (f.outroDia) { cls = j === 0 ? 'proxima' : ''; est = f.quando; }
           else if (j < f.i) { cls = 'saiu'; est = 'saiu'; }
           else if (j === f.i) { cls = 'proxima'; const m = Math.floor(f.falta / 60); est = m >= 60 ? `em ${Math.floor(m / 60)}h${dois(m % 60)}` : `em ${Math.max(1, m)} min`; }
           else { const m = Math.round((x.h * 3600 - f.s) / 60); est = `em ${Math.floor(m / 60)}h${dois(m % 60)}`; }
           return `<li class="${cls}"><span class="lf-h">${x.h}h</span><span class="lf-nome">${x.nome}</span><span class="lf-est">${est}</span></li>`;
         }).join('');
       }
-      if (Math.abs(senhaTopo - s.y) > s.vh * 1.6) return;
-      // ao entrar na tela o painel liga: teste dos segmentos (88:88) e depois a hora
-      const e = reduzir ? 1 : suave(s.vh * 0.95, s.vh * 0.45, senhaTopo - s.y);
-      const teste = e < 0.55;
-      senha.style.setProperty('--liga', (teste ? suave(0.05, 0.4, e) : 1).toFixed(3));
-      const hh = f.amanha ? '06:00' : `${dois(f.prox.h)}:00`;
+      // os números saem desde o começo (se só aparecessem perto da tela, a página "pularia" de altura)
+      const hh = `${dois(f.prox.h)}:00`;
       const falta = f.falta >= 100 * 60 ? `${dois(Math.floor(f.falta / 3600))}:${dois(Math.floor(f.falta / 60) % 60)}` : `${dois(Math.floor(f.falta / 60))}:${dois(Math.floor(f.falta) % 60)}`;
-      LED.aplicar(ledG, teste ? '88:88' : hh, `Próxima fornada às ${f.prox.h}h`);
-      LED.aplicar(ledF, teste ? '88:88' : falta, 'Tempo que falta');
-      senha.classList.toggle('pisca', !teste && Math.floor(s.t * 2) % 2 === 1);
+      LED.aplicar(ledG, hh, `Próxima fornada às ${f.prox.h}h`);
+      LED.aplicar(ledF, falta, 'Tempo que falta');
+      if (Math.abs(senhaTopo - s.y) > s.vh * 1.6) return;
+      senha.classList.toggle('pisca', Math.floor(s.t * 2) % 2 === 1);
     },
   });
   const avise = $('.avise');
@@ -80,7 +66,7 @@
     const on = avise.getAttribute('aria-pressed') !== 'true';
     avise.setAttribute('aria-pressed', String(on));
     const f = fornada(agora());
-    setTxt($('[data-avise]'), on ? `Combinado. Aviso às ${f.prox.h - 1}h55` : 'Me avisa 5 min antes');
+    setTxt($('[data-avise]'), on ? `Combinado: aviso às ${f.prox.h - 1}h55` : 'Avise 5 min antes da próxima');
     clearTimeout(avise._t);
     if (on && 'Notification' in window) {
       try { if (Notification.permission === 'default') await Notification.requestPermission(); } catch (e) { /* sem permissão */ }
@@ -90,99 +76,23 @@
     }
   });
 
-  // ---------- 3. cardápio: quadro de letras de encaixe ----------
-  const ITENS = [
-    ['Pão francês', 'kg 19,90'], ['Pão de queijo', '3,50'], ['Sonho de creme', '7,00', 'acabou'], ['Bolo de fubá', 'fatia 6,50'],
-    ['Baguete', '9,00'], ['Broa de milho', '4,50'], ['Pão na chapa', '6,00'], ['Misto quente', '13,00'], ['Café coado', '4,50'], ['Pingado', '5,50'],
-  ];
-  const linhasQ = $('.quadro-linhas'), lido = $('.cardapio-lido'), bilhete = $('.bilhete');
-  const rnd = aleatorio(4004);
-  const letras = [];
-  const montaPalavra = (txt) => [...txt.toUpperCase()].map((ch) => {
-    if (ch === ' ') return '<span class="esp"></span>';
-    const r = ((rnd() - 0.5) * 3.2).toFixed(2), dy = ((rnd() - 0.5) * 1.6).toFixed(2);
-    return `<span class="letra" style="--r:${r}deg;--dy:${dy}px">${ch}</span>`;
-  }).join('');
-  linhasQ.innerHTML = `<div class="ql ql-topo"><span>${montaPalavra('Preços de hoje')}</span><span>${montaPalavra('R$')}</span></div>`
-    + ITENS.map(([n, p, extra]) => `<div class="ql${extra ? ' ql-' + extra : ''}"><span>${montaPalavra(n)}</span><span>${montaPalavra(p)}</span></div>`).join('');
-  lido.innerHTML = ITENS.map(([n, p, extra]) => `<li>${n}: R$ ${p.replace('kg ', '').replace('fatia ', '')}${p.startsWith('kg') ? ' o quilo' : p.startsWith('fatia') ? ' a fatia' : ''}${extra ? ' (acabou, volta às 16h)' : ''}</li>`).join('');
-  $$('.letra', linhasQ).forEach((el) => letras.push(el));
-  const cardapio = $('.cardapio'), linhaSonho = $('.ql-acabou');
-  let cardTopo = 0, cardCurso = 1;
-  cenas.push({
-    medir() { cardTopo = topoDoc(cardapio); cardCurso = Math.max(1, cardapio.offsetHeight - innerHeight); },
-    atualizar(s) {
-      if (s.y < cardTopo - s.vh * 1.2 || s.y > cardTopo + cardCurso + s.vh) return;
-      const p = reduzir ? 1 : clamp((s.y - cardTopo + s.vh * 0.35) / (cardCurso + s.vh * 0.35), 0, 1);
-      const N = letras.length;
-      letras.forEach((el, i) => {
-        const ini = 0.03 + (i / N) * 0.70;
-        const e = clamp((p - ini) / 0.022, 0, 1);
-        if (el._e === e) return;
-        el._e = e;
-        el.style.opacity = e.toFixed(3);
-        el.style.transform = e >= 1 ? '' : `translate3d(0, ${((1 - e) * -10).toFixed(2)}px, 0) scale(${(1.25 - 0.25 * e).toFixed(3)})`;
-      });
-      const b = suave(0.80, 0.88, p);
-      bilhete.style.opacity = b.toFixed(3);
-      bilhete.style.transform = `rotate(${(-6 + b * 2).toFixed(2)}deg) translate3d(0, ${((1 - b) * -14).toFixed(2)}px, 0)`;
-      linhaSonho.style.opacity = (1 - b * 0.55).toFixed(3);
-    },
-  });
-
-  // ---------- 4. cartão de ponto ----------
-  const cartao = $('.cartao'), horas = $$('.c-hora', cartao);
-  const rc = aleatorio(355);
-  horas.forEach((h) => { h.style.setProperty('--r', `${((rc() - 0.5) * 6).toFixed(2)}deg`); h.style.setProperty('--x', `${((rc() - 0.5) * 6).toFixed(1)}px`); });
-  let cartaoTopo = 0;
-  cenas.push({
-    medir() { cartaoTopo = topoDoc(cartao); },
-    atualizar(s) {
-      if (Math.abs(cartaoTopo - s.y) > s.vh * 1.6) return;
-      const e = reduzir ? 1 : suave(s.vh * 0.92, s.vh * 0.2, cartaoTopo - s.y);
-      cartao.style.transform = `translate3d(0, ${((1 - saida(e)) * 40).toFixed(2)}px, 0) rotate(${(-2.2 + (1 - e) * -3).toFixed(2)}deg)`;
-      horas.forEach((h, k) => {
-        const c = clamp((e - 0.18 - k * 0.14) / 0.06, 0, 1);
-        h.style.opacity = (c * 0.92).toFixed(3);
-        h.style.transform = `translate(var(--x), 0) rotate(var(--r)) scale(${(1.6 - 0.6 * saida(c)).toFixed(3)})`;
-      });
-    },
-  });
-
-  // ---------- 5. encomenda: o saco de pão ----------
-  const saco = $('.saco'), sacoPaes = $('.saco-paes'), comanda = $('.comanda');
-  $('.saco-carimbo').innerHTML = Marca.svg({ forma: 'letreiro', neon: false, cor: '#3B2312' }).replace('<svg ', '<svg width="300" height="214" ');
-  let sacoTopo = 0;
-  cenas.push({
-    medir() { sacoTopo = topoDoc(saco); },
-    atualizar(s) {
-      if (Math.abs(sacoTopo - s.y) > s.vh * 1.6) return;
-      const e = reduzir ? 1 : suave(s.vh * 1.0, s.vh * 0.3, sacoTopo - s.y);
-      saco.style.transform = `translate3d(0, ${((1 - saida(e)) * 50).toFixed(2)}px, 0)`;
-      sacoPaes.setAttribute('transform', `translate(0 ${((1 - saida(suave(0.2, 1, e))) * 80).toFixed(2)})`);
-      const c = suave(0.45, 0.9, e);
-      comanda.style.opacity = c.toFixed(3);
-      comanda.style.transform = `rotate(${(14 - c * 10).toFixed(2)}deg) translate3d(0, ${((1 - c) * -24).toFixed(2)}px, 0)`;
-    },
-  });
-
-  // ---------- 6. endereço: mapa da madrugada ----------
-  const mapa = $('.mapa'), rota = $('.rota'), onda = $('.voce-onda'), brilho = $('.padaria-brilho'), aPe = $('.a-pe');
-  const POSTES = [[40, 348], [110, 330], [214, 274], [262, 248], [340, 200], [154, 70], [160, 180], [176, 320], [178, 400], [60, 120], [230, 112], [350, 98], [296, 60], [300, 170], [304, 330], [306, 410], [90, 243], [240, 252]];
-  $('.postes').innerHTML = POSTES.map(([x, y]) => `<circle cx="${x}" cy="${y}" r="18" fill="url(#g-poste)"/><circle cx="${x}" cy="${y}" r="1.7" fill="#F6C98A"/>`).join('');
+  // ---------- 4. endereço: mapa do bairro ----------
+  const mapa = $('.mapa'), rota = $('.rota'), onda = $('.voce-onda'), aPe = $('.a-pe');
+  const POSTES = [[40, 348], [110, 330], [214, 274], [262, 248], [340, 200], [154, 70], [160, 180], [176, 320], [178, 400], [60, 120], [230, 112], [350, 98], [300, 170], [304, 330], [306, 410], [90, 243]];
+  $('.postes').innerHTML = POSTES.map(([x, y]) => `<circle cx="${x}" cy="${y}" r="14" fill="url(#g-poste)"/><circle cx="${x}" cy="${y}" r="1.5" fill="#E5AC68" opacity=".9"/>`).join('');
   let mapaTopo = 0;
   cenas.push({
     medir() { mapaTopo = topoDoc(mapa); },
     atualizar(s) {
       const l = loja(agora());
-      setTxt(aPe, l.aberta ? '6 MIN A PÉ · ABERTA' : '6 MIN A PÉ · FECHADA');
+      setTxt(aPe, l.aberta ? '6 min a pé · aberta' : '6 min a pé · fechada');
       if (Math.abs(mapaTopo - s.y) > s.vh * 1.6) return;
-      const e = reduzir ? 1 : suave(s.vh * 0.85, s.vh * 0.30, mapaTopo - s.y);
+      // o caminho se desenha uma vez, quando o mapa chega na tela
+      const e = reduzir ? 1 : suave(s.vh * 0.85, s.vh * 0.35, mapaTopo - s.y);
       rota.setAttribute('stroke-dasharray', `${saida(e).toFixed(4)} 1`);
-      const fo = (s.t * 0.7) % 1;
-      onda.setAttribute('r', (8 + fo * 14).toFixed(2));
-      onda.style.opacity = ((1 - fo) * 0.3).toFixed(3);
-      brilho.style.opacity = (0.75 + 0.25 * Math.sin(s.t * 1.7)).toFixed(3);
+      const fo = (s.t * 0.6) % 1;
+      onda.setAttribute('r', (8 + fo * 12).toFixed(2));
+      onda.style.opacity = ((1 - fo) * 0.25).toFixed(3);
     },
   });
   const copiar = $('[data-copiar]');
@@ -192,16 +102,79 @@
     setTimeout(() => { copiar.textContent = 'Copiar endereço'; }, 2400);
   });
 
-  // ---------- rodapé ----------
-  const rodapeLetreiro = $('.rodape-letreiro'), rodape = $('.rodape');
-  let rodTopo = 0;
+  // ---------- Natal: selo, prazo no painel de LED, horários de fim de ano e o fio de luzes ----------
+  if (NATAL_ON) {
+    const [mPrazo, dPrazo] = N.encomendasAte.split('-').map(Number), [mNatal, dNatal] = N.natal.split('-').map(Number);
+    const anoDe = (d) => (d.getMonth() === 0 ? d.getFullYear() - 1 : d.getFullYear());
+    const prazoDe = (d) => new Date(anoDe(d), mPrazo - 1, dPrazo, N.encomendasHora || 18, 0, 0);
+    const natalDe = (d) => new Date(anoDe(d), mNatal - 1, dNatal);
+    const abertas = (d) => d < prazoDe(d);
+    const seloT = $('[data-selo-titulo]'), seloS = $('[data-selo-sub]');
+    const prazoRot = $('[data-prazo-rot]'), prazoLed = $('[data-prazo-led]'), prazoUn = $('[data-prazo-un]'), prazoQuando = $('[data-prazo-quando]');
+    const bloco = $('.natal-bloco'), fio = $('.fio', bloco);
+    $('[data-horarios-natal]').innerHTML = N.horariosTexto.map(([dia, nome, h]) =>
+      `<li class="${/fechado/i.test(h) ? 'fechado' : ''}"><span class="hn-dia">${dia}</span><span class="hn-nome">${nome}</span><b>${h}</b></li>`).join('');
+    // fio de luzes: um fio que cai entre os ganchos, com lâmpadas quentes
+    const LARG = 1200, ganchos = 8, lampadas = [];
+    let caminho = 'M0 6';
+    for (let g = 0; g < ganchos; g++) {
+      const x0 = (g * LARG) / ganchos, x1 = ((g + 1) * LARG) / ganchos;
+      caminho += `Q${(x0 + x1) / 2} 34 ${x1} 6`;
+      for (let b = 1; b <= 3; b++) {
+        const t = b / 4, x = x0 + (x1 - x0) * t, y = 6 + 2 * (1 - t) * t * 28 + 5;
+        lampadas.push({ x, y, fase: (g * 3 + b) * 1.7 });
+      }
+    }
+    fio.innerHTML = `<svg viewBox="0 0 ${LARG} 50" preserveAspectRatio="none"><path d="${caminho}" fill="none" stroke="#3A3036" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg>`
+      + `<div class="lampadas">${lampadas.map((l) => `<i style="left:${(l.x / LARG) * 100}%;top:${l.y}px"></i>`).join('')}</div>`;
+    const bulbos = $$('.lampadas i', fio);
+    let blocoTopo = 0, chaveNatal = '';
+    cenas.push({
+      medir() { blocoTopo = topoDoc(bloco); },
+      atualizar(s) {
+        const d = agora(), aberto = abertas(d);
+        const chave = `${aberto}-${d.getDate()}-${d.getHours()}-${d.getMinutes()}`;
+        if (chave !== chaveNatal) {
+          chaveNatal = chave;
+          setTxt(seloT, aberto ? 'Encomendas de Natal abertas' : 'Horários de fim de ano');
+          setTxt(seloS, aberto ? `Panetone e cestas até ${dPrazo}/${mPrazo}` : '24/12 até as 18h · 25/12 fechado');
+          const diasNatal = Math.round((natalDe(d) - maisDias(d, 0)) / 86400000);
+          if (aberto) {
+            const falta = (prazoDe(d) - d) / 1000;
+            setTxt(prazoRot, 'Encomendas fecham em');
+            if (falta >= 86400) { LED.aplicar(prazoLed, String(Math.ceil(falta / 86400)).padStart(2, ' '), `${Math.ceil(falta / 86400)} dias`); setTxt(prazoUn, 'dias'); }
+            else { LED.aplicar(prazoLed, `${dois(Math.floor(falta / 3600))}:${dois(Math.floor(falta / 60) % 60)}`, 'horas'); setTxt(prazoUn, 'horas'); }
+            prazoQuando.innerHTML = `${DIAS[prazoDe(d).getDay()][0].toUpperCase() + DIAS[prazoDe(d).getDay()].slice(1)}, ${dPrazo}/${mPrazo}, às ${N.encomendasHora}h. Natal em <span>${diasNatal}</span> dias.`;
+          } else {
+            // depois do Natal o painel sai; ficam os horários de fim de ano
+            prazoLed.closest('.natal-prazo').style.display = diasNatal > 0 ? '' : 'none';
+            setTxt(prazoRot, 'Faltam para o Natal');
+            LED.aplicar(prazoLed, String(Math.max(0, diasNatal)).padStart(2, ' '), `${diasNatal} dias`);
+            setTxt(prazoUn, 'dias');
+            prazoQuando.textContent = 'Encomendas encerradas. Panetone e chocotone seguem no balcão até 24/12.';
+          }
+        }
+        if (Math.abs(blocoTopo - s.y) > s.vh * 1.6) return;
+        // as lâmpadas piscam devagar, cada uma no seu tempo
+        bulbos.forEach((b, i) => { b.style.opacity = (0.62 + 0.38 * (0.5 + 0.5 * Math.sin(s.t * 1.3 + lampadas[i].fase))).toFixed(3); });
+      },
+    });
+  }
+
+  // ---------- entradas suaves de cada bloco (uma vez, quando chega na tela) ----------
+  const blocos = $$('.secao .cab, .senha, .dia, .mapa, .horario, .encomenda-foto, .passos, .encomenda-texto .botao, .natal-prazo, .natal-horarios, .natal-acoes')
+    .filter((b) => b.offsetParent !== null || getComputedStyle(b).display !== 'none');
   cenas.push({
-    medir() { rodTopo = topoDoc(rodape); },
+    medir() { blocos.forEach((b) => { b.style.transform = ''; b._t = topoDoc(b); }); },
     atualizar(s) {
-      if (Math.abs(rodTopo - s.y) > s.vh * 1.5) return;
-      const e = suave(s.vh * 0.9, s.vh * 0.5, rodTopo - s.y);
-      const k = e * 3.2;   // acende piscando
-      rodapeLetreiro.style.opacity = (k > 2.4 || (k > 0.6 && k < 1.0) || (k > 1.5 && k < 1.8) ? 1 : 0.15).toFixed(2);
+      if (reduzir) return;
+      blocos.forEach((b) => {
+        const e = suave(s.vh * 1.0, s.vh * 0.82, b._t - s.y);
+        if (b._e === e) return;
+        b._e = e;
+        b.style.opacity = e.toFixed(3);
+        b.style.transform = e >= 1 ? '' : `translate3d(0, ${((1 - e) * 20).toFixed(2)}px, 0)`;
+      });
     },
   });
   if (window.QH.medir) window.QH.medir();
