@@ -7,31 +7,31 @@
       "data": "2026-11-24T12:00:00-03:00",
       "tipo": "imagem",
       "modo": "manual",
-      "status": "agendado",
+      "status": "publicado",
       "arquivos": [
         "anuncio-silencio/post-silencio-4x5.jpg"
       ],
       "legenda": "Silêncio de rádio.\nA gente sumiu porque está construindo algo gigante no hangar. Em breve, você vê.\n\n#webdesign #bastidores #motiondesign",
-      "nota": "Passou para manual: o GitHub ainda não está ligado."
+      "nota": "Publicado pelo dono, pelo app (avisou em 23/11)."
     },
     {
       "id": "silencio-de-radio-story",
       "data": "2026-11-24T19:00:00-03:00",
       "tipo": "story",
       "modo": "manual",
-      "status": "agendado",
+      "status": "rascunho",
       "arquivos": [
         "anuncio-silencio/story-silencio-9x16.mp4"
       ],
       "legenda": "",
-      "nota": "Passou para manual: o GitHub ainda não está ligado."
+      "nota": "Fora do calendário: o dono preferiu não postar o story (23/11)."
     },
     {
       "id": "carrossel-5-sinais",
       "data": "2026-11-26T12:00:00-03:00",
       "tipo": "carrossel",
       "modo": "manual",
-      "status": "agendado",
+      "status": "rascunho",
       "arquivos": [
         "carrossel-sinais/slides/mach-sinais-01.jpg",
         "carrossel-sinais/slides/mach-sinais-02.jpg",
@@ -42,7 +42,7 @@
         "carrossel-sinais/slides/mach-sinais-07.jpg"
       ],
       "legenda": "Quantos desses o seu site tem?\nSe foi mais de um, chama no direct.\n\n#webdesign #criacaodesites #motiondesign",
-      "nota": "Passou para manual: o GitHub ainda não está ligado."
+      "nota": "Fora do calendário: já publicado em 18/11 (23/11)."
     },
     {
       "id": "teaser-lancamento",
