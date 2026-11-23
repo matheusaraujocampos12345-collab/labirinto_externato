@@ -170,6 +170,8 @@ O que mudou e por quê:
 
 `i12-padaria-em-uso.mp4` · um cliente encomenda panetone de Natal no site da **Padaria Quatro Horas**, do começo ao fim. O site foi filmado de verdade no tamanho de celular (432×768 a 2,5×), no modo de captura do próprio site (relógio fixo em quarta, 9/12, 15h47), por `cenas/i12-captura.mjs`. As interações são reais: a rolagem, o toque na aba Natal e os toques em "Adicionar" e "+" mudam o site, e o resumo e a mensagem saem do próprio site. Os zooms, o dedo, os textos e a trilha de etapas entram por cima, no motor.
 
+**Versão com som:** `i12-padaria-em-uso-com-som.mp4` (prévia: `previas/i12-com-som.mp4`), só efeitos sintetizados, sem música, a -18 LUFS para caber uma música por cima; o áudio é `audio/i12-sfx.wav`, refeito com `python3 instagram/reels/audio/i12_sfx.py --video`.
+
 Embaixo, o tempo todo, a trilha das etapas em mono: **01 Ver · 02 Escolher · 03 Pedir · 04 Chegar** (a atual acesa na cor do neon do site).
 
 | Tempo | Etapa | Na tela |
