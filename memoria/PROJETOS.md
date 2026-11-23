@@ -19,6 +19,12 @@ Propostas de marca publicadas como páginas (claude.ai, privadas): Talhe, Macte 
 
 ## Pendente
 
+### Site-conceito da padaria (ramo próprio)
+- **Padaria Quatro Horas**, "a padaria que acorda às 4h". Fica em `instagram/sites-conceito/padaria/`; a versão anterior, recusada, está em `_v1/`.
+- **Ramo:** `padaria-quatro-horas`, a pedido do dono (23/11). Mudanças no site da padaria são feitas nesse ramo e só entram na `main` quando ele aprovar.
+- **Link para ver o site:** https://claude.ai/artifact/2EPqk3jUE1aUCUoFCp2fEL (privado). Para atualizar, publicar de novo a partir de uma cópia dos arquivos do site em `site/`.
+- **Vídeo do forno:** do Coverr, com licença de uso comercial. O mp4 original não fica no repositório, só os quadros editados.
+
 ### 0. Pauta de conteúdo
 - **Rodada 1 (23/11):** o dono aprovou as 23 ideias e a rotina, sem ajustes. Os dados estão em `instagram/pauta/pauta-r1.json`.
 - **Rodada 2 (23/11, em aprovação):** as peças prontas da semana 1, publicadas no mesmo link. Os ids das respostas são `p-<id>` e o do calendário é `calendario-s1`. Para gerar de novo: `python3 instagram/pauta/gerar_rodada2.py <pasta>/previas && python3 instagram/pauta/montar.py`, depois publicar `pauta-mach.html` com `root=<pasta>` e os arquivos de `previas/`.
@@ -40,7 +46,15 @@ Propostas de marca publicadas como páginas (claude.ai, privadas): Talhe, Macte 
 - Para mudar a página: editar `instagram/pauta/gerar_pauta.py` (conteúdo) ou `pagina.html` (visual), rodar `python3 gerar_pauta.py && python3 montar.py` e publicar `pauta-mach.html` no mesmo link.
 - Atenção: a publicação automática não põe música da biblioteca do Instagram nem stickers. Reels com música e stories com enquete ficam no modo manual.
 
-### 1. Automação do Instagram (em andamento)
+### 1. Automação do Instagram (LIGADA em 23/11/2026)
+- **Robô ligado:** a tarefa `.github/workflows/instagram-publicar.yml` está na `main` e roda a cada hora (minuto 7, UTC). O teste de leitura passou ("@mach.sites"). A Meta baixou uma imagem do `raw.githubusercontent.com` sem problema.
+- **Chave:** está no segredo **`IG_ACESS_TOKEN`** (com um "C" só, como o dono salvou). O workflow aceita esse nome e também `IG_ACCESS_TOKEN`. A chave antiga, colada no chat, ainda funciona: o dono preferiu não revogar.
+- **Regra do dono:** **perguntar antes de cada post que o robô vai publicar.** Só depois do "pode" o post vira `modo: auto` no calendário da `main`. O dono autorizou editar o `calendario.json` direto na `main`; para qualquer outra mudança, abrir pedido e juntar.
+- **Trava contra post repetido:** antes de publicar, o robô compara a legenda com os posts dos últimos 3 dias.
+- **Reels:** sempre manuais. O dono põe a música no app.
+- **Primeiro post do robô:** manifesto, 23/11 ao meio-dia.
+
+#### Histórico da automação
 - **Decisões do dono (23/11):** repositório **público, sem nada pessoal** (a origem do nome, o nome do dono e os prints da Meta saíram dos arquivos e do histórico, e ficam só no pacote de memória privado). **Reels com música, postos por ele:** os Reels ficam em modo manual e ele escolhe a música no app. Carrosséis e fotos saem sozinhos.
 - Enquanto o GitHub não volta, os posts saem pelo agendamento do app do Instagram, usando o kit da semana (uma pasta por post, com a legenda).
 - **Conexão com a Meta pronta (22/11/2026).** Login unificado, app "Mach Publicado", portfólio MachEstudio, @mach.sites ligada ao portfólio.

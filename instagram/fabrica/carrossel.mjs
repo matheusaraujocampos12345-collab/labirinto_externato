@@ -22,6 +22,8 @@
 //       "lado": true põe a imagem à esquerda e as legendas à direita (bom para recorte alto, de celular).
 //       "desfoque": 8 borra a imagem (px), para mostrar "o que o olho pega de relance". "grande": true aumenta o título.
 //       "texto" opcional entra depois das legendas. "varredura": 0.4 desenha a linha de varredura nessa altura.
+//       "sangria": true leva a imagem de ponta a ponta (sem marcadores), cortada para caber; "foco": [0.5, 0.4]
+//       escolhe o ponto da imagem que fica no centro do corte.
 //   { "tipo": "mito", "eyebrow": "Frase 01 / 05", "frase": "Animação deixa o site lento.", "selo": "DEPENDE",
 //     "resposta": "Resposta curta.", "texto": "Uma linha de apoio (opcional)." }
 //       A frase do mito entre aspas, o selo ("MITO", "DEPENDE" ou "VERDADE") e a resposta.
@@ -31,7 +33,9 @@
 //   { "tipo": "foto", "imagem": "caminho/da/tela.jpg", "titulo": "Frase pequena embaixo.", "assinatura": "@mach.sites" }
 //       Para foto única "quadro-herói": a imagem inteira, grande e com cantos arredondados, sobre um fundo feito
 //       com ela mesma desfocada; a frase pequena e a assinatura embaixo. Sem logo, sem contador e sem régua.
-//       "fundoDesfocado": false troca o fundo desfocado pelo céu escuro da MACH.
+//       "fundoDesfocado": false troca o fundo desfocado pelo céu escuro da MACH. "brilhoFundo": 0.58 (padrão) clareia ou escurece o fundo.
+//   { "tipo": "paleta", "eyebrow": "...", "titulo": "...", "cores": [{ "hex": "#05020A", "nome": "Forno", "origem": "Dentro do forno" }], "texto": "..." }
+//       Amostras de cor em grade de 4 colunas, com nome, código e de onde a cor saiu.
 //
 // Campos opcionais que valem para vários tipos:
 //   "progresso": [3, 8]   → diamantes de progresso ao lado do eyebrow (como no carrossel "5 sinais")
@@ -133,6 +137,12 @@ const figura = (s, { marcadores = [] } = {}) => {
   const r = (w * img.w) / (h * img.h);
   const foco = s.foco ?? 1;
   const filtro = s.desfoque ? ` style="--desfoque:${+s.desfoque}px"` : '';
+  if (s.sangria) {
+    const [fx, fy] = s.foco || [0.5, 0.5];
+    return `<div class="fig-area sangria" data-r="0" data-maxh="${s.altura || 9999}">
+      <figure class="fig"><div class="fig-img${s.cores ? '' : ' raiox'}"><img src="${img.uri}" style="object-position:${fx * 100}% ${fy * 100}%"></div>
+        ${s.rotuloImagem ? `<span class="mono fig-tag">${esc(s.rotuloImagem)}</span>` : ''}</figure></div>`;
+  }
   return `<div class="fig-area" data-r="${r.toFixed(5)}" data-maxh="${s.altura || 9999}">
       <figure class="fig">
         <div class="fig-img${s.cores ? '' : ' raiox'}${s.desfoque ? ' desfoque' : ''}"${filtro}><img src="${img.uri}" style="width:${100 / w}%;height:${100 / h}%;left:${(-x / w) * 100}%;top:${(-y / h) * 100}%"></div>
@@ -179,10 +189,13 @@ const RENDER = {
       <div class="frase-pe"><span class="mono">${esc(s.assinatura ?? '@mach.sites')}</span>${jato}</div>`,
   foto: (s) => {
     const img = carregarImagem(s.imagem);
-    return `${s.fundoDesfocado === false ? '' : `<div class="foto-fundo" style="background-image:url('${img.uri}')"></div>`}
+    return `${s.fundoDesfocado === false ? '' : `<div class="foto-fundo" style="background-image:url('${img.uri}')${s.brilhoFundo ? `;--brilho:${+s.brilhoFundo}` : ''}"></div>`}
       <figure class="foto-tela" style="aspect-ratio:${img.w} / ${img.h}"><img src="${img.uri}"></figure>
       <div class="foto-pe"><p class="foto-frase">${esc(s.titulo)}</p><span class="mono">${esc(s.assinatura ?? '@mach.sites')}</span></div>`;
   },
+  paleta: (s) => `${cab(s)}<h2 class="anotada">${comDestaque(s.titulo, s.destaque)}</h2>
+      <ul class="amostras">${s.cores.map((c) => `<li><i style="background:${esc(c.hex)}"></i><b>${esc(c.nome)}</b><span class="mono">${esc(c.hex)}</span>${c.origem ? `<small>${esc(c.origem)}</small>` : ''}</li>`).join('')}</ul>
+      ${paragrafos(s.texto)}`,
   lista: (s) => `${cab(s)}<h2>${comDestaque(s.titulo, s.destaque)}</h2>
       <ul class="regras">${s.itens.map((it) => `<li><b>${esc(it.titulo)}</b>${it.texto ? `<span>${esc(it.texto)}</span>` : ''}</li>`).join('')}</ul>
       ${paragrafos(s.texto)}`,
@@ -306,6 +319,18 @@ h2.anotada.grande { font-size: 100px; line-height: 1.0; letter-spacing: -.025em;
 .lado-a-lado .notas { flex: 1; margin: 0; gap: 44px; }
 .lado-a-lado .notas li { flex-direction: column; align-items: flex-start; gap: 14px; font-size: 40px; }
 .notas .n { flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-size: 20px; color: var(--aluminio); box-shadow: inset 0 0 0 1.5px var(--nevoa); }
+.fig-area.sangria { margin-left: -96px; margin-right: -96px; }
+.fig-area.sangria .fig-img { box-shadow: none; }
+.fig-area.sangria .fig-img img { position: static; width: 100%; height: 100%; object-fit: cover; }
+.fig-area.sangria .fig-tag { right: 96px; }
+/* paleta */
+.amostras { list-style: none; margin: 46px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 36px 24px; }
+.amostras i { display: block; height: 190px; box-shadow: inset 0 0 0 1px rgba(223,227,231,.16); }
+.amostras b { display: block; margin-top: 16px; font-family: "Saira", sans-serif; font-weight: 400; font-size: 32px; line-height: 1.1; }
+.amostras .mono { display: block; margin-top: 6px; font-size: 18px; }
+.amostras small { display: block; margin-top: 8px; font-size: 22px; line-height: 1.25; color: var(--aluminio2); }
+.t-paleta .texto { font-size: 32px; margin-top: 18px; }
+.t-paleta .amostras + .texto { margin-top: 44px; }
 /* mito */
 .slide.t-mito { padding-bottom: 160px; }
 .mito-frase { margin: 6px 0 0; font-family: "Saira", sans-serif; font-weight: 300; font-size: 96px; line-height: 1.02; letter-spacing: -.025em; }
@@ -321,7 +346,7 @@ h2.anotada.grande { font-size: 100px; line-height: 1.0; letter-spacing: -.025em;
 .t-mito .resposta + .texto { margin-top: 26px; }
 /* foto (quadro-herói) */
 .slide.t-foto { padding: 56px 96px 0; align-items: center; }
-.foto-fundo { position: absolute; z-index: -1; inset: -80px; background-size: cover; background-position: center; filter: blur(48px) brightness(.4) saturate(1.1); }
+.foto-fundo { position: absolute; z-index: -1; inset: -80px; background-size: cover; background-position: center; filter: blur(48px) brightness(var(--brilho, .58)) saturate(1.15); }
 .foto-tela { margin: 0; height: 1110px; border-radius: 34px; overflow: hidden; box-shadow: 0 0 0 1px rgba(255,255,255,.1), 0 40px 90px rgba(0,0,0,.65); }
 .foto-tela img { width: 100%; height: 100%; display: block; }
 .foto-pe { position: absolute; left: 96px; right: 96px; bottom: 50px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
@@ -370,6 +395,11 @@ for (let i = 0; i < ${N * 130}; i++) {
 // encaixa cada recorte no espaço que sobrou no slide, sem distorcer
 window.encaixar = () => document.querySelectorAll('.fig-area').forEach((a) => {
   const r = +a.dataset.r, maxH = +a.dataset.maxh;
+  if (a.classList.contains('sangria')) { // de ponta a ponta: ocupa toda a largura e a altura que sobrou
+    const f = a.querySelector('.fig');
+    f.style.width = a.clientWidth + 'px'; f.style.height = Math.round(Math.min(a.clientHeight - 56, maxH)) + 'px';
+    return;
+  }
   const livreW = a.clientWidth - 40, livreH = Math.min(a.clientHeight - 56, maxH);
   let w = livreW, h = w / r;
   if (h > livreH) { h = livreH; w = h * r; }
@@ -396,6 +426,7 @@ const avisos = await page.evaluate(({ SW, SH }) => {
       if (!r.width || !r.height) return;
       const baixo = r.bottom - base.top, dir = r.right - base.left, esq = r.left - base.left;
       const limite = document.querySelector('.pista') ? 1205 : SH - 60;
+      if (el.closest('.sangria')) return; // imagem de ponta a ponta encosta nas bordas de propósito
       const vaza = el.tagName !== 'FIGURE' && el.scrollWidth > el.clientWidth + 2;
       if (baixo > limite || dir > SW - 40 || esq < 40 || vaza) {
         out.push(`slide ${i + 1}: "${(el.textContent || el.tagName).trim().replace(/\s+/g, ' ').slice(0, 50)}" passou da margem`);

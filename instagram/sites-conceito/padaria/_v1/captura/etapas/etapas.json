@@ -1,0 +1,51 @@
+{
+  "inicio": "2026-11-23T03:49:30+00:00",
+  "nota": "Horários reais do relógio do computador (date -Iseconds), gravados no momento de cada captura enquanto a primeira tela era construída. \"desde_o_inicio\" e \"duracao_da_etapa\" são só a conta entre esses horários (minutos:segundos).",
+  "etapas": [
+    {
+      "numero": 1,
+      "etapa": "Rascunho em caixas",
+      "arquivo": "01-rascunho-em-caixas.png",
+      "horario": "2026-11-23T03:49:43+00:00",
+      "desde_o_inicio": "00:13",
+      "duracao_da_etapa": "00:13"
+    },
+    {
+      "numero": 2,
+      "etapa": "Layout com textos reais",
+      "arquivo": "02-layout.png",
+      "horario": "2026-11-23T03:50:10+00:00",
+      "desde_o_inicio": "00:40",
+      "duracao_da_etapa": "00:27"
+    },
+    {
+      "numero": 3,
+      "etapa": "Tipografia e cor",
+      "arquivo": "03-tipografia-e-cor.png",
+      "horario": "2026-11-23T03:50:55+00:00",
+      "desde_o_inicio": "01:25",
+      "duracao_da_etapa": "00:45"
+    },
+    {
+      "numero": 4,
+      "etapa": "Ilustração: forno, pá, pão e vapor (parados)",
+      "arquivo": "04-ilustracao.png",
+      "horario": "2026-11-23T03:58:34+00:00",
+      "desde_o_inicio": "09:04",
+      "duracao_da_etapa": "07:39"
+    },
+    {
+      "numero": 5,
+      "etapa": "Movimento: vapor vivo, rolagem traz o pão para perto, texto em camadas",
+      "arquivo": "05-movimento.png",
+      "horario": "2026-11-23T03:59:45+00:00",
+      "desde_o_inicio": "10:15",
+      "duracao_da_etapa": "01:11"
+    }
+  ],
+  "total_da_primeira_tela": "10:15",
+  "fora_do_cronometro": {
+    "antes": "Das 03:43:58 às 03:49:30 (cerca de 5 min e meio): leitura do pedido, busca do nome, download das fontes, medição das cores em fotos de pão e a ferramenta de captura.",
+    "depois": "Ajustes finos na primeira tela foram feitos depois, junto com o resto do site, e não estão nas capturas: textura do corte do pão mais lisa e o forno se encaixando em telas baixas."
+  }
+}

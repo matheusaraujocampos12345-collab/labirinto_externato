@@ -1,7 +1,10 @@
-Fontes baixadas do Google Fonts (só o conjunto latino, com acentos do português). Todas com licença livre, inclusive para uso comercial:
+Fontes baixadas do Google Fonts (só o conjunto latino, com os acentos do português). Todas com licença livre, inclusive para uso comercial:
 
-Fraunces (normal e itálico, variável) — Copyright 2018 The Fraunces Project Authors (https://github.com/undercasetype/Fraunces)
-Instrument Sans (variável) — Copyright 2022 The Instrument Sans Project Authors (https://github.com/Instrument/instrument-sans)
-DM Mono (400 e 500) — Copyright 2020 The DM Mono Project Authors (https://github.com/googlefonts/dm-mono)
+Familjen Grotesk (todo o texto do site, normal e itálico) — Copyright 2022 The Familjen Grotesk Project Authors (https://github.com/Familjen-Sthlm/familjen-grotesk)
+Bungee (só o preço da plaquinha espetada no pão) — Copyright 2023 The Bungee Project Authors (https://github.com/djrrb/Bungee)
+Tilt Neon (placa PÃO QUENTE e a palavra PADARIA do letreiro) — Copyright 2022 The Tilt Project Authors (https://github.com/googlefonts/Tilt-Fonts)
 
 Licença: SIL Open Font License 1.1 (https://openfontlicense.org).
+
+O logotipo QUATRO HORAS não usa fonte: as letras são traços desenhados à mão em js/marca.js.
+Os números do painel de LED também são desenhados à mão (js/led.js).
