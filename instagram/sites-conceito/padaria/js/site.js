@@ -22,8 +22,8 @@
   const S = { t: 0, y: 0, vel: 0, vh: innerHeight, vw: innerWidth };
 
   // ---------- relógio da padaria ----------
-  // Em ?captura=1 o "agora" é fixo: quarta-feira, 15h47 (+ o tempo do quadro).
-  const BASE = new Date(2026, 10, 25, 15, 47, 30).getTime();
+  // Em ?captura=1 o "agora" é fixo: quarta-feira, 9 de dezembro de 2026, 15h47 (+ o tempo do quadro).
+  const BASE = new Date(2026, 11, 9, 15, 47, 30).getTime();
   const agora = () => new Date(captura ? BASE + S.t * 1000 : Date.now());
   const FORNADAS = [
     [6, 'Pão francês e bisnaguinha'], [7, 'Pão francês e pão de leite'], [8, 'Pão francês'], [9, 'Pão de queijo'],
@@ -32,27 +32,68 @@
     [17, 'Pão francês'], [18, 'Pão francês e baguete'], [19, 'Pão francês, a última do dia'],
   ].map(([h, nome]) => ({ h, nome }));
   const HORARIO = { 0: [7, 13], 1: [6, 20], 2: [6, 20], 3: [6, 20], 4: [6, 20], 5: [6, 20], 6: [6, 18] };
+  const DIAS = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
+  const dois = (n) => String(n).padStart(2, '0');
+  const md = (d) => `${dois(d.getMonth() + 1)}-${dois(d.getDate())}`;
+  const maisDias = (d, n) => { const x = new Date(d); x.setHours(0, 0, 0, 0); x.setDate(x.getDate() + n); return x; };
+
+  // Natal: a chave e as datas ficam em js/natal.js
+  const N = window.NATAL || { ligado: false };
+  const forcaNatal = /[?&]natal=([01])/.exec(qs);
+  function natalAtivo(d) {
+    if (forcaNatal) return forcaNatal[1] === '1';
+    if (N.ligado === true || N.ligado === false) return N.ligado;
+    const x = md(d);
+    return N.inicio <= N.fim ? x >= N.inicio && x <= N.fim : x >= N.inicio || x <= N.fim;
+  }
+  // horário de um dia: [abre, fecha] ou null (fechado). Na época de Natal valem os horários especiais.
+  function horarioDo(d) {
+    const x = md(d);
+    if (natalAtivo(d) && N.horarios && x in N.horarios) return N.horarios[x];
+    return HORARIO[d.getDay()];
+  }
+  // as fornadas de um dia respeitam o horário: só saem com a loja aberta
+  function fornadasDoDia(d) {
+    const h = horarioDo(d);
+    return h ? FORNADAS.filter((f) => f.h >= h[0] && f.h < h[1]) : [];
+  }
   function fornada(d) {
     const s = d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds() + d.getMilliseconds() / 1000;
-    let i = FORNADAS.findIndex((f) => f.h * 3600 > s), amanha = false, falta;
-    if (i < 0) { i = 0; amanha = true; falta = 86400 - s + FORNADAS[0].h * 3600; } else falta = FORNADAS[i].h * 3600 - s;
-    return { i, prox: FORNADAS[i], falta, amanha, s };
+    const lista = fornadasDoDia(d);
+    const i = lista.findIndex((f) => f.h * 3600 > s);
+    if (i >= 0) return { lista, i, prox: lista[i], falta: lista[i].h * 3600 - s, amanha: false, outroDia: false, quando: 'hoje', s };
+    for (let k = 1; k <= 7; k++) {
+      const dia = maisDias(d, k), l = fornadasDoDia(dia);
+      if (l.length) return { lista, i: lista.length, prox: l[0], proxLista: l, falta: k * 86400 - s + l[0].h * 3600, amanha: k === 1, outroDia: true, quando: k === 1 ? 'amanhã' : DIAS[dia.getDay()], s };
+    }
+    return { lista, i: lista.length, prox: FORNADAS[0], proxLista: FORNADAS, falta: 86400, amanha: true, outroDia: true, quando: 'amanhã', s };
   }
   // próxima fornada que traz um produto (para o cardápio: "sai às 16h")
   function proximaDe(produto, d) {
-    const f = fornada(d);
-    for (let k = 0; k < FORNADAS.length; k++) {
-      const j = (f.i + k) % FORNADAS.length;
-      if (FORNADAS[j].nome.toLowerCase().includes(produto.toLowerCase())) return { h: FORNADAS[j].h, amanha: f.amanha || j < f.i };
+    const agoraMin = d.getHours() * 60 + d.getMinutes();
+    for (let k = 0; k <= 7; k++) {
+      const dia = k ? maisDias(d, k) : d;
+      const f = fornadasDoDia(dia).find((x) => (k > 0 || x.h * 60 > agoraMin) && x.nome.toLowerCase().includes(produto.toLowerCase()));
+      if (f) return { h: f.h, amanha: k > 0 };
     }
     return null;
   }
   function loja(d) {
-    const [a, f] = HORARIO[d.getDay()], h = d.getHours() + d.getMinutes() / 60;
-    return { aberta: h >= a && h < f, abre: a, fecha: f };
+    const hr = horarioDo(d), h = d.getHours() + d.getMinutes() / 60;
+    if (!hr) return { aberta: false, abre: null, fecha: null, fechadoHoje: true };
+    return { aberta: h >= hr[0] && h < hr[1], abre: hr[0], fecha: hr[1], fechadoHoje: false };
   }
-  const dois = (n) => String(n).padStart(2, '0');
-  window.QH = { agora, fornada, proximaDe, loja, FORNADAS, HORARIO, dois, suave, saida, lerp, clamp, $, $$, topoDoc, setTxt, cenas, S, captura, reduzir };
+  // quando a loja abre de novo: { h, quando: 'hoje' | 'amanhã' | 'sexta' ... }
+  function proximaAbertura(d) {
+    const h = d.getHours() + d.getMinutes() / 60, hoje = horarioDo(d);
+    if (hoje && h < hoje[0]) return { h: hoje[0], quando: 'hoje' };
+    for (let k = 1; k <= 7; k++) { const dia = maisDias(d, k), hr = horarioDo(dia); if (hr) return { h: hr[0], quando: k === 1 ? 'amanhã' : DIAS[dia.getDay()] }; }
+    return { h: 6, quando: 'amanhã' };
+  }
+  const NATAL_ON = natalAtivo(agora());
+  if (NATAL_ON) root.classList.add('natal');
+  window.QH = { agora, fornada, fornadasDoDia, proximaDe, loja, proximaAbertura, horarioDo, natalAtivo, NATAL_ON, N, md, maisDias, DIAS,
+    FORNADAS, HORARIO, dois, suave, saida, lerp, clamp, $, $$, topoDoc, setTxt, cenas, S, captura, reduzir };
 
   $$('[data-marca]').forEach((el) => { el.innerHTML = Marca.svg({ forma: el.dataset.marca }); });
 
@@ -61,7 +102,8 @@
   const filme = new Filme(tela, { pasta: 'video', n: 96 });
   const letreiro = $('.hero-letreiro'), texto = $('.hero-texto');
   const placa = $('.placa-quente'), etiqueta = $('.etiqueta'), marcaNav = $('.nav .marca');
-  const painelLed = $('.painel-led'), painelFalta = $('.painel-falta b'), painel = $('.painel');
+  const selo = NATAL_ON ? $('.selo-natal') : null;
+  const painelLed = $('.painel-led'), painelFalta = $('.painel-falta'), painel = $('.painel');
   let heroTopo = 0, heroCurso = 1, textoFim = 0, painelTopo = 0;
   cenas.push({
     medir() {
@@ -75,9 +117,10 @@
     },
     atualizar(s) {
       const d = agora(), f = fornada(d);
-      LED.aplicar(painelLed, f.amanha ? '06:00' : `${dois(f.prox.h)}:00`, `Próxima fornada às ${f.prox.h}h`);
+      LED.aplicar(painelLed, `${dois(f.prox.h)}:00`, `Próxima fornada às ${f.prox.h}h`);
       const min = Math.floor(f.falta / 60);
-      setTxt(painelFalta, f.amanha ? 'amanhã' : min >= 90 ? `às ${f.prox.h}h` : `${Math.max(1, min)} min`);
+      const faltaHtml = f.outroDia ? `<b>${f.quando}</b>` : min >= 90 ? `às <b>${f.prox.h}h</b>` : `faltam <b>${Math.max(1, min)} min</b>`;
+      if (painelFalta._h !== faltaHtml) { painelFalta._h = faltaHtml; painelFalta.innerHTML = faltaHtml; }
       painel.setAttribute('aria-label', `Próxima fornada às ${f.prox.h}h: ${f.prox.nome}`);
       painel.classList.toggle('pisca', Math.floor(s.t * 2) % 2 === 0);
       if (s.y > heroTopo + heroCurso + s.vh) return;
@@ -104,6 +147,13 @@
       texto.style.opacity = (1 - suave(0.06, 0.26, p)).toFixed(3);
       texto.style.transform = `translate3d(0, ${(-sai * 40).toFixed(2)}px, 0)`;
       marcaNav.style.opacity = suave(0.18, 0.30, p).toFixed(3);
+      // o único destaque de Natal da primeira tela: o selo de encomendas
+      if (selo) {
+        const e = suave(0.8, 1.5, s.t) * (1 - suave(0.06, 0.24, p));
+        selo.style.opacity = e.toFixed(3);
+        selo.style.transform = `translate3d(0, ${((1 - suave(0.8, 1.5, s.t)) * 8 - sai * 40).toFixed(2)}px, 0)`;
+        selo.style.visibility = e < 0.01 ? 'hidden' : '';
+      }
       // pão na luz: a placa PÃO QUENTE acende e a plaquinha de preço aparece em cima do pão
       const x = p - 0.60;
       placa.classList.toggle('acesa', x > 0.05 || (x > 0.015 && x < 0.03));

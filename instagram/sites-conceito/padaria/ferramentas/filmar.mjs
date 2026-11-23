@@ -17,17 +17,20 @@ const SAIDA = path.join(RAIZ, 'captura', 'rolagem-bruta.mp4');
 // Roteiro: [segundo do vídeo, marco da página, deslocamento em px]
 const ROTEIRO = [
   [0.0, 'topo', 0],
-  [1.1, 'topo', 0],              // letreiro aceso, forno escuro
+  [1.1, 'topo', 0],              // letreiro aceso e o selo "Encomendas de Natal abertas"
   [4.9, 'hero', 'heroCurso'],    // a mão puxa a assadeira e o pão sai do forno, sempre inteiro
   [5.4, 'hero', 'heroCurso+14'], // placa PÃO QUENTE acesa, plaquinha de preço
-  [7.0, 'senha', -290],          // título e painel da próxima fornada
-  [7.6, 'senha', -272],          // dois-pontos piscando, faltam 12 min
-  [9.2, 'cardapio', 40],         // cardápio: título e abas
-  [12.1, 'c-doces', -160],       // passa por pães e salgados; a aba acompanha
-  [12.6, 'c-doces', -140],       // o "acabou" no sonho
-  [14.2, 'c-bebidas', 220],
-  [16.4, 'mapa', -140],          // endereço e o caminho até a porta
-  [20.0, 'mapa', -112],
+  [6.9, 'senha', -290],          // título e painel da próxima fornada
+  [7.4, 'senha', -275],
+  [9.0, 'natal', -70],           // Natal: fio de luzes, título e o painel "encomendas fecham em 11 dias"
+  [9.8, 'natal', -52],
+  [11.3, 'natal', 560],          // como funciona e os horários de fim de ano
+  [11.9, 'natal', 578],
+  [13.7, 'c-natal', -150],       // a aba Natal do cardápio, primeira em dezembro
+  [14.3, 'c-natal', -134],
+  [16.4, 'c-natal', 480],        // rabanada, pão de mel, pão de frutas
+  [18.6, 'c-natal', 850],        // tender, cesta e o botão de encomendar
+  [20.0, 'c-natal', 862],
 ];
 
 // Interpolação cúbica monotônica (Fritsch-Carlson): sem tranco e sem passar do ponto.

@@ -40,23 +40,63 @@
   ];
   window.CARDAPIO = CARDAPIO;
 
-  const { agora, proximaDe, suave, clamp, $, $$, topoDoc, setTxt, cenas, reduzir, dois } = window.QH;
+  const { agora, proximaDe, suave, clamp, $, $$, topoDoc, setTxt, cenas, reduzir, dois, NATAL_ON, N, md } = window.QH;
   const letras = (txt) => [...txt].map((ch, i) => `<i style="--r:${(((i * 37) % 7) - 3) * 0.9}deg">${ch}</i>`).join('');
+  const ESTRELA = '<svg class="estrela" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-estrela"/></svg>';
+
+  // ---------- Natal: entra como mais uma seção (primeira em dezembro) ----------
+  const secoesMenu = CARDAPIO.slice();
+  if (NATAL_ON && N.cardapio) {
+    const natal = { ...N.cardapio, natal: true };
+    if (agora().getMonth() === 11) secoesMenu.unshift(natal); else secoesMenu.push(natal);
+  }
 
   // ---------- monta o cardápio ----------
   const menu = $('[data-menu]');
-  menu.innerHTML = CARDAPIO.map((sec) => `
-    <section class="menu-secao" id="${sec.id}" aria-labelledby="${sec.id}-t">
-      <header class="menu-cab"><h3 id="${sec.id}-t">${sec.titulo}</h3><p>${sec.nota}</p></header>
+  const marcaNatal = (it) => it.marca === 'encomenda' ? '<span class="tag tag-encomenda">sob encomenda</span>'
+    : it.marca === 'dezembro' ? '<span class="tag-texto">só em dezembro</span>' : '';
+  menu.innerHTML = secoesMenu.map((sec) => `
+    <section class="menu-secao${sec.natal ? ' menu-natal' : ''}" id="${sec.id}" aria-labelledby="${sec.id}-t">
+      <header class="menu-cab"><h3 id="${sec.id}-t">${sec.natal ? ESTRELA : ''}${sec.titulo}</h3><p>${sec.nota}</p></header>
       <ul class="itens">${sec.itens.map((it, k) => `
-        <li class="item${it.acabou ? ' acabou' : ''}" data-forno="${it.forno || ''}">
+        <li class="item${it.acabou ? ' acabou' : ''}" data-forno="${it.forno || ''}"${sec.natal ? ` data-natal="${k}"` : ''}>
           <div class="item-linha"><h4 class="item-nome">${it.nome}</h4><p class="item-preco"><span class="rs">R$</span> ${it.preco}</p></div>
           <div class="item-linha item-linha-2"><p class="item-desc">${it.desc}</p>${it.un ? `<p class="item-un">${it.un}</p>` : ''}</div>
-          <p class="item-tag"></p>
+          <div class="item-pe"><p class="item-tag">${sec.natal ? marcaNatal(it) : ''}</p>${sec.natal ? `
+            <div class="qtd" data-qtd="0"><button type="button" class="qtd-menos" aria-label="Tirar um ${it.nome}">−</button><output aria-live="polite">0</output><button type="button" class="qtd-mais" aria-label="Pôr um ${it.nome} na encomenda"><span class="qtd-txt">Adicionar</span><span class="qtd-sinal">+</span></button></div>` : ''}</div>
         </li>`).join('')}
-      </ul>
+      </ul>${sec.natal ? `
+      <div class="natal-rodape"><p data-escolhidos>Marque os itens e mande a lista pelo WhatsApp.</p><a class="botao" data-zap-natal href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-zap"/></svg>Encomendar pelo WhatsApp</a></div>` : ''}
     </section>`).join('');
   $$('[data-letras]').forEach((el) => { el.innerHTML = letras(el.dataset.letras); });
+
+  // ---------- abas, montadas na mesma ordem das seções ----------
+  const abas = $('.abas'), marcaAba = $('.abas-marca', abas);
+  abas.insertAdjacentHTML('afterbegin', secoesMenu.map((sec) =>
+    `<a href="#${sec.id}" data-aba="${sec.id}"${sec.natal ? ' class="aba-natal"' : ''}>${sec.natal ? ESTRELA : ''}${sec.titulo}</a>`).join(''));
+
+  // ---------- a encomenda de Natal: a quantidade marcada vira a mensagem do WhatsApp ----------
+  if (NATAL_ON && N.cardapio) {
+    const pedido = new Map();
+    const montar = () => {
+      const linhas = [...pedido].filter(([, q]) => q > 0).map(([k, q]) => `- ${q} × ${N.cardapio.itens[k].nome}`);
+      const texto = [N.mensagemWhatsApp, ...linhas, linhas.length ? 'Retirada no dia: ' : ''].filter(Boolean).join('\n');
+      $$('[data-zap-natal]').forEach((a) => { a.href = `https://wa.me/?text=${encodeURIComponent(texto)}`; });
+      const n = [...pedido.values()].reduce((a, b) => a + b, 0);
+      const resumo = n ? `${n} ${n === 1 ? 'item escolhido' : 'itens escolhidos'}: ${linhas.map((l) => l.slice(2)).join(', ')}.` : '';
+      $$('[data-escolhidos]').forEach((p) => { p.textContent = resumo || (p.closest('.natal-rodape') ? 'Marque os itens e mande a lista pelo WhatsApp.' : ''); });
+    };
+    $$('[data-natal]', menu).forEach((li) => {
+      const k = +li.dataset.natal, caixa = li.querySelector('.qtd'), out = caixa.querySelector('output');
+      const mudar = (dq) => {
+        const q = clamp((pedido.get(k) || 0) + dq, 0, 20);
+        pedido.set(k, q); caixa.dataset.qtd = q; out.textContent = q; li.classList.toggle('escolhido', q > 0); montar();
+      };
+      caixa.querySelector('.qtd-mais').addEventListener('click', () => mudar(1));
+      caixa.querySelector('.qtd-menos').addEventListener('click', () => mudar(-1));
+    });
+    montar();
+  }
 
   // ---------- marcas "sai às 16h" e "acabou" ----------
   const itens = $$('.item', menu);
@@ -66,6 +106,12 @@
     if (c === chave) return;
     chave = c;
     itens.forEach((li) => {
+      if (li.dataset.natal != null) {
+        // rabanada: só em 23 e 24/12 (no dia 25 a loja fecha)
+        const it = N.cardapio.itens[+li.dataset.natal];
+        if (it.marca === 'datas') li.querySelector('.item-tag').innerHTML = it.datas.includes(md(d)) ? '<span class="tag tag-sai">hoje tem</span>' : '<span class="tag-texto">só em 23 e 24/12</span>';
+        return;
+      }
       const tag = li.querySelector('.item-tag'), produto = li.dataset.forno;
       const prox = produto ? proximaDe(produto, d) : null;
       if (li.classList.contains('acabou')) {
@@ -78,8 +124,14 @@
   }
 
   // ---------- abas: pular de seção e saber onde está ----------
-  const abas = $('.abas'), linksAba = $$('[data-aba]', abas), marcaAba = $('.abas-marca', abas);
+  const linksAba = $$('[data-aba]', abas);
   const secoes = $$('.menu-secao', menu), horaAgora = $('[data-hora-agora]');
+  // "Ver os itens de Natal" (no bloco de encomendas) pula direto para a aba
+  $$('[data-ir-natal]').forEach((a) => a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const alvo = document.getElementById('c-natal');
+    if (alvo) scrollTo({ top: topoDoc(alvo) - (innerWidth >= 1024 ? 96 : 118), behavior: reduzir ? 'auto' : 'smooth' });
+  }));
   let topos = [], abaAtual = -1;
   linksAba.forEach((a) => a.addEventListener('click', (e) => {
     e.preventDefault();

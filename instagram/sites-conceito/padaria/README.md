@@ -32,13 +32,28 @@ Familjen Grotesk em todo o texto, Bungee só no preço da plaquinha e Tilt Neon 
 3. **Cardápio:** Pães, Salgados, Doces e bolos, e Bebidas e café, com 6 a 7 itens cada. Cada item tem nome, descrição curta, preço e unidade. As abas pulam de seção (no celular ficam presas no alto; no computador, na coluna da esquerda) e mostram onde a pessoa está. O que sai na próxima hora ganha "sai às 16h", e o que acabou ganha a plaquinha "acabou". Para mudar preço ou item, edite a lista no começo de `js/cardapio.js`.
 4. **Como chegar:** mapa do bairro desenhado à mão, com o caminho até a porta, o horário, WhatsApp e "Copiar endereço".
 5. **Encomendas:** três passos e o botão "Pedir pelo WhatsApp" (`https://wa.me/`, sem número).
-6. Rodapé com endereço, horário, encomendas e a linha "Site-conceito por MACH Estúdio · @mach.sites · negócio fictício".
+6. **Natal:** só na época. Veja abaixo.
+7. Rodapé com endereço, horário, encomendas e a linha "Site-conceito por MACH Estúdio · @mach.sites · negócio fictício".
+
+## Natal (liga e desliga sozinho)
+Tudo o que é de Natal fica em **`js/natal.js`**: a chave, as datas, os horários especiais, o texto do WhatsApp e os itens da aba.
+
+- **Quando aparece:** com `ligado: 'auto'`, do dia **15/11 ao dia 01/01**. Depois some sozinho, e volta no ano seguinte.
+- **Para desligar antes:** abra `js/natal.js`, troque `ligado: 'auto'` por `ligado: false` e salve. Para deixar sempre ligado, use `ligado: true`.
+- **Para conferir sem mexer na data:** `index.html?natal=1` mostra o Natal e `index.html?natal=0` esconde.
+- **O que entra no site com o Natal:**
+  1. O selo "Encomendas de Natal abertas" na primeira tela, o único destaque de Natal ali. Depois de 20/12 ele passa a mostrar os horários de fim de ano.
+  2. O bloco "Encomendas de Natal até 20/12", logo depois das fornadas. Tem um fio de luzes quentes, o painel de LED contando os dias para o fim das encomendas, os três passos, os horários de fim de ano e o botão do WhatsApp.
+  3. A aba "Natal" no cardápio, primeira em dezembro e última em novembro. Tem panetone de 500 g e de 1 kg, chocotone, rabanada (só em 23 e 24/12), pão de mel, pão de frutas, tender fatiado e cesta. Cada item vem marcado como "sob encomenda" ou "só em dezembro". O botão "Adicionar" monta a encomenda, e o WhatsApp abre com a mensagem pronta: "Quero encomendar para o Natal:" e a lista de itens.
+  4. Os horários especiais (24/12 até as 18h, 25/12 fechado, 31/12 até as 17h, 01/01 fechado). Eles valem também para o status "aberta/fechada" e para as fornadas desses dias.
+- **Linguagem:** Natal no Brasil é verão. Por isso entram luz quente, a estrela e o painel de LED, e ficam de fora neve, Papai Noel, gorro e vermelho e verde de shopping.
+- **Uma coerência:** a rabanada ficou em 23 e 24/12, porque no dia 25 a loja está fechada.
 
 Funciona em celular (em pé e deitado), tablet e computador, e respeita quem desliga as animações no aparelho. As animações têm função: o vídeo anda com a rolagem, a aba do cardápio acompanha a seção, os itens e blocos entram de leve ao chegar na tela e o caminho do mapa se desenha uma vez.
 
 ## Arquivos
 - `index.html`, `css/site.css`
-- `js/marca.js` (logotipo), `js/led.js` (números do painel), `js/filme.js` (vídeo quadro a quadro), `js/site.js` (motor e primeira tela), `js/cardapio.js` (itens e abas), `js/secoes.js` (fornadas, mapa e encomenda)
+- `js/natal.js` (chave e conteúdo do Natal), `js/marca.js` (logotipo), `js/led.js` (números do painel), `js/filme.js` (vídeo quadro a quadro), `js/site.js` (motor, horários e primeira tela), `js/cardapio.js` (itens, abas e encomenda de Natal), `js/secoes.js` (fornadas, Natal, mapa e encomenda)
 - `video/`, `foto/` e `fontes/`
 - `captura/` (entregas para o Instagram) e `ferramentas/` (scripts)
 - `_v1/`: a primeira versão (Casca & Miolo), guardada só como histórico.
@@ -51,6 +66,6 @@ node ferramentas/filmar.mjs        # captura/rolagem-bruta.mp4 (1080x1920, 30 fp
 python3 ferramentas/montar_paleta.py && node ferramentas/quadros.mjs   # captura/quadros/*.jpg e a primeira tela em 1080x1920
 ```
 
-A captura usa `index.html?captura=1`: a página expõe `window.__quadro(t, y)` e cada quadro sai do tempo e da rolagem, sem depender do relógio, então sai igual toda vez. Nesse modo a hora fica fixa (quarta, 15h47), para o painel mostrar "16:00, faltam 12 min".
+A captura usa `index.html?captura=1`: a página expõe `window.__quadro(t, y)` e cada quadro sai do tempo e da rolagem, sem depender do relógio, então sai igual toda vez. Nesse modo a hora fica fixa (quarta-feira, 9 de dezembro, 15h47): o painel mostra "16:00, faltam 12 min", a aba Natal vem primeiro e as encomendas de Natal fecham em 11 dias. Os quadros 09 e 10 são do Natal.
 
 As capturas em `captura/etapas/` são da construção da primeira tela da versão anterior e ficaram como registro.
