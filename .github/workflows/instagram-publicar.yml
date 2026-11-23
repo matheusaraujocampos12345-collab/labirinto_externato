@@ -1,0 +1,43 @@
+name: Publicar no Instagram
+
+on:
+  schedule:
+    - cron: '7 * * * *' # a cada hora, no minuto 7 (horário UTC)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: instagram-publicar
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Conferir o calendário
+        run: node instagram/publicar.mjs --testar
+      - name: Publicar o que venceu
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          # O repositório é público: a Meta baixa as mídias direto do GitHub.
+          MEDIA_BASE_URL: ${{ vars.MEDIA_BASE_URL || format('https://raw.githubusercontent.com/{0}/{1}', github.repository, github.sha) }}
+        run: |
+          if [ -z "$IG_ACCESS_TOKEN" ]; then
+            echo "Robô ainda não conectado à Meta (falta o segredo IG_ACCESS_TOKEN)."
+            exit 0
+          fi
+          node instagram/publicar.mjs
+      - name: Salvar o status no calendário
+        run: |
+          if ! git diff --quiet instagram/calendario.json; then
+            git config user.name "mach-bot"
+            git config user.email "mach-bot@users.noreply.github.com"
+            git commit -am "Instagram: atualiza status das publicações"
+            git push
+          fi

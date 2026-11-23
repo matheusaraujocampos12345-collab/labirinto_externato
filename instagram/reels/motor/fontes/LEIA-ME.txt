@@ -1,0 +1,6 @@
+Fontes usadas pelo motor dos Reels. Todas com licença SIL Open Font License 1.1 (uso livre, inclusive comercial).
+
+- Saira (títulos e marcações) — Omnibus-Type. Instâncias estáticas baixadas do Google Fonts.
+- Hanken Grotesk (texto) — Hanken Design Co. Google Fonts.
+- JetBrains Mono (rótulos e números) — JetBrains.
+- Big Shoulders Stencil Display, Big Shoulders Text (Patric King / City of Chicago) e Archivo (Omnibus-Type) — usadas só no site fictício da Barbearia Navalha (i02), para o "cliente" ter identidade própria, de letreiro e estêncil. Google Fonts.

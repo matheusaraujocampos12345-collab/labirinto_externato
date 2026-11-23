@@ -1,0 +1,16 @@
+{
+  "name": "anuncio-empresa-x-30s",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Vídeo publicitário animado 30s 9:16 (1080x1920, 30fps) renderizado quadro a quadro.",
+  "scripts": {
+    "timeline": "node scripts/export-timeline.mjs",
+    "frames": "node scripts/render.mjs --out out/frames",
+    "audio": "python3 scripts/make_audio.py",
+    "build": "bash scripts/build.sh"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0"
+  }
+}

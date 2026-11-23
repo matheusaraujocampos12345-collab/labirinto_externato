@@ -1,0 +1,155 @@
+{
+  "slug": "raio-x-primeira-tela",
+  "legenda": "Antes de ler uma palavra, o cliente já decidiu se fica.\nSua primeira tela passa no raio-X? Salve e confira.\n\n#siteparaempresa #criacaodesites #webdesign",
+  "slides": [
+    {
+      "tipo": "capa",
+      "eyebrow": "Raio-X · Primeira tela",
+      "titulo": "O que seu site diz nos primeiros segundos.",
+      "destaque": "primeiros segundos",
+      "imagem": "instagram/recortes/site-computador-primeira-tela.png",
+      "rotuloImagem": "Primeira tela · computador",
+      "rodape": "Arraste →"
+    },
+    {
+      "tipo": "imagem-anotada",
+      "grande": true,
+      "eyebrow": "Antes de qualquer clique",
+      "titulo": "Ninguém lê a primeira tela.",
+      "destaque": "Ninguém",
+      "imagem": "instagram/recortes/site-computador-primeira-tela.png",
+      "desfoque": 9,
+      "rotuloImagem": "O que o olho pega de relance",
+      "texto": [
+        "Ele bate o olho e decide se fica. Se não entende, volta para a busca."
+      ]
+    },
+    {
+      "tipo": "imagem-anotada",
+      "eyebrow": "01 · Título",
+      "titulo": "Diga o que você faz.\nEm uma frase.",
+      "imagem": "instagram/recortes/site-celular-primeira-tela.png",
+      "recorte": [
+        0,
+        0.47,
+        1,
+        0.31
+      ],
+      "rotuloImagem": "Celular",
+      "marcadores": [
+        {
+          "x": 0.8,
+          "y": 0.43,
+          "texto": "A frase que fica na cabeça."
+        },
+        {
+          "x": 0.93,
+          "y": 0.87,
+          "texto": "O que você vende, sem enigma."
+        }
+      ]
+    },
+    {
+      "tipo": "imagem-anotada",
+      "lado": true,
+      "eyebrow": "02 · Movimento",
+      "titulo": "O movimento\naponta o caminho.",
+      "imagem": "instagram/recortes/site-celular-primeira-tela.png",
+      "recorte": [
+        0,
+        0.1,
+        1,
+        0.78
+      ],
+      "rotuloImagem": "Celular",
+      "marcadores": [
+        {
+          "x": 0.5,
+          "y": 0.18,
+          "texto": "Começa no símbolo."
+        },
+        {
+          "x": 0.8,
+          "y": 0.647,
+          "texto": "Desce para a frase."
+        },
+        {
+          "x": 0.493,
+          "y": 0.95,
+          "texto": "Termina no botão."
+        }
+      ]
+    },
+    {
+      "tipo": "lista",
+      "eyebrow": "03 · Prova",
+      "titulo": "Uma prova logo de cara.",
+      "itens": [
+        {
+          "titulo": "Cliente real",
+          "texto": "Logo ou nome de quem já comprou."
+        },
+        {
+          "titulo": "Foto de verdade",
+          "texto": "Do seu espaço, não de banco de imagem."
+        },
+        {
+          "titulo": "Um número",
+          "texto": "Que qualquer um consiga conferir."
+        }
+      ],
+      "texto": "Promessa sem prova é só promessa."
+    },
+    {
+      "tipo": "imagem-anotada",
+      "eyebrow": "04 · Botão",
+      "titulo": "Um pedido principal. Só um.",
+      "imagem": "instagram/recortes/site-celular-primeira-tela.png",
+      "recorte": [
+        0,
+        0.52,
+        1,
+        0.37
+      ],
+      "rotuloImagem": "Celular",
+      "marcadores": [
+        {
+          "x": 0.44,
+          "y": 0.785,
+          "texto": "Em destaque: o que você quer que ele faça."
+        },
+        {
+          "x": 0.81,
+          "y": 0.785,
+          "texto": "Discreto: o resto pode esperar."
+        }
+      ]
+    },
+    {
+      "tipo": "passos",
+      "eyebrow": "05 · Velocidade",
+      "titulo": "Carregar rápido\ntambém é design.",
+      "passos": [
+        {
+          "titulo": "Texto primeiro",
+          "texto": "Título e botão aparecem antes de tudo."
+        },
+        {
+          "titulo": "Imagem leve",
+          "texto": "No tamanho certo para cada tela."
+        },
+        {
+          "titulo": "Movimento depois",
+          "texto": "Entra sem travar a leitura."
+        }
+      ]
+    },
+    {
+      "tipo": "chamada",
+      "titulo": "Salve para revisar o seu.",
+      "texto": "E manda para quem cuida do seu site.",
+      "botao": "Chama no direct",
+      "arroba": "@mach.sites"
+    }
+  ]
+}

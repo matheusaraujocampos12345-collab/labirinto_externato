@@ -1,0 +1,3 @@
+Saira — Copyright 2020 The Saira Project Authors (https://github.com/Omnibus-Type/Saira)
+Licença: SIL Open Font License 1.1 (https://openfontlicense.org). Uso livre, inclusive comercial.
+Arquivos baixados do Google Fonts (instâncias estáticas: 500 Expanded e 300 Normal).

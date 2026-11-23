@@ -1,0 +1,42 @@
+{
+  "slug": "como-funciona",
+  "legenda": "Do primeiro oi ao site no ar, em 5 etapas.\nChama no direct e começa pela primeira.\n\n#webdesign #criacaodesites #motiondesign",
+  "slides": [
+    {
+      "tipo": "capa",
+      "jato": true,
+      "eyebrow": "Plano de voo",
+      "titulo": "Como nasce um site na MACH.",
+      "destaque": "na MACH",
+      "rodape": "Arraste →"
+    },
+    {
+      "tipo": "passos",
+      "eyebrow": "Etapas 1 a 3",
+      "titulo": "Antes de decolar.",
+      "inicio": 1,
+      "passos": [
+        { "titulo": "Conversa", "texto": "Você conta sobre o negócio e o que o site precisa fazer." },
+        { "titulo": "Plano de voo", "texto": "Definimos juntos as páginas, o conteúdo e o prazo." },
+        { "titulo": "Design e animação", "texto": "Você acompanha as telas enquanto ganham forma." }
+      ]
+    },
+    {
+      "tipo": "passos",
+      "eyebrow": "Etapas 4 e 5",
+      "titulo": "Até o site no ar.",
+      "inicio": 4,
+      "passos": [
+        { "titulo": "Voo de teste", "texto": "Ajustamos tudo no celular, no tablet e no computador." },
+        { "titulo": "Decolagem", "texto": "Site no ar, pronto para receber clientes." }
+      ]
+    },
+    {
+      "tipo": "chamada",
+      "titulo": "Pronto para decolar?",
+      "texto": "Conta sobre o seu projeto.",
+      "botao": "Chama no direct",
+      "arroba": "@mach.sites"
+    }
+  ]
+}

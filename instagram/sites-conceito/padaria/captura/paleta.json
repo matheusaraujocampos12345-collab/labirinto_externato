@@ -1,0 +1,24 @@
+{
+  "padaria": "Casca & Miolo (negócio fictício)",
+  "como_foi_feita": "As cores foram medidas em duas fotos reais de pão de fermentação natural, com agrupamento de cores (k-means) no script ferramentas/extrair_cores.py. As cores da casca entram exatamente como saíram da foto. Miolo e farinha saíram da foto com luz fria e foram só clareados e aquecidos para leitura em tela; o Forno é a cor da pestana com a luz apagada.",
+  "fotos_de_referencia": [
+    { "arquivo": "Home made sourdough cob.jpg", "fonte": "Wikimedia Commons", "licenca": "CC BY-SA 4.0", "uso": "casca, pestana e farinha" },
+    { "arquivo": "Slices of sourdough bread.jpg", "fonte": "Wikimedia Commons", "licenca": "CC BY 2.0", "uso": "miolo e casca da borda da fatia" }
+  ],
+  "nota": "As fotos não aparecem no site. Serviram só para medir as cores.",
+  "cores": [
+    { "nome": "Pestana", "hex": "#441608", "de_onde_saiu": "A borda tostada do corte, a parte mais escura da casca (medida direto na foto).", "uso_no_site": "Fundo da seção de encomenda, textos fortes, sombra das ilustrações." },
+    { "nome": "Forno", "hex": "#1F0A03", "de_onde_saiu": "A mesma cor da pestana com a luz quase apagada, como a boca do forno.", "uso_no_site": "Fundo da primeira tela, do relógio e do rodapé." },
+    { "nome": "Casca escura", "hex": "#663116", "de_onde_saiu": "A casca de cima, onde o forno tostou mais (medida direto na foto).", "uso_no_site": "Arco de tijolos e o lado escuro dos pães desenhados." },
+    { "nome": "Casca", "hex": "#834C24", "de_onde_saiu": "O marrom do meio da casca, a cor mais comum do pão inteiro (medida direto na foto).", "uso_no_site": "Rótulos sobre fundo claro, nomes de ruas no mapa." },
+    { "nome": "No ponto", "hex": "#A25C1A", "de_onde_saiu": "O dourado mais vivo da casca, os pontos mais saturados da foto.", "uso_no_site": "O destaque: arco do relógio e caminho no mapa." },
+    { "nome": "Dourado", "hex": "#B18455", "de_onde_saiu": "A lateral da casca, mais clara que o topo (medida direto na foto).", "uso_no_site": "Madeira da pá e saco de papel." },
+    { "nome": "Abertura", "hex": "#CFAB86", "de_onde_saiu": "Onde a casca abriu no corte e quase não tostou (medida direto na foto).", "uso_no_site": "Palavra 'cantando.', rótulos sobre fundo escuro, ruas do mapa." },
+    { "nome": "Miolo", "hex": "#F2E9D8", "de_onde_saiu": "O miolo da fatia (medido como #CCC7B6 sob luz fria, depois clareado e aquecido).", "uso_no_site": "Fundo das seções claras: vitrine, corte do pão e mapa." },
+    { "nome": "Farinha", "hex": "#F5F2EC", "de_onde_saiu": "A farinha polvilhada por cima do pão (medida como #E2E1E0 e clareada).", "uso_no_site": "Texto sobre fundo escuro, vapor e botões claros." }
+  ],
+  "fora_da_paleta": [
+    { "nome": "Brasa", "hex": "#F0954A", "por_que": "É luz de fogo, não cor de pão. Aparece só no que está ao vivo: o ponto pulsante, a brasa do relógio e a fornada que está no forno." },
+    { "nome": "Creme do sonho", "hex": "#EFD39A", "por_que": "Cor de recheio, usada só na ilustração do sonho e do bolo de fubá." }
+  ]
+}

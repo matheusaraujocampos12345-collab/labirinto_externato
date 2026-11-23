@@ -1,0 +1,271 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:wdth,wght@75..125,200..700&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root { --estrato:#0a0c0f; --titanio:#12161b; --linha:#252b32; --aluminio:#dfe3e7; --aluminio2:#b9c0c7; --nevoa:#8a929b; --laranja:#ff6b1a; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--estrato); color: var(--aluminio); font-family: "Hanken Grotesk", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+#pano { position: relative; width: 6480px; height: 1350px; overflow: hidden;
+  background: radial-gradient(60% 50% at 10% 0%, #141a24 0%, rgba(20,26,36,0) 60%), radial-gradient(50% 45% at 72% 10%, #121822 0%, rgba(18,24,34,0) 60%), linear-gradient(180deg, #0b0e13, var(--estrato) 70%); }
+#ceu { position: absolute; inset: 0; }
+.slide { position: absolute; top: 0; width: 1080px; height: 1350px; padding: 150px 96px 0; display: flex; flex-direction: column; isolation: isolate; }
+.slide.corta { overflow: hidden; }
+.topo { position: absolute; left: 96px; right: 96px; top: 64px; display: flex; justify-content: space-between; align-items: center; }
+.logo-mini { width: 128px; height: auto; }
+.mono { font-family: "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase; font-size: 20px; color: var(--nevoa); }
+.pag { font-size: 20px; }
+.eyebrow { font-family: "JetBrains Mono", monospace; font-size: 22px; letter-spacing: .16em; text-transform: uppercase; color: var(--nevoa); margin: 30px 0 26px; }
+.eyebrow.laranja { color: var(--laranja); }
+h1, h2 { font-family: "Saira", sans-serif; font-weight: 300; letter-spacing: -.02em; margin: 0; }
+h2 { font-size: 84px; line-height: 1.02; }
+.texto { font-size: 38px; line-height: 1.4; color: var(--aluminio2); margin: 22px 0 0; max-width: 860px; }
+.texto strong { color: var(--aluminio); font-weight: 600; }
+/* capa */
+.capa { height: 100%; display: flex; flex-direction: column; }
+.capa-jato { height: 470px; display: flex; justify-content: center; margin-top: 10px; }
+.jato { height: 100%; width: auto; overflow: visible; }
+.capa h1 { font-size: 104px; line-height: .98; margin-top: 40px; }
+.capa h1 b { font-weight: 500; font-stretch: 125%; letter-spacing: .06em; }
+.arraste { margin-top: 44px; color: var(--aluminio2); font-size: 22px; }
+.arraste span { color: var(--laranja); margin-left: 8px; }
+/* nome */
+.formula { font-family: "Saira", sans-serif; font-stretch: 125%; font-weight: 250; font-size: 210px; line-height: 1; letter-spacing: .04em; display: flex; flex-direction: column; gap: 10px; margin: 20px 0 50px; }
+.formula .mais { font-size: 150px; color: var(--nevoa); }
+.formula b { color: var(--laranja); font-weight: 300; }
+.formula i { font-style: italic; font-weight: 200; color: var(--aluminio2); }
+.formula + .legenda { margin: -20px 0 40px; }
+/* mach 1 */
+.numero { font-family: "Saira", sans-serif; font-weight: 250; font-size: 230px; line-height: .9; letter-spacing: -.03em; margin: 0; }
+.numero small { font-size: 62px; color: var(--nevoa); margin-left: 18px; letter-spacing: 0; }
+.legenda { margin: 22px 0 0; }
+.cone { width: 560px; height: auto; margin: 40px 0 10px; }
+/* problema */
+.caixas { font-family: "Hanken Grotesk", sans-serif; font-weight: 600; font-size: 74px; letter-spacing: -.01em; line-height: 1.15; }
+.caixas span { display: inline-block; background: #fff; color: #0d0d10; padding: .04em .3em .08em; }
+.caixas .inv { background: #0d0d10; color: #fff; box-shadow: 0 0 0 2px rgba(255,255,255,.3); }
+.pilha { position: relative; height: 560px; margin: 46px 0 6px; }
+.contador { position: absolute; right: 30px; bottom: 30px; display: flex; align-items: center; gap: 12px; padding: 14px 22px; background: rgba(14,14,18,.92); color: #fff; font-size: 24px; box-shadow: 0 10px 30px rgba(0,0,0,.5); }
+.contador i { width: 12px; height: 12px; border-radius: 50%; background: #ff3b3b; }
+.tpl { container-type: inline-size; position: absolute; left: 50%; top: 0; width: 300px; margin-left: -150px; aspect-ratio: 9/16; overflow: hidden; border-radius: 16px; background: #f4f3ff; font-family: Arial, "Liberation Sans", sans-serif; box-shadow: 0 30px 70px rgba(0,0,0,.6); height: auto; max-height: 534px; }
+.tpl-bar { height: 7.5%; background: #f0f0f4; display: flex; align-items: center; padding: 0 5cqw; }
+.tpl-bar span { flex: 1; height: 58%; background: #e2e2ea; border-radius: 99px; display: flex; align-items: center; justify-content: center; font-size: 3.4cqw; color: #444; }
+.tpl-hero { position: relative; height: 63%; padding: 4cqw 6cqw 0; color: #fff; text-align: center; background: radial-gradient(60% 40% at 90% 12%, rgba(255,110,220,.55), transparent 70%), radial-gradient(60% 45% at 5% 75%, rgba(0,225,255,.4), transparent 70%), linear-gradient(135deg, #7a2ff2, #5b47f5 50%, #2e78ff); clip-path: ellipse(120% 100% at 50% 0%); }
+.tpl-nav { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 4.6cqw; }
+.tpl-nav s { width: 7cqw; height: 4cqw; border-block: .9cqw solid #fff; }
+.tpl-h { margin: 8cqw 0 0; font-weight: 700; font-size: 8.2cqw; line-height: 1.08; }
+.tpl-h em { font-style: normal; color: var(--a); }
+.tpl-sub { margin: 3cqw 0 0; font-size: 3.6cqw; opacity: .85; line-height: 1.35; }
+.tpl-btn { display: inline-block; margin-top: 4.5cqw; padding: 3cqw 8cqw; border-radius: 99px; background: var(--a); color: #fff; font-weight: 700; font-size: 4.2cqw; box-shadow: 0 2cqw 6cqw var(--a); }
+.tpl-bolhas { position: absolute; left: 0; right: 0; bottom: 2cqw; height: 38cqw; }
+.tpl-bolhas i { position: absolute; border-radius: 50%; background: radial-gradient(circle at 32% 28%, #fff7fe 0%, #f59bff 28%, #9a45ff 70%, #3b138f 100%); box-shadow: inset -2cqw -3cqw 6cqw rgba(110,255,245,.45); }
+.tpl-bolhas i:nth-child(1) { width: 30cqw; height: 30cqw; left: 36cqw; top: 2cqw; }
+.tpl-bolhas i:nth-child(2) { width: 19cqw; height: 19cqw; left: 16cqw; top: 12cqw; background: radial-gradient(circle at 32% 28%, #effcff 0%, #8fe1ff 28%, #4f6bff 70%, #1d2190 100%); }
+.tpl-bolhas i:nth-child(3) { width: 17cqw; height: 17cqw; left: 66cqw; top: 15cqw; }
+.tpl-bolhas i:nth-child(4) { width: 8cqw; height: 8cqw; left: 72cqw; top: 2cqw; }
+.tpl-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3cqw; padding: 0 5cqw; margin-top: -10cqw; position: relative; }
+.tpl-cards div { background: #fff; border-radius: 3cqw; padding: 4cqw 2cqw; text-align: center; font-size: 3.4cqw; font-weight: 700; color: #1b1740; }
+.tpl-cards i { display: block; width: 9cqw; height: 9cqw; margin: 0 auto 2.4cqw; border-radius: 50%; background: linear-gradient(135deg, var(--a), #6a3cf3); }
+/* o que fazemos */
+.anel { position: absolute; z-index: -1; left: -560px; top: 160px; width: 1120px; height: 1120px; border-radius: 50%; box-shadow: inset 0 0 0 2px rgba(255,107,26,.55), 0 0 0 90px rgba(255,255,255,.02), 0 0 0 91px rgba(223,227,231,.12); pointer-events: none; }
+.ficha { list-style: none; margin: 46px 0 10px; padding: 0; border-bottom: 1px solid var(--linha); }
+.ficha li { display: flex; align-items: baseline; gap: 34px; padding: 28px 0; border-top: 1px solid var(--linha); font-family: "Saira", sans-serif; font-weight: 400; font-size: 54px; line-height: 1.1; }
+.ficha .mono { color: var(--laranja); font-size: 22px; min-width: 120px; }
+/* nosso jeito */
+.regras { list-style: none; margin: 40px 0 0; padding: 0; display: grid; gap: 34px; }
+.regras li { display: grid; gap: 8px; padding-left: 44px; position: relative; }
+.regras li::before { content: ""; position: absolute; left: 4px; top: 18px; width: 16px; height: 16px; background: var(--laranja); transform: rotate(45deg); }
+.regras b { font-family: "Saira", sans-serif; font-weight: 400; font-size: 52px; line-height: 1.1; }
+.regras span { font-size: 34px; color: var(--aluminio2); line-height: 1.35; }
+.numeros { display: grid; grid-template-columns: repeat(3, 1fr); margin: 56px 0 0; border-top: 1px solid var(--linha); }
+.numeros div { padding: 24px 16px 0 0; }
+.numeros div + div { padding-left: 24px; border-left: 1px solid var(--linha); }
+.numeros dd { margin: 0; font-family: "Saira", sans-serif; font-weight: 250; font-size: 96px; line-height: 1; }
+.numeros dt { font-family: "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .08em; font-size: 20px; color: var(--nevoa); margin-top: 10px; }
+/* final */
+.final { height: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 70px; }
+.assin { width: 720px; height: auto; }
+.final h2 { font-size: 74px; line-height: 1.06; margin-top: 70px; max-width: 860px; }
+.botao { margin: 64px 0 0; padding: 30px 56px; font-weight: 600; font-size: 38px; color: var(--estrato); background: var(--laranja); clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px)); }
+.arroba { margin-top: 34px; font-size: 28px; color: var(--aluminio2); text-transform: none; }
+/* pista contínua (atravessa todos os slides) */
+.pista { position: absolute; left: 0; right: 0; top: 1240px; height: 1px; background: var(--linha); }
+.pista-quente { position: absolute; top: 1240px; height: 2px; margin-top: -0.5px; background: var(--laranja); }
+.marca { position: absolute; top: 1210px; width: 1px; height: 30px; background: var(--nevoa); }
+.leitura { position: absolute; top: 1262px; font-size: 20px; }
+.leitura b { color: var(--aluminio); font-weight: 500; margin-right: 14px; }
+.leitura.super, .leitura.super b { color: var(--laranja); }
+.barreira-txt { position: absolute; top: 1172px; font-size: 18px; color: var(--laranja); transform: translateX(-100%); padding-right: 14px; }
+</style></head><body><div id="pano"><canvas id="ceu" width="6480" height="1350"></canvas>
+<div class="pista"></div><div class="marca" style="left:40px;height:22px;top:1218px"></div><div class="marca" style="left:100px;height:10px;top:1230px"></div><div class="marca" style="left:160px;height:10px;top:1230px"></div><div class="marca" style="left:220px;height:10px;top:1230px"></div><div class="marca" style="left:280px;height:10px;top:1230px"></div><div class="marca" style="left:340px;height:22px;top:1218px"></div><div class="marca" style="left:400px;height:10px;top:1230px"></div><div class="marca" style="left:460px;height:10px;top:1230px"></div><div class="marca" style="left:520px;height:10px;top:1230px"></div><div class="marca" style="left:580px;height:10px;top:1230px"></div><div class="marca" style="left:640px;height:22px;top:1218px"></div><div class="marca" style="left:700px;height:10px;top:1230px"></div><div class="marca" style="left:760px;height:10px;top:1230px"></div><div class="marca" style="left:820px;height:10px;top:1230px"></div><div class="marca" style="left:880px;height:10px;top:1230px"></div><div class="marca" style="left:940px;height:22px;top:1218px"></div><div class="marca" style="left:1000px;height:10px;top:1230px"></div><div class="marca" style="left:1060px;height:10px;top:1230px"></div><div class="marca" style="left:1120px;height:10px;top:1230px"></div><div class="marca" style="left:1180px;height:10px;top:1230px"></div><div class="marca" style="left:1240px;height:22px;top:1218px"></div><div class="marca" style="left:1300px;height:10px;top:1230px"></div><div class="marca" style="left:1360px;height:10px;top:1230px"></div><div class="marca" style="left:1420px;height:10px;top:1230px"></div><div class="marca" style="left:1480px;height:10px;top:1230px"></div><div class="marca" style="left:1540px;height:22px;top:1218px"></div><div class="marca" style="left:1600px;height:10px;top:1230px"></div><div class="marca" style="left:1660px;height:10px;top:1230px"></div><div class="marca" style="left:1720px;height:10px;top:1230px"></div><div class="marca" style="left:1780px;height:10px;top:1230px"></div><div class="marca" style="left:1840px;height:22px;top:1218px"></div><div class="marca" style="left:1900px;height:10px;top:1230px"></div><div class="marca" style="left:1960px;height:10px;top:1230px"></div><div class="marca" style="left:2020px;height:10px;top:1230px"></div><div class="marca" style="left:2080px;height:10px;top:1230px"></div><div class="marca" style="left:2140px;height:22px;top:1218px"></div><div class="marca" style="left:2200px;height:10px;top:1230px"></div><div class="marca" style="left:2260px;height:10px;top:1230px"></div><div class="marca" style="left:2320px;height:10px;top:1230px"></div><div class="marca" style="left:2380px;height:10px;top:1230px"></div><div class="marca" style="left:2440px;height:22px;top:1218px"></div><div class="marca" style="left:2500px;height:10px;top:1230px"></div><div class="marca" style="left:2560px;height:10px;top:1230px"></div><div class="marca" style="left:2620px;height:10px;top:1230px"></div><div class="marca" style="left:2680px;height:10px;top:1230px"></div><div class="marca" style="left:2740px;height:22px;top:1218px"></div><div class="marca" style="left:2800px;height:10px;top:1230px"></div><div class="marca" style="left:2860px;height:10px;top:1230px"></div><div class="marca" style="left:2920px;height:10px;top:1230px"></div><div class="marca" style="left:2980px;height:10px;top:1230px"></div><div class="marca" style="left:3040px;height:22px;top:1218px"></div><div class="marca" style="left:3100px;height:10px;top:1230px"></div><div class="marca" style="left:3160px;height:10px;top:1230px"></div><div class="marca" style="left:3220px;height:10px;top:1230px"></div><div class="marca" style="left:3280px;height:10px;top:1230px"></div><div class="marca" style="left:3340px;height:22px;top:1218px"></div><div class="marca" style="left:3400px;height:10px;top:1230px"></div><div class="marca" style="left:3460px;height:10px;top:1230px"></div><div class="marca" style="left:3520px;height:10px;top:1230px"></div><div class="marca" style="left:3580px;height:10px;top:1230px"></div><div class="marca" style="left:3640px;height:22px;top:1218px"></div><div class="marca" style="left:3700px;height:10px;top:1230px"></div><div class="marca" style="left:3760px;height:10px;top:1230px"></div><div class="marca" style="left:3820px;height:10px;top:1230px"></div><div class="marca" style="left:3880px;height:10px;top:1230px"></div><div class="marca" style="left:3940px;height:22px;top:1218px"></div><div class="marca" style="left:4000px;height:10px;top:1230px"></div><div class="marca" style="left:4060px;height:10px;top:1230px"></div><div class="marca" style="left:4120px;height:10px;top:1230px"></div><div class="marca" style="left:4180px;height:10px;top:1230px"></div><div class="marca" style="left:4240px;height:22px;top:1218px"></div><div class="marca" style="left:4300px;height:10px;top:1230px"></div><div class="marca" style="left:4360px;height:10px;top:1230px"></div><div class="marca" style="left:4420px;height:10px;top:1230px"></div><div class="marca" style="left:4480px;height:10px;top:1230px"></div><div class="marca" style="left:4540px;height:22px;top:1218px"></div><div class="marca" style="left:4600px;height:10px;top:1230px"></div><div class="marca" style="left:4660px;height:10px;top:1230px"></div><div class="marca" style="left:4720px;height:10px;top:1230px"></div><div class="marca" style="left:4780px;height:10px;top:1230px"></div><div class="marca" style="left:4840px;height:22px;top:1218px"></div><div class="marca" style="left:4900px;height:10px;top:1230px"></div><div class="marca" style="left:4960px;height:10px;top:1230px"></div><div class="marca" style="left:5020px;height:10px;top:1230px"></div><div class="marca" style="left:5080px;height:10px;top:1230px"></div><div class="marca" style="left:5140px;height:22px;top:1218px"></div><div class="marca" style="left:5200px;height:10px;top:1230px"></div><div class="marca" style="left:5260px;height:10px;top:1230px"></div><div class="marca" style="left:5320px;height:10px;top:1230px"></div><div class="marca" style="left:5380px;height:10px;top:1230px"></div><div class="marca" style="left:5440px;height:22px;top:1218px"></div><div class="marca" style="left:5500px;height:10px;top:1230px"></div><div class="marca" style="left:5560px;height:10px;top:1230px"></div><div class="marca" style="left:5620px;height:10px;top:1230px"></div><div class="marca" style="left:5680px;height:10px;top:1230px"></div><div class="marca" style="left:5740px;height:22px;top:1218px"></div><div class="marca" style="left:5800px;height:10px;top:1230px"></div><div class="marca" style="left:5860px;height:10px;top:1230px"></div><div class="marca" style="left:5920px;height:10px;top:1230px"></div><div class="marca" style="left:5980px;height:10px;top:1230px"></div><div class="marca" style="left:6040px;height:22px;top:1218px"></div><div class="marca" style="left:6100px;height:10px;top:1230px"></div><div class="marca" style="left:6160px;height:10px;top:1230px"></div><div class="marca" style="left:6220px;height:10px;top:1230px"></div><div class="marca" style="left:6280px;height:10px;top:1230px"></div><div class="marca" style="left:6340px;height:22px;top:1218px"></div><div class="marca" style="left:6400px;height:10px;top:1230px"></div><div class="marca" style="left:6460px;height:10px;top:1230px"></div><div class="pista-quente" style="left:3240px;right:0"></div><div class="marca" style="left:3240px;top:1150px;height:90px;background:var(--laranja)"></div><p class="mono barreira-txt" style="left:3240px">M 1.0</p><section class="slide" style="left:0px">
+    <div class="topo"><svg class="logo-mini" viewBox="-10 -14 544 124" aria-hidden="true">
+  <clipPath id="pe-m0"><rect x="-40" y="-40" width="620" height="143.5"/></clipPath>
+  <g fill="none" stroke-width="9" stroke-linejoin="miter" stroke-miterlimit="4">
+    <path d="M0 100 V0 L55 72 L110 0 V100 M390 0 H312 Q282 0 282 30 V70 Q282 100 312 100 H390 M420 0 V100 M520 0 V100 M420 50 H520" stroke="#DFE3E7" stroke-linecap="square"/>
+    <path d="M137.68 108 L196 0 L254.32 108" stroke="#FF6B1A" clip-path="url(#pe-m0)"/>
+  </g></svg><span class="mono pag">01 / 06</span></div>
+    <div class="capa">
+     <div class="capa-jato"><svg class="jato c" viewBox="-20 -24 148 236" aria-hidden="true">
+  <clipPath id="pe-jc"><rect x="-40" y="-40" width="200" height="144.5"/></clipPath>
+  <path d="M-4.32 108 L54 0 L112.32 108" fill="none" stroke="#FF6B1A" stroke-width="9" clip-path="url(#pe-jc)"/>
+  <path d="M54 114 L63 128 L54 142 L45 128 Z" fill="#FF6B1A"/>
+  <path d="M54 147 L60.5 157 L54 167 L47.5 157 Z" fill="#FF6B1A" opacity=".62"/>
+  <path d="M54 173 L58.5 180 L54 187 L49.5 180 Z" fill="#FF6B1A" opacity=".34"/>
+</svg></div>
+     <h1>Por que um estúdio de sites se chama <b>MACH</b>?</h1>
+     <p class="arraste mono">Arraste para descobrir <span>→</span></p>
+   </div>
+    <p class="mono leitura " style="left:96px"><b>M 0.40</b>Subsônico</p>
+  </section><section class="slide" style="left:1080px">
+    <div class="topo"><svg class="logo-mini" viewBox="-10 -14 544 124" aria-hidden="true">
+  <clipPath id="pe-m1"><rect x="-40" y="-40" width="620" height="143.5"/></clipPath>
+  <g fill="none" stroke-width="9" stroke-linejoin="miter" stroke-miterlimit="4">
+    <path d="M0 100 V0 L55 72 L110 0 V100 M390 0 H312 Q282 0 282 30 V70 Q282 100 312 100 H390 M420 0 V100 M520 0 V100 M420 50 H520" stroke="#DFE3E7" stroke-linecap="square"/>
+    <path d="M137.68 108 L196 0 L254.32 108" stroke="#FF6B1A" clip-path="url(#pe-m1)"/>
+  </g></svg><span class="mono pag">02 / 06</span></div>
+    <p class="eyebrow">O nome</p>
+   <p class="numero">Mach 1</p>
+   <p class="mono legenda">= a velocidade do som</p>
+   <svg class="cone" viewBox="0 0 400 230" aria-hidden="true">
+     <path d="M200 20 L10 205 M200 20 L390 205" stroke="#dfe3e7" stroke-width="1.6" fill="none"/>
+     <path d="M200 70 L40 226 M200 70 L360 226" stroke="#8a929b" stroke-width="1" fill="none" opacity=".55"/>
+     <path d="M178 62 L200 20 L222 62" stroke="#ff6b1a" stroke-width="4" fill="none"/>
+     <path d="M200 68 L205 75 L200 82 L195 75 Z" fill="#ff6b1a"/>
+     <path d="M200 87 L203.5 92 L200 97 L196.5 92 Z" fill="#ff6b1a" opacity=".6"/>
+   </svg>
+   <p class="texto">Mach é a medida de velocidade dos jatos. Passar de Mach 1 é romper a barreira do som.</p>
+   <p class="texto">A gente quer fazer o mesmo com o seu site: <strong>passar da barreira do template.</strong></p>
+    <p class="mono leitura " style="left:96px"><b>M 0.65</b>Subsônico</p>
+  </section><section class="slide" style="left:2160px">
+    <div class="topo"><svg class="logo-mini" viewBox="-10 -14 544 124" aria-hidden="true">
+  <clipPath id="pe-m2"><rect x="-40" y="-40" width="620" height="143.5"/></clipPath>
+  <g fill="none" stroke-width="9" stroke-linejoin="miter" stroke-miterlimit="4">
+    <path d="M0 100 V0 L55 72 L110 0 V100 M390 0 H312 Q282 0 282 30 V70 Q282 100 312 100 H390 M420 0 V100 M520 0 V100 M420 50 H520" stroke="#DFE3E7" stroke-linecap="square"/>
+    <path d="M137.68 108 L196 0 L254.32 108" stroke="#FF6B1A" clip-path="url(#pe-m2)"/>
+  </g></svg><span class="mono pag">03 / 06</span></div>
+    <p class="eyebrow">O problema</p>
+   <h2 class="caixas"><span>Todos parecem…</span> <span class="inv">isso.</span></h2>
+   <div class="pilha">
+     <div class="tpl" style="--a:#00d9ff;transform:translate(-120px,30px) rotate(-8deg)">
+  <div class="tpl-bar"><span>vortiq.com.br</span></div>
+  <div class="tpl-hero"><div class="tpl-nav"><b>◉ Vortiq</b><s></s></div>
+    <p class="tpl-h">Eleve seu negócio<br><em>ao próximo nível</em></p>
+    <p class="tpl-sub">Soluções inovadoras e<br>tecnologia de ponta</p>
+    <span class="tpl-btn">Comece agora →</span>
+    <div class="tpl-bolhas"><i></i><i></i><i></i><i></i></div></div>
+  <div class="tpl-cards"><div><i></i>Rápido</div><div><i></i>Seguro</div><div><i></i>Escalável</div></div>
+</div>
+     <div class="tpl" style="--a:#ffc21a;transform:translate(120px,20px) rotate(7deg)">
+  <div class="tpl-bar"><span>lumora.com.br</span></div>
+  <div class="tpl-hero"><div class="tpl-nav"><b>◉ Lumora</b><s></s></div>
+    <p class="tpl-h">Eleve seu negócio<br><em>ao próximo nível</em></p>
+    <p class="tpl-sub">Soluções inovadoras e<br>tecnologia de ponta</p>
+    <span class="tpl-btn">Comece agora →</span>
+    <div class="tpl-bolhas"><i></i><i></i><i></i><i></i></div></div>
+  <div class="tpl-cards"><div><i></i>Rápido</div><div><i></i>Seguro</div><div><i></i>Escalável</div></div>
+</div>
+     <div class="tpl" style="--a:#ff3d8b;transform:rotate(-1deg)">
+  <div class="tpl-bar"><span>nexora.com.br</span></div>
+  <div class="tpl-hero"><div class="tpl-nav"><b>◉ Nexora</b><s></s></div>
+    <p class="tpl-h">Eleve seu negócio<br><em>ao próximo nível</em></p>
+    <p class="tpl-sub">Soluções inovadoras e<br>tecnologia de ponta</p>
+    <span class="tpl-btn">Comece agora →</span>
+    <div class="tpl-bolhas"><i></i><i></i><i></i><i></i></div></div>
+  <div class="tpl-cards"><div><i></i>Rápido</div><div><i></i>Seguro</div><div><i></i>Escalável</div></div>
+</div>
+     <p class="contador mono"><i></i>Site 47</p>
+   </div>
+   <p class="texto">Degradê roxo, “eleve seu negócio ao próximo nível”, três cards com ícones. Muda o logo, o resto é igual.</p>
+    <p class="mono leitura " style="left:96px"><b>M 0.92</b>Transônico</p>
+  </section><section class="slide corta" style="left:3240px">
+    <div class="topo"><svg class="logo-mini" viewBox="-10 -14 544 124" aria-hidden="true">
+  <clipPath id="pe-m3"><rect x="-40" y="-40" width="620" height="143.5"/></clipPath>
+  <g fill="none" stroke-width="9" stroke-linejoin="miter" stroke-miterlimit="4">
+    <path d="M0 100 V0 L55 72 L110 0 V100 M390 0 H312 Q282 0 282 30 V70 Q282 100 312 100 H390 M420 0 V100 M520 0 V100 M420 50 H520" stroke="#DFE3E7" stroke-linecap="square"/>
+    <path d="M137.68 108 L196 0 L254.32 108" stroke="#FF6B1A" clip-path="url(#pe-m3)"/>
+  </g></svg><span class="mono pag">04 / 06</span></div>
+    <div class="anel" aria-hidden="true"></div>
+   <p class="eyebrow laranja">M 1.0 · Barreira rompida</p>
+   <h2>A MACH desenha sites do zero.</h2>
+   <ul class="ficha">
+     <li><span class="mono">MCH-01</span>Sites institucionais</li>
+     <li><span class="mono">MCH-02</span>Landing pages</li>
+     <li><span class="mono">MCH-03</span>Portfólios</li>
+     <li><span class="mono">MCH-04</span>Animação e 3D</li>
+   </ul>
+   <p class="texto">Tudo com animação de nível supersônico.</p>
+    <p class="mono leitura super" style="left:96px"><b>M 1.05</b>Supersônico</p>
+  </section><section class="slide" style="left:4320px">
+    <div class="topo"><svg class="logo-mini" viewBox="-10 -14 544 124" aria-hidden="true">
+  <clipPath id="pe-m4"><rect x="-40" y="-40" width="620" height="143.5"/></clipPath>
+  <g fill="none" stroke-width="9" stroke-linejoin="miter" stroke-miterlimit="4">
+    <path d="M0 100 V0 L55 72 L110 0 V100 M390 0 H312 Q282 0 282 30 V70 Q282 100 312 100 H390 M420 0 V100 M520 0 V100 M420 50 H520" stroke="#DFE3E7" stroke-linecap="square"/>
+    <path d="M137.68 108 L196 0 L254.32 108" stroke="#FF6B1A" clip-path="url(#pe-m4)"/>
+  </g></svg><span class="mono pag">05 / 06</span></div>
+    <p class="eyebrow">Nosso jeito</p>
+   <h2>Três regras de voo.</h2>
+   <ul class="regras">
+     <li><b>Zero template</b><span>Cada projeto começa numa tela em branco.</span></li>
+     <li><b>Movimento com propósito</b><span>Animação para guiar o olhar, não para enfeitar.</span></li>
+     <li><b>Multiplataforma</b><span>Feito para funcionar bem no celular, no tablet e no computador.</span></li>
+   </ul>
+   <dl class="numeros">
+     <div><dd>0</dd><dt>Templates</dt></div>
+     <div><dd>100%</dd><dt>Sob medida</dt></div>
+     <div><dd>60</dd><dt>Quadros/s</dt></div>
+   </dl>
+    <p class="mono leitura super" style="left:96px"><b>M 1.25</b>Supersônico</p>
+  </section><section class="slide" style="left:5400px">
+    <div class="topo"><svg class="logo-mini" viewBox="-10 -14 544 124" aria-hidden="true">
+  <clipPath id="pe-m5"><rect x="-40" y="-40" width="620" height="143.5"/></clipPath>
+  <g fill="none" stroke-width="9" stroke-linejoin="miter" stroke-miterlimit="4">
+    <path d="M0 100 V0 L55 72 L110 0 V100 M390 0 H312 Q282 0 282 30 V70 Q282 100 312 100 H390 M420 0 V100 M520 0 V100 M420 50 H520" stroke="#DFE3E7" stroke-linecap="square"/>
+    <path d="M137.68 108 L196 0 L254.32 108" stroke="#FF6B1A" clip-path="url(#pe-m5)"/>
+  </g></svg><span class="mono pag">06 / 06</span></div>
+    <div class="final">
+     <svg class="assin" xmlns="http://www.w3.org/2000/svg" viewBox="-14 -16 548 220" role="img" aria-label="MACH Estúdio">
+  
+  <clipPath id="pe-escuro"><rect x="-40" y="-40" width="620" height="143.5"/></clipPath>
+  <g fill="none" stroke-width="7" stroke-linejoin="miter" stroke-miterlimit="4">
+    <path d="M0 100 V0 L55 72 L110 0 V100 M390 0 H312 Q282 0 282 30 V70 Q282 100 312 100 H390 M420 0 V100 M520 0 V100 M420 50 H520" stroke="#DFE3E7" stroke-linecap="square"/>
+    <path d="M137.68 108 L196 0 L254.32 108" stroke="#FF6B1A" stroke-linecap="butt" clip-path="url(#pe-escuro)"/>
+  </g>
+  <g>
+    <path d="M196 114 L205 128 L196 142 L187 128 Z" fill="#FF6B1A" opacity="1.0"/>
+    <path d="M196 147 L202.5 157 L196 167 L189.5 157 Z" fill="#FF6B1A" opacity="0.62"/>
+    <path d="M196 173 L200.5 180 L196 187 L191.5 180 Z" fill="#FF6B1A" opacity="0.34"/>
+  </g>
+  <path d="M278.5 141.0V122.0H293.1642441860465V124.54069767441861H281.5654069767442V130.1468023255814H291.5901162790698V132.6875H281.5654069767442V138.4593023255814H293.1642441860465V141.0ZM324.9118217054264 141.22093023255815Q323.69670542635663 141.22093023255815 322.2744670542636 141.1656976744186Q320.85222868217056 141.11046511627907 319.4714147286822 141.0138081395349Q318.0906007751938 140.9171511627907 316.95833333333337 140.80668604651163V138.32122093023256Q318.14583333333337 138.43168604651163 319.4576065891473 138.51453488372093Q320.7693798449613 138.59738372093022 321.984496124031 138.6388081395349Q323.1996124031008 138.68023255813952 324.0557170542636 138.68023255813952Q325.71269379844966 138.68023255813952 326.6792635658915 138.59738372093022Q327.64583333333337 138.51453488372093 328.25339147286826 138.23837209302326Q328.72286821705427 137.98982558139534 328.9299903100775 137.61700581395348Q329.1371124031008 137.24418604651163 329.19234496124034 136.73328488372093Q329.2475775193799 136.22238372093022 329.2475775193799 135.6424418604651Q329.2475775193799 134.8968023255814 329.19234496124034 134.3997093023256Q329.1371124031008 133.90261627906978 328.9299903100775 133.62645348837208Q328.72286821705427 133.3502906976744 328.2533914728682 133.22601744186045Q327.7839147286822 133.10174418604652 327.0106589147287 133.01889534883722L321.4874031007752 132.46656976744185Q319.85804263565893 132.32848837209303 318.8224321705427 131.99709302325581Q317.7868217054264 131.6656976744186 317.24830426356596 131.0581395348837Q316.70978682170545 130.45058139534885 316.5164728682171 129.51162790697674Q316.3231589147287 128.57267441860466 316.3231589147287 127.21947674418604Q316.3231589147287 125.28633720930233 316.88929263565893 124.19549418604652Q317.45542635658916 123.1046511627907 318.5186531007752 122.57994186046511Q319.5818798449613 122.05523255813954 321.03173449612405 121.9171511627907Q322.48158914728685 121.77906976744185 324.2214147286822 121.77906976744185Q325.46414728682174 121.77906976744185 326.77592054263573 121.84811046511628Q328.08769379844966 121.9171511627907 329.2613856589148 122.02761627906978Q330.4350775193799 122.13808139534883 331.23594961240315 122.27616279069767V124.67877906976744Q330.37984496124034 124.56831395348837 329.2613856589147 124.48546511627907Q328.14292635658916 124.40261627906978 326.94161821705427 124.36119186046511Q325.74031007751944 124.31976744186046 324.69089147286826 124.31976744186046Q323.0339147286822 124.31976744186046 321.99830426356596 124.41642441860465Q320.96269379844966 124.51308139534883 320.38275193798455 124.78924418604652Q319.69234496124034 125.09302325581396 319.54045542635663 125.67296511627907Q319.3885658914729 126.25290697674419 319.3885658914729 127.0813953488372Q319.3885658914729 128.0203488372093 319.51283914728685 128.5450581395349Q319.6371124031008 129.06976744186048 320.1894379844962 129.2906976744186Q320.7417635658915 129.51162790697674 321.9292635658915 129.6497093023256L327.53536821705427 130.17441860465115Q328.5571705426357 130.25726744186048 329.3856589147287 130.45058139534885Q330.21414728682174 130.64389534883722 330.80789728682174 131.03052325581396Q331.40164728682174 131.4171511627907 331.7606589147287 132.19040697674419Q331.9539728682171 132.6046511627907 332.078246124031 133.1155523255814Q332.202519379845 133.62645348837208 332.27156007751944 134.22020348837208Q332.3406007751938 134.81395348837208 332.3406007751938 135.55959302325581Q332.3406007751938 137.24418604651163 331.9539728682171 138.32122093023256Q331.56734496124034 139.39825581395348 330.86312984496124 140.00581395348837Q330.1589147286822 140.61337209302326 329.233769379845 140.87572674418607Q328.3086240310078 141.13808139534885 327.2039728682171 141.17950581395348Q326.0993217054264 141.22093023255815 324.9118217054264 141.22093023255815ZM361.46463178294573 141.0V124.59593023255815H354.5329457364341V122.0H371.4341085271318V124.59593023255815H364.50242248062017V141.0ZM402.87790697674416 141.22093023255815Q400.61337209302326 141.22093023255815 399.09447674418607 141.0Q397.5755813953488 140.77906976744185 396.62281976744185 140.21293604651163Q395.6700581395349 139.6468023255814 395.1729651162791 138.65261627906978Q394.67587209302326 137.65843023255815 394.4963662790698 136.15334302325581Q394.3168604651163 134.64825581395348 394.3168604651163 132.5218023255814V122.0H397.38226744186045V133.40552325581396Q397.38226744186045 135.0625 397.5203488372093 136.11191860465118Q397.65843023255815 137.16133720930233 398.15552325581393 137.7136627906977Q398.6526162790698 138.26598837209303 399.7710755813954 138.4731104651163Q400.88953488372096 138.68023255813952 402.85029069767444 138.68023255813952Q404.8386627906977 138.68023255813952 405.9295058139535 138.4731104651163Q407.0203488372093 138.26598837209303 407.51744186046517 137.7136627906977Q408.01453488372096 137.16133720930233 408.1526162790698 136.11191860465118Q408.2906976744186 135.0625 408.2906976744186 133.40552325581396V122.0H411.32848837209303V132.5218023255814Q411.32848837209303 134.64825581395348 411.14898255813955 136.15334302325581Q410.96947674418607 137.65843023255815 410.5 138.65261627906978Q410.03052325581393 139.6468023255814 409.09156976744185 140.21293604651163Q408.1526162790698 140.77906976744185 406.6337209302326 141.0Q405.11482558139534 141.22093023255815 402.87790697674416 141.22093023255815ZM400.2543604651163 119.84593023255815V119.70784883720931L403.7892441860465 115.84156976744187H406.7718023255814V115.9796511627907L402.2703488372093 119.84593023255815ZM436.4205426356589 141.0V122.0H443.4903100775194Q446.2795542635659 122.0 448.046996124031 122.22093023255815Q449.8144379844961 122.44186046511628 450.85004844961236 123.03561046511628Q451.88565891472865 123.62936046511628 452.34132751937983 124.69258720930233Q452.796996124031 125.75581395348837 452.93507751937983 127.4265988372093Q453.07315891472865 129.09738372093022 453.07315891472865 131.5Q453.07315891472865 133.90261627906978 452.93507751937983 135.5734011627907Q452.796996124031 137.24418604651163 452.34132751937983 138.30741279069767Q451.88565891472865 139.3706395348837 450.85004844961236 139.9643895348837Q449.8144379844961 140.5581395348837 448.046996124031 140.77906976744185Q446.2795542635659 141.0 443.4903100775194 141.0ZM439.4859496124031 138.4593023255814H442.99321705426354Q445.0092054263566 138.4593023255814 446.3347868217054 138.40406976744185Q447.66036821705427 138.34883720930233 448.41981589147287 138.03125Q449.17926356589146 137.71366279069767 449.52446705426354 136.96802325581393Q449.8696705426356 136.22238372093022 449.9663275193798 134.9106104651163Q450.062984496124 133.59883720930233 450.062984496124 131.5Q450.062984496124 129.40116279069767 449.95251937984494 128.0893895348837Q449.8420542635659 126.77761627906976 449.4968507751938 126.03197674418604Q449.1516472868217 125.28633720930233 448.3783914728682 124.96875Q447.6051356589147 124.65116279069767 446.2933624031008 124.59593023255815Q444.9815891472868 124.54069767441861 442.99321705426354 124.54069767441861H439.4859496124031ZM477.640503875969 141.0V122.0H480.70591085271315V141.0ZM514.359011627907 141.22093023255815Q511.73546511627904 141.22093023255815 510.0370639534883 140.97238372093022Q508.33866279069764 140.72383720930233 507.3582848837209 140.10247093023256Q506.37790697674416 139.48110465116278 505.89462209302326 138.37645348837208Q505.4113372093023 137.2718023255814 505.2870639534883 135.5872093023256Q505.1627906976744 133.90261627906978 505.1627906976744 131.5Q505.1627906976744 129.09738372093022 505.2870639534883 127.41279069767441Q505.4113372093023 125.72819767441861 505.89462209302326 124.62354651162791Q506.37790697674416 123.5188953488372 507.3582848837209 122.89752906976744Q508.33866279069764 122.27616279069767 510.0370639534883 122.02761627906976Q511.73546511627904 121.77906976744185 514.359011627907 121.77906976744185Q516.9825581395348 121.77906976744185 518.6809593023256 122.02761627906976Q520.3793604651163 122.27616279069767 521.359738372093 122.89752906976744Q522.3401162790698 123.5188953488372 522.7957848837209 124.62354651162791Q523.251453488372 125.72819767441861 523.3757267441861 127.41279069767441Q523.5 129.09738372093022 523.5 131.5Q523.5 133.90261627906978 523.3757267441861 135.5872093023256Q523.251453488372 137.2718023255814 522.7957848837209 138.37645348837208Q522.3401162790698 139.48110465116278 521.359738372093 140.10247093023256Q520.3793604651163 140.72383720930233 518.6809593023256 140.97238372093022Q516.9825581395348 141.22093023255815 514.359011627907 141.22093023255815ZM514.359011627907 138.68023255813952Q516.126453488372 138.68023255813952 517.2587209302326 138.58357558139534Q518.390988372093 138.48691860465115 519.0399709302326 138.14171511627904Q519.688953488372 137.79651162790697 519.9927325581396 137.02325581395348Q520.296511627907 136.25 520.3793604651163 134.92441860465118Q520.4622093023256 133.59883720930233 520.4622093023256 131.5Q520.4622093023256 129.40116279069767 520.3793604651163 128.07558139534882Q520.296511627907 126.75 519.9927325581396 125.97674418604652Q519.688953488372 125.20348837209302 519.0399709302326 124.85828488372093Q518.390988372093 124.51308139534883 517.2587209302326 124.41642441860465Q516.126453488372 124.31976744186046 514.359011627907 124.31976744186046Q512.5915697674418 124.31976744186046 511.45930232558135 124.41642441860465Q510.3270348837209 124.51308139534883 509.67805232558135 124.85828488372093Q509.02906976744185 125.20348837209302 508.71148255813955 125.97674418604652Q508.3938953488372 126.75 508.31104651162786 128.07558139534882Q508.2281976744186 129.40116279069767 508.2281976744186 131.5Q508.2281976744186 133.59883720930233 508.31104651162786 134.92441860465118Q508.3938953488372 136.25 508.71148255813955 137.02325581395348Q509.02906976744185 137.79651162790697 509.67805232558135 138.14171511627904Q510.3270348837209 138.48691860465115 511.47311046511624 138.58357558139534Q512.6191860465116 138.68023255813952 514.359011627907 138.68023255813952Z" fill="#DFE3E7"/>
+</svg>
+
+     <h2>Quer um site que ninguém confunde com template?</h2>
+     <p class="botao">Chama no direct</p>
+     <p class="mono arroba">@mach.sites</p>
+   </div>
+    <p class="mono leitura super" style="left:96px"><b>M 1.40</b>Supersônico</p>
+  </section></div><script>
+const c = document.getElementById('ceu'), x = c.getContext('2d');
+let s = 7; const r = () => (s = (s * 16807) % 2147483647) / 2147483647;
+const W = c.width, H = c.height;
+// horizonte curvo contínuo
+const R = W * 1.6, cx = W / 2, cy = H + R - 190;
+const g = x.createRadialGradient(cx, cy, R * .995, cx, cy, R * 1.01);
+g.addColorStop(0, 'rgba(70,120,200,.18)'); g.addColorStop(1, 'rgba(70,120,200,0)');
+x.fillStyle = g; x.fillRect(0, H - 400, W, 400);
+x.strokeStyle = 'rgba(140,180,255,.22)'; x.lineWidth = 1.5; x.beginPath(); x.arc(cx, cy, R, Math.PI * 1.25, Math.PI * 1.75); x.stroke();
+// riscos de ar (mais longos conforme a velocidade de cada slide)
+const MACH = [0.4,0.65,0.92,1.05,1.25,1.4];
+for (let i = 0; i < 900; i++) {
+  const px = r() * W, py = r() * H, d = r();
+  const m = MACH[Math.min(5, Math.floor(px / 1080))];
+  const len = (20 + 160 * d * d) * m;
+  x.strokeStyle = 'rgba(214,226,240,' + (0.03 + 0.14 * d * d) + ')';
+  x.lineWidth = 1 + 1.4 * d; x.beginPath(); x.moveTo(px, py - len); x.lineTo(px, py); x.stroke();
+}
+// ondas de pressão em volta do jato da capa (M 0,4: acumulam à frente)
+const jx = 540, jy = 150 + 10 + 470 * (24 / 236) + 0, esc = 470 / 236, cs = 70 * esc;
+for (let k = 1; k <= 6; k++) {
+  const a = k * 0.62, rr = cs * a, yy = jy + 0.4 * cs * a;
+  x.strokeStyle = 'rgba(255,140,80,' + (0.36 * (1 - k / 7)) + ')'; x.lineWidth = 1.5;
+  x.beginPath(); x.arc(jx, yy, rr, 0, Math.PI * 2); x.stroke();
+}
+</script></body></html>

@@ -1,0 +1,158 @@
+{
+  "slug": "checklist-contratar-site",
+  "legenda": "Site bom se descobre antes de pagar, não depois.\nSalve para a hora de fechar. E manda para o sócio.\n\n#siteparaempresa #criacaodesites #pequenasempresas",
+  "slides": [
+    {
+      "tipo": "capa",
+      "eyebrow": "Checklist de pré-voo",
+      "titulo": "8 perguntas\nantes de contratar\num site.",
+      "destaque": "antes de contratar",
+      "rodape": "Salve e arraste →",
+      "checklist": [
+        "Domínio no seu nome",
+        "Site seu, não alugado",
+        "Celular, tablet e computador",
+        "Quem atualiza",
+        "Tempo para abrir",
+        "Um site parecido no ar",
+        "Mudanças depois",
+        "Custo por ano"
+      ]
+    },
+    {
+      "tipo": "texto",
+      "eyebrow": "Pergunta 01",
+      "progresso": [
+        1,
+        8
+      ],
+      "titulo": "O domínio fica no meu nome?",
+      "rotulo": "Resposta boa",
+      "texto": [
+        "Sim, no seu CPF ou CNPJ.",
+        "Se fica no nome de quem fez, o endereço da sua empresa é dele."
+      ],
+      "grande": true,
+      "numero": "01"
+    },
+    {
+      "tipo": "texto",
+      "eyebrow": "Pergunta 02",
+      "progresso": [
+        2,
+        8
+      ],
+      "titulo": "O site é meu ou é alugado?",
+      "rotulo": "Resposta boa",
+      "texto": [
+        "É seu, com os arquivos entregues.",
+        "Se parar de pagar e ele sumir, era aluguel."
+      ],
+      "grande": true,
+      "numero": "02"
+    },
+    {
+      "tipo": "texto",
+      "eyebrow": "Pergunta 03",
+      "progresso": [
+        3,
+        8
+      ],
+      "titulo": "Funciona no celular, no tablet e no computador?",
+      "rotulo": "Resposta boa",
+      "texto": [
+        "Sim, e você testa nos três antes de aprovar.",
+        "Multiplataforma não é só encolher a tela."
+      ],
+      "grande": true,
+      "numero": "03"
+    },
+    {
+      "tipo": "texto",
+      "eyebrow": "Pergunta 04",
+      "progresso": [
+        4,
+        8
+      ],
+      "titulo": "Quem atualiza\ndepois de pronto?",
+      "rotulo": "Resposta boa",
+      "texto": [
+        "Está combinado por escrito.",
+        "Quem faz, em quanto tempo e quanto custa."
+      ],
+      "grande": true,
+      "numero": "04"
+    },
+    {
+      "tipo": "texto",
+      "eyebrow": "Pergunta 05",
+      "progresso": [
+        5,
+        8
+      ],
+      "titulo": "Quanto tempo leva para abrir?",
+      "rotulo": "Resposta boa",
+      "texto": [
+        "Poucos segundos, até no 4G.",
+        "Teste longe do Wi-Fi. Se você cansou de esperar, o cliente também cansa."
+      ],
+      "grande": true,
+      "numero": "05"
+    },
+    {
+      "tipo": "texto",
+      "eyebrow": "Pergunta 06",
+      "progresso": [
+        6,
+        8
+      ],
+      "titulo": "Posso ver um site parecido no ar?",
+      "rotulo": "Resposta boa",
+      "texto": [
+        "Sim, com o link na mão.",
+        "Print não vale. Abra no seu celular e role até o fim."
+      ],
+      "grande": true,
+      "numero": "06"
+    },
+    {
+      "tipo": "texto",
+      "eyebrow": "Pergunta 07",
+      "progresso": [
+        7,
+        8
+      ],
+      "titulo": "E se eu quiser mudar algo?",
+      "rotulo": "Resposta boa",
+      "texto": [
+        "Ajuste pequeno tem preço e prazo claros.",
+        "Saiba antes o que é ajuste e o que é projeto novo."
+      ],
+      "grande": true,
+      "numero": "07"
+    },
+    {
+      "tipo": "texto",
+      "eyebrow": "Pergunta 08",
+      "progresso": [
+        8,
+        8
+      ],
+      "titulo": "Quanto custa manter por ano?",
+      "rotulo": "Resposta boa",
+      "texto": [
+        "Um número só, sem surpresa.",
+        "Domínio, hospedagem e manutenção. Some tudo antes de fechar."
+      ],
+      "grande": true,
+      "numero": "08"
+    },
+    {
+      "tipo": "chamada",
+      "titulo": "Salve para a hora\nde fechar.",
+      "texto": "E manda para o sócio.",
+      "botao": "Chama no direct",
+      "arroba": "@mach.sites"
+    }
+  ]
+}
