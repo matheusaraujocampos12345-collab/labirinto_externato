@@ -3,6 +3,7 @@
 //
 //   node instagram/publicar.mjs --testar   confere o calendário e mostra o que seria publicado (não publica nada)
 //   node instagram/publicar.mjs            publica os posts "agendado" + "auto" cujo horário já passou
+//   node instagram/publicar.mjs --verificar só confere se a chave da Meta funciona (lê o nome da conta, não publica)
 //
 // Variáveis de ambiente (só para publicar de verdade):
 //   IG_ACCESS_TOKEN  chave do usuário do sistema "Mach Publicado System User" (login unificado da Meta),
@@ -148,6 +149,17 @@ async function publicar(p) {
   return { id: pub.id, permalink };
 }
 
+async function verificar() {
+  if (!TOKEN) { console.error('Falta a chave IG_ACCESS_TOKEN.'); process.exit(1); }
+  try {
+    const r = await graph('GET', IG, { fields: 'username,media_count' });
+    console.log(`Conexão com a Meta funcionando: @${r.username} (${r.media_count} posts).`);
+  } catch (e) {
+    console.error('A chave da Meta não funcionou: ' + e.message);
+    process.exit(1);
+  }
+}
+
 async function main() {
   const cal = JSON.parse(fs.readFileSync(CAL, 'utf8'));
   const ids = new Set();
@@ -194,7 +206,7 @@ async function main() {
   }
 }
 
-main().catch((e) => {
+(process.argv.includes('--verificar') ? verificar() : main()).catch((e) => {
   console.error(e);
   process.exit(1);
 });
