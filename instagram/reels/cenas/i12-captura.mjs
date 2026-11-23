@@ -1,129 +1,71 @@
-// Gravação do i12 ("Padaria em uso"): o site da Padaria Quatro Horas filmado como um cliente usando,
-// quadro a quadro, no modo de captura do próprio site (index.html?captura=1, relógio fixo em
-// quarta, 9/12/2026, 15h47). As interações são reais: a rolagem, o toque na aba Natal e os toques
-// em "Adicionar" e "+" mudam o site de verdade; o resumo e a mensagem do WhatsApp saem do site.
-// Uso, da raiz do repositório:
-//   node instagram/reels/cenas/i12-captura.mjs [--workers 2]
-// Saída: instagram/reels/.quadros/i12-site/q_00000.png… e meta.json (posições dos elementos por quadro)
+// Gravação do i12 ("Padaria em uso", 45 s): um cliente encomenda panetone no site da Padaria Quatro
+// Horas, com toques reais (aba Natal, "Adicionar", "+"), 4 subquadros por quadro (borrão de movimento),
+// rolagens lentas e pausas de ~1 s depois de cada movimento. Também escreve instagram/reels/i12-eventos.json
+// com o segundo de cada evento de som.
+// Uso, da raiz do repositório: node instagram/reels/cenas/i12-captura.mjs [--workers 2]
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const AQUI = path.dirname(fileURLToPath(import.meta.url));
-const RAIZ = path.resolve(AQUI, '../../..');
-const { servidor, navegador, abrir } = await import(path.join(RAIZ, 'instagram/sites-conceito/padaria/ferramentas/comum.mjs'));
-
-const FPS = 30;
-export const DURACAO = 47;
-const SAIDA = path.join(RAIZ, 'instagram/reels/.quadros/i12-site');
-const argv = process.argv.slice(2);
-const WORKERS = Math.max(1, Number(argv[argv.indexOf('--workers') + 1] || 2));
-
-const suave = (x) => (x <= 0 ? 0 : x >= 1 ? 1 : -(Math.cos(Math.PI * x) - 1) / 2);
-/** rolagem por chaves [[t, y], ...] com curva suave entre elas */
-function curva(lista) {
-  return (t) => {
-    if (t <= lista[0][0]) return lista[0][1];
-    for (let i = 1; i < lista.length; i++) {
-      const [t1, y1] = lista[i], [t0, y0] = lista[i - 1];
-      if (t <= t1) return y0 + (y1 - y0) * suave((t - t0) / (t1 - t0));
-    }
-    return lista[lista.length - 1][1];
-  };
-}
-
-// Tomadas: [início, fim, rolagem(t), tempo do site(t)] — os saltos de rolagem caem nos cortes do Reels.
-// "marcos" vêm do próprio site (window.__marcos()).
-function tomadas(m) {
-  const tSite = (t) => 3 + t; // o letreiro já está aceso
-  return [
-    [0, 5, () => 0, (t) => 3 + t * 0], // primeira tela parada (o site não muda sem rolagem)
-    [5, 10.5, curva([[5, 0], [5.4, 0], [9.0, m.heroCurso], [10.5, m.heroCurso + 16]]), tSite],
-    [10.5, 13, curva([[10.5, m.senha - 290], [13, m.senha - 276]]), tSite],
-    [13, 16, curva([[13, m.natal - 70], [16, m.natal - 44]]), tSite],
-    [16, 18.5, curva([[16, m.cardapio - 90], [17.0, m.cardapio - 60], [17.5, m.cardapio - 60], [18.5, m['c-natal'] - 118]]), tSite],
-    // a aba leva ao topo da seção; o cliente desce um pouco para ver o panetone de 1 kg e o chocotone
-    [18.5, 24, curva([[18.5, m['c-natal'] - 118], [19.2, m['c-natal'] + 12], [24, m['c-natal'] + 22]]), tSite],
-    [24, 33, curva([[24, m['c-natal'] + 22], [25.5, m.rodape - 380], [33, m.rodape - 366]]), tSite],
-    [33, 42, curva([[33, m.mapa - 620], [35.5, m.mapa - 150], [42, m.mapa - 136]]), tSite],
-    [42, DURACAO, () => 0, () => 3], // primeira tela de novo, no mesmo estado do começo (loop)
-  ];
-}
-
-// Toques reais no site: [tempo, seletor, o que é]
-export const TOQUES = [
-  [17.0, '.abas [data-aba="c-natal"]', 'aba Natal'],
-  [19.5, '[data-natal="1"] .qtd-mais', 'Adicionar panetone 1 kg'],
-  [20.5, '[data-natal="1"] .qtd-mais', '+1 panetone 1 kg'],
-  [21.5, '[data-natal="2"] .qtd-mais', 'Adicionar chocotone'],
-];
+import { gravar, curva, curvaLentaNoInicio, RAIZ } from './padaria-gravar.mjs';
+import { DURACAO, TOQUES, TEXTOS } from './i12-tempos.mjs';
 
 const ELEMENTOS = {
   aba: '.abas [data-aba="c-natal"]',
   mais1: '[data-natal="1"] .qtd-mais',
-  qtd1: '[data-natal="1"] .qtd',
-  item1: '[data-natal="1"]',
   mais2: '[data-natal="2"] .qtd-mais',
-  qtd2: '[data-natal="2"] .qtd',
-  item2: '[data-natal="2"]',
-  resumo: '.natal-rodape [data-escolhidos]',
   zap: '.natal-rodape [data-zap-natal]',
-  senha: '.senha',
-  prazo: '.natal-prazo',
   mapa: '.mapa',
-  selo: '.selo-natal',
 };
 
-fs.mkdirSync(SAIDA, { recursive: true });
-const srv = await servidor();
-const t0 = Date.now();
-let feitos = 0;
-const TOTAL = Math.round(DURACAO * FPS);
-const meta = new Array(TOTAL);
-let mensagem = '';
+let rolagemMapa = null, marcos = null;
+const tomadas = (m) => {
+  marcos = m;
+  rolagemMapa = curva([[34.0, m.mapa - 670], [34.3, m.mapa - 670], [38.0, m.mapa - 250], [40.5, m.mapa - 244]]);
+  return [
+    [0, 3, () => 0, () => 3], // primeira tela, parada
+    [3, 9.5, (t) => (t < 8.3 ? curvaLentaNoInicio(3.2, 8.3, 0, m.heroCurso)(Math.max(3.2, t)) : m.heroCurso + 8 * ((t - 8.3) / 1.2)), (t) => 3 + t], // o pão sai do forno (devagar no começo)
+    [9.5, 13.5, curva([[9.5, m.natal - 70], [13.5, m.natal - 40]]), (t) => 3 + t], // Natal: luzes e o painel dos dias
+    // cardápio (já perto da seção de Natal): parado, toque na aba Natal (14,5 s), a página desce até a seção e para
+    [13.5, 22.5, curva([[13.5, m['c-natal'] - 300], [14.8, m['c-natal'] - 300], [17.4, m['c-natal'] + 12], [22.5, m['c-natal'] + 20]]), (t) => 3 + t],
+    // corte seco para o resumo e o botão do WhatsApp; desce só um pouco, devagar
+    [22.5, 29, curva([[22.5, m.rodape - 420], [24.6, m.rodape - 330], [29, m.rodape - 322]]), (t) => 3 + t],
+    [29, 34, () => m.rodape - 322, (t) => 3 + t], // a mensagem (o site fica parado e desfocado ao fundo)
+    [34, 40.5, rolagemMapa, (t) => 3 + t], // o mapa: o caminho se desenha até o pino
+    [40.5, DURACAO, () => 0, () => 3], // primeira tela de novo (convite e volta do loop)
+  ];
+};
 
-async function trabalhador(w) {
-  const b = await navegador();
-  const page = await abrir(b, srv.url);
-  const m = await page.evaluate(() => window.__marcos());
-  m.rodape = await page.evaluate(() => document.querySelector('.natal-rodape').getBoundingClientRect().top + scrollY);
-  const TOM = tomadas(m);
-  const ini = Math.floor((TOTAL * w) / WORKERS), fim = Math.floor((TOTAL * (w + 1)) / WORKERS);
-  const feitosToques = new Set();
-  for (let f = ini; f < fim; f++) {
-    const t = f / FPS;
-    const tom = TOM.find(([a, b]) => t >= a && t < b) || TOM[TOM.length - 1];
-    const y = tom[2](t), ts = tom[3](t);
-    const v = (tom[2](t + 0.02) - tom[2](t - 0.02)) / 0.04;
-    // toques: os de quantidade são aplicados mesmo que o trabalhador comece depois deles
-    const agora = TOQUES.filter(([tt], i) => tt <= t && !feitosToques.has(i) && (tt > t - 1 / FPS || !TOQUES[i][2].startsWith('aba')));
-    for (const toq of agora) {
-      feitosToques.add(TOQUES.indexOf(toq));
-      await page.evaluate((sel) => document.querySelector(sel).click(), toq[1]);
-    }
-    await page.evaluate(([t, y, v]) => window.__quadro(t, y, v), [ts, y, v * 0.6]);
-    await page.screenshot({ path: path.join(SAIDA, `q_${String(f).padStart(5, '0')}.png`), type: 'png' });
-    meta[f] = await page.evaluate((els) => {
-      const r = { y: scrollY };
-      for (const [k, s] of Object.entries(els)) {
-        const e = document.querySelector(s);
-        if (!e) continue;
-        const b = e.getBoundingClientRect();
-        r[k] = [b.x, b.y, b.width, b.height].map((n) => Math.round(n * 10) / 10);
-        if (k === 'resumo') r.resumoTexto = e.textContent.trim();
-      }
-      return r;
-    }, ELEMENTOS);
-    if (f === fim - 1 && w === WORKERS - 1) {
-      const href = await page.evaluate(() => document.querySelector('.natal-rodape [data-zap-natal]').href);
-      mensagem = decodeURIComponent(href.split('text=')[1] || '');
-    }
-    if (++feitos % 60 === 0) console.log(`${feitos}/${TOTAL} quadros · ${((Date.now() - t0) / 1000).toFixed(0)} s`);
-  }
-  await b.close();
-}
-await Promise.all(Array.from({ length: WORKERS }, (_, w) => trabalhador(w)));
-srv.fechar();
-fs.writeFileSync(path.join(SAIDA, 'meta.json'), JSON.stringify({ escala: 2.5, fps: FPS, toques: TOQUES, mensagem, quadros: meta }));
-console.log(`Gravação pronta: ${TOTAL} quadros em ${path.relative(RAIZ, SAIDA)} (${((Date.now() - t0) / 1000).toFixed(0)} s)`);
-console.log('Mensagem do WhatsApp:\n' + mensagem);
+const { extra } = await gravar({
+  nome: 'i12-site',
+  duracao: DURACAO,
+  tomadas,
+  toques: TOQUES.filter(([, , o]) => !o?.soVisual).map(([t, k]) => [t, ELEMENTOS[k]]),
+  elementos: ELEMENTOS,
+  aoFim: async (page) => {
+    const href = await page.evaluate(() => document.querySelector('.natal-rodape [data-zap-natal]').href);
+    return { mensagem: decodeURIComponent(href.split('text=')[1] || '') };
+  },
+});
+
+// eventos de som: o caminho do mapa começa e termina conforme a rolagem (regra do próprio site, js/secoes.js)
+const vh = 768;
+const achar = (alvo) => {
+  for (let t = 34; t < 40.5; t += 1 / 120) if (marcos.mapa - rolagemMapa(t) <= alvo) return Math.round(t * 100) / 100;
+  return null;
+};
+const eventos = [
+  { t: 0.0, evento: 'letreiro', nota: 'abertura com o letreiro de neon aceso' },
+  { t: 3.6, evento: 'assadeira', nota: 'a mão puxa a assadeira e o pão sai do forno' },
+  ...TOQUES.map(([t, k, o]) => ({ t, evento: o.evento, nota: o.nota })),
+  { t: TEXTOS.mensagem[0], evento: 'mensagem', nota: 'o balão com a mensagem pronta aparece' },
+  { t: achar(vh * 0.8), evento: 'caminho', nota: 'o caminho começa a se desenhar no mapa' },
+  { t: achar(vh * 0.35), evento: 'pino', nota: 'o caminho chega ao pino da padaria (6 min a pé)' },
+  { t: TEXTOS.convite[0], evento: 'convite', nota: '"Quer um site assim? Chama no direct."' },
+  { t: TEXTOS.volta[0], evento: 'volta', nota: 'o gancho volta: o vídeo emenda no começo' },
+  { t: DURACAO, evento: 'loop', nota: 'fim do vídeo = primeiro quadro' },
+];
+fs.writeFileSync(
+  path.join(RAIZ, 'instagram/reels/i12-eventos.json'),
+  JSON.stringify({ video: 'i12-padaria-em-uso.mp4', duracao: DURACAO, fps: 30, eventos }, null, 2) + '\n',
+);
+console.log('Eventos:', eventos.map((e) => `${e.t}s ${e.evento}`).join(' · '));
+console.log('Mensagem:', extra.mensagem);

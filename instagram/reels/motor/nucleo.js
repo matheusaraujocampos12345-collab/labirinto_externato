@@ -46,12 +46,43 @@ window.motorPronto = (async () => {
   return { id: reel.id, nome: reel.nome, duracao: reel.duracao, fps: reel.fps ?? 30, temCapa: !!reel.capa };
 })();
 
+// borrão de movimento: reel.subquadros = n desenha n subquadros espalhados em reel.obturador
+// (fração do intervalo do quadro; 0,5 = obturador de 180°) e faz a média.
+// desenhar(ctx, t, f, k) recebe k = índice do subquadro (0..n-1).
+let temp = null;
+async function desenharComBorrao(reel, f) {
+  const fps = reel.fps ?? 30, n = reel.subquadros ?? 1, obt = reel.obturador ?? 0.5;
+  if (n <= 1) return reel.desenhar(ctx, f / fps, f, 0);
+  if (!temp) {
+    temp = document.createElement('canvas');
+    temp.width = W;
+    temp.height = H;
+  }
+  const tc = temp.getContext('2d');
+  for (let k = 0; k < n; k++) {
+    tc.setTransform(1, 0, 0, 1, 0, 0);
+    tc.globalAlpha = 1;
+    tc.globalCompositeOperation = 'source-over';
+    tc.filter = 'none';
+    tc.fillStyle = '#000';
+    tc.fillRect(0, 0, W, H);
+    await reel.desenhar(tc, f / fps + (k * obt) / (fps * n), f, k);
+    tc.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.filter = 'none';
+    ctx.globalAlpha = 1 / (k + 1); // média com pesos iguais
+    ctx.drawImage(temp, 0, 0);
+  }
+  ctx.globalAlpha = 1;
+}
+
 /** Desenha o quadro f e devolve o PNG (data URL) e os avisos de zona segura. */
 window.motorQuadro = async (f) => {
   const reel = window.__reel;
   window.__avisosZona = [];
   limpar();
-  await reel.desenhar(ctx, f / (reel.fps ?? 30), f);
+  await desenharComBorrao(reel, f);
   limpar2();
   if (comGrade) grade(ctx);
   return { png: canvas.toDataURL('image/png'), avisos: window.__avisosZona };

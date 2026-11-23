@@ -1,49 +1,20 @@
-// i03 — Feito para padaria (episódio 1) (18 s). Padaria Quatro Horas, "a padaria que acorda às 4h".
-// Base: a rolagem do site-conceito na versão final (instagram/sites-conceito/padaria/captura/rolagem-bruta.mp4),
-// extraída em .quadros/padaria-rolagem/ (o gerar-todos.sh faz isso). O vídeo do forno dentro do site
-// é do Coverr (licença permite editar e usar comercialmente; aqui ele aparece editado, dentro do Reels).
-// Regra desta peça: nenhum texto nosso cobre o pão saindo do forno.
-//   0–2 s       primeira tela parada, com um avanço lento de câmera + gancho
-//   2–8 s       a rolagem: a mão puxa a assadeira, o pão chega inteiro na luz, PÃO QUENTE acende, fornada
-//   8–11,5 s    o Natal: luzes, "Encomendas de Natal até 20/12" e o painel de LED contando os dias
-//   11,5–16,5 s o cardápio de verdade, com a aba Natal · "Padaria fictícia. Site de verdade."
-//               e "Vota no próximo nicho no domingo." numa faixa embaixo, longe das abas
-//   16,5–18 s   volta à primeira tela parada; o último quadro é o primeiro (loop)
+// i03 — Feito para padaria (episódio 1) (19 s). Padaria Quatro Horas. Versão calma:
+// rolagens lentas com pausa depois de cada movimento, borrão de movimento (4 subquadros, obturador de
+// 180°) e uma ideia por tela. Base: cenas/i03-captura.mjs (.quadros/i03-site/).
+//   0–3 s      primeira tela · "Esse site é de uma padaria."
+//   3–9,5 s    o pão sai do forno devagar · "O pão sai com a rolagem."
+//   9,5–14,5 s a aba Natal e o cardápio · "O cardápio muda no Natal."
+//   14,5–19 s  primeira tela · "Padaria fictícia. Site de verdade." e o gancho volta (loop)
 import { W, H, clamp, prog, ease, carregarImagem } from '../motor/tempo.js';
-import { COR, fundo, bloco, rotulo, assinatura, faixa } from '../motor/marca.js';
+import { COR, fundo, bloco, assinatura, faixa } from '../motor/marca.js';
 
-const PASTA = '/instagram/reels/.quadros/padaria-rolagem';
-const FORNO = '#05020A'; // o preto de dentro do forno (paleta do site)
-const NEON = '#E5AC68'; // "Luz do forno": o tubo do letreiro
-const LINHA_NEON = 'rgba(229,172,104,0.35)';
-const DUR = 18;
+const PASTA = '/instagram/reels/.quadros/i03-site';
+const N = 4;
+const DUR = 19;
 
-// trechos: [início no Reels, fim no Reels, início na rolagem] (segundos)
-const TRECHOS = [
-  [0, 2, null], // primeira tela parada (quadro 0: a gravação fica parada até 1,3 s)
-  [2, 8, 1.3], // forno e fornada
-  [8, 11.5, 9.0], // Natal
-  [11.5, 16.5, 13.0], // cardápio com a aba Natal
-  [16.5, DUR, null], // primeira tela parada de novo
-];
-
-function quadroDaRolagem(t) {
-  const [a, , ini] = TRECHOS.find(([a, b]) => t >= a && t < b) || TRECHOS[TRECHOS.length - 1];
-  if (ini === null) return 0;
-  return Math.min(599, Math.round((ini + (t - a)) * 30));
-}
-
-// avanço lento de câmera na primeira tela parada; volta a 1 suave no fim (loop sem emenda)
-function zoom(t) {
-  const Z = 0.04;
-  if (t < 2) return 1 + Z * ease.inOutSine(t / 2);
-  if (t < 3) return 1 + Z * (1 - ease.inOutSine(t - 2));
-  if (t >= 16.5) return 1 + Z * (1 - ease.inOutSine((t - 16.5) / (DUR - 16.5)));
-  return 1;
-}
-
-/** escurece suave uma faixa da tela (sem borda dura), para o texto ler sem tampar nada */
-function veu(ctx, y0, y1, alfa = 0.78) {
+/** escurece suave uma faixa da tela, sem borda dura, para o texto ler sem tampar nada */
+function veu(ctx, y0, y1, alfa) {
+  if (alfa <= 0) return;
   const g = ctx.createLinearGradient(0, y0, 0, y1);
   g.addColorStop(0, 'rgba(5,2,10,0)');
   g.addColorStop(0.3, `rgba(5,2,10,${alfa})`);
@@ -53,16 +24,14 @@ function veu(ctx, y0, y1, alfa = 0.78) {
   ctx.fillRect(0, y0, W, y1 - y0);
 }
 
-// o gancho fica na boca escura do forno, entre o texto do site e o painel da fornada
-function gancho(ctx, t, entra, sai, corte) {
-  const a = corte ? 1 : ease.outCubic(prog(t, entra, entra + 0.4));
-  const s = t >= sai ? 1 - ease.inCubic(prog(t, sai, sai + 0.45)) : 1;
+/** texto calmo sobre a boca escura do forno (primeira tela), entre o texto do site e o painel */
+function textoForno(ctx, t, texto, entra, sai, op = {}) {
+  const a = (op.corte ? 1 : ease.outCubic(prog(t, entra, entra + 0.5))) * (t >= sai ? 1 - ease.inOutSine(prog(t, sai, sai + 0.5)) : 1);
   ctx.save();
-  ctx.globalAlpha = a * s;
-  veu(ctx, 1230, 1520);
+  ctx.globalAlpha = a;
+  veu(ctx, 1150, 1480, 0.82);
   ctx.restore();
-  rotulo(ctx, t, { texto: 'Feito para · episódio 1', x: 90, y: 1284, tamanho: 22, cor: NEON, entra, sai, entrada: corte ? 'corte' : 'fade', saida: 'fade' });
-  bloco(ctx, t, { texto: 'Esse site é de uma padaria.\nNinguém acredita.', x: 90, y: 1318, tamanho: 52, entrelinha: 1.14, entra, sai, entrada: corte ? 'corte' : 'mascara', durEntrada: 0.4, atraso: 0.06 });
+  bloco(ctx, t, { texto, x: 90, y: op.y ?? 1250, tamanho: op.tamanho ?? 60, entrelinha: 1.14, entra, sai, entrada: op.corte ? 'corte' : 'fade', saida: 'fade', durEntrada: 0.6, durSaida: 0.5 });
 }
 
 export default {
@@ -70,36 +39,47 @@ export default {
   nome: 'i03-feito-para-padaria',
   duracao: DUR,
   fps: 30,
+  subquadros: N,
+  obturador: 0.5,
 
-  async desenhar(ctx, t) {
-    fundo(ctx, FORNO);
-    const img = await carregarImagem(`${PASTA}/q_${String(quadroDaRolagem(t)).padStart(5, '0')}.png`);
-    const z = zoom(t);
+  async desenhar(ctx, t, f, k) {
+    fundo(ctx, '#05020A');
+    const img = await carregarImagem(`${PASTA}/s_${String(f * N + k).padStart(5, '0')}.jpg`);
+    // avanço de câmera bem lento na primeira tela (e volta a 1 no fim, para emendar)
+    const z = t < 3 ? 1 + 0.025 * ease.inOutSine(t / 3) : t < 3.8 ? 1 + 0.025 * (1 - ease.inOutSine(t - 3)) : t >= 14.5 ? 1 + 0.025 * (1 - ease.inOutSine(prog(t, 14.5, DUR))) : 1;
     ctx.save();
     ctx.translate(W / 2, H * 0.45);
     ctx.scale(z, z);
     ctx.drawImage(img, -W / 2, -H * 0.45, W, H);
     ctx.restore();
 
-    if (t < 2.6) gancho(ctx, t, -1, 2.0, true);
-    if (t >= 12 && t < 16.5) {
-      // faixa embaixo: as abas do cardápio ficam livres no alto
-      faixa(ctx, t, { y: 1190, h: 250, entra: 12.0, sai: 16.4, saida: 'corte', cor: 'rgba(5,2,10,0.985)', linha: LINHA_NEON });
-      bloco(ctx, t, { texto: 'Padaria fictícia.\nSite de verdade.', x: 90, y: 1226, tamanho: 58, entrelinha: 1.14, entra: 12.12, sai: 14.5, saida: 'corte', durEntrada: 0.45 });
-      rotulo(ctx, t, { texto: 'Episódio 2', x: 90, y: 1232, tamanho: 22, cor: NEON, entra: 14.5, sai: 16.4, entrada: 'corte', saida: 'corte' });
-      bloco(ctx, t, { texto: 'Vota no próximo nicho\nno domingo.', x: 90, y: 1270, tamanho: 52, entrelinha: 1.12, entra: 14.5, sai: 16.4, saida: 'corte', durEntrada: 0.4 });
-      assinatura(ctx, t, { x: 940, y: 1232, alinhar: 'right', entra: 14.8, sai: 16.4, saida: 'corte' });
+    if (t < 3.6) textoForno(ctx, t, 'Esse site é de\numa padaria.', -1, 3.0, { corte: true });
+    if (t >= 6.4 && t < 9.5) {
+      // embaixo do pão, no chão escuro do forno
+      ctx.save();
+      ctx.globalAlpha = ease.outCubic(prog(t, 6.4, 6.9)) * (1 - ease.inOutSine(prog(t, 9.0, 9.45)));
+      veu(ctx, 1110, 1400, 0.75);
+      ctx.restore();
+      bloco(ctx, t, { texto: 'O pão sai com a rolagem.', x: 90, y: 1215, tamanho: 54, entra: 6.5, sai: 9.0, entrada: 'fade', saida: 'fade', durEntrada: 0.6 });
     }
-    if (t >= 16.5) gancho(ctx, t, 16.5, 1e9, false);
+    if (t >= 9.5 && t < 14.5) {
+      // embaixo, longe das abas e do topo da seção de Natal
+      faixa(ctx, t, { y: 1300, h: 140, entra: 10.6, sai: 14.0, cor: 'rgba(5,2,10,0.92)', linha: 'rgba(229,172,104,0.3)', durEntrada: 0.4, durSaida: 0.4 });
+      bloco(ctx, t, { texto: 'O cardápio muda no Natal.', x: 90, y: 1336, tamanho: 54, entra: 10.8, sai: 14.0, entrada: 'fade', saida: 'fade', durEntrada: 0.5 });
+    }
+    if (t >= 14.5) {
+      if (t < 18.6) textoForno(ctx, t, 'Padaria fictícia.\nSite de verdade.', 14.8, 18.0);
+      if (t < 18.6) assinatura(ctx, t, { y: 1400, entra: 15.3, sai: 18.0, cor: COR.aluminio });
+      if (t >= 18.3) textoForno(ctx, t, 'Esse site é de\numa padaria.', 18.4, 1e9);
+    }
   },
 
   async capa(ctx) {
-    fundo(ctx, FORNO);
-    // o pão inteiro na luz, com a plaquinha de preço; o gancho fica no escuro embaixo dele
-    const img = await carregarImagem(`${PASTA}/q_00150.png`);
+    fundo(ctx, '#05020A');
+    // o pão inteiro na luz, e o gancho no escuro embaixo dele
+    const img = await carregarImagem(`${PASTA}/s_${String(250 * N).padStart(5, '0')}.jpg`);
     ctx.drawImage(img, 0, 0, W, H);
     veu(ctx, 960, 1420, 0.85);
-    rotulo(ctx, 0, { texto: 'Feito para · episódio 1', alinhar: 'center', x: 540, y: 1060, cor: NEON, entrada: 'corte' });
-    bloco(ctx, 0, { texto: 'Esse site é de uma padaria.\nNinguém acredita.', alinhar: 'center', x: 540, y: 1112, tamanho: 66, largura: 850, entrelinha: 1.16, entrada: 'corte' });
+    bloco(ctx, 0, { texto: 'Esse site é de\numa padaria.', alinhar: 'center', x: 540, y: 1060, tamanho: 80, entrelinha: 1.12, entrada: 'corte' });
   },
 };

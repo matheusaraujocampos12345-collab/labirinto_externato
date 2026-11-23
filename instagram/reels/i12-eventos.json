@@ -1,0 +1,72 @@
+{
+  "video": "i12-padaria-em-uso.mp4",
+  "duracao": 45,
+  "fps": 30,
+  "eventos": [
+    {
+      "t": 0,
+      "evento": "letreiro",
+      "nota": "abertura com o letreiro de neon aceso"
+    },
+    {
+      "t": 3.6,
+      "evento": "assadeira",
+      "nota": "a mão puxa a assadeira e o pão sai do forno"
+    },
+    {
+      "t": 14.5,
+      "evento": "toque-aba-natal",
+      "nota": "toque na aba Natal do cardápio"
+    },
+    {
+      "t": 18.5,
+      "evento": "adicionar",
+      "nota": "toque em Adicionar no panetone de 1 kg"
+    },
+    {
+      "t": 19.7,
+      "evento": "mais",
+      "nota": "toque em + (2 panetones de 1 kg)"
+    },
+    {
+      "t": 21,
+      "evento": "adicionar",
+      "nota": "toque em Adicionar no chocotone"
+    },
+    {
+      "t": 28.5,
+      "evento": "toque-whatsapp",
+      "nota": "toque em Encomendar pelo WhatsApp"
+    },
+    {
+      "t": 29.3,
+      "evento": "mensagem",
+      "nota": "o balão com a mensagem pronta aparece"
+    },
+    {
+      "t": 35.18,
+      "evento": "caminho",
+      "nota": "o caminho começa a se desenhar no mapa"
+    },
+    {
+      "t": 37.5,
+      "evento": "pino",
+      "nota": "o caminho chega ao pino da padaria (6 min a pé)"
+    },
+    {
+      "t": 40.8,
+      "evento": "convite",
+      "nota": "\"Quer um site assim? Chama no direct.\""
+    },
+    {
+      "t": 43.7,
+      "evento": "volta",
+      "nota": "o gancho volta: o vídeo emenda no começo"
+    },
+    {
+      "t": 45,
+      "evento": "loop",
+      "nota": "fim do vídeo = primeiro quadro"
+    }
+  ]
+}
