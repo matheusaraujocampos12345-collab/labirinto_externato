@@ -3,319 +3,254 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Casca & Miolo · Padaria de fermentação natural</title>
-<meta name="description" content="Padaria de fermentação natural na Vila Serena. Fornada nova a cada 40 minutos. Veja o balcão de hoje e a próxima fornada.">
-<meta name="theme-color" content="#1F0A03">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%231F0A03'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23F5F2EC' stroke-width='1.6'/%3E%3Cpath d='M9.5 18.5c3-5 7.8-7.4 13.4-7' fill='none' stroke='%23CFAB86' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+<title>Padaria Quatro Horas · Vila Serena</title>
+<meta name="description" content="Padaria de bairro na Vila Serena. O forno acende às 4h, a porta abre às 6h e sai fornada toda hora cheia até as 19h.">
+<meta name="theme-color" content="#05020A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2305020A'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%23F6C98A' stroke-width='2.2'/%3E%3Cpath d='M16 16V9M16 16l5 3' stroke='%23F6C98A' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E">
+<script>
+  // fontes e primeiro quadro chegam antes de tudo (só quando o site está na internet; aberto do disco o navegador recusa)
+  if (location.protocol.startsWith('http')) for (const [h, t] of [['fontes/bungee-latin.woff2', 'font'], ['fontes/familjen-grotesk-latin.woff2', 'font'], ['video/v/000.webp', 'image']]) {
+    const l = document.createElement('link'); l.rel = 'preload'; l.href = h; l.as = t; if (t === 'font') { l.type = 'font/woff2'; l.crossOrigin = ''; } document.head.appendChild(l);
+  }
+</script>
 <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
-<a class="pular" href="#cardapio">Pular para o balcão de hoje</a>
+<a class="pular" href="#cardapio">Pular para o cardápio</a>
 
-<header class="nav" data-tema="hero">
-  <a class="marca" href="#topo" aria-label="Casca e Miolo, início">
-    <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8.5 19.5c3.2-5.8 8.6-8.6 15-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".6"/></svg>
-    <span>Casca <i>&amp;</i> Miolo</span></a>
+<header class="nav">
+  <a class="marca" href="#topo" aria-label="Padaria Quatro Horas, início" data-marca="linha"></a>
   <nav class="nav-links" aria-label="Seções">
-    <a href="#cardapio">Balcão</a><a href="#fornada">Fornadas</a><a href="#endereco">Endereço</a>
+    <a href="#fornada">Fornada</a><a href="#cardapio">Cardápio</a><a href="#turma">Madrugada</a><a href="#endereco">Endereço</a>
   </nav>
+  <p class="nav-status rot"><span class="luz-on" aria-hidden="true"></span><span data-status>Aberta até 20h</span></p>
   <a class="nav-zap" href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-zap"/></svg>Encomendar</a>
 </header>
 
 <main>
-  <!-- 1. Primeira tela -->
-  <section class="hero" id="topo" data-tema="hero">
+  <!-- 1. O forno acende às 4h -->
+  <section class="hero" id="topo">
     <div class="hero-pin">
+      <canvas class="filme" aria-hidden="true"></canvas>
+      <div class="hero-sombra" aria-hidden="true"></div>
+      <div class="hero-letreiro" data-marca="letreiro"></div>
       <div class="hero-texto">
-        <p class="rotulo">Padaria de fermentação natural · Vila Serena</p>
-        <h1><span class="l"><span>Saiu do forno.</span></span><span class="l"><span>Ainda está</span></span><span class="l"><span><em>cantando.</em></span></span></h1>
-        <p class="apoio">Cantar é o estalo da casca quando esfria. Aqui sai fornada nova a cada 40 minutos.</p>
+        <h1>O forno<br>acende<br>às 4h.</h1>
+        <p>A porta abre às 6h e o pão francês já tá no balcão. Fornada nova toda hora cheia, até as 19h.</p>
       </div>
-      <canvas class="cena" aria-hidden="true"></canvas>
-      <a class="chip-fornada" href="#fornada"><span class="ponto" aria-hidden="true"></span><span>Próxima fornada <span data-fornada-prep>em</span> <b data-fornada-min>12 min</b></span></a>
-      <span class="rolar" aria-hidden="true">Role</span>
+      <p class="rola rot" aria-hidden="true">Rola que o pão sai</p>
+      <a class="painel" href="#fornada" aria-label="Próxima fornada">
+        <span class="painel-rot rot">Próxima fornada</span>
+        <span class="painel-led" data-led="16:00"></span>
+        <span class="painel-falta">faltam <b>12 min</b></span>
+      </a>
+      <div class="placa-quente" aria-hidden="true">PÃO<br>QUENTE</div>
+      <div class="etiqueta" aria-hidden="true"><span class="etiqueta-nome">Pão italiano</span><span class="etiqueta-preco">24,90</span><span class="etiqueta-un">R$ o quilo</span></div>
     </div>
   </section>
 
-  <!-- 2. Vitrine: o cardápio que se monta -->
-  <section class="vitrine claro" id="cardapio" data-tema="claro">
-    <svg class="borda-casca" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0 40V22Q200 -10 400 22V40Z" fill="#441608"/><path d="M0 40V27Q200 -3 400 27V40Z" fill="#834C24"/>
-      <path d="M0 40V31Q200 3 400 31V40Z" fill="#B18455"/><path d="M0 40V34Q200 8 400 34V40Z" fill="#F2E9D8"/>
-    </svg>
-    <div class="vitrine-pin">
-      <header class="cab">
-        <p class="rotulo"><span class="num">01</span>O balcão de hoje</p>
-        <h2>Veja o balcão antes de sair de casa.</h2>
-        <p class="ao-vivo"><span class="ponto" aria-hidden="true"></span>Atualizado às <b data-hora-agora>15h28</b> · <b data-contagem>9</b> itens no balcão</p>
-      </header>
-      <div class="estante" aria-label="Itens no balcão agora">
-        <div class="prateleira"><p class="prateleira-nome">Pães</p><div class="itens"></div><div class="vidro" aria-hidden="true"></div></div>
-        <div class="prateleira"><p class="prateleira-nome">Doces</p><div class="itens"></div><div class="vidro" aria-hidden="true"></div></div>
-        <div class="prateleira"><p class="prateleira-nome">Salgados e café</p><div class="itens"></div><div class="vidro" aria-hidden="true"></div></div>
+  <!-- 2. Próxima fornada: painel de senha -->
+  <section class="fornada" id="fornada" data-marco="fornada">
+    <div class="fornada-texto">
+      <p class="rot cor-luz">Próxima fornada</p>
+      <h2>Fornada das <span data-f-hora>16h</span>.</h2>
+      <p class="fornada-o-que" data-f-nome>Pão de queijo e sonho.</p>
+      <p class="sub">Chega na hora que ainda tá quente. Pão francês sai toda hora cheia, das 6h às 19h.</p>
+    </div>
+    <div class="senha" data-marco="senha" role="timer" aria-live="off">
+      <span class="parafuso" aria-hidden="true"></span><span class="parafuso" aria-hidden="true"></span><span class="parafuso" aria-hidden="true"></span><span class="parafuso" aria-hidden="true"></span>
+      <p class="senha-rot rot">Próxima fornada</p>
+      <div class="senha-led" data-led-grande="16:00"></div>
+      <div class="senha-linha">
+        <p class="senha-rot rot">Faltam</p>
+        <div class="senha-led-peq" data-led-falta="12:27"></div>
       </div>
+    </div>
+    <div class="dia">
+      <p class="rot cor-farinha-3">O dia no forno</p>
+      <div class="regua" aria-hidden="true"><div class="regua-agora"><span data-agora>15h47</span></div></div>
+      <ol class="lista-fornadas" aria-label="Fornadas de hoje"></ol>
+      <button class="avise" type="button" aria-pressed="false"><span class="avise-bola" aria-hidden="true"></span><span data-avise>Me avisa 5 min antes</span></button>
     </div>
   </section>
 
-  <section class="cardapio-completo claro" data-tema="claro">
-    <details>
-      <summary><span>Ver cardápio completo</span><span class="mais" aria-hidden="true"></span></summary>
-      <div class="lista">
-        <div><h3>Pães</h3><ul>
-          <li><span>Pão francês</span><i></i><b>R$ 0,90</b></li>
-          <li><span>Fermentação natural, 1 kg</span><i></i><b>R$ 24</b></li>
-          <li><span>Fermentação natural integral</span><i></i><b>R$ 26</b></li>
-          <li><span>Baguete</span><i></i><b>R$ 12</b></li>
-          <li><span>Ciabatta</span><i></i><b>R$ 6</b></li>
-          <li><span>Pão de forma da casa</span><i></i><b>R$ 18</b></li>
-          <li><span>Broa de milho</span><i></i><b>R$ 6</b></li></ul></div>
-        <div><h3>Doces</h3><ul>
-          <li><span>Croissant</span><i></i><b>R$ 11</b></li>
-          <li><span>Pain au chocolat</span><i></i><b>R$ 13</b></li>
-          <li><span>Sonho de creme</span><i></i><b>R$ 9</b></li>
-          <li><span>Bolo de fubá, fatia</span><i></i><b>R$ 8</b></li>
-          <li><span>Bolo de fubá inteiro</span><i></i><b>R$ 42</b></li>
-          <li><span>Cuca de banana</span><i></i><b>R$ 28</b></li></ul></div>
-        <div><h3>Salgados</h3><ul>
-          <li><span>Pão de queijo</span><i></i><b>R$ 3,50</b></li>
-          <li><span>Pão na chapa</span><i></i><b>R$ 7</b></li>
-          <li><span>Misto quente</span><i></i><b>R$ 14</b></li>
-          <li><span>Empada de palmito</span><i></i><b>R$ 9</b></li>
-          <li><span>Torrada com manteiga da casa</span><i></i><b>R$ 8</b></li></ul></div>
-        <div><h3>Para beber</h3><ul>
-          <li><span>Café coado</span><i></i><b>R$ 7</b></li>
-          <li><span>Pingado</span><i></i><b>R$ 7,50</b></li>
-          <li><span>Média</span><i></i><b>R$ 8</b></li>
-          <li><span>Chocolate quente</span><i></i><b>R$ 10</b></li>
-          <li><span>Suco de laranja</span><i></i><b>R$ 9</b></li></ul></div>
+  <!-- 3. Cardápio: quadro de letras -->
+  <section class="cardapio" id="cardapio" data-marco="cardapio">
+    <div class="cardapio-pin" data-preso>
+      <div class="cardapio-texto">
+        <p class="rot cor-luz">Cardápio</p>
+        <h2>Tá no quadro, tá no balcão.</h2>
+        <p class="sub">Preço de hoje. Acabou, a gente tira a letra.</p>
       </div>
-    </details>
-  </section>
-
-  <!-- 3. Próxima fornada -->
-  <section class="fornada escuro" id="fornada" data-tema="escuro">
-    <header class="cab">
-      <p class="rotulo"><span class="num">02</span>Próxima fornada</p>
-      <h2>Pão bom é pão de agora.</h2>
-      <p class="sub">Saiba quando sai a próxima fornada e chegue com ela quentinha.</p>
-    </header>
-    <div class="relogio" role="timer" aria-live="off">
-      <svg class="mostrador" viewBox="0 0 320 320" aria-hidden="true">
-        <defs>
-          <linearGradient id="g-arco" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A25C1A"/><stop offset="1" stop-color="#F0954A"/></linearGradient>
-          <radialGradient id="g-brasa"><stop offset="0" stop-color="#FFD9A8"/><stop offset=".35" stop-color="#F0954A"/><stop offset="1" stop-color="#F0954A" stop-opacity="0"/></radialGradient>
-        </defs>
-        <circle cx="160" cy="160" r="150" fill="none" stroke="rgb(207 171 134 / .10)" stroke-width="1"/>
-        <g class="tiques"></g>
-        <circle class="trilho" cx="160" cy="160" r="128" fill="none" stroke="rgb(207 171 134 / .12)" stroke-width="3"/>
-        <circle class="arco" cx="160" cy="160" r="128" fill="none" stroke="url(#g-arco)" stroke-width="3" stroke-linecap="round" pathLength="1" stroke-dasharray="0 1" transform="rotate(-90 160 160)"/>
-        <g class="brasa"><circle r="16" fill="url(#g-brasa)"/><circle r="3.4" fill="#FFE7C7"/></g>
-      </svg>
-      <div class="relogio-centro">
-        <p class="em">sai em</p>
-        <p class="min" aria-label="12 minutos"><span class="digito"><span class="fita"></span></span><span class="digito"><span class="fita"></span></span></p>
-        <p class="un">minutos</p>
-        <p class="hora-longe">5h40</p>
-        <p class="seg" data-fornada-seg>12:30</p>
+      <div class="quadro" aria-label="Cardápio de hoje">
+        <div class="quadro-feltro"><div class="quadro-linhas"></div></div>
+        <div class="bilhete" aria-hidden="true"><span>Acabou</span> volta às 16h</div>
       </div>
     </div>
-    <p class="saindo">Às <b data-fornada-hora>15h40</b> sai <span data-fornada-nome>fermentação natural</span>, <span data-fornada-qtd>24 unidades</span>.</p>
-    <ol class="fornadas" aria-label="Fornadas de hoje"></ol>
-    <button class="avise" type="button" aria-pressed="false"><span class="sino" aria-hidden="true"></span><span data-avise>Me avise 5 min antes</span></button>
+    <ul class="cardapio-lido visualmente-oculto"></ul>
   </section>
 
-  <!-- 4. Da casca ao miolo (a paleta) -->
-  <section class="anatomia claro" id="pao" data-tema="claro">
-    <header class="cab">
-      <p class="rotulo"><span class="num">03</span>Da casca ao miolo</p>
-      <h2>36 horas de fermentação. Dá para ver.</h2>
-      <p class="sub">Farinha, água, sal e fermento natural. O resto é tempo.</p>
-    </header>
-    <figure class="corte">
-      <svg viewBox="0 0 400 252" aria-label="Corte de um pão de fermentação natural">
-        <defs>
-          <linearGradient id="g-casca" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#441608"/><stop offset=".45" stop-color="#663116"/><stop offset=".8" stop-color="#834C24"/><stop offset="1" stop-color="#A25C1A"/></linearGradient>
-          <radialGradient id="g-miolo" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#F5F2EC"/><stop offset=".7" stop-color="#F2E9D8"/><stop offset="1" stop-color="#CFAB86"/></radialGradient>
-          <clipPath id="c-miolo"><path id="p-miolo" d="M31 212C26 128 96 56 200 54 304 56 374 128 369 212 369 220 352 224 200 224S31 220 31 212Z"/></clipPath>
-        </defs>
-        <ellipse cx="200" cy="236" rx="190" ry="9" fill="#1F0A03" opacity=".12"/>
-        <path class="casca-fora" d="M18 216C12 118 90 38 200 36 310 38 388 118 382 216 382 228 362 234 200 234S18 228 18 216Z" fill="url(#g-casca)"/>
-        <path class="orelha" d="M222 44C244 24 280 14 306 20 300 32 280 42 252 50Z" fill="#441608"/>
-        <path d="M232 46C252 32 276 25 296 25 288 33 270 40 250 48Z" fill="#B18455" opacity=".8"/>
-        <use href="#p-miolo" fill="url(#g-miolo)"/>
-        <path d="M31 212C26 128 96 56 200 54 304 56 374 128 369 212" fill="none" stroke="#CFAB86" stroke-width="3" opacity=".9"/>
-        <g class="alveolos" clip-path="url(#c-miolo)"></g>
-        <g class="marcas" font-family="DM Mono, monospace" font-size="11" text-anchor="middle">
-          <g class="marca-n" data-n="1" transform="translate(286 30)"><circle r="10"/><text y="4">1</text></g>
-          <g class="marca-n" data-n="2" transform="translate(30 178)"><circle r="10"/><text y="4">2</text></g>
-          <g class="marca-n" data-n="3" transform="translate(150 178)"><circle r="10"/><text y="4">3</text></g>
-          <g class="marca-n" data-n="4" transform="translate(236 118)"><circle r="10"/><text y="4">4</text></g>
-        </g>
-      </svg>
-      <figcaption>
-        <ol class="legenda">
-          <li><b>Pestana.</b> A orelha que abre no forno. É a parte mais crocante.</li>
-          <li><b>Casca.</b> Caramelizada a 250 °C, por isso estala ao esfriar.</li>
-          <li><b>Miolo.</b> Úmido e brilhante, sinal de fermentação longa.</li>
-          <li><b>Alvéolos.</b> As bolhas que o fermento natural deixa.</li>
-        </ol>
-      </figcaption>
-    </figure>
-    <div class="paleta">
-      <p class="paleta-nota">As cores desta página saíram deste pão.</p>
-      <ul>
-        <li style="--c:#441608;--t:#F5F2EC"><span class="nome">Pestana</span><span class="hex">#441608</span></li>
-        <li style="--c:#663116;--t:#F5F2EC"><span class="nome">Casca escura</span><span class="hex">#663116</span></li>
-        <li style="--c:#834C24;--t:#F5F2EC"><span class="nome">Casca</span><span class="hex">#834C24</span></li>
-        <li style="--c:#A25C1A;--t:#F5F2EC"><span class="nome">No ponto</span><span class="hex">#A25C1A</span></li>
-        <li style="--c:#B18455;--t:#1F0A03"><span class="nome">Dourado</span><span class="hex">#B18455</span></li>
-        <li style="--c:#CFAB86;--t:#1F0A03"><span class="nome">Abertura</span><span class="hex">#CFAB86</span></li>
-        <li style="--c:#F2E9D8;--t:#1F0A03"><span class="nome">Miolo</span><span class="hex">#F2E9D8</span></li>
-        <li style="--c:#F5F2EC;--t:#1F0A03"><span class="nome">Farinha</span><span class="hex">#F5F2EC</span></li>
-      </ul>
+  <!-- 4. A turma da madrugada: cartão de ponto -->
+  <section class="turma" id="turma" data-marco="turma">
+    <div class="turma-texto">
+      <p class="rot cor-luz">Quem acorda às 4h</p>
+      <h2>A turma da madrugada.</h2>
+      <p class="sub">Quando você acorda, o pão já passou por quatro mãos.</p>
+    </div>
+    <div class="cartao" data-marco="cartao">
+      <div class="cartao-topo"><span>Cartão de ponto</span><span>Quatro Horas · nov. 2026</span></div>
+      <ol class="cartao-linhas">
+        <li><span class="c-nome">Seu Valdir</span><span class="c-faz">acende o forno</span><span class="c-hora">03:40</span></li>
+        <li><span class="c-nome">Dona Neide</span><span class="c-faz">sova a massa do francês</span><span class="c-hora">04:00</span></li>
+        <li><span class="c-nome">Cléber</span><span class="c-faz">recheia o sonho</span><span class="c-hora">04:30</span></li>
+        <li><span class="c-nome">Júnior</span><span class="c-faz">levanta a porta de aço</span><span class="c-hora">05:50</span></li>
+        <li class="c-porta"><span class="c-nome">Porta aberta</span><span class="c-faz">primeira fornada no balcão</span><span class="c-hora">06:00</span></li>
+      </ol>
     </div>
   </section>
 
-  <!-- 5. Encomenda -->
-  <section class="encomenda escuro" id="encomenda" data-tema="escuro">
+  <!-- 5. Encomenda: o saco de pão -->
+  <section class="encomenda" id="encomenda" data-marco="encomenda">
     <div class="saco" aria-hidden="true">
-      <svg viewBox="0 0 260 300">
+      <svg class="saco-svg" viewBox="0 0 300 380">
         <defs>
-          <linearGradient id="g-kraft" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9A6E45"/><stop offset=".35" stop-color="#C9A06E"/><stop offset=".7" stop-color="#B18455"/><stop offset="1" stop-color="#8E6440"/></linearGradient>
-          <linearGradient id="g-bag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D9B27A"/><stop offset=".5" stop-color="#A25C1A"/><stop offset="1" stop-color="#834C24"/></linearGradient>
+          <linearGradient id="g-kraft" x1="0" x2="1"><stop offset="0" stop-color="#8E5F31"/><stop offset=".3" stop-color="#C18A4E"/><stop offset=".7" stop-color="#B07A42"/><stop offset="1" stop-color="#8A5C30"/></linearGradient>
+          <pattern id="p-fibra" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(12)"><path d="M0 3.5H7" stroke="#5a3a1c" stroke-width=".5" opacity=".18"/></pattern>
         </defs>
-        <ellipse cx="130" cy="290" rx="110" ry="8" fill="#000" opacity=".35"/>
-        <g class="saco-pao">
-          <g transform="rotate(-14 150 70)"><rect x="120" y="-20" width="34" height="170" rx="17" fill="url(#g-bag)"/>
-            <path d="M126 10c8-6 18-7 24-4M126 40c8-6 18-7 24-4M126 70c8-6 18-7 24-4" stroke="#CFAB86" stroke-width="5" stroke-linecap="round" fill="none"/></g>
-          <path d="M58 116C58 80 84 64 108 64S158 80 158 116Z" fill="#834C24"/>
-          <path d="M78 92C92 82 116 78 136 84" stroke="#CFAB86" stroke-width="5" stroke-linecap="round" fill="none"/>
+        <ellipse cx="150" cy="372" rx="128" ry="7" fill="#000" opacity=".45"/>
+        <g class="saco-paes">
+          <rect x="168" y="-6" width="30" height="150" rx="15" transform="rotate(10 183 70)" fill="#C18A4E"/>
+          <path d="M176 18l14-3M176 46l14-3M177 74l14-3" stroke="#FAF1DF" stroke-width="4" stroke-linecap="round" transform="rotate(10 183 70)" opacity=".75"/>
+          <ellipse cx="112" cy="104" rx="46" ry="30" fill="#9B6530"/><path d="M84 98c14-8 38-10 56-4" stroke="#FAF1DF" stroke-width="4" stroke-linecap="round" fill="none" opacity=".7"/>
         </g>
-        <path d="M40 110H220L232 286H28Z" fill="url(#g-kraft)"/>
-        <path d="M40 110H220L216 128H44Z" fill="#000" opacity=".12"/>
-        <path d="M40 110L50 98H210L220 110Z" fill="#D2AE7E"/>
-        <g transform="translate(130 196)" opacity=".85">
-          <circle r="34" fill="none" stroke="#441608" stroke-width="2"/>
-          <path d="M-18 8c7-13 19-19 34-18" fill="none" stroke="#441608" stroke-width="2.4" stroke-linecap="round"/>
-          <text y="52" text-anchor="middle" font-family="Fraunces, serif" font-size="15" fill="#441608">Casca &amp; Miolo</text>
-        </g>
-        <g class="etiqueta" transform="translate(164 132) rotate(8)">
-          <rect x="0" y="0" width="104" height="40" rx="4" fill="#F5F2EC"/>
-          <circle cx="10" cy="20" r="3" fill="#B18455"/>
-          <text x="58" y="26" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="16" fill="#441608">Dona Lúcia</text>
-        </g>
+        <path d="M44 112H256L268 366H32Z" fill="url(#g-kraft)"/>
+        <path d="M44 112H256L268 366H32Z" fill="url(#p-fibra)"/>
+        <path d="M44 112L58 132H242L256 112" fill="#000" opacity=".10"/>
+        <path d="M44 112h212v10q-106 10-212 0Z" fill="#D7A266"/>
+        <g class="saco-carimbo" transform="translate(78 168) scale(.48)" opacity=".85"></g>
+        <text x="150" y="318" text-anchor="middle" font-family="Familjen Grotesk, sans-serif" font-weight="700" font-size="11" letter-spacing="3" fill="#3B2312" opacity=".8">PÃO QUENTE TODA HORA</text>
+        <text x="150" y="336" text-anchor="middle" font-family="Familjen Grotesk, sans-serif" font-size="10" letter-spacing="1.5" fill="#3B2312" opacity=".7">R. ALCINA PRADO, 214 · VILA SERENA</text>
       </svg>
+      <div class="comanda">
+        <p class="comanda-topo">Pedido 042 · retirar 7h30</p>
+        <p class="comanda-nome">Dona Lúcia</p>
+        <ul><li><b>10</b> pão francês</li><li><b>1</b> bolo de fubá</li><li><b>4</b> pão de queijo</li></ul>
+        <span class="grampo" aria-hidden="true"></span>
+      </div>
     </div>
     <div class="encomenda-texto">
-      <p class="rotulo"><span class="num">04</span>Encomenda</p>
-      <h2>Peça pelo WhatsApp. Retire sem fila.</h2>
-      <p class="sub">Mande a lista até as 18h. A gente separa no saco de papel, com o seu nome.</p>
-      <a class="botao-zap" href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-zap"/></svg>Pedir pelo WhatsApp</a>
-      <p class="miudo">Entrega na Vila Serena de segunda a sábado.</p>
+      <p class="rot cor-luz">Encomenda</p>
+      <h2>Pede no WhatsApp. Passa e pega.</h2>
+      <p class="sub">Manda a lista até as 18h. A gente separa no saco, com o seu nome, e deixa no caixa.</p>
+      <a class="botao" href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-zap"/></svg>Pedir pelo WhatsApp</a>
+      <p class="miudo">Entrega na Vila Serena de segunda a sábado, das 7h às 11h.</p>
     </div>
   </section>
 
-  <!-- 6. Endereço e horário -->
-  <section class="mapa claro" id="endereco" data-tema="claro">
-    <header class="cab">
-      <p class="rotulo"><span class="num">05</span>Endereço e horário</p>
+  <!-- 6. Endereço: o bairro de madrugada -->
+  <section class="endereco" id="endereco" data-marco="endereco">
+    <div class="endereco-texto">
+      <p class="rot cor-luz">Onde fica</p>
       <h2>Rua Alcina Prado, 214.</h2>
-      <p class="sub">Vila Serena, de frente para a praça do coreto.</p>
-    </header>
-    <div class="mapa-caixa">
-      <svg class="mapa-svg" viewBox="0 0 400 420" aria-label="Mapa desenhado do bairro com o caminho até a padaria">
+      <p class="sub">Vila Serena. Do lado da lotérica, em frente à praça.</p>
+      <div class="horario">
+        <p class="status-loja rot"><span class="luz-on" aria-hidden="true"></span><span data-status-longo>Aberta agora · fecha às 20h</span></p>
+        <ul>
+          <li data-dias="1,2,3,4,5"><span>Segunda a sexta</span><b>6h às 20h</b></li>
+          <li data-dias="6"><span>Sábado</span><b>6h às 18h</b></li>
+          <li data-dias="0"><span>Domingo</span><b>7h às 13h</b></li>
+        </ul>
+        <div class="acoes">
+          <a class="botao" href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-zap"/></svg>WhatsApp</a>
+          <button class="botao botao-linha" type="button" data-copiar="Rua Alcina Prado, 214 · Vila Serena">Copiar endereço</button>
+        </div>
+      </div>
+    </div>
+    <div class="mapa" data-marco="mapa">
+      <svg class="mapa-svg" viewBox="0 0 400 440" aria-label="Mapa desenhado do bairro, de madrugada, com o caminho até a padaria">
         <defs>
-          <path id="r-moinhos" d="M-20 352C110 322 250 232 420 170"/>
-          <path id="r-alcina" d="M150 -10C160 120 172 250 182 430"/>
-          <path id="r-trigo" d="M-10 120C120 112 280 100 410 92"/>
-          <path id="r-paineiras" d="M292 -10C296 120 300 260 310 430"/>
-          <path id="r-forno" d="M178 246C220 244 260 246 302 252"/>
-          <path id="r-bento" d="M-10 236C50 238 110 240 172 244"/>
-          <pattern id="pt-quadra" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V6" stroke="#CFAB86" stroke-width="1" opacity=".35"/></pattern>
+          <path id="r-moinhos" d="M-20 362C110 330 250 238 420 172"/>
+          <path id="r-alcina" d="M150 -10C160 120 172 250 182 450"/>
+          <path id="r-trigo" d="M-10 122C120 114 280 102 410 94"/>
+          <path id="r-paineiras" d="M292 -10C296 120 300 262 310 450"/>
+          <path id="r-forno" d="M178 250C220 248 260 250 302 256"/>
+          <path id="r-bento" d="M-10 240C50 242 110 244 172 248"/>
+          <radialGradient id="g-poste"><stop offset="0" stop-color="#E5AC68" stop-opacity=".55"/><stop offset="1" stop-color="#E5AC68" stop-opacity="0"/></radialGradient>
+          <radialGradient id="g-padaria"><stop offset="0" stop-color="#F6C98A" stop-opacity=".9"/><stop offset=".35" stop-color="#E5AC68" stop-opacity=".35"/><stop offset="1" stop-color="#E5AC68" stop-opacity="0"/></radialGradient>
         </defs>
-        <rect width="400" height="420" fill="#E9DCC6"/>
-        <rect width="400" height="420" fill="url(#pt-quadra)"/>
+        <rect width="400" height="440" fill="#0D0910"/>
+        <g class="mapa-quadras" fill="#16111A">
+          <path d="M0 0H140L144 112H0Z"/><path d="M160 0H284L286 96H164Z"/><path d="M302 0H400V86H304Z"/>
+          <path d="M0 134H140L146 230H0Z"/><path d="M304 106H400V164L306 200Z"/>
+          <path d="M0 254H148L156 300 0 346Z"/><path d="M190 262H300L304 300 190 330Z"/><path d="M322 262H400V420H330Z"/>
+          <path d="M0 376L160 326 170 440H0Z"/><path d="M186 344L302 312 312 440H192Z"/>
+        </g>
         <g class="ruas" fill="none" stroke-linecap="round">
-          <g stroke="#CFAB86" stroke-width="30"><use href="#r-moinhos"/></g>
-          <g stroke="#CFAB86" stroke-width="20"><use href="#r-alcina"/><use href="#r-trigo"/><use href="#r-paineiras"/></g>
-          <g stroke="#CFAB86" stroke-width="14"><use href="#r-forno"/><use href="#r-bento"/></g>
-          <g stroke="#F5F2EC" stroke-width="27"><use href="#r-moinhos"/></g>
-          <g stroke="#F5F2EC" stroke-width="17"><use href="#r-alcina"/><use href="#r-trigo"/><use href="#r-paineiras"/></g>
-          <g stroke="#F5F2EC" stroke-width="11"><use href="#r-forno"/><use href="#r-bento"/></g>
-          <use href="#r-moinhos" stroke="#CFAB86" stroke-width="1" stroke-dasharray="6 7"/>
+          <g stroke="#221B27" stroke-width="27"><use href="#r-moinhos"/></g>
+          <g stroke="#221B27" stroke-width="17"><use href="#r-alcina"/><use href="#r-trigo"/><use href="#r-paineiras"/></g>
+          <g stroke="#221B27" stroke-width="11"><use href="#r-forno"/><use href="#r-bento"/></g>
+          <use href="#r-moinhos" stroke="#3A3040" stroke-width="1" stroke-dasharray="6 8"/>
         </g>
         <g class="praca">
-          <path d="M196 116C230 112 262 110 284 108 286 150 288 196 290 240 258 236 222 236 190 236 188 196 188 156 196 116Z" fill="#DCC9A6"/>
-          <g fill="#B18455" opacity=".55">
-            <circle cx="212" cy="132" r="9"/><circle cx="268" cy="128" r="10"/><circle cx="206" cy="218" r="10"/><circle cx="272" cy="222" r="9"/>
-            <circle cx="238" cy="126" r="6"/><circle cx="282" cy="176" r="7"/><circle cx="200" cy="174" r="7"/><circle cx="244" cy="226" r="6"/></g>
-          <circle cx="240" cy="174" r="26" fill="none" stroke="#CFAB86" stroke-width="2" stroke-dasharray="3 4"/>
-          <path d="M240 158l11 5 5 11-5 11-11 5-11-5-5-11 5-11z" fill="#F2E9D8" stroke="#834C24" stroke-width="1.5"/>
-          <text x="240" y="208" font-family="DM Mono, monospace" font-size="8.5" letter-spacing="1.2" fill="#834C24" text-anchor="middle">CORETO</text>
+          <path d="M196 118C230 114 262 112 284 110 286 152 288 198 290 242 258 238 222 238 190 238 188 198 188 158 196 118Z" fill="#141A16"/>
+          <g fill="#1D2820"><circle cx="212" cy="134" r="10"/><circle cx="268" cy="130" r="11"/><circle cx="206" cy="220" r="11"/><circle cx="272" cy="224" r="10"/><circle cx="240" cy="128" r="7"/><circle cx="282" cy="178" r="8"/><circle cx="200" cy="176" r="8"/><circle cx="244" cy="228" r="7"/></g>
+          <path d="M240 162l10 4 4 10-4 10-10 4-10-4-4-10 4-10z" fill="none" stroke="#4A4250" stroke-width="1.4"/>
+          <text x="240" y="208" font-family="Familjen Grotesk, sans-serif" font-weight="600" font-size="8" letter-spacing="1.6" fill="#6E6474" text-anchor="middle">PRAÇA</text>
         </g>
-        <g class="nomes" font-family="DM Mono, monospace" font-size="8.5" letter-spacing="1.6" fill="#834C24">
-          <text dy="-3.5" font-size="7.5" letter-spacing="1.2"><textPath href="#r-moinhos" startOffset="75%">AV. DOS MOINHOS</textPath></text>
-          <text dy="3"><textPath href="#r-alcina" startOffset="7%">R. ALCINA PRADO</textPath></text>
+        <g class="postes"></g>
+        <g class="nomes" font-family="Familjen Grotesk, sans-serif" font-weight="600" font-size="8" letter-spacing="1.6" fill="#7D7383">
+          <text dy="-4"><textPath href="#r-moinhos" startOffset="74%">AV. DOS MOINHOS</textPath></text>
+          <text dy="3"><textPath href="#r-alcina" startOffset="6%">R. ALCINA PRADO</textPath></text>
           <text dy="3"><textPath href="#r-trigo" startOffset="4%">R. DO TRIGO</textPath></text>
-          <text dy="3"><textPath href="#r-paineiras" startOffset="62%">R. DAS PAINEIRAS</textPath></text>
-          <text dy="3" font-size="7.5"><textPath href="#r-forno" startOffset="18%">TV. DO FORNO</textPath></text>
-          <text dy="3" font-size="7.5"><textPath href="#r-bento" startOffset="10%">R. BENTO LIMA</textPath></text>
+          <text dy="3"><textPath href="#r-paineiras" startOffset="60%">R. DAS PAINEIRAS</textPath></text>
+          <text dy="3" font-size="7"><textPath href="#r-bento" startOffset="8%">R. BENTO LIMA</textPath></text>
         </g>
-        <path class="rota-base" d="M64 335C100 323 140 305 175 291 178 276 177 264 175 252" fill="none" stroke="#A25C1A" stroke-width="4" stroke-linecap="round" stroke-dasharray="0.1 9" opacity=".25"/>
-        <path class="rota" d="M64 335C100 323 140 305 175 291 178 276 177 264 175 252" fill="none" stroke="#A25C1A" stroke-width="4" stroke-linecap="round" pathLength="1" stroke-dasharray="0 1"/>
-        <g class="voce" transform="translate(64 335)">
-          <circle class="voce-onda" r="10" fill="#441608" opacity=".2"/><circle r="6" fill="#441608" stroke="#F5F2EC" stroke-width="2.5"/>
-          <text x="0" y="24" text-anchor="middle" font-family="DM Mono, monospace" font-size="9" letter-spacing="1.4" fill="#441608">VOCÊ</text>
-        </g>
-        <g class="alfinete" transform="translate(175 250)">
-          <g class="fumaca-mapa" stroke="#834C24" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".7">
-            <path d="M-5 -40c-4-5 3-9-1-15" pathLength="1"/><path d="M4 -40c-4-6 4-10 0-17" pathLength="1"/></g>
-          <path d="M0 0C-4-8-18-14-18-26A18 18 0 1 1 18-26C18-14 4-8 0 0Z" fill="#441608"/>
-          <circle cy="-26" r="11" fill="none" stroke="#F5F2EC" stroke-width="1.5"/>
-          <path d="M-6 -23c2.5-4.5 6.5-6.5 11.5-6" fill="none" stroke="#CFAB86" stroke-width="1.8" stroke-linecap="round"/>
-          <g class="alfinete-rotulo" transform="translate(24 -40)">
-            <rect width="112" height="40" rx="8" fill="#F5F2EC" stroke="#CFAB86"/>
-            <text x="12" y="17" font-family="Fraunces, serif" font-size="13" fill="#1F0A03">Casca &amp; Miolo</text>
-            <text x="12" y="31" font-family="DM Mono, monospace" font-size="8.5" letter-spacing="1" fill="#834C24" class="tempo-a-pe">6 MIN A PÉ</text>
+        <g class="loterica" transform="translate(128 262)"><rect width="22" height="14" rx="2" fill="#1E1824" stroke="#3A3040"/><text x="11" y="10" font-family="Familjen Grotesk, sans-serif" font-size="6.5" font-weight="700" fill="#7D7383" text-anchor="middle">LOT</text></g>
+        <path class="rota" d="M62 345C100 333 140 315 175 301 178 286 177 272 175 262" fill="none" stroke="#F6C98A" stroke-width="3.2" stroke-linecap="round" pathLength="1" stroke-dasharray="0 1"/>
+        <g class="voce" transform="translate(62 345)"><circle class="voce-onda" r="10" fill="#FAF1DF" opacity=".15"/><circle r="5.5" fill="#FAF1DF"/><text y="22" text-anchor="middle" font-family="Familjen Grotesk, sans-serif" font-weight="700" font-size="8.5" letter-spacing="1.6" fill="#FAF1DF">VOCÊ</text></g>
+        <g class="padaria-pin" transform="translate(175 254)">
+          <circle class="padaria-brilho" r="46" fill="url(#g-padaria)"/>
+          <rect x="-9" y="-9" width="18" height="18" rx="3" fill="#05020A" stroke="#F6C98A" stroke-width="1.6"/>
+          <path d="M0 0V-5.5M0 0l4 2.2" stroke="#F6C98A" stroke-width="1.6" stroke-linecap="round"/>
+          <g class="pin-rotulo" transform="translate(16 -34)">
+            <rect width="124" height="38" rx="3" fill="#05020A" stroke="#3A3040"/>
+            <text x="10" y="16" font-family="Bungee, sans-serif" font-size="10.5" fill="#F6C98A">QUATRO HORAS</text>
+            <text x="10" y="29" font-family="Familjen Grotesk, sans-serif" font-weight="600" font-size="8" letter-spacing="1.2" fill="#B9AFA0" class="a-pe">6 MIN A PÉ · ABERTA</text>
           </g>
         </g>
-        <g transform="translate(366 30)" font-family="DM Mono, monospace" font-size="9" fill="#834C24" text-anchor="middle">
-          <path d="M0 -14L6 4 0 0-6 4Z" fill="#834C24"/><text y="18">N</text></g>
-        <g transform="translate(20 400)" font-family="DM Mono, monospace" font-size="8" fill="#834C24">
-          <path d="M0 0H60" stroke="#834C24" stroke-width="1.5"/><path d="M0 -4V4M60 -4V4" stroke="#834C24" stroke-width="1.5"/><text x="68" y="3">100 M</text></g>
+        <g transform="translate(372 30)" font-family="Familjen Grotesk, sans-serif" font-weight="700" font-size="9" fill="#7D7383" text-anchor="middle"><path d="M0 -14L6 4 0 0-6 4Z" fill="#7D7383"/><text y="18">N</text></g>
       </svg>
-    </div>
-    <div class="horario-caixa">
-      <p class="status-loja"><span class="ponto" aria-hidden="true"></span><span data-status>Aberto agora · fecha às 20h</span></p>
-      <ul class="horario">
-        <li data-dias="1,2,3,4,5"><span>Segunda a sexta</span><i></i><b>6h às 20h</b></li>
-        <li data-dias="6"><span>Sábado</span><i></i><b>6h às 18h</b></li>
-        <li data-dias="0"><span>Domingo</span><i></i><b>7h às 13h</b></li>
-      </ul>
-      <div class="acoes">
-        <a class="botao-zap pequeno" href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-zap"/></svg>WhatsApp</a>
-        <button class="botao-linha" type="button" data-copiar="Rua Alcina Prado, 214 · Vila Serena">Copiar endereço</button>
-      </div>
     </div>
   </section>
 </main>
 
-<footer class="rodape escuro" data-tema="escuro">
-  <p class="rodape-marca">Casca <i>&amp;</i> Miolo</p>
-  <div class="rodape-info">
-    <p>Rua Alcina Prado, 214 · Vila Serena</p>
-    <p>Fornada nova a cada 40 minutos, das 5h40 às 19h.</p>
+<footer class="rodape">
+  <div class="rodape-letreiro" data-marca="letreiro"></div>
+  <div class="rodape-col">
+    <p class="rot cor-farinha-3">Endereço</p><p>Rua Alcina Prado, 214<br>Vila Serena</p>
+  </div>
+  <div class="rodape-col">
+    <p class="rot cor-farinha-3">Horário</p><p>Seg. a sex. 6h às 20h<br>Sáb. 6h às 18h · Dom. 7h às 13h</p>
+  </div>
+  <div class="rodape-col">
+    <p class="rot cor-farinha-3">Encomenda</p><p><a class="sublinha" href="https://wa.me/" target="_blank" rel="noopener">WhatsApp</a><br>até as 18h</p>
   </div>
   <p class="assinatura">Site-conceito por MACH Estúdio · @mach.sites · negócio fictício</p>
 </footer>
 
-
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="tinta" x="-5%" y="-15%" width="110%" height="130%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="r"/>
+    <feDisplacementMap in="SourceGraphic" in2="r" scale="1.8" result="d"/>
+    <feColorMatrix in="r" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.4 1.75" result="m"/>
+    <feComposite in="d" in2="m" operator="in"/>
+  </filter>
   <symbol id="i-zap" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.2-.3-.3-.5-.4Z"/></symbol>
 </svg>
-
-<script src="js/forno.js"></script>
-<script src="js/vitrine.js"></script>
-<script src="js/site.js"></script>
+<script src="js/marca.js"></script>
+<script src="js/led.js"></script>
+<script src="js/filme.js"></script>
+<script src="js/site.js" data-motor></script>
+<script src="js/secoes.js"></script>
 </body>
 </html>

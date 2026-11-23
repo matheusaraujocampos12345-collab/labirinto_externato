@@ -1,6 +1,6 @@
 // Filma a rolagem de cinema quadro a quadro e monta o mp4.
 // Uso: node ferramentas/filmar.mjs [--workers 4] [--quadros 0,90,300] [--sem-video]
-// Saída: captura/rolagem-bruta.mp4 (1080x1920, 30 fps, sem áudio, sem texto por cima)
+// Saída: captura/rolagem-bruta.mp4 (1080x1920, 30 fps, 20 s, sem áudio, sem texto por cima)
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
@@ -9,23 +9,27 @@ import { RAIZ, servidor, navegador, abrir } from './comum.mjs';
 
 const args = Object.fromEntries(process.argv.slice(2).reduce((a, v, i, arr) => {
   if (v.startsWith('--')) a.push([v.slice(2), arr[i + 1] && !arr[i + 1].startsWith('--') ? arr[i + 1] : true]); return a; }, []));
-const FPS = 30, DURACAO = 19.5, TOTAL = Math.round(FPS * DURACAO);
-const T0 = 3.0;                       // a página já terminou a entrada do título
+const FPS = 30, DURACAO = 20, TOTAL = Math.round(FPS * DURACAO);
+const T0 = 3.0;                       // o letreiro já acendeu
 const PASTA = process.env.QUADROS || path.join(os.tmpdir(), 'padaria-quadros');
 const SAIDA = path.join(RAIZ, 'captura', 'rolagem-bruta.mp4');
 
 // Roteiro: [segundo do vídeo, marco da página, deslocamento em px]
 const ROTEIRO = [
   [0.0, 'topo', 0],
-  [1.5, 'topo', 0],          // vapor subindo, parado
-  [4.3, 'vitrine', 0],       // o pão vem para perto e a vitrine cobre a tela
-  [8.1, 'vitrine', 1548],    // a vitrine se monta (fica presa na tela)
-  [9.9, 'relogio', -226],    // título e relógio da fornada inteiros na tela
-  [11.3, 'relogio', -206],   // respira: o relógio corre
-  [13.7, 'corte', -70],      // corte do pão: as bolhas crescem, a paleta sobe
-  [14.6, 'corte', -40],
-  [17.6, 'endereco', 6],     // encomenda passa, o caminho se desenha no mapa
-  [19.5, 'endereco', 30],
+  [1.2, 'topo', 0],              // letreiro aceso, forno escuro
+  [5.2, 'hero', 'heroCurso'],    // a mão puxa a assadeira, o pão sai para a luz
+  [5.7, 'hero', 'heroCurso+14'], // placa PÃO QUENTE acesa, plaquinha de preço
+  [7.3, 'senha', -282],          // painel de senha liga (teste 88:88) e mostra 16:00
+  [8.0, 'senha', -264],          // dois-pontos piscando, faltam 12 min
+  [9.1, 'cardapio', -210],
+  [12.2, 'cardapio', 1150],      // as letras entram no quadro; o bilhete de acabou
+  [12.5, 'cardapio', 1163],
+  [14.3, 'cartao', -150],        // cartão de ponto carimbando 03:40, 04:00...
+  [14.6, 'cartao', -140],
+  [15.8, 'encomenda', 60],       // o saco de pão com a comanda
+  [18.6, 'mapa', -100],          // o caminho até a porta, de madrugada
+  [20.0, 'mapa', -78],
 ];
 
 // Interpolação cúbica monotônica (Fritsch-Carlson): sem tranco e sem passar do ponto.
@@ -55,7 +59,7 @@ const marcos = { topo: 0, ...(await p0.evaluate(() => window.__marcos())) };
 const maxY = await p0.evaluate(() => document.documentElement.scrollHeight - innerHeight);
 await b0.close();
 const xs = ROTEIRO.map((r) => r[0]);
-const ys = ROTEIRO.map((r) => Math.min(maxY, Math.round(marcos[r[1]] + r[2])));
+const ys = ROTEIRO.map((r) => Math.min(maxY, Math.round(typeof r[2] === 'string' ? marcos[r[1]] + r[2].split('+').reduce((a, k) => a + (isNaN(+k) ? marcos[k] : +k), 0) : marcos[r[1]] + r[2])));
 const curva = spline(xs, ys);
 console.log('marcos (px):', ROTEIRO.map((r, i) => `${r[0]}s→${ys[i]}`).join('  '));
 

@@ -13,7 +13,7 @@ export const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 const MIME = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css',
   '.json': 'application/json', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml',
-  '.woff2': 'font/woff2', '.ttf': 'font/ttf',
+  '.woff2': 'font/woff2', '.ttf': 'font/ttf', '.webp': 'image/webp',
 };
 
 export async function servidor() {

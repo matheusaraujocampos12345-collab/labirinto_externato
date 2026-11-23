@@ -1,0 +1,7 @@
+Fontes baixadas do Google Fonts (só o conjunto latino, com acentos do português). Todas com licença livre, inclusive para uso comercial:
+
+Fraunces (normal e itálico, variável) — Copyright 2018 The Fraunces Project Authors (https://github.com/undercasetype/Fraunces)
+Instrument Sans (variável) — Copyright 2022 The Instrument Sans Project Authors (https://github.com/Instrument/instrument-sans)
+DM Mono (400 e 500) — Copyright 2020 The DM Mono Project Authors (https://github.com/googlefonts/dm-mono)
+
+Licença: SIL Open Font License 1.1 (https://openfontlicense.org).

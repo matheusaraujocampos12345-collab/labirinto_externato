@@ -5,7 +5,7 @@ import path from 'node:path';
 import { execSync } from 'node:child_process';
 import { RAIZ, servidor, navegador, abrir, quadro } from './comum.mjs';
 
-const [num, slug, descricao] = process.argv.slice(2);
+const [num, slug, descricao, yArg = "0"] = process.argv.slice(2);
 const pasta = path.join(RAIZ, 'captura', 'etapas');
 fs.mkdirSync(pasta, { recursive: true });
 const arquivo = `${String(num).padStart(2, '0')}-${slug}.png`;
@@ -13,7 +13,7 @@ const arquivo = `${String(num).padStart(2, '0')}-${slug}.png`;
 const srv = await servidor();
 const browser = await navegador();
 const page = await abrir(browser, srv.url);
-await quadro(page, 2.0, 0);
+await quadro(page, 3.0, +yArg - 1); await quadro(page, 3.1, +yArg);
 await page.waitForTimeout(300);
 await page.screenshot({ path: path.join(pasta, arquivo) });
 await browser.close();

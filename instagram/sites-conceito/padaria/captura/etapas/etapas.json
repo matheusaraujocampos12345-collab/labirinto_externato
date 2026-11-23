@@ -1,51 +1,52 @@
 {
-  "inicio": "2026-11-23T03:49:30+00:00",
+  "versao": "2 (Padaria Quatro Horas)",
+  "inicio": "2026-11-23T12:40:09+00:00",
   "nota": "Horários reais do relógio do computador (date -Iseconds), gravados no momento de cada captura enquanto a primeira tela era construída. \"desde_o_inicio\" e \"duracao_da_etapa\" são só a conta entre esses horários (minutos:segundos).",
   "etapas": [
     {
       "numero": 1,
       "etapa": "Rascunho em caixas",
       "arquivo": "01-rascunho-em-caixas.png",
-      "horario": "2026-11-23T03:49:43+00:00",
-      "desde_o_inicio": "00:13",
-      "duracao_da_etapa": "00:13"
+      "horario": "2026-11-23T12:40:30+00:00",
+      "desde_o_inicio": "00:21",
+      "duracao_da_etapa": "00:21"
     },
     {
       "numero": 2,
       "etapa": "Layout com textos reais",
       "arquivo": "02-layout.png",
-      "horario": "2026-11-23T03:50:10+00:00",
-      "desde_o_inicio": "00:40",
-      "duracao_da_etapa": "00:27"
+      "horario": "2026-11-23T12:40:55+00:00",
+      "desde_o_inicio": "00:46",
+      "duracao_da_etapa": "00:25"
     },
     {
       "numero": 3,
-      "etapa": "Tipografia e cor",
+      "etapa": "Tipografia e cor: letreiro de neon desenhado, Bungee, painel de LED",
       "arquivo": "03-tipografia-e-cor.png",
-      "horario": "2026-11-23T03:50:55+00:00",
-      "desde_o_inicio": "01:25",
-      "duracao_da_etapa": "00:45"
+      "horario": "2026-11-23T12:42:24+00:00",
+      "desde_o_inicio": "02:15",
+      "duracao_da_etapa": "01:29"
     },
     {
       "numero": 4,
-      "etapa": "Ilustração: forno, pá, pão e vapor (parados)",
-      "arquivo": "04-ilustracao.png",
-      "horario": "2026-11-23T03:58:34+00:00",
-      "desde_o_inicio": "09:04",
-      "duracao_da_etapa": "07:39"
+      "etapa": "Vídeo real do forno, com cor de 4 da manhã (parado no primeiro quadro)",
+      "arquivo": "04-video-real.png",
+      "horario": "2026-11-23T12:43:18+00:00",
+      "desde_o_inicio": "03:09",
+      "duracao_da_etapa": "00:54"
     },
     {
       "numero": 5,
-      "etapa": "Movimento: vapor vivo, rolagem traz o pão para perto, texto em camadas",
+      "etapa": "Movimento: o vídeo anda com a rolagem, a placa PÃO QUENTE acende, a plaquinha de preço entra",
       "arquivo": "05-movimento.png",
-      "horario": "2026-11-23T03:59:45+00:00",
-      "desde_o_inicio": "10:15",
-      "duracao_da_etapa": "01:11"
+      "horario": "2026-11-23T12:46:25+00:00",
+      "desde_o_inicio": "06:16",
+      "duracao_da_etapa": "03:07"
     }
   ],
-  "total_da_primeira_tela": "10:15",
+  "total_da_primeira_tela": "06:16",
   "fora_do_cronometro": {
-    "antes": "Das 03:43:58 às 03:49:30 (cerca de 5 min e meio): leitura do pedido, busca do nome, download das fontes, medição das cores em fotos de pão e a ferramenta de captura.",
-    "depois": "Ajustes finos na primeira tela foram feitos depois, junto com o resto do site, e não estão nas capturas: textura do corte do pão mais lisa e o forno se encaixando em telas baixas."
+    "antes": "Das 12:23:42 (primeiro arquivo da busca salvo no computador) às 12:40:09 (cerca de 16 min): busca e download do vídeo, recorte e cor dos quadros, escolha das fontes, medição das cores e desenho do logotipo. Esse trabalho foi feito antes de ligar o cronômetro.",
+    "depois": "Depois da etapa 5 vieram ajustes na primeira tela, que não aparecem nas capturas: quadros mais nítidos, pão mais visível dentro do forno e encaixe em telas baixas."
   }
 }
