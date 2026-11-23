@@ -163,3 +163,34 @@ O que mudou e por quê:
 - **A rolagem entra com o pão já na luz,** como na etapa 5, então a tela parada passa a se mexer. A diferença de enquadramento entre a etapa 5 e a versão final aparece nesse corte.
 - **"Cada etapa é uma decisão." desceu para a faixa de baixo,** porque o alto agora mostra as luzes de Natal.
 - **Sem cronômetro e sem tempo de produção**, e nada de "feito à mão". Cortes secos a cada 2 s (4 batidas a 120 bpm); 22 s no total.
+
+---
+
+## i12 · Padaria em uso (47 s)
+
+`i12-padaria-em-uso.mp4` · um cliente encomenda panetone de Natal no site da **Padaria Quatro Horas**, do começo ao fim. O site foi filmado de verdade no tamanho de celular (432×768 a 2,5×), no modo de captura do próprio site (relógio fixo em quarta, 9/12, 15h47), por `cenas/i12-captura.mjs`. As interações são reais: a rolagem, o toque na aba Natal e os toques em "Adicionar" e "+" mudam o site, e o resumo e a mensagem saem do próprio site. Os zooms, o dedo, os textos e a trilha de etapas entram por cima, no motor.
+
+Embaixo, o tempo todo, a trilha das etapas em mono: **01 Ver · 02 Escolher · 03 Pedir · 04 Chegar** (a atual acesa na cor do neon do site).
+
+| Tempo | Etapa | Na tela |
+|---|---|---|
+| 0–3 s | 01 Ver | primeira tela com avanço lento de câmera · rótulo **Feito para · padaria** · **Um cliente pedindo panetone. Do começo ao fim.** |
+| 3–5 s | 01 Ver | zoom no selo "Encomendas de Natal abertas" (texto do site) |
+| 5–10,5 s | 01 Ver | a rolagem: a mão puxa a assadeira e o pão sai do forno, com zoom lento no pão · **O pão sai do forno enquanto ele rola.** (embaixo do pão) |
+| 10,5–13 s | 01 Ver | painel da próxima fornada, com zoom rápido no LED · **A próxima fornada, ao vivo.** |
+| 13–16 s | 01 Ver | as luzes de Natal e o painel "encomendas fecham em 11 dias" · **O Natal entra sozinho em dezembro.** |
+| 16–19,4 s | 02 Escolher | o cardápio; o dedo toca na aba **Natal** e a página desce até a seção · **Aba Natal.** |
+| 19,5–24 s | 02 Escolher | toque em "Adicionar" no panetone de 1 kg, toque em "+" (fica 2) e toque em "Adicionar" no chocotone · **2 panetones de 1 kg.** e depois **2 panetones de 1 kg. E 1 chocotone.** |
+| 24,5–27,4 s | 02 Escolher | o resumo do site: "3 itens escolhidos: 2 × Panetone da casa, 1 kg, 1 × Chocotone, 500 g." e o toque em "Encomendar pelo WhatsApp" · **O resumo se monta sozinho.** |
+| 27,5–33 s | 03 Pedir | o site desfocado ao fundo · rótulo **Mensagem pronta** · balão genérico com o texto que o site monta: "Quero encomendar para o Natal: / - 2 × Panetone da casa, 1 kg / - 1 × Chocotone, 500 g / Retirada no dia:" · **A mensagem já sai pronta.** |
+| 33–39 s | 04 Chegar | o mapa do bairro: o caminho se desenha até o pino "Quatro Horas · 6 min a pé", com zoom lento · **6 min a pé até a porta.** |
+| 39–42 s | 04 Chegar | **Padaria fictícia. Site de verdade.** |
+| 42–45,4 s | — | primeira tela escurecida · **Quer um site assim? Chama no direct.** ("direct" em laranja, o único destaque da tela) · @mach.sites |
+| 45,5–47 s | 01 Ver | o escuro sai e o gancho volta; o último quadro emenda no primeiro (loop) |
+
+Como foi feito e por quê:
+- **"Pedir no WhatsApp":** o botão do site se chama "Encomendar pelo WhatsApp". O vídeo mostra o toque nele e depois só o texto da mensagem, num balão genérico (sem logo e sem imitar a tela do aplicativo). O texto é o que o site monta de verdade, lido do link do botão.
+- **Textos em faixas escuras** na cor do forno do site, no alto da tela, para não cobrir o pão, os botões e os preços que estão sendo mostrados. A única exceção é a faixa do pão, que fica embaixo dele.
+- **Cortes secos em 3, 5, 10,5, 13, 16, 27,5, 33 e 42 s** (todos na batida de 120 bpm). Dentro do cardápio a rolagem é contínua, como o cliente faria.
+- **Sem referência de aviação e nada de Apple.** Tela cheia, sem moldura de aparelho.
+- O nome do cliente não aparece; os itens, preços, endereço e a padaria são do site-conceito (negócio fictício). O vídeo do forno dentro do site é do Coverr (licença permite editar e usar comercialmente).

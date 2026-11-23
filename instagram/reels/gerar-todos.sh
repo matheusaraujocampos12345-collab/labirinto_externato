@@ -13,6 +13,8 @@ if [ ! -f $Q/padaria-rolagem/q_00584.png ]; then
   mkdir -p $Q/padaria-rolagem
   ffmpeg -loglevel error -y -i instagram/sites-conceito/padaria/captura/rolagem-bruta.mp4 -start_number 0 $Q/padaria-rolagem/q_%05d.png
 fi
-for r in i01 i02 i03 i04 i05 i06 i11; do
+# o i12 grava o site da padaria em uso (toques reais no cardápio)
+[ -f $Q/i12-site/meta.json ] || node $C/i12-captura.mjs --workers 2
+for r in i01 i02 i03 i04 i05 i06 i11 i12; do
   node $M/render.mjs $C/$r.js --workers 2
 done
