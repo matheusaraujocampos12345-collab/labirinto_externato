@@ -204,6 +204,45 @@
       "modo": "manual",
       "status": "agendado",
       "nota": "Aprovado na rodada 2. Agendar pelo app do Instagram (kit da semana 1) enquanto o GitHub não está ligado."
+    },
+    {
+      "id": "feito-para-padaria-reels",
+      "data": "2026-11-23T19:00:00-03:00",
+      "tipo": "reels",
+      "arquivos": [
+        "instagram/reels/i03-feito-para-padaria.mp4"
+      ],
+      "capa": "instagram/reels/i03-capa.jpg",
+      "legenda": "Padaria fictícia. Site de verdade.\nQual negócio ganha o próximo? Vota nos stories de domingo.\n\n#siteparapadaria #sitesobmedida #siteanimado",
+      "nota": "Aprovado na rodada 3 (23/11). O dono posta hoje pelo app, com música.",
+      "modo": "manual",
+      "status": "agendado"
+    },
+    {
+      "id": "o-site-que-todo-mundo-tem",
+      "data": "2026-12-03T19:00:00-03:00",
+      "tipo": "reels",
+      "arquivos": [
+        "instagram/reels/i02-o-site-que-todo-mundo-tem.mp4"
+      ],
+      "capa": "instagram/reels/i02-capa.jpg",
+      "legenda": "Seis barbearias. Seis modelos. Ninguém lembra de nenhuma.\nSeu site é o sétimo da fila?\n\n#siteparaempresa #sitesobmedida #criacaodesites",
+      "nota": "Aprovado na rodada 3 (23/11).",
+      "modo": "manual",
+      "status": "agendado"
+    },
+    {
+      "id": "do-zero-a-primeira-tela",
+      "data": "2026-12-05T11:00:00-03:00",
+      "tipo": "reels",
+      "arquivos": [
+        "instagram/reels/i11-do-zero-a-primeira-tela.mp4"
+      ],
+      "capa": "instagram/reels/i11-capa.jpg",
+      "legenda": "Do rascunho em caixas ao pão saindo do forno.\nCada etapa é uma decisão sobre quem vai usar o site.\n\n#webdesign #siteparapadaria #bastidores",
+      "nota": "Aprovado na rodada 3 (23/11).",
+      "modo": "manual",
+      "status": "agendado"
     }
   ]
 }
