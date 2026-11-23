@@ -169,6 +169,8 @@ O que mudou e por quê:
 
 `i12-padaria-em-uso.mp4` · um cliente encomenda panetone de Natal no site da **Padaria Quatro Horas**, do começo ao fim, com toques reais (aba Natal, "Adicionar", "+"), gravado por `cenas/i12-captura.mjs` (tempos em `cenas/i12-tempos.mjs`). Refeito com rolagens lentas, pausa de ~1 s depois de cada movimento, **borrão de movimento** (4 subquadros, obturador de 180°) e menos texto. Os eventos de som estão em **`i12-eventos.json`** (segundo exato de cada um).
 
+**Versão com som:** `i12-padaria-em-uso-com-som.mp4` (prévia: `previas/i12-com-som.mp4`), só efeitos sintetizados, sem música, a -18 LUFS para caber uma música por cima; o áudio é `audio/i12-sfx.wav`. O script lê os tempos do `i12-eventos.json`; depois de reeditar, é só rodar `python3 instagram/reels/audio/i12_sfx.py --video`.
+
 Embaixo, uma linha discreta em mono: **01 VER · 02 ESCOLHER · 03 PEDIR · 04 CHEGAR** (a etapa atual na cor do neon).
 
 | Tempo | Na tela |

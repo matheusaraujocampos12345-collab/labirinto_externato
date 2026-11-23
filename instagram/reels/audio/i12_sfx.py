@@ -6,12 +6,15 @@ Uso, da raiz do repositório:
     python3 instagram/reels/audio/i12_sfx.py          # gera audio/i12-sfx.wav
     python3 instagram/reels/audio/i12_sfx.py --video  # e também o vídeo com som e a prévia
 
-Saída: 48 kHz, estéreo, 24 bits, 47,000 s (o mesmo tamanho do vídeo).
+Saída: 48 kHz, estéreo, 24 bits, com a mesma duração do vídeo.
 Mixagem: perto de -18 LUFS integrado, pico real abaixo de -1 dBTP (medido com o ebur128 do ffmpeg).
 O ambiente (forno, cozinha, neon) é gerado em laço: o fim emenda no começo sem estalo.
 
-Os tempos saem do roteiro, de cenas/i12.js e de cenas/i12-captura.mjs (conferidos nos quadros).
+Os tempos saem de instagram/reels/i12-eventos.json (escrito pela gravação), as trocas de etapa de
+cenas/i12-tempos.mjs e os cortes do próprio vídeo. Se o vídeo for reeditado, é só rodar de novo.
+Onde o JSON e a tela não batem, vale o que foi conferido nos quadros (CONFERIDO, abaixo).
 """
+import json
 import os
 import re
 import subprocess
@@ -21,37 +24,91 @@ import wave
 import numpy as np
 
 SR = 48000
-DUR = 47.0
-N = int(round(SR * DUR))
 AQUI = os.path.dirname(os.path.abspath(__file__))
 REELS = os.path.dirname(AQUI)
 WAV = os.path.join(AQUI, 'i12-sfx.wav')
 VIDEO = os.path.join(REELS, 'i12-padaria-em-uso.mp4')
 VIDEO_SOM = os.path.join(REELS, 'i12-padaria-em-uso-com-som.mp4')
 PREVIA = os.path.join(REELS, 'previas', 'i12-com-som.mp4')
+EVENTOS = os.path.join(REELS, 'i12-eventos.json')
+TEMPOS_JS = os.path.join(REELS, 'cenas', 'i12-tempos.mjs')
 ALVO_LUFS = -18.0
 TETO_DBTP = -2.8  # margem: o AAC sobe o pico real em até ~1 dB
 
-# ── eventos (segundos do vídeo) ────────────────────────────────
-T = {
-    'selo': 3.0,             # zoom no selo "Encomendas de Natal abertas"
-    'assadeira': (7.15, 8.27),  # a mão puxa a assadeira (o filme do forno termina em 8,27 s)
-    'placa': (7.467, 7.55),  # a placa PÃO QUENTE pisca e acende
-    'pao': (8.27, 10.5),     # o pão parado na luz: a casca cantando
-    'led': 10.5,             # painel da próxima fornada
-    'led_muda': (11.0, 12.0),  # "faltam 12:16" → 12:15 → 12:14
-    'natal': 13.0,           # luzes de Natal e o painel "11 dias"
-    'natal2': 14.5,          # as lâmpadas piscando devagar
-    'etapa': (16.0, 27.5, 33.0, 42.0),  # trocas de etapa (cortes)
-    'aba': 17.0,             # toque na aba Natal
-    'rolagem': ((17.5, 18.5), (24.0, 25.5)),  # a página desce
-    'adicionar': (19.5, 21.5),  # "Adicionar" no panetone 1 kg e no chocotone
-    'mais': 20.5,            # "+" (fica 2)
-    'zap': 27.0,             # toque em "Encomendar pelo WhatsApp"
-    'envio': 28.2,           # o balão da mensagem pronta entra
-    'convite': 42.2,         # "Quer um site assim? Chama no direct."
-    'volta': 45.5,           # o escuro sai e o gancho volta (loop)
+# ── eventos: JSON da gravação, etapas da cena e cortes do vídeo ──
+with open(EVENTOS, encoding='utf-8') as fh:
+    EV = json.load(fh)
+DUR = float(EV['duracao'])
+FPS = float(EV.get('fps', 30))
+N = int(round(SR * DUR))
+
+
+def evento(nome):
+    """todos os tempos de um evento do JSON, em ordem"""
+    return sorted(float(e['t']) for e in EV['eventos'] if e['evento'] == nome)
+
+
+# Conferido nos quadros da edição de 45 s. Cada ajuste só vale enquanto o JSON tiver o valor conferido;
+# se o JSON mudar, o script usa o valor novo (com a mesma distância) e avisa para conferir de novo.
+CONFERIDO = {
+    # o JSON marca 3,6 s (a rolagem começa a sair do lugar); na tela, o letreiro some de 4,70 a 5,53 s,
+    # a mão entra em 5,33 s, a assadeira desliza de 6,27 a 7,50 s (fim do filme do forno)
+    # e a placa PÃO QUENTE pisca em 6,633 s e acende em 6,733 s (regra do site sobre a rolagem gravada)
+    'assadeira': (3.6, {'letreiro_sai': (4.70, 5.53), 'desliza': 6.27, 'para': 7.50,
+                        'placa_pisca': 6.633, 'placa_acende': 6.733}),
+    # o traço encosta no pino em 36,55 s; em 37,5 s entram o zoom e o texto "6 minutos a pé."
+    'pino': (37.5, 36.55),
 }
+
+
+def conferido(nome, valor_json):
+    ref, valor = CONFERIDO[nome]
+    if abs(valor_json - ref) < 1e-6:
+        return valor
+    print(f'Aviso: "{nome}" mudou no JSON ({ref} → {valor_json} s). Confira os tempos nos quadros.')
+    desloca = lambda v: tuple(x - ref + valor_json for x in v) if isinstance(v, tuple) else v - ref + valor_json
+    return {k: desloca(v) for k, v in valor.items()} if isinstance(valor, dict) else valor_json
+
+
+def etapas_da_cena():
+    """começo de cada etapa (01 Ver, 02 Escolher...), lido de cenas/i12-tempos.mjs"""
+    try:
+        with open(TEMPOS_JS, encoding='utf-8') as fh:
+            m = re.search(r'ETAPAS\s*=\s*(\[\[.*?\]\])', fh.read(), re.S)
+        return [float(a) for a, b, k in json.loads(m.group(1).replace('DURACAO', str(DUR))) if float(a) > 0]
+    except (OSError, AttributeError, ValueError):
+        return []
+
+
+def cortes_do_video():
+    """cortes secos: quadros que mudam quase inteiros de um para o outro"""
+    w, h = 90, 160
+    bruto = subprocess.run(['ffmpeg', '-v', 'error', '-i', VIDEO, '-vf', f'scale={w}:{h}', '-f', 'rawvideo',
+                            '-pix_fmt', 'gray', '-'], capture_output=True, check=True).stdout
+    q = np.frombuffer(bruto, np.uint8).reshape(-1, h, w).astype(np.int16)
+    dif = np.abs(np.diff(q, axis=0)).mean(axis=(1, 2))
+    return [round((i + 1) / FPS, 3) for i in np.flatnonzero(dif > 18)]
+
+
+FORNO = conferido('assadeira', evento('assadeira')[0])
+ABA = evento('toque-aba-natal')[0]
+ADICIONAR = evento('adicionar')
+MAIS = evento('mais')[0]
+ZAP = evento('toque-whatsapp')[0]
+MENSAGEM = evento('mensagem')[0]
+BALAO = MENSAGEM + 0.2          # o balão sobe de MENSAGEM + 0,2 s (cenas/i12.js, balao())
+CAMINHO = evento('caminho')[0]
+PINO = conferido('pino', evento('pino')[0])
+CONVITE = evento('convite')[0]
+VOLTA = evento('volta')[0]
+CORTES = cortes_do_video()
+ETAPAS = etapas_da_cena()
+TROCAS = [e for e in ETAPAS if any(abs(e - c) < 1.5 / FPS for c in CORTES)]  # whoosh só onde há corte
+E_ESCOLHER = ETAPAS[0] if ETAPAS else ABA - 1.0
+E_FIM = TROCAS[-1] if TROCAS else CONVITE - 0.3       # volta à primeira tela (escuro + convite)
+LUZES = next((c for c in CORTES if FORNO['para'] < c < E_ESCOLHER), FORNO['para'] + 2.0)  # corte para o Natal
+DESCE = (ABA + 0.3, ABA + 2.9)  # depois do toque na aba, a página desce até a seção (cenas/i12-captura.mjs)
+print('Cortes no vídeo:', ', '.join(f'{c:g}' for c in CORTES), '· trocas de etapa com corte:', ', '.join(f'{c:g}' for c in TROCAS))
 
 rng_mestre = np.random.default_rng(1212)
 
@@ -95,7 +152,7 @@ def filtrar(x, resp, circular=False):
 
 
 def ruido_laco(resp, r):
-    """ruído colorido periódico em 47 s (emenda perfeita no loop)"""
+    """ruído colorido periódico na duração do vídeo (emenda perfeita no loop)"""
     k = N // 2 + 1
     X = (r.standard_normal(k) + 1j * r.standard_normal(k)) * resp(np.fft.rfftfreq(N, 1 / SR))
     X[0] = 0
@@ -197,15 +254,16 @@ ar_m = ruido_laco(lambda f: faixa(f, 180, 3200, 1) / np.sqrt(np.maximum(f, 50) /
 ar_s = ruido_laco(lambda f: faixa(f, 300, 3200, 1) / np.sqrt(np.maximum(f, 50) / 50), r)
 
 # nível do ambiente ao longo do vídeo (igual no começo e no fim, para o loop)
-amb = curva([(0, 1.0), (10.48, 1.0), (10.52, 0.8), (15.98, 0.8), (16.02, 0.5), (35.0, 0.5), (41.9, 0.72),
-             (42.0, 0.72), (42.3, 0.42), (45.5, 0.42), (46.2, 1.0), (DUR, 1.0)], TT)
+amb = curva([(0, 1.0), (LUZES - 0.02, 1.0), (LUZES + 0.02, 0.8), (E_ESCOLHER - 0.02, 0.8), (E_ESCOLHER + 0.02, 0.5),
+             (CAMINHO, 0.5), (E_FIM - 0.1, 0.72), (E_FIM, 0.72), (E_FIM + 0.3, 0.42), (VOLTA - 0.1, 0.42),
+             (VOLTA + 0.5, 1.0), (DUR, 1.0)], TT)
 ALVO_AMBIENTE = -33.0  # LUFS no começo: bem baixo, uns 15 LU abaixo dos efeitos
 grave = ronco * db(-41) + zumbido * db(-45)
 cama = np.stack([grave, grave]) + np.stack([ar_m + 0.35 * ar_s, ar_m - 0.35 * ar_s]) * db(-50)
 cama *= db(ALVO_AMBIENTE - lufs_m(cama[:, SR:3 * SR]))
 mix += cama * amb
 NIVEIS['ambiente: forno + cozinha'] = ALVO_AMBIENTE
-CAMADAS['ambiente: forno + cozinha'] = ['0–47 (laço)']
+CAMADAS['ambiente: forno + cozinha'] = [f'0–{DUR:g} (laço)']
 
 # ── 2. neon: o letreiro da primeira tela e a placa PÃO QUENTE ──
 r = rng()
@@ -218,23 +276,21 @@ tom_neon = filtrar(tom_neon, lambda f: faixa(f, 300, 2600, 2), circular=True)
 tom_neon /= np.sqrt(np.mean(tom_neon ** 2))
 neon = chiado * (0.25 + pulsos) * 0.55 + tom_neon * 0.5
 neon *= db(-36.0 - lufs_m(neon[SR:3 * SR]))  # o chiado fica só um pouco acima do ambiente
-# letreiro: aceso desde o primeiro quadro, mais baixo no zoom do selo, some com a rolagem
-# (opacidade do site: 1 - suave(0,06; 0,24; p), p = rolagem do herói) e volta quando o escuro sai
-p_heroi = (1 - np.cos(np.pi * clamp((TT - 5.4) / 3.6))) / 2
-letreiro = np.where(TT < 10, 1 - suave(0.06, 0.24, p_heroi), 0.0)
-letreiro *= curva([(0, 1), (2.98, 1), (3.02, 0.55), (4.98, 0.55), (5.02, 1), (DUR, 1)], TT)
-letreiro = np.where(TT >= 42, curva([(42, 1), (42.3, 0), (45.5, 0), (46.2, 1), (DUR, 1)], TT), letreiro)
-# placa PÃO QUENTE: pisca em 7,467 s, acende de vez em 7,55 s, sai no corte de 10,5 s
+# letreiro: aceso desde o primeiro quadro, some com a rolagem e volta quando o escuro sai (loop)
+l0, l1 = FORNO['letreiro_sai']
+letreiro = np.where(TT < LUZES, 1 - suave(l0, l1, TT), 0.0)
+letreiro = np.where(TT >= E_FIM, curva([(E_FIM, 1), (E_FIM + 0.3, 0), (VOLTA - 0.1, 0), (VOLTA + 0.5, 1), (DUR, 1)], TT), letreiro)
+# placa PÃO QUENTE: pisca um quadro, acende de vez e sai no corte para o Natal
 placa = np.zeros(N)
-placa[(TT >= 7.467) & (TT < 7.50)] = 0.8
-placa[(TT >= 7.55) & (TT < 10.5)] = 0.75
+placa[(TT >= FORNO['placa_pisca']) & (TT < FORNO['placa_pisca'] + 1 / FPS)] = 0.8
+placa[(TT >= FORNO['placa_acende']) & (TT < LUZES)] = 0.75
 placa = filtrar(placa, lambda f: faixa(f, None, 120, 1))  # sem estalo nas bordas
 mix += pan(neon * letreiro, -0.1)
 mix += pan(neon * placa * db(-1), 0.3)
 NIVEIS['neon do letreiro'] = -36.0
 NIVEIS['neon da placa PÃO QUENTE'] = -37.0
-CAMADAS['neon do letreiro'] = ['0–6,6', '45,5–47 (volta)']
-CAMADAS['neon da placa PÃO QUENTE'] = ['7,47–10,5']
+CAMADAS['neon do letreiro'] = [f'0–{l1:g}', f'{VOLTA - 0.1:g}–{DUR:g} (volta)']
+CAMADAS['neon da placa PÃO QUENTE'] = [f"{FORNO['placa_acende']:g}–{LUZES:g}"]
 
 
 def faisca(r, dur=0.03):
@@ -246,8 +302,8 @@ def faisca(r, dur=0.03):
 
 
 r = rng()
-por(pan(pico1(faisca(r)), 0.3), 7.467, -27, 'faísca da placa acendendo')
-por(pan(pico1(faisca(r)), 0.3), 7.55, -25, 'faísca da placa acendendo')
+por(pan(pico1(faisca(r)), 0.3), FORNO['placa_pisca'], -27, 'faísca da placa acendendo')
+por(pan(pico1(faisca(r)), 0.3), FORNO['placa_acende'], -25, 'faísca da placa acendendo')
 
 
 # ── 3. a assadeira deslizando e o pão cantando ─────────────────
@@ -255,7 +311,9 @@ def assadeira(r, t0, t1):
     dur = t1 - t0 + 0.6
     t = eixo(dur)
     # quanto a assadeira anda (medido nos quadros: começa em 7,15, mais forte de 7,3 a 7,85, para em 8,27)
-    vel = curva([(0, 0), (0.1, 0.55), (0.18, 0.95), (0.45, 1.0), (0.7, 0.85), (0.9, 0.62), (1.05, 0.5), (1.12, 0.0), (dur, 0)], t)
+    k = (t1 - t0) / 1.12  # o desenho do movimento foi medido num deslize de 1,12 s; aqui estica para o tempo real
+    vel = curva([(0, 0), (0.1 * k, 0.55), (0.18 * k, 0.95), (0.45 * k, 1.0), (0.7 * k, 0.85), (0.9 * k, 0.62),
+                 (1.05 * k, 0.5), (t1 - t0, 0.0), (dur, 0)], t)
     aspereza = np.abs(filtrar(r.standard_normal(len(t)), lambda f: faixa(f, 20, 90, 2)))
     aspereza /= aspereza.max()
     atrito = r.standard_normal(len(t)) * vel * (0.35 + 0.65 * aspereza)
@@ -271,12 +329,12 @@ def assadeira(r, t0, t1):
     # a assadeira passando pela grade do forno: tiquinhos metálicos irregulares
     tq = np.zeros(len(t))
     pos = 0.12
-    while pos < 1.0:
+    while pos < (t1 - t0) - 0.12:
         i = int(pos * SR)
         n = int(0.02 * SR)
         tt = np.arange(n) / SR
         f = r.uniform(2300, 4200)
-        tq[i:i + n] += np.interp(pos, [0.12, 0.5, 1.0], [0.6, 1.0, 0.3]) * r.uniform(0.4, 1.0) * \
+        tq[i:i + n] += np.interp(pos / k, [0.12, 0.5, 1.0], [0.6, 1.0, 0.3]) * r.uniform(0.4, 1.0) * \
             np.sin(2 * np.pi * f * tt) * np.exp(-tt / 0.006)
         pos += r.uniform(0.035, 0.075)
     x = x + 0.45 * pico1(tq)
@@ -294,7 +352,7 @@ def assadeira(r, t0, t1):
 
 
 r = rng()
-a0, a1 = T['assadeira']
+a0, a1 = FORNO['desliza'], FORNO['para']
 por(pan(assadeira(r, a0, a1), 0.05), a0, -15, 'assadeira deslizando')
 
 
@@ -319,22 +377,8 @@ def pao_cantando(r, t0, t1):
 
 
 r = rng()
-p0, p1 = T['pao']
+p0, p1 = FORNO['para'], LUZES
 por(pao_cantando(r, p0, p1), p0, -21, 'pão cantando (casca estalando)')
-
-
-# ── 4. o painel de LED ────────────────────────────────────────
-def bipe(f, dur=0.075):
-    t = eixo(dur + 0.02)
-    x = np.sin(2 * np.pi * f * t) + 0.12 * np.sin(2 * np.pi * 2 * f * t) + 0.05 * np.sin(2 * np.pi * 3 * f * t)
-    env = clamp(t / 0.003) * clamp((dur - t) / 0.018 + 0.0) * np.exp(-t / 0.12)
-    return pico1(x * env)
-
-
-por(bipe(1568), T['led'], -18, 'bipe do LED (aparece)')
-for tm in T['led_muda']:
-    por(bipe(1318, 0.05), tm, -22, 'bipe do LED (o número muda)')
-por(bipe(1175, 0.06), T['natal'], -23, 'bipe do LED "11 dias"')
 
 
 # ── 5. brilho de sino nas luzes de Natal ───────────────────────
@@ -366,9 +410,8 @@ def brilho(r, notas, tempos, fortes, largura=0.45):
 r = rng()
 # notas espalhadas, sem formar melodia (tocadas quase juntas, como um brilho)
 por(brilho(r, [3136, 2637, 3951, 2960, 3520, 2349], [0, 0.06, 0.13, 0.23, 0.36, 0.52], [1, 0.75, 0.6, 0.5, 0.4, 0.3]),
-    T['natal'], -15, 'brilho de sino (luzes de Natal)')
-por(brilho(r, [3730, 2794], [0, 0.11], [1, 0.6]), T['natal2'], -22, 'brilho de sino (lâmpadas piscando)')
-por(brilho(r, [3322], [0], [1], 0.1), T['selo'], -23, 'brilho no selo de Natal')
+    LUZES, -15, 'brilho de sino (luzes de Natal)')
+por(brilho(r, [3730, 2794], [0, 0.11], [1, 0.6]), LUZES + 2.0, -22, 'brilho de sino (lâmpadas piscando)')
 
 
 # ── 6. toques na interface ─────────────────────────────────────
@@ -399,11 +442,11 @@ def tique(r):
 
 
 r = rng()
-por(clique(r), T['aba'], -19, 'clique (aba Natal)')
-por(pop(r, 720), T['adicionar'][0], -16, 'pop (Adicionar panetone)')
-por(tique(r), T['mais'], -23, 'tique (+)')
-por(pop(r, 860), T['adicionar'][1], -17, 'pop (Adicionar chocotone)')
-por(clique(r, 1900), T['zap'], -18, 'clique (Encomendar pelo WhatsApp)')
+por(clique(r), ABA, -19, 'clique (aba Natal)')
+por(pop(r, 720), ADICIONAR[0], -16, 'pop (Adicionar panetone)')
+por(tique(r), MAIS, -23, 'tique (+)')
+por(pop(r, 860), ADICIONAR[1], -17, 'pop (Adicionar chocotone)')
+por(clique(r, 1900), ZAP, -18, 'clique (Encomendar pelo WhatsApp)')
 
 
 # ── 7. whoosh nas trocas de etapa e a página descendo ──────────
@@ -421,12 +464,12 @@ def whoosh(r, antes, depois, f_ini, f_fim, p_ini, p_fim, q=1.4):
 
 
 r = rng()
-WH = {16.0: (700, 3200, -0.25, 0.2, -18), 27.5: (2600, 600, 0.2, -0.15, -19),
-      33.0: (600, 3600, -0.2, 0.25, -18), 42.0: (1800, 450, 0.15, -0.1, -21)}
-for tc in T['etapa']:
-    fi, ff, pi_, pf, g = WH[tc]
-    antes = 0.26
-    por(whoosh(r, antes, 0.2, fi, ff, pi_, pf), tc - antes, g, 'whoosh (troca de etapa)', marca=tc)
+# com a rolagem mais lenta, o whoosh ficou mais macio: mais longo, mais aberto e 3 dB mais baixo
+SUBIDA = [(700, 2800, -0.2, 0.15), (600, 3200, -0.15, 0.2)]
+for k, tc in enumerate(TROCAS):
+    fi, ff, pi_, pf = (1600, 450, 0.1, -0.1) if tc == E_FIM else SUBIDA[k % 2]  # o último desce para o escuro
+    antes = 0.34
+    por(whoosh(r, antes, 0.26, fi, ff, pi_, pf, q=1.0), tc - antes, -21, 'whoosh macio (troca de etapa)', marca=tc)
 
 
 def deslize(r, t0, t1):
@@ -440,8 +483,7 @@ def deslize(r, t0, t1):
 
 
 r = rng()
-for a, b in T['rolagem']:
-    por(deslize(r, a, b), a, -27, 'página descendo (ar macio)')
+por(deslize(r, *DESCE), DESCE[0], -28, 'página descendo (ar macio)')
 
 
 # ── 8. a mensagem sai (envio genérico) ─────────────────────────
@@ -457,26 +499,18 @@ def envio(r):
 
 
 r = rng()
-por(envio(r), T['envio'] - 0.075, -15, 'envio da mensagem (genérico)', marca=T['envio'])
+por(envio(r), BALAO - 0.075, -15, 'envio da mensagem (genérico)', marca=BALAO)
 
 
 # ── 9. o caminho no mapa: tom subindo e o toque no pino ────────
-def desenho_mapa(t):
-    """o quanto do caminho está desenhado (fórmula do próprio site: secoes.js)"""
-    u = clamp((t - 33.0) / 2.5)
-    topo = 680 - 475 * (1 - np.cos(np.pi * u)) / 2  # topo do mapa na tela, em px CSS (meta.json)
-    e = suave(768 * 0.85, 768 * 0.35, topo)
-    return 1 - (1 - e) ** 3
-
-
-t_m = np.arange(int(33.3 * SR), int(35.2 * SR)) / SR
-d = desenho_mapa(t_m)
-CHEGADA = float(t_m[np.argmax(d >= 0.985)])  # a linha encosta no pino
+t_m = np.arange(int((CAMINHO - 0.05) * SR), int((PINO + 0.5) * SR)) / SR
+d = suave(CAMINHO, PINO, t_m)  # o quanto do caminho já foi desenhado
+CHEGADA = PINO
 
 
 def tom_subindo(t, d):
     f = 294 * 2 ** d  # Ré 4 → Ré 5, no ritmo do traço
-    env = clamp((t - 33.38) / 0.18) * np.where(t < CHEGADA, 0.55 + 0.45 * d, np.exp(-(t - CHEGADA) / 0.09))
+    env = clamp((t - CAMINHO) / 0.25) * np.where(t < CHEGADA, 0.55 + 0.45 * d, np.exp(-(t - CHEGADA) / 0.09))
     x = np.zeros((2, len(t)))
     for desaf, p in [(1.0, -0.22), (1.004, 0.22)]:
         fase = 2 * np.pi * np.cumsum(f * desaf) / SR
@@ -496,7 +530,7 @@ def toque_grave(r):
     return pico1(x)
 
 
-por(tom_subindo(t_m, d), t_m[0], -16, 'tom subindo (caminho no mapa)')
+por(tom_subindo(t_m, d), t_m[0], -17, 'tom subindo (caminho no mapa)', marca=CAMINHO)
 r = rng()
 por(toque_grave(r), CHEGADA, -15, 'toque grave (chegou no pino)')
 
@@ -525,7 +559,7 @@ def sininho_porta(r):
 
 
 r = rng()
-por(sininho_porta(r), T['convite'], -14, 'sininho da porta (convite)')
+por(sininho_porta(r), CONVITE, -14, 'sininho da porta (convite)')
 
 
 def volta(r):
@@ -537,7 +571,7 @@ def volta(r):
 
 
 r = rng()
-por(volta(r), T['volta'] - 0.45, -25, 'ar do loop voltando', marca=T['volta'])
+por(volta(r), VOLTA - 0.45, -25, 'ar do loop voltando', marca=VOLTA)
 
 
 # ── mixagem final: loudness, pico real e gravação ──────────────
