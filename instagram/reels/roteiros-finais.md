@@ -120,48 +120,48 @@ O que mudou e por quê:
 
 ---
 
-## i03 · Feito para padaria, episódio 1 (17 s)
+## i03 · Feito para padaria, episódio 1 (17,5 s)
 
-`i03-feito-para-padaria.mp4` · rolagem real do site-conceito Casca & Miolo (`instagram/sites-conceito/padaria/captura/rolagem-bruta.mp4`). Os textos da MACH entram numa faixa de largura total na cor "Forno" da padaria (#1F0A03), na altura da boca do forno, para o pão continuar à mostra e o texto não brigar com o site. Sem laranja da MACH neste vídeo.
+`i03-feito-para-padaria.mp4` · rolagem real do site-conceito **Padaria Quatro Horas**, "a padaria que acorda às 4h" (`instagram/sites-conceito/padaria/captura/rolagem-bruta.mp4`). O vídeo do forno dentro do site é do Coverr (licença permite editar e usar comercialmente) e aparece editado, dentro do Reels. Regra da peça: **nenhum texto nosso cobre o pão saindo do forno.** A sobreposição conversa com o site: escuro do forno (#05020A), rótulos na cor do neon (#E5AC68) e texto em alumínio.
 
 | Tempo | Na tela |
 |---|---|
-| 0–2,3 s | rótulo **Feito para · episódio 1** · **Esse site é de uma padaria. Ninguém acredita.** · primeira tela com o pão na pá e o vapor |
-| 1–10 s | a rolagem começa e o vapor entorta; o balcão se monta (8 itens, o sonho "acabou"); a próxima fornada conta até **12 minutos** (textos do próprio site) |
-| 10–13 s | corte do pão e paleta "As cores desta página saíram deste pão." · **Padaria fictícia. Site de verdade.** (10,5–12,9 s) |
-| 13–16 s | mapa "Rua Alcina Prado, 214." · **Qual negócio eu faço na próxima?** · **Vota no próximo nicho no domingo.** · @mach.sites |
-| 16–17 s | volta à primeira tela e o gancho entra de novo; o último quadro emenda no primeiro (loop) |
+| 0–2 s | primeira tela com um avanço lento de câmera · rótulo **Feito para · episódio 1** · **Esse site é de uma padaria. Ninguém acredita.** (na boca escura do forno, abaixo do texto do site e acima do painel da fornada) |
+| 2–9,5 s | a rolagem: a mão puxa a assadeira, o pão chega na luz, PÃO QUENTE acende, a plaquinha "Pão italiano 24,90" entra e o painel de LED mostra a fornada das 16h (textos do próprio site, nenhum texto nosso) |
+| 9,5–13 s | o quadro de letras do cardápio se monta e o sonho ganha o bilhete "acabou" · **Padaria fictícia. Site de verdade.** (10–12,3 s, no alto, no escuro vazio acima do quadro) |
+| 13–16 s | o mapa do bairro de madrugada · faixa no alto, no preto do forno com fio de neon: rótulo **Episódio 2** · **Qual negócio eu faço na próxima?** · **Vota no próximo nicho no domingo.** · @mach.sites |
+| 16–17,5 s | volta à primeira tela parada e o gancho entra de novo; o último quadro é o primeiro (loop) |
 
 O que mudou e por quê:
-- **17 s em vez de 16 s.** A rolagem tem 19,5 s; foram usados três trechos (0–10 s do site, corte do pão e mapa) com cortes em 10, 13 e 16 s, na batida.
-- **O mapa saiu do trecho 2–10 s e foi para o fim,** junto da pergunta. No meio ficaram o balcão e o relógio da fornada, que contam a história sem texto nosso.
-- **O gancho fica até 2,3 s** (e volta no fim, 16–17 s, fechando o loop). Ele sai antes de o título do balcão passar por trás da faixa, para nada ficar escondido pela metade.
-- **"Qual negócio eu faço na próxima?" ganhou a linha "Vota no próximo nicho no domingo."** para casar com a enquete de domingo.
-- **Loop exato:** o vídeo começa 1 s depois do início da gravação e termina tocando esse primeiro segundo, então o último quadro emenda no primeiro.
-- O endereço, os preços e o nome da padaria são do site-conceito (negócio fictício).
+- **Material novo:** a padaria agora é a Quatro Horas (o site antigo, Casca & Miolo, saiu).
+- **O texto não cobre mais o pão.** O gancho fica na boca escura do forno antes de o pão entrar e sai em 2 s. No trecho do pão (2 a 9,5 s) não há texto nosso. "Padaria fictícia" e a pergunta ficam no alto, sobre o escuro, e saem antes de o conteúdo do site subir por trás.
+- **Sem faixa dura sobre o site no começo:** o gancho usa um véu escuro suave na cor do forno. A faixa só aparece no fim, no alto, sobre o horário e os botões, com o mapa inteiro à mostra.
+- **A primeira tela do site fica parada nos primeiros 1,3 s da gravação.** Por isso o Reels abre nela com um avanço lento de câmera (4%), já em movimento, e fecha no mesmo quadro parado: o loop é exato.
+- **17,5 s.** Trechos usados da gravação: 1,3–8,8 s (forno e fornada), 10–13,5 s (cardápio) e 18–20 s (mapa), com cortes em 2, 9,5, 13 e 16 s, na batida.
+- **A pergunta do fim ganhou o rótulo "Episódio 2"** e a linha "Vota no próximo nicho no domingo.", para casar com a enquete.
 
 ---
 
 ## i11 · Do zero à primeira tela (22 s)
 
-`i11-do-zero-a-primeira-tela.mp4` · as 5 capturas reais da construção da primeira tela da Casca & Miolo (`captura/etapas/`), na ordem, e um trecho da rolagem final. Sem cronômetro e sem tempo de produção.
+`i11-do-zero-a-primeira-tela.mp4` · as 5 capturas reais da construção da primeira tela da Padaria Quatro Horas (`captura/etapas/`), na ordem, e um trecho da rolagem final. Sem cronômetro, sem minutos e sem "feito à mão".
 
 | Tempo | Na tela |
 |---|---|
 | 0–3 s | etapa 1 (rascunho em caixas) · **Do zero à primeira tela.** · **01 · Rascunho em caixas** |
 | 3–5 s | etapa 2 · **02 · Layout** |
-| 5–7 s | etapa 3 · **03 · Tipografia e cor** |
-| 7–9 s | etapa 4 · **04 · Ilustração** |
-| 9–10,5 s | etapa 5 parada · **05 · Movimento** |
-| 10,5–20 s | corte seco para a rolagem real: a mesma tela ganha vida (vapor), desce para o balcão e o relógio · o rótulo "05 · Movimento" sai em 12 s |
-| 16–19,9 s | **Cada etapa é uma decisão.** · @mach.sites |
+| 5–7 s | etapa 3 (letreiro de neon, Bungee, painel de LED) · **03 · Tipografia e cor** |
+| 7–9 s | etapa 4 (o forno real, parado) · **04 · Vídeo real** |
+| 9–10,5 s | etapa 5 parada (o pão na luz, a plaquinha de preço, PÃO QUENTE aceso) · **05 · Movimento** (no alto, longe do pão) |
+| 10,5–20 s | a mesma tela ganha vida: a rolagem real continua do ponto da etapa 5, passa pelo painel da fornada e chega ao cardápio |
+| 16,5–19 s | **Cada etapa é uma decisão.** · @mach.sites (no alto, sobre o escuro acima do cardápio) |
 | 20–22 s | volta à etapa 1 com o gancho; o último quadro emenda no primeiro (loop) |
 
-Em todas as etapas, à direita da faixa, cinco marcas mostram em que etapa estamos (sem números de tempo).
+Nas etapas, à direita do rótulo, cinco marcas mostram em que etapa estamos (a atual na cor do neon). Nenhum número de tempo.
 
 O que mudou e por quê:
-- **Saiu o cronômetro e qualquer número de minutos** (pedido do dono: o formato "fiz um site em X minutos" desvaloriza um serviço premium). O roteiro original ("60 minutos…") foi trocado por "Do zero à primeira tela." e "Cada etapa é uma decisão.".
-- **Não diz que é feito à mão nem quanto tempo levou.**
-- **Cortes secos a cada 2 s** (4 batidas a 120 bpm). A etapa 5 fica 1,5 s parada e corta para a rolagem real, para o "movimento" aparecer de verdade.
-- **22 s** (dentro dos 20 a 30 s pedidos). A etapa 1 aparece no fim (20–22 s) e no começo (0–3 s) como uma tomada só, com um avanço lento de câmera contínuo, fechando o loop.
-- Mesma faixa na cor "Forno" da padaria usada no i03, para os dois episódios terem o mesmo visual.
+- **Etapas novas, da Quatro Horas.** A etapa 4 agora é "Vídeo real" (o forno filmado entrou no lugar da ilustração).
+- **Sem cronômetro e sem tempo de produção**, como antes, e nada de "feito à mão".
+- **A etapa 5 corta para a rolagem no mesmo ponto em que foi capturada** (o pão na luz), então a imagem parada simplesmente começa a se mexer. Antes a rolagem recomeçava do topo.
+- **Rótulos fora do pão:** nas etapas 1 a 4 a faixa fica entre o texto do site e o painel da fornada; na etapa 5 e na rolagem, ela sobe para o escuro de cima.
+- **Cortes secos a cada 2 s** (4 batidas a 120 bpm); 22 s no total.
