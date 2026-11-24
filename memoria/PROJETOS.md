@@ -79,6 +79,9 @@ Propostas de marca publicadas como páginas (claude.ai, privadas): Talhe, Macte 
 - Falta: saber o que a empresa faz (não há nada sobre ela na internet), o link do site atual, se o dono aparece na câmera e a autorização do cliente para mostrar o site e marcar o perfil.
 
 ### 4. Site
+- **24/11: versão única.** Juntei o site do projeto com a outra versão, feita em outra conversa (MACH 3D no espelho d'água, cartão que inclina, página que se ajusta, 4 passos, perguntas frequentes, jatinho no céu). Os arquivos estão em `site-mach/` e a estrutura está no README. Prévia privada: https://claude.ai/artifact/XDCprjyAEsF4u9PgZzXhqK
+- **WhatsApp do pedido:** 5511939045618, em `CONFIG.whatsapp` no `main.js`.
+- **Domínio sugerido:** machsites.com.br, com machestudio.com.br de reserva. Os dois estavam livres em 23/11. Falta o dono registrar e decidir a hospedagem (GitHub Pages grátis).
 - Falta o número de WhatsApp (`site-mach/main.js`, `CONFIG.whatsapp`).
 - Publicar (Netlify Drop ou Cloudflare Pages) e trocar o `og:image` pelo endereço completo.
 
