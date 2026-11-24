@@ -13,7 +13,7 @@
 
   function semGL() {
     raiz.classList.remove('gl');
-    ['s1', 's2', 's3', 's4'].forEach(function (id) {
+    ['s1', 's2'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) { el.removeAttribute('style'); el.classList.remove('live'); }
     });
@@ -43,7 +43,7 @@
   /* ══════════ 1) ABERTURA: MΛCH sobre um espelho d'água ══════════ */
   function abertura() {
     var hero = document.getElementById('topo'), canvas = document.getElementById('gl');
-    var stages = ['s1', 's2', 's3', 's4'].map(function (id) { return document.getElementById(id); });
+    var stages = ['s1', 's2'].map(function (id) { return document.getElementById(id); });
     if (!hero || !canvas) return;
     var gl = canvas.getContext('webgl', { alpha: true, antialias: true, premultipliedAlpha: true, powerPreference: 'high-performance' });
     if (!gl) { semGL(); return; }
@@ -141,23 +141,22 @@
     }
     var asp = 1, dpr = 1, CHAVES = [];
     function rota() {
-      var alto = asp < 1, fov = alto ? 0.9 : 0.62, cabe = Math.max(3.4, (4.74 * 1.16 / 2) / (asp * Math.tan(fov / 2)));
-      /* e = onde a câmera está, t = para onde olha, u = quanto a cena sobe na tela (o texto fica embaixo) */
+      /* Dois enquadramentos, os dois com a palavra MΛCH inteira: um de leve pela esquerda e outro de frente.
+         e = onde a câmera está, t = para onde olha, u = quanto a cena sobe na tela (o texto fica embaixo).
+         "cabe" é a distância em que a palavra ocupa cerca de 82% da largura da tela. */
+      var alto = asp < 1, fov = alto ? 0.8 : 0.62;
+      var cabe = Math.max(alto ? 4.6 : 6.2, (4.74 * (alto ? 1.22 : 1.9) / 2) / (asp * Math.tan(fov / 2)));
       CHAVES = alto ? [
-        { p: 0, e: [-3.1, -0.2, 3.7], t: [-1.2, 0, 0], u: [0.72, 0, 0] },
-        { p: 0.3, e: [-0.25, -0.1, 3.1], t: [-0.5, 0, 0], u: [0.5, 0, 0] },
-        { p: 0.58, e: [2.55, -0.05, 2.7], t: [1.25, 0, 0], u: [0.46, 0, 0] },
-        { p: 0.84, e: [0, 0.3, cabe], t: [0, 0, 0], u: [0.3, 0, 0] },
-        { p: 1, e: [0, cabe * 0.5, cabe * 0.92], t: [0, -0.6, 0], u: [0.12, 0, 0] }
+        { p: 0, e: [-cabe * 0.2, 0.3, cabe * 1.04], t: [0.12, 0, 0], u: [sobeCel, 0, 0] },
+        { p: 1, e: [0, cabe * 0.12, cabe], t: [0, 0, 0], u: [sobeCel, 0, 0] }
       ] : [
-        { p: 0, e: [-4.2, -0.22, 4.3], t: [-0.8, 0, 0], u: [0.62, 0, 0] },
-        { p: 0.3, e: [-0.6, -0.1, 4.0], t: [-0.4, 0, 0], u: [0.34, 0, 0] },
-        { p: 0.58, e: [3.2, 0, 3.2], t: [0.9, 0, 0], u: [0.3, 0, 0] },
-        { p: 0.84, e: [0, 0.3, cabe * 1.08], t: [0, 0, 0], u: [0.3, 0, 0] },
-        { p: 1, e: [0, cabe * 0.5, cabe * 0.92], t: [0, -0.5, 0], u: [0.1, 0, 0] }
+        { p: 0, e: [-cabe * 0.36, 0.25, cabe * 0.95], t: [0.35, 0.05, 0], u: [0.5, 0, 0] },
+        { p: 1, e: [0, cabe * 0.14, cabe], t: [0, 0, 0], u: [0.44, 0, 0] }
       ];
       CHAVES.fov = fov;
     }
+    /* no celular em pé, a palavra fica no terço de cima, acima do texto */
+    var sobeCel = 0.42;
     function spline(a, b, c2, d, u) { return 0.5 * ((2 * b) + (-a + c2) * u + (2 * a - 5 * b + 4 * c2 - d) * u * u + (-a + 3 * b - 3 * c2 + d) * u * u * u); }
     function aoLongo(p, chave) {
       var i = 0; while (i < CHAVES.length - 2 && p > CHAVES[i + 1].p) i++;
@@ -176,13 +175,12 @@
     var quer = 0, atual = 0, visivel = true, rodando = false, nasceu = 0, mx = 0, my = 0, wx = 0, wy = 0;
     function leRolagem() { var r = hero.getBoundingClientRect(), vao = hero.offsetHeight - window.innerHeight; quer = vao > 0 ? clamp(-r.top / vao, 0, 1) : 0; }
     function pintaTextos(p) {
-      var o = [1 - suave(0.06, 0.17, p), suave(0.22, 0.31, p) * (1 - suave(0.42, 0.5, p)), suave(0.52, 0.6, p) * (1 - suave(0.7, 0.77, p)), suave(0.8, 0.88, p) * (1 - suave(0.95, 1, p))];
-      for (var i = 0; i < 4; i++) {
+      var o = [1 - suave(0.1, 0.36, p), suave(0.4, 0.68, p)];
+      for (var i = 0; i < stages.length; i++) {
         stages[i].style.opacity = o[i].toFixed(3);
         stages[i].style.transform = 'translate3d(0,' + ((1 - o[i]) * (i === 0 ? -16 : 20)).toFixed(1) + 'px,0)';
         stages[i].classList.toggle('live', o[i] > 0.6);
       }
-      canvas.style.opacity = (1 - suave(0.93, 1, p) * 0.85).toFixed(3);
     }
     function atrib(loc, n, passo, off) { if (loc === undefined || loc < 0) return; gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, n, gl.FLOAT, false, passo, off); }
     function letras(VP, olho, t, intro, flip) {
@@ -209,7 +207,7 @@
       mx += (wx - mx) * 0.05; my += (wy - my) * 0.05;
       var t = agora / 1000, intro = (agora - nasceu) / 1000;
       var olho = aoLongo(atual, 'e'), alvo = aoLongo(atual, 't');
-      olho[0] += Math.sin(t * 0.4) * 0.07 + mx * 0.5; olho[1] = Math.max(-0.38, olho[1] + Math.sin(t * 0.31) * 0.035 - my * 0.25);
+      olho[0] += Math.sin(t * 0.3) * 0.05 + mx * 0.4; olho[1] = Math.max(-0.3, olho[1] + Math.sin(t * 0.23) * 0.025 - my * 0.2);
       var VP = mul(persp(CHAVES.fov, asp, aoLongo(atual, 'u')[0]), olha(olho, alvo));
       gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
       gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);

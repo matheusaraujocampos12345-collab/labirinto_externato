@@ -91,9 +91,7 @@
           <p class="rolagem mono" aria-hidden="true">Role para acelerar</p>
         </div>
       </div>
-      <div class="stage" id="s2"><div class="wrap"><p class="grande">Nada de modelo pronto.</p></div></div>
-      <div class="stage" id="s3"><div class="wrap"><p class="grande">Cada detalhe, pensado para a sua marca.</p></div></div>
-      <div class="stage" id="s4"><div class="wrap"><p class="grande">Acima da barreira do template.</p></div></div>
+      <div class="stage" id="s2"><div class="wrap"><p class="grande">Acima da barreira do template.</p></div></div>
     </div>
   </section>
 
@@ -127,7 +125,7 @@
       </div>
       <figure class="filme" id="filme">
         <div class="tela-video">
-          <video id="video" src="assets/mach-filme.mp4" poster="assets/mach-filme-capa.jpg" playsinline muted loop preload="none" aria-label="Filme da MACH, 30 segundos"></video>
+          <video id="video" src="assets/mach-filme.mp4" data-poster="assets/mach-filme-capa.jpg" playsinline muted loop preload="none" aria-label="Filme da MACH, 30 segundos"></video>
           <div class="video-ctl">
             <button id="v-play" type="button" class="mono">Reproduzir</button>
             <button id="v-som" type="button" class="mono">Ativar som</button>
@@ -145,6 +143,45 @@
         <p class="eyebrow">As provas</p>
         <h2 id="h-provas" class="reveal">Não precisa acreditar. Dá para testar.</h2>
       </div>
+
+      <!-- CLIENTE REAL: Equus Genetics. Para esconder, mude CONFIG.mostrarEquus no main.js. -->
+      <article class="prova caso" id="caso-equus" hidden>
+        <div class="prova-txt caso-txt caso-cab" data-revela>
+          <p class="prova-n mono"><span class="selo selo-real">Cliente real</span> equusbr.com</p>
+          <h3>Equus Genetics</h3>
+          <p>Testes genéticos de cavalos: pelagem, saúde e desempenho. O desafio era explicar um exame de DNA sem complicar.</p>
+        </div>
+        <div class="prova-txt caso-txt caso-resto" data-revela>
+          <blockquote class="caso-frase">
+            <p>“Todo cavalo tem uma história. Nós revelamos quem ele realmente é.”</p>
+            <footer class="mono">Primeira tela do site</footer>
+          </blockquote>
+          <ol class="caso-passos">
+            <li><b class="mono">01</b>Escolha os testes</li>
+            <li><b class="mono">02</b>Colete a amostra</li>
+            <li><b class="mono">03</b>Envie e acompanhe</li>
+            <li><b class="mono">04</b>Resultado na plataforma</li>
+          </ol>
+          <a class="link caso-link" href="https://equusbr.com" target="_blank" rel="noopener">Ver o site <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="caso-telas" data-revela>
+          <figure class="caso-pc">
+            <div class="caso-barra" aria-hidden="true"><i></i><i></i><i></i><span>equusbr.com</span></div>
+            <div class="caso-janela">
+              <picture>
+                <source srcset="assets/equus-computador.webp" type="image/webp">
+                <img src="assets/equus-computador.jpg" width="1280" height="1600" loading="lazy" decoding="async" alt="Site da Equus Genetics no computador: a primeira tela e os quatro passos do teste.">
+              </picture>
+            </div>
+          </figure>
+          <figure class="caso-cel">
+            <picture>
+              <source srcset="assets/equus-celular.webp" type="image/webp">
+              <img src="assets/equus-celular.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Primeira tela do site da Equus Genetics no celular.">
+            </picture>
+          </figure>
+        </div>
+      </article>
 
       <article class="prova">
         <div class="prova-txt" data-revela>
@@ -198,9 +235,9 @@
 
       <article class="prova prova-hangar">
         <div class="prova-txt" data-revela>
-          <p class="prova-n mono">Prova 03 · Hangar</p>
+          <p class="prova-n mono"><span class="selo">Conceito</span> Prova 03 · Hangar</p>
           <h3>Um conceito para cada ramo.</h3>
-          <p>Projetos-conceito criados pela MACH: uma luminária, uma relojoaria e uma marca de moda praia. Toque ou passe o mouse para ver a reação.</p>
+          <p>Projetos-conceito criados pela MACH para mostrar o acabamento: uma luminária, uma relojoaria e uma marca de moda praia. Toque ou passe o mouse.</p>
         </div>
         <div class="hangar">
           <article class="proj proj-grande" data-proj="halo">

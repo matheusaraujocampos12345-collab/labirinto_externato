@@ -19,10 +19,10 @@ passos em rolagem lateral, feixes de luz, perguntas frequentes e o jatinho do ro
 
 | # | Seção | O que faz |
 |---|---|---|
-| 1 | Abertura | As letras MΛCH em 3D sobre um espelho d'água. A rolagem guia a câmera e troca as frases. |
-| 2 | O problema | Sites de template empilham, o contador vai de 1 a 47, dá glitch e apaga: "E se o seu fosse diferente?" |
+| 1 | Abertura | As letras MΛCH em 3D sobre um espelho d'água, sempre inteiras na tela. Duas frases só. A rolagem presa dura meia tela no celular. |
+| 2 | O problema | Sites de template empilham, o contador vai de 1 a 47, dá glitch e apaga: "E se o seu fosse diferente?" (cerca de 1 tela de rolagem) |
 | 2b | A barreira e o filme | Ao cruzar M 1.0, o estrondo sônico (um só). "Cada site começa do zero." e o filme de 30 s. |
-| 3 | As provas | Cartão que inclina com o dedo, página que se ajusta (celular, tablet, computador) e os três conceitos do hangar. |
+| 3 | As provas | Primeiro o **cliente real** (Equus Genetics). Depois o cartão que inclina, a página que se ajusta (celular, tablet, computador) e os três **conceitos** do hangar. |
 | 4 | Como funciona | 4 passos em rolagem lateral. O símbolo Λ em 3D vai do traço ao sólido conforme os passos passam. |
 | 5 | A chamada | "Quer um site que só a sua empresa tem?" sob feixes de luz. |
 | 6 | Pedido | O cartão de embarque se monta enquanto a pessoa preenche. Abre o WhatsApp ou copia o texto para o direct. |
@@ -45,7 +45,24 @@ const CONFIG = {
 O número também aparece uma vez no `index.html` (botão "Enviar pelo WhatsApp"), só como reserva caso o JavaScript não carregue. Se trocar o número, troque nos dois lugares.
 
 **Textos:** direto no `index.html`. Procure a frase e troque. As perguntas frequentes ficam na seção 7.
-As frases que aparecem na abertura 3D são os blocos `id="s1"` a `id="s4"`.
+As duas frases da abertura 3D são os blocos `id="s1"` e `id="s2"`.
+
+## Cliente real: Equus Genetics (liga e desliga)
+
+O bloco do equusbr.com é o primeiro das provas, com o selo **Cliente real** (os do hangar têm o selo **Conceito**).
+Mostra a primeira tela no computador e no celular. Enquanto a pessoa rola, o site no computador desce devagar até os quatro passos do teste.
+O link "Ver o site" abre o equusbr.com em outra aba.
+
+**Para esconder o bloco** (por exemplo, enquanto o cliente não autoriza), abra o `main.js` e troque:
+
+```js
+mostrarEquus: true,    // aparece
+mostrarEquus: false,   // some por inteiro, e as imagens nem são baixadas
+```
+
+As imagens ficam em `assets/equus-computador` e `assets/equus-celular` (`.webp` e `.jpg`). Vieram das capturas em
+`instagram/reels/fontes-equus/` (computador: primeira tela + "como testar"; celular: primeira tela).
+O texto do bloco está no `index.html`, logo depois de "As provas".
 
 **Cores:** no começo do `styles.css`:
 
@@ -67,10 +84,16 @@ As cores do 3D ficam dentro do `mach3d.js` (o laranja aparece como `1.0, .42, .1
 - O `mach3d.js` só é baixado se a pessoa não pediu "menos movimento" no aparelho e não está em modo de economia de dados.
 - Se o aparelho não tiver WebGL, a abertura vira uma tela comum com uma imagem estática: `assets/abertura-3d.jpg` (computador) e `assets/abertura-3d-celular.jpg` (celular). Os passos mostram o símbolo Λ parado.
 - O símbolo 3D dos passos só liga quando a seção chega perto da tela.
-- O filme (4 MB) só é baixado quando aparece na tela.
+- O filme (4 MB) só é baixado quando aparece na tela, e a capa dele só quando a pessoa está chegando.
+- As imagens da Equus só são baixadas perto da seção (e nunca, se o bloco estiver desligado).
+- Medido num celular simulado (390×844, rede de 1,6 Mbps com 150 ms de atraso): texto na tela em cerca de 1,2 s e 3D rodando em cerca de 2,4 s.
+  Os arquivos do site somam 38 KB comprimidos; as fontes e o Lenis, 185 KB.
 - Com "menos movimento" ligado: sem rolagem suave, sem tremor e sem animações automáticas.
 
-As imagens estáticas foram geradas a partir do próprio 3D (captura de tela sem os textos). Se o 3D mudar, gere as duas de novo.
+As imagens estáticas foram geradas a partir do próprio 3D: é o primeiro quadro da abertura, sem os textos. Se o 3D mudar, gere as duas de novo.
+
+A câmera da abertura fica em `mach3d.js`, na função `rota()`: dois enquadramentos (de leve pela esquerda e de frente),
+um para celular em pé e outro para telas largas. `sobeCel` controla a altura da palavra no celular.
 
 ## Como publicar (grátis)
 

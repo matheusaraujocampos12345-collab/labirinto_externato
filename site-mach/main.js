@@ -5,6 +5,9 @@
 const CONFIG = {
   whatsapp: '5511939045618',
   instagram: 'mach.sites',
+  // Caso real da Equus Genetics nas provas. Mude para false para esconder o bloco inteiro
+  // (por exemplo, enquanto o cliente não autoriza mostrar o site).
+  mostrarEquus: true,
 };
 
 (() => {
@@ -16,6 +19,7 @@ const CONFIG = {
   const lerp = (a, b, t) => a + (b - a) * t;
   const easeOut = (t) => 1 - Math.pow(1 - t, 3);
   const easeOutExpo = (t) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
+  const suave = (a, b, x) => { x = clamp((x - a) / (b - a)); return x * x * (3 - 2 * x); };
   const reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const toque = window.matchMedia('(hover: none)').matches;
   const hash = (n) => {
@@ -160,12 +164,31 @@ const CONFIG = {
     apagao.classList.toggle('on', preto > 0.85);
   }
 
+  /* ── cliente real: Equus Genetics (liga e desliga em CONFIG.mostrarEquus) ──
+     Enquanto o bloco passa pela tela, o site no computador rola da primeira tela até os
+     quatro passos, e o celular flutua um pouco. Com movimento reduzido, tudo fica parado. */
+  const caso = $('#caso-equus');
+  if (caso) {
+    if (CONFIG.mostrarEquus) caso.hidden = false;
+    else caso.remove();
+  }
+  const casoTelas = CONFIG.mostrarEquus && caso ? $('.caso-telas', caso) : null;
+  function atualizaCaso() {
+    if (!casoTelas || reduz) return;
+    const r = casoTelas.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > M.vh) return;
+    const q = clamp((M.vh - r.top) / (M.vh + r.height));
+    casoTelas.style.setProperty('--q', q.toFixed(3));
+    casoTelas.style.setProperty('--pan', suave(0.5, 0.88, q).toFixed(3));
+  }
+
   /* ── laço principal de rolagem ── */
   function aoRolar() {
     const y = window.scrollY;
     nav.classList.toggle('solida', y > 30);
     atualizaMedidor(y);
     atualizaProblema(y);
+    atualizaCaso();
     ultimoY = y;
   }
   let agendado = false;
@@ -205,6 +228,15 @@ const CONFIG = {
   function controlaVideo(visivel) {
     if (visivel && !pausadoPeloUsuario && !reduz) video.play().catch(() => {});
     if (!visivel) video.pause();
+  }
+  // a capa do filme só é baixada quando a pessoa está chegando nele (a primeira tela fica mais leve)
+  if (video.dataset.poster) {
+    const ioCapa = new IntersectionObserver((en) => {
+      if (!en[0].isIntersecting) return;
+      video.poster = video.dataset.poster;
+      ioCapa.disconnect();
+    }, { rootMargin: '150% 0px' });
+    ioCapa.observe(video);
   }
   video.addEventListener('play', () => (bPlay.textContent = 'Pausar'));
   video.addEventListener('pause', () => (bPlay.textContent = 'Reproduzir'));
