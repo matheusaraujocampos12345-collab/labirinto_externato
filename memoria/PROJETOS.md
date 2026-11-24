@@ -25,6 +25,9 @@ Propostas de marca publicadas como páginas (claude.ai, privadas): Talhe, Macte 
 - **Link para ver o site:** https://claude.ai/artifact/2EPqk3jUE1aUCUoFCp2fEL (privado). Para atualizar, publicar de novo a partir de uma cópia dos arquivos do site em `site/`.
 - **Vídeo do forno:** do Coverr, com licença de uso comercial. O mp4 original não fica no repositório, só os quadros editados.
 
+### Ideias para depois
+- **Site de venda de medalhas** (ideia do dono, 24/11): animações de gente correndo e recebendo medalha, com "coisas absurdas" de movimento. Pode virar o próximo site-conceito ("Feito para…") ou um cliente real.
+
 ### 0. Pauta de conteúdo
 - **Rodada 1 (23/11):** o dono aprovou as 23 ideias e a rotina, sem ajustes. Os dados estão em `instagram/pauta/pauta-r1.json`.
 - **Rodada 2 (23/11, em aprovação):** as peças prontas da semana 1, publicadas no mesmo link. Os ids das respostas são `p-<id>` e o do calendário é `calendario-s1`. Para gerar de novo: `python3 instagram/pauta/gerar_rodada2.py <pasta>/previas && python3 instagram/pauta/montar.py`, depois publicar `pauta-mach.html` com `root=<pasta>` e os arquivos de `previas/`.
