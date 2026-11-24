@@ -1,33 +1,76 @@
-# Site MACH Estúdio
+# Site MACH Estúdio (versão única)
 
-Site-vitrine da MACH: estático, sem back-end. Abra `index.html` num servidor qualquer e pronto.
+Site oficial da MACH: estático, sem back-end. Abra `index.html` num servidor qualquer e pronto.
+Esta versão junta o site anterior (identidade MACH, medidor, estrondo, filme e cartão de embarque)
+com as ideias da outra versão (MACH em 3D sobre a água, cartão que inclina, página que se ajusta,
+passos em rolagem lateral, feixes de luz, perguntas frequentes e o jatinho do rodapé).
 
-## Antes de publicar
+## Arquivos
 
-Abra `main.js` e coloque o número de WhatsApp (DDI + DDD + número, só dígitos):
+| Arquivo | O que tem |
+|---|---|
+| `index.html` | Todos os textos, na ordem da página. Cada seção começa com um comentário numerado (`<!-- 1 · ABERTURA -->`). |
+| `styles.css` | Cores, fontes e visual. As cores ficam no começo, em `:root`. |
+| `main.js` | Número do WhatsApp e tudo o que se mexe, menos o 3D. |
+| `mach3d.js` | O 3D (abertura e símbolo dos passos). Só é baixado quando o aparelho aguenta. |
+| `assets/` | Imagens, filme, ícone e a imagem de compartilhamento. |
+
+## A ordem da página
+
+| # | Seção | O que faz |
+|---|---|---|
+| 1 | Abertura | As letras MΛCH em 3D sobre um espelho d'água. A rolagem guia a câmera e troca as frases. |
+| 2 | O problema | Sites de template empilham, o contador vai de 1 a 47, dá glitch e apaga: "E se o seu fosse diferente?" |
+| 2b | A barreira e o filme | Ao cruzar M 1.0, o estrondo sônico (um só). "Cada site começa do zero." e o filme de 30 s. |
+| 3 | As provas | Cartão que inclina com o dedo, página que se ajusta (celular, tablet, computador) e os três conceitos do hangar. |
+| 4 | Como funciona | 4 passos em rolagem lateral. O símbolo Λ em 3D vai do traço ao sólido conforme os passos passam. |
+| 5 | A chamada | "Quer um site que só a sua empresa tem?" sob feixes de luz. |
+| 6 | Pedido | O cartão de embarque se monta enquanto a pessoa preenche. Abre o WhatsApp ou copia o texto para o direct. |
+| 7 | Dúvidas | Perguntas frequentes em sanfona (abrir uma fecha a outra). |
+| 8 | Rodapé | Um jatinho escreve MACH no céu. Tocar no desenho faz o voo de novo. |
+
+O **medidor de Mach** fica no canto da tela da abertura até o filme. Depois do estrondo ele sai de cena.
+
+## Onde mudar as coisas
+
+**Número do WhatsApp e Instagram:** no começo do `main.js`.
 
 ```js
 const CONFIG = {
-  whatsapp: '5511999998888',
+  whatsapp: '5511939045618',   // DDI + DDD + número, só dígitos
   instagram: 'mach.sites',
 };
 ```
 
-Enquanto o número estiver vazio, o botão abre o WhatsApp com a mensagem pronta e a pessoa escolhe para quem enviar.
+O número também aparece uma vez no `index.html` (botão "Enviar pelo WhatsApp"), só como reserva caso o JavaScript não carregue. Se trocar o número, troque nos dois lugares.
 
-## O que tem no site
+**Textos:** direto no `index.html`. Procure a frase e troque. As perguntas frequentes ficam na seção 7.
+As frases que aparecem na abertura 3D são os blocos `id="s1"` a `id="s4"`.
 
-| Seção | O que faz |
-|---|---|
-| Abertura | Céu da estratosfera com ar passando e ondas de pressão saindo do Λ. As ondas se acumulam à frente como num jato real abaixo de Mach 1. |
-| Medidor de Mach | Fixo no canto: a rolagem é o acelerador. Vai de M 0,60 até passar de M 2. |
-| O problema | Os sites de template empilham enquanto o contador vai de 1 a 47, dá glitch e apaga: "E se o seu fosse diferente?" |
-| A barreira | Ao cruzar M 1,0, acontece o estrondo sônico (clarão, anéis, vapor e tremida). O cone de Mach se desenha com o ângulo certo para M 1,4. |
-| O filme | O anúncio de 30 s em versão leve (4 MB), toca sem som ao aparecer na tela. |
-| Serviços | Ficha técnica: site institucional, landing page, portfólio, animação e 3D. |
-| Projetos | Três conceitos animados em tempo real (HALO, ÓRBITA com a hora real, MARÉ). Reagem ao mouse e ao toque. |
-| Como funciona | 5 etapas com a rota acendendo conforme a rolagem. |
-| Pedido | Formulário que vira um cartão de embarque ao vivo. "Enviar pelo WhatsApp" abre a conversa com a mensagem pronta; "Prefiro o direct" copia o texto e abre o direct da @mach.sites. |
+**Cores:** no começo do `styles.css`:
+
+```css
+--estrato: #0a0c0f;   /* fundo */
+--titanio2: #1b2026;  /* superfícies */
+--aluminio: #dfe3e7;  /* texto */
+--nevoa: #8a929b;     /* texto de apoio */
+--laranja: #ff6b1a;   /* acento: no máximo um destaque por tela */
+```
+
+As cores do 3D ficam dentro do `mach3d.js` (o laranja aparece como `1.0, .42, .10`).
+
+**Fontes:** Saira (títulos), Hanken Grotesk (texto) e JetBrains Mono (números e rótulos), carregadas do Google Fonts no `index.html`.
+
+## Rápido e leve
+
+- O 3D é feito em WebGL puro, sem biblioteca. O arquivo inteiro tem cerca de 26 KB.
+- O `mach3d.js` só é baixado se a pessoa não pediu "menos movimento" no aparelho e não está em modo de economia de dados.
+- Se o aparelho não tiver WebGL, a abertura vira uma tela comum com uma imagem estática: `assets/abertura-3d.jpg` (computador) e `assets/abertura-3d-celular.jpg` (celular). Os passos mostram o símbolo Λ parado.
+- O símbolo 3D dos passos só liga quando a seção chega perto da tela.
+- O filme (4 MB) só é baixado quando aparece na tela.
+- Com "menos movimento" ligado: sem rolagem suave, sem tremor e sem animações automáticas.
+
+As imagens estáticas foram geradas a partir do próprio 3D (captura de tela sem os textos). Se o 3D mudar, gere as duas de novo.
 
 ## Como publicar (grátis)
 
@@ -35,17 +78,16 @@ Enquanto o número estiver vazio, o botão abre o WhatsApp com a mensagem pronta
 - **Vercel:** importe o repositório e defina `site-mach` como pasta raiz.
 - **GitHub Pages:** coloque o conteúdo desta pasta num repositório próprio (ou na pasta `docs/`) e ative Pages nas configurações.
 
-Depois de publicar, troque `content="assets/og-mach.jpg"` no `index.html` pelo endereço completo (ex.: `https://seudominio.com.br/assets/og-mach.jpg`) para a prévia aparecer bonita no WhatsApp e no Instagram.
+Depois de publicar, troque `content="assets/og-mach.jpg"` no `index.html` pelo endereço completo
+(ex.: `https://seudominio.com.br/assets/og-mach.jpg`) para a prévia aparecer bonita no WhatsApp e no Instagram.
+
+## Atenção: o filme de 30 s
+
+Nos primeiros segundos, o filme mostra de propósito um site de template com a frase "Eleve seu negócio ao próximo nível", como sátira.
+Se preferir que a frase não apareça em lugar nenhum do site, ela fica em `video-anuncio/src/genericSite.js`: troque e gere o filme de novo.
 
 ## Base open source
 
-- [Lenis](https://github.com/darkroomengineering/lenis) (MIT): rolagem suave, carregada por CDN. Se não carregar, o site usa a rolagem normal.
+- [Lenis](https://github.com/darkroomengineering/lenis) 1.1.13 (MIT): rolagem suave, carregada do jsdelivr. Se não carregar, o site usa a rolagem normal.
 - Fontes do Google Fonts (licença OFL): Saira, Hanken Grotesk e JetBrains Mono.
-- Todo o resto (animações, canvas, efeitos) é código próprio, sem template.
-
-## Repertório
-
-Referências de linguagem visual que inspiraram o site, sem copiar nenhuma delas:
-Boom Supersonic (aviação supersônica, tipografia grande no escuro), SpaceX (cenas de tela cheia e pouco texto),
-Anduril (estética técnica, dados de telemetria), Lusion e Active Theory (experiências interativas em WebGL)
-e Linear (precisão e acabamento de interface).
+- Todo o resto (3D, animações, canvas, efeitos) é código próprio, sem template.

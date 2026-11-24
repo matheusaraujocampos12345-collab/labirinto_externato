@@ -3,16 +3,38 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>MACH Estúdio</title>
+  <title>MACH Estúdio · Sites sob medida com animação</title>
   <meta name="claude:viewport-fit-sides" content="cover">
-  <meta name="description" content="Sites com animação de nível supersônico, desenhados do zero para a sua marca. Nada de template.">
+  <meta name="description" content="Sites sob medida com animação de nível premium para pequenas e médias empresas. Multiplataforma: celular, tablet e computador. Nada de template.">
   <meta name="theme-color" content="#0a0c0f">
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="MACH Estúdio">
   <meta property="og:title" content="MACH Estúdio · Sites com animação">
-  <meta property="og:description" content="Acima da barreira do template. Sites com animação de nível supersônico, feitos sob medida.">
+  <meta property="og:description" content="Sites que ninguém confunde com template. Sob medida, com animação de nível premium.">
   <meta property="og:image" content="assets/og-mach.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/favicon-512.png">
+  <script>
+    /* O 3D só é carregado quando faz sentido: com movimento liberado e sem modo de economia de dados.
+       Sem a classe "gl", a abertura vira uma tela comum com imagem estática. */
+    (function () {
+      var r = document.documentElement;
+      r.classList.add('js');
+      var calmo = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var economia = navigator.connection && navigator.connection.saveData;
+      if (calmo || economia) return;
+      r.classList.add('gl');
+      var s = document.createElement('script');
+      s.src = 'mach3d.js';
+      s.async = true;
+      s.onerror = function () { r.classList.remove('gl'); };
+      document.head.appendChild(s);
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:wdth,wght@75..125,200..700&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -34,11 +56,11 @@
     </a>
     <nav class="nav-links" aria-label="Seções">
       <a href="#filme">Filme</a>
-      <a href="#servicos">Serviços</a>
-      <a href="#projetos">Projetos</a>
+      <a href="#provas">Provas</a>
       <a href="#como">Como funciona</a>
+      <a href="#duvidas">Dúvidas</a>
     </nav>
-    <a class="btn btn-sm" href="#pedido">Fazer pedido</a>
+    <a class="btn btn-sm btn-ghost" href="#pedido">Fazer pedido</a>
   </div>
 </header>
 
@@ -50,37 +72,32 @@
 
 <main id="conteudo">
 
-  <!-- ABERTURA -->
+  <!-- 1 · ABERTURA: MACH em 3D sobre um espelho d'água (câmera guiada pela rolagem) -->
   <section class="hero" id="topo" aria-labelledby="h-hero">
-    <canvas class="ceu" id="ceu" aria-hidden="true"></canvas>
-    <div class="jato-wrap" id="jato" aria-hidden="true">
-      <svg class="jato" viewBox="-20 -24 148 236">
-        <clipPath id="pe-jato"><rect x="-40" y="-40" width="200" height="144.5"/></clipPath>
-        <path class="jato-delta" d="M-4.32 108 L54 0 L112.32 108" clip-path="url(#pe-jato)"/>
-        <path class="dia d1" d="M54 114 L63 128 L54 142 L45 128 Z"/>
-        <path class="dia d2" d="M54 147 L60.5 157 L54 167 L47.5 157 Z"/>
-        <path class="dia d3" d="M54 173 L58.5 180 L54 187 L49.5 180 Z"/>
-      </svg>
-    </div>
-    <div class="hud-cantos" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-    <ul class="hud-dados mono" aria-hidden="true">
-      <li><span>ALT</span> 15.240 m</li>
-      <li><span>TEMP</span> −56 °C</li>
-      <li><span>SOM</span> 1.062 km/h</li>
-    </ul>
-    <div class="wrap hero-txt">
-      <p class="eyebrow">MACH Estúdio · Sites com animação</p>
-      <h1 id="h-hero">Acima da barreira <span class="quebra">do template.</span></h1>
-      <p class="hero-sub">Sites com animação de nível supersônico, desenhados do zero para a sua marca.</p>
-      <div class="hero-cta">
-        <a class="btn" href="#pedido">Fazer pedido <span class="seta" aria-hidden="true">→</span></a>
-        <a class="btn btn-ghost" href="#filme">Ver o filme</a>
+    <div class="pin">
+      <canvas id="gl" aria-hidden="true"></canvas>
+      <div class="veu" aria-hidden="true"></div>
+      <div class="hud-cantos" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+      <div class="stage" id="s1">
+        <div class="wrap">
+          <p class="eyebrow">MACH Estúdio · Sites com animação</p>
+          <h1 id="h-hero">Sites que ninguém confunde com template.</h1>
+          <p class="hero-sub">Sob medida, com animação de nível premium, para pequenas e médias empresas.</p>
+          <div class="cta">
+            <a class="btn" href="#pedido">Fazer pedido <span class="seta" aria-hidden="true">→</span></a>
+            <a class="btn btn-ghost" href="#como">Ver como funciona</a>
+          </div>
+          <p class="rolagem mono" aria-hidden="true">Role para acelerar</p>
+        </div>
       </div>
+      <div class="stage" id="s2"><div class="wrap"><p class="grande">Nada de modelo pronto.</p></div></div>
+      <div class="stage" id="s3"><div class="wrap"><p class="grande">Cada detalhe, pensado para a sua marca.</p></div></div>
+      <div class="stage" id="s4"><div class="wrap"><p class="grande">Acima da barreira do template.</p></div></div>
     </div>
-    <p class="rolagem mono" aria-hidden="true">Role para acelerar</p>
   </section>
 
-  <!-- O PROBLEMA -->
+  <!-- 2 · O PROBLEMA: todos os sites parecem iguais -->
   <section class="problema" id="problema" aria-labelledby="h-problema">
     <div class="palco" id="palco">
       <div class="wrap palco-topo">
@@ -95,156 +112,170 @@
     </div>
   </section>
 
-  <!-- A BARREIRA -->
+  <!-- 2b · A BARREIRA: o estrondo sônico (um só) e o filme de 30 s -->
   <section class="barreira" id="barreira" aria-labelledby="h-barreira">
     <div class="wrap barreira-grid">
-      <figure class="cone-wrap" aria-hidden="true">
-        <svg class="cone" viewBox="0 0 400 400">
-          <g class="cone-ondas">
-            <path pathLength="1" d="M200 40 L-14 250"/>
-            <path pathLength="1" d="M200 40 L414 250"/>
-            <path pathLength="1" class="fraca" d="M200 92 L-14 302"/>
-            <path pathLength="1" class="fraca" d="M200 92 L414 302"/>
-            <path pathLength="1" class="fraca" d="M200 144 L-14 354"/>
-            <path pathLength="1" class="fraca" d="M200 144 L414 354"/>
-          </g>
-          <path class="cone-arco" pathLength="1" d="M200 112 A72 72 0 0 1 149.1 91"/>
-          <text class="cone-mu" x="166" y="122">μ</text>
-          <path class="cone-delta" d="M172 92 L200 40 L228 92"/>
-          <path class="dia" d="M200 98 L206 107 L200 116 L194 107 Z"/>
-          <path class="dia d2" d="M200 120 L204 126.5 L200 133 L196 126.5 Z"/>
-          <path class="dia d3" d="M200 137 L203 141.5 L200 146 L197 141.5 Z"/>
-        </svg>
-        <figcaption class="mono">Cone de Mach · sen μ = 1/M · M 1,4 → μ = 45,6°</figcaption>
-      </figure>
       <div class="barreira-txt">
         <p class="eyebrow laranja">M 1.0 · Barreira rompida</p>
         <h2 id="h-barreira">Cada site começa do zero.</h2>
-        <p class="lead">Layout, tipografia, animação e código pensados só para a sua marca. Nada de tema pronto, nada de “eleve seu negócio ao próximo nível”.</p>
+        <p class="lead">Layout, tipografia, animação e código pensados só para a sua marca. Nada de tema comprado com a cor trocada.</p>
         <dl class="numeros">
           <div><dt>Templates</dt><dd data-conta="0" data-de="47">0</dd></div>
           <div><dt>Sob medida</dt><dd data-conta="100" data-suf="%">100%</dd></div>
           <div><dt>Quadros por segundo</dt><dd data-conta="60">60</dd></div>
         </dl>
       </div>
-    </div>
-  </section>
-
-  <!-- O FILME -->
-  <section class="filme" id="filme" aria-labelledby="h-filme">
-    <div class="wrap filme-grid">
-      <div class="filme-txt">
-        <p class="eyebrow">O filme</p>
-        <h2 id="h-filme">30 segundos. Nenhum quadro pronto.</h2>
-        <p class="lead">Nosso anúncio foi feito do mesmo jeito que fazemos sites: cada cena, cada transição e cada som criados do zero.</p>
-        <ul class="specs mono">
-          <li>1080 × 1920</li>
-          <li>30 fps</li>
-          <li>Trilha original</li>
-        </ul>
-      </div>
-      <figure class="tela-video">
-        <video id="video" src="assets/mach-filme.mp4" poster="assets/mach-filme-capa.jpg" playsinline muted loop preload="metadata"></video>
-        <div class="video-ctl">
-          <button id="v-play" type="button" class="mono">Reproduzir</button>
-          <button id="v-som" type="button" class="mono">Ativar som</button>
+      <figure class="filme" id="filme">
+        <div class="tela-video">
+          <video id="video" src="assets/mach-filme.mp4" poster="assets/mach-filme-capa.jpg" playsinline muted loop preload="none" aria-label="Filme da MACH, 30 segundos"></video>
+          <div class="video-ctl">
+            <button id="v-play" type="button" class="mono">Reproduzir</button>
+            <button id="v-som" type="button" class="mono">Ativar som</button>
+          </div>
         </div>
+        <figcaption class="mono">O filme da MACH · 30 s · Nenhum quadro pronto</figcaption>
       </figure>
     </div>
   </section>
 
-  <!-- SERVIÇOS -->
-  <section class="servicos" id="servicos" aria-labelledby="h-serv">
+  <!-- 3 · AS PROVAS -->
+  <section class="provas" id="provas" aria-labelledby="h-provas">
     <div class="wrap">
       <div class="sec-topo">
-        <p class="eyebrow">Serviços</p>
-        <h2 id="h-serv">O que a gente constrói.</h2>
+        <p class="eyebrow">As provas</p>
+        <h2 id="h-provas" class="reveal">Não precisa acreditar. Dá para testar.</h2>
       </div>
-      <ul class="ficha">
-        <li>
-          <span class="ficha-cod mono">MCH-01</span>
-          <h3>Site institucional</h3>
-          <p>Sua empresa apresentada como um lançamento: páginas sob medida, animações de entrada e versão de celular caprichada.</p>
-          <span class="ficha-ideal mono">Para empresas e marcas</span>
-        </li>
-        <li>
-          <span class="ficha-cod mono">MCH-02</span>
-          <h3>Landing page</h3>
-          <p>Uma página, um objetivo: vender um produto ou captar contatos. Rolagem cinematográfica e chamada clara para o WhatsApp.</p>
-          <span class="ficha-ideal mono">Para lançamentos e campanhas</span>
-        </li>
-        <li>
-          <span class="ficha-cod mono">MCH-03</span>
-          <h3>Portfólio</h3>
-          <p>Para quem vive do próprio trabalho: projetos em destaque, transições suaves e carregamento rápido.</p>
-          <span class="ficha-ideal mono">Para profissionais e estúdios</span>
-        </li>
-        <li>
-          <span class="ficha-cod mono">MCH-04</span>
-          <h3>Animação e 3D</h3>
-          <p>Objetos 3D, partículas e interações que fazem o visitante parar de rolar. Dá para somar a qualquer site.</p>
-          <span class="ficha-ideal mono">Para quem quer impacto</span>
-        </li>
-      </ul>
-      <p class="inclui"><span class="mono">Todo projeto inclui</span> Design do zero <i>◆</i> Animações sob medida <i>◆</i> Celular e computador <i>◆</i> Botão de WhatsApp</p>
+
+      <article class="prova">
+        <div class="prova-txt" data-revela>
+          <p class="prova-n mono">Prova 01 · Animação</p>
+          <h3>Animação que responde.</h3>
+          <p>Movimento que reage a quem usa, não enfeite rodando sozinho. A abertura seguiu a sua rolagem. Este cartão segue o seu dedo.</p>
+        </div>
+        <div data-revela>
+          <div class="tilt" id="tilt">
+            <div class="card" id="card">
+              <svg class="card-simbolo" viewBox="-22 -24 152 232" aria-hidden="true">
+                <clipPath id="pe-card"><rect x="-40" y="-40" width="200" height="144.5"/></clipPath>
+                <path d="M-4.32 108 L54 0 L112.32 108" fill="none" stroke="#FF6B1A" stroke-width="9" clip-path="url(#pe-card)"/>
+                <path d="M54 114 L63 128 L54 142 L45 128 Z" fill="#FF6B1A"/>
+                <path d="M54 147 L60.5 157 L54 167 L47.5 157 Z" fill="#FF6B1A" opacity=".62"/>
+                <path d="M54 173 L58.5 180 L54 187 L49.5 180 Z" fill="#FF6B1A" opacity=".34"/>
+              </svg>
+              <span class="card-chip" aria-hidden="true"></span>
+              <span class="card-nome">Sua empresa.</span>
+              <span class="card-tag mono">0 templates</span>
+            </div>
+          </div>
+          <p class="nota-demo">Passe o dedo ou o mouse sobre o cartão.</p>
+        </div>
+      </article>
+
+      <article class="prova">
+        <div class="prova-txt" data-revela>
+          <p class="prova-n mono">Prova 02 · Multiplataforma</p>
+          <h3>Uma página que se ajusta à medida.</h3>
+          <p>O desenho nasce do seu conteúdo e se reorganiza em cada tela. Celular, tablet e computador, sem nada cortado.</p>
+        </div>
+        <div class="demo" data-revela>
+          <div class="demo-topo mono"><b id="fit-aparelho">Computador</b><span id="fit-medida">Tela de 1440 px</span></div>
+          <div class="fit-area">
+            <div class="fit-frame" id="quadro" data-modo="pc">
+              <div class="fit-barra" aria-hidden="true"><i></i><i></i><i></i></div>
+              <div class="fit-page" aria-hidden="true">
+                <div class="fit-nav"><b>Sua marca</b><span class="fit-links"><i></i><i></i><i></i></span><s></s></div>
+                <div class="fit-titulo">Sua empresa.</div>
+                <div class="fit-foto"></div>
+                <div class="fit-texto"><i></i><i></i><i></i><b>Contato</b></div>
+              </div>
+            </div>
+          </div>
+          <label class="fit-controle" for="largura">Arraste para mudar a largura da tela</label>
+          <input type="range" id="largura" min="0" max="100" value="100" aria-valuetext="Computador">
+          <div class="fit-marcas mono" aria-hidden="true"><span>Celular</span><span>Tablet</span><span>Computador</span></div>
+        </div>
+      </article>
+
+      <article class="prova prova-hangar">
+        <div class="prova-txt" data-revela>
+          <p class="prova-n mono">Prova 03 · Hangar</p>
+          <h3>Um conceito para cada ramo.</h3>
+          <p>Projetos-conceito criados pela MACH: uma luminária, uma relojoaria e uma marca de moda praia. Toque ou passe o mouse para ver a reação.</p>
+        </div>
+        <div class="hangar">
+          <article class="proj proj-grande" data-proj="halo">
+            <canvas aria-hidden="true"></canvas>
+            <div class="proj-info">
+              <p class="mono">Conceito · Luminária</p>
+              <h4>HALO</h4>
+              <p class="proj-tags mono">Luz dinâmica · Parallax</p>
+            </div>
+          </article>
+          <article class="proj" data-proj="orbita">
+            <canvas aria-hidden="true"></canvas>
+            <div class="proj-info">
+              <p class="mono">Conceito · Relojoaria</p>
+              <h4>ÓRBITA</h4>
+              <p class="proj-tags mono">Hora real · Microinterações</p>
+            </div>
+          </article>
+          <article class="proj" data-proj="mare">
+            <canvas aria-hidden="true"></canvas>
+            <div class="proj-info">
+              <p class="mono">Conceito · Moda praia</p>
+              <h4>MARÉ</h4>
+              <p class="proj-tags mono">Ondas generativas</p>
+            </div>
+          </article>
+        </div>
+      </article>
     </div>
   </section>
 
-  <!-- PROJETOS -->
-  <section class="projetos" id="projetos" aria-labelledby="h-proj">
-    <div class="wrap">
-      <div class="sec-topo">
-        <p class="eyebrow">Hangar · projetos-conceito</p>
-        <h2 id="h-proj">O nível de acabamento, em três conceitos.</h2>
-        <p class="lead">Projetos criados pela MACH para mostrar o que dá para fazer. Passe o dedo ou o mouse por cima. Os próximos a entrar no hangar são os de clientes.</p>
-      </div>
-      <div class="hangar">
-        <article class="proj proj-grande" data-proj="halo">
-          <canvas aria-hidden="true"></canvas>
-          <div class="proj-info">
-            <p class="mono">Conceito · Luminária</p>
-            <h3>HALO</h3>
-            <p class="proj-tags mono">Luz dinâmica · Parallax · 3D</p>
-          </div>
-        </article>
-        <article class="proj" data-proj="orbita">
-          <canvas aria-hidden="true"></canvas>
-          <div class="proj-info">
-            <p class="mono">Conceito · Relojoaria</p>
-            <h3>ÓRBITA</h3>
-            <p class="proj-tags mono">Hora real · Microinterações</p>
-          </div>
-        </article>
-        <article class="proj" data-proj="mare">
-          <canvas aria-hidden="true"></canvas>
-          <div class="proj-info">
-            <p class="mono">Conceito · Moda praia</p>
-            <h3>MARÉ</h3>
-            <p class="proj-tags mono">Ondas generativas · Rolagem</p>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- COMO FUNCIONA -->
+  <!-- 4 · COMO FUNCIONA: 4 passos em rolagem lateral, com o símbolo em 3D acompanhando -->
   <section class="como" id="como" aria-labelledby="h-como">
-    <div class="wrap como-grid">
-      <div class="sec-topo como-topo">
+    <div class="wrap como-topo">
+      <div>
         <p class="eyebrow">Como funciona</p>
-        <h2 id="h-como">Do primeiro oi ao site no ar.</h2>
+        <h2 id="h-como" class="reveal">Do primeiro oi ao site publicado.</h2>
       </div>
-      <ol class="etapas" id="etapas">
-        <li><span class="etapa-n mono">01</span><h3>Conversa</h3><p>Você conta sobre o negócio, o objetivo do site e as referências de que gosta.</p></li>
-        <li><span class="etapa-n mono">02</span><h3>Plano de voo</h3><p>Definimos juntos as páginas, o conteúdo e o prazo.</p></li>
-        <li><span class="etapa-n mono">03</span><h3>Design e animação</h3><p>Você acompanha as telas e as animações enquanto ganham forma.</p></li>
-        <li><span class="etapa-n mono">04</span><h3>Voo de teste</h3><p>Ajustamos tudo no celular e no computador antes de publicar.</p></li>
-        <li><span class="etapa-n mono">05</span><h3>Decolagem</h3><p>Site no ar, pronto para receber clientes.</p></li>
-      </ol>
+      <div class="como-nav">
+        <button type="button" id="volta" aria-label="Passo anterior"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12 4 6 10l6 6"/></svg></button>
+        <button type="button" id="vai" aria-label="Próximo passo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 4l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+    <div class="como-palco" aria-hidden="true">
+      <canvas id="obj"></canvas>
+      <svg class="como-simbolo" viewBox="-22 -24 152 232">
+        <clipPath id="pe-como"><rect x="-40" y="-40" width="200" height="144.5"/></clipPath>
+        <path d="M-4.32 108 L54 0 L112.32 108" fill="none" stroke="#FF6B1A" stroke-width="9" clip-path="url(#pe-como)"/>
+        <path d="M54 114 L63 128 L54 142 L45 128 Z" fill="#FF6B1A"/>
+        <path d="M54 147 L60.5 157 L54 167 L47.5 157 Z" fill="#FF6B1A" opacity=".62"/>
+        <path d="M54 173 L58.5 180 L54 187 L49.5 180 Z" fill="#FF6B1A" opacity=".34"/>
+      </svg>
+    </div>
+    <div class="trilho" id="trilho" tabindex="0" role="group" aria-label="Os quatro passos. Deslize para o lado ou use as setas.">
+      <article class="passo"><b class="mono">01</b><h3>Conversa</h3><p>Você conta o que a empresa faz, para quem vende e o que o site precisa resolver.</p></article>
+      <article class="passo"><b class="mono">02</b><h3>Desenho</h3><p>Desenhamos o layout em cima do seu conteúdo. Você aprova antes de qualquer linha de código.</p></article>
+      <article class="passo"><b class="mono">03</b><h3>Animação</h3><p>Cada movimento é programado e testado no celular, no tablet e no computador.</p></article>
+      <article class="passo"><b class="mono">04</b><h3>No ar</h3><p>Revisamos tudo com você e publicamos. O site entra pronto para receber clientes.</p></article>
+    </div>
+    <div class="marcas" id="marcas" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  </section>
+
+  <!-- 5 · A CHAMADA, sob feixes de luz -->
+  <section class="chamada" id="chamada" aria-labelledby="h-chamada">
+    <div class="feixes" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="wrap">
+      <h2 id="h-chamada" class="reveal">Quer um site que só a sua empresa tem?</h2>
+      <div class="cta" data-revela>
+        <a class="btn" href="#pedido">Fazer pedido <span class="seta" aria-hidden="true">→</span></a>
+        <a class="link" href="https://instagram.com/mach.sites" target="_blank" rel="noopener">Ver a @mach.sites no Instagram</a>
+      </div>
     </div>
   </section>
 
-  <!-- PEDIDO -->
+  <!-- 6 · O PEDIDO: cartão de embarque que abre o WhatsApp ou o direct -->
   <section class="pedido" id="pedido" aria-labelledby="h-pedido">
     <div class="wrap">
       <div class="sec-topo">
@@ -322,16 +353,38 @@
       </div>
     </div>
   </section>
+
+  <!-- 7 · PERGUNTAS FREQUENTES -->
+  <section class="duvidas" id="duvidas" aria-labelledby="h-duvidas">
+    <div class="wrap duvidas-grid">
+      <div class="sec-topo">
+        <p class="eyebrow">Dúvidas</p>
+        <h2 id="h-duvidas" class="reveal">Perguntas frequentes.</h2>
+      </div>
+      <div class="faq">
+        <details name="faq"><summary>Quanto custa?</summary><p>Depende do tamanho do site e do nível de animação. Mande o pedido e a gente responde com valor e prazo fechados, antes de qualquer compromisso.</p></details>
+        <details name="faq"><summary>Quanto tempo leva?</summary><p>O prazo é combinado antes de começar e entra no orçamento, junto com o valor. Se você tem uma data de lançamento, conte no pedido.</p></details>
+        <details name="faq"><summary>Que tipo de site vocês fazem?</summary><p>Site institucional, landing page e portfólio. Também dá para somar animação e 3D a um site que você já tem.</p></details>
+        <details name="faq"><summary>Animação deixa o site lento?</summary><p>Não precisa deixar. O texto aparece primeiro, e cada animação só roda quando entra na tela. Em aparelhos mais simples, uma imagem fica no lugar do 3D.</p></details>
+        <details name="faq"><summary>O site fica no meu nome?</summary><p>Fica. Domínio, código e acessos são seus.</p></details>
+        <details name="faq"><summary>Já tenho um site. Dá para refazer?</summary><p>Dá. A gente olha o que você tem hoje e diz o que vale manter e o que vale refazer.</p></details>
+      </div>
+    </div>
+  </section>
 </main>
 
+<!-- 8 · RODAPÉ: um jatinho escreve MACH no céu -->
 <footer class="rodape">
-  <div class="wrap rodape-in">
-    <img class="rodape-logo" src="assets/assinatura-escuro.svg" alt="MACH Estúdio" width="540" height="216">
-    <div class="rodape-txt">
+  <div class="wrap">
+    <button class="ceu" id="ceu" type="button" aria-label="Um jatinho escreve MACH no céu. Toque para ver de novo.">
+      <svg viewBox="-20 20 1040 290" aria-hidden="true"></svg>
+    </button>
+    <p class="ceu-legenda">Mach é a medida de velocidade dos jatos.</p>
+    <div class="rodape-in">
       <p>Este site foi feito do zero pela MACH. Nenhum template foi usado.</p>
       <a class="mono" href="https://instagram.com/mach.sites" target="_blank" rel="noopener">@mach.sites</a>
     </div>
-    <p class="rodape-fim mono"><span>M 1.0 = 1.235 km/h</span><span>© 2026 MACH Estúdio</span></p>
+    <p class="rodape-fim mono"><span>Sites sob medida · Multiplataforma</span><span>© 2026 MACH Estúdio</span></p>
   </div>
 </footer>
 
