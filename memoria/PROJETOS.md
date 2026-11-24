@@ -80,6 +80,7 @@ Propostas de marca publicadas como páginas (claude.ai, privadas): Talhe, Macte 
 
 ### 4. Site
 - **24/11: versão única.** Juntei o site do projeto com a outra versão, feita em outra conversa (MACH 3D no espelho d'água, cartão que inclina, página que se ajusta, 4 passos, perguntas frequentes, jatinho no céu). Os arquivos estão em `site-mach/` e a estrutura está no README. Prévia privada: https://claude.ai/artifact/XDCprjyAEsF4u9PgZzXhqK
+- **Pendente (pedido do dono, para depois):** pôr o site da Equus Genetics (equusbr.com, feito pelo dono) como exemplo de trabalho real no site da MACH, na seção "As provas" ou no hangar. Usar as capturas de `instagram/reels/fontes-equus/` e confirmar antes a autorização do cliente.
 - **WhatsApp do pedido:** 5511939045618, em `CONFIG.whatsapp` no `main.js`.
 - **Domínio sugerido:** machsites.com.br, com machestudio.com.br de reserva. Os dois estavam livres em 23/11. Falta o dono registrar e decidir a hospedagem (GitHub Pages grátis).
 - Falta o número de WhatsApp (`site-mach/main.js`, `CONFIG.whatsapp`).
