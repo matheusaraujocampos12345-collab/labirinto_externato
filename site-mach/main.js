@@ -3,7 +3,7 @@
    CONFIGURAÇÃO: coloque o número de WhatsApp com DDI + DDD, só dígitos.
    Ex.: '5511999998888'. Vazio = o WhatsApp abre e a pessoa escolhe o contato. */
 const CONFIG = {
-  whatsapp: '',
+  whatsapp: '5511939045618',
   instagram: 'mach.sites',
 };
 
