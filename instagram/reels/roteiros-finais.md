@@ -262,3 +262,33 @@ Como foi feito:
 - **Borrão de movimento** (4 subquadros, obturador de 180°) só no caça-níquel, no rastro, na onda e na troca de palavras.
 - **Laranja:** o item da vez na lista, mais o acento da própria animação (neon, anel, cursor e pintura).
 - **Uma referência de aviação no máximo:** só o nome "Onda de choque" (pedido do roteiro). A palavra na janela é "impacto".
+
+---
+
+## i15 · 12 animações de site · parte 1 (27 s)
+
+`i15-12-estilos-de-animacao.mp4` · variação do i14 (mesmo formato e mesmo ritmo), feita por código em `cenas/i15.js`. A janela é um navegador simplificado (barra com o endereço e o contador NN / 12) com um mini-site fictício e o efeito acontecendo de verdade. Quando o efeito depende de dedo ou cursor, aparece um círculo de toque. Os prompts de cada estilo, para mandar no direct, estão em `instagram/prompts/12-animacoes-de-site.md`.
+
+Na tela o tempo todo: o selo **QUER O PROMPT? COMENTA PROMPT** (as duas palavras PROMPT em laranja), o título **12 animações de site** e **parte 1 · @mach.sites**. Embaixo, a lista de 01 a 12 (34 px): a da vez em laranja, as vistas em alumínio e as que faltam em cinza.
+
+| Tempo | Mini-site (fictício) | O que acontece | Item da lista |
+|---|---|---|---|
+| 0–1,5 s | Pousada Serra Azul | o dedo rola e os cartões dos quartos e o título "Café da manhã na varanda." aparecem ao entrar na tela | 01 Revelar ao rolar |
+| 1,5–3,5 s | Vinícola Vale Alto | sol, serra do fundo, serra da frente e título andam em velocidades diferentes | 02 Parallax em camadas |
+| 3,5–5,5 s | Barbearia Navalha | o cartão "Clube Navalha" inclina em 3D seguindo o cursor, com reflexo | 03 Cartão 3D que inclina |
+| 5,5–7,5 s | Clínica Leve | o botão "Agendar consulta" é puxado pelo cursor, é clicado e acende | 04 Botão magnético |
+| 7,5–9,5 s | Padaria Quatro Horas | a frase "O forno acende às 4h. Às 6h o pão já está no balcão, ainda cantando." acende com a rolagem | 05 Texto que acende |
+| 9,5–11,5 s | Floricultura Lírio | a foto abre de uma faixa até o quadro inteiro, com zoom, e entra "Lírio." | 06 Imagem com máscara |
+| 11,5–13,5 s | Joalheria Aurum | o cursor vira lupa sobre o anel e mostra a gravação "18K · 2026" | 07 Cursor que vira lupa |
+| 13,5–15,5 s | Restaurante Brasa | toque no ícone; o menu cresce em círculo e os itens entram | 08 Menu que se expande |
+| 15,5–17,5 s | Academia Ritmo | 1.200 · 14 · 98% contando do zero | 09 Números que sobem |
+| 17,5–19,5 s | Ana Luz Fotografia | o dedo arrasta e a galeria desliza com inércia | 10 Galeria que desliza |
+| 19,5–21,5 s | Arquitetura Linha | toque num projeto; a foto cresce e vira a página "Casa Pedra" | 11 Transição entre páginas |
+| 21,5–23,5 s | Estúdio Eco | túnel de retângulos vindo do centro, "Entre no som." | 12 Túnel 3D na abertura |
+| 23,5–26,5 s | — | **Quer o prompt de cada uma?** · **Comenta PROMPT.** (PROMPT em laranja) | — |
+| 26,5–27 s | Pousada Serra Azul | a 01 recomeça; o último quadro emenda no primeiro (loop) | 01 |
+
+O que mudou em relação ao pedido e por quê:
+- **Dois nomes ficaram mais curtos na lista,** para caber em duas colunas a 34 px: "Texto que acende" (o pedido era "Texto que acende com a rolagem") e "Túnel 3D na abertura" (era "Túnel 3D na primeira tela"). No arquivo de prompts estão os nomes completos.
+- **Borrão de movimento** só no menu, na galeria, na transição e no túnel.
+- Todos os negócios são fictícios (a Navalha e a Quatro Horas são os nossos conceitos).

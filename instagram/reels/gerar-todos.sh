@@ -26,3 +26,5 @@ node $M/render.mjs $C/i13-tela-cheia.js --workers 2 --manter
 node $M/render.mjs $C/i13-mesa.js --workers 2
 # i14: catálogo de 12 animações de texto (só código)
 node $M/render.mjs $C/i14.js --workers 2
+# i15: catálogo de 12 animações de site (só código)
+node $M/render.mjs $C/i15.js --workers 2
