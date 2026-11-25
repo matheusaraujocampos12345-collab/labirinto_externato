@@ -38,6 +38,10 @@ O comando cria `leads/mensagens.json` só para quem publicou e-mail ou WhatsApp 
 - **Frase de abertura:** a DOR. Sem dor, o DESEJO (campo sonho). Sem desejo, a PERGUNTA que a pessoa fez. Sem nada disso, a frase do FATO público do negócio. Ela não leva aspas, e a citação que a prova aparece para o dono na aprovação.
 - **Canal:** e-mail, se a pessoa publicou um. Se só publicou WhatsApp, o canal é WhatsApp, que o dono envia à mão.
 
+## Gancho (`gancho` no config.json)
+- `"frase"` (padrão): a mensagem abre pela frase de abertura (dor, desejo, pergunta ou fato).
+- `"previa"`: a mensagem abre oferecendo uma **prévia** do site com o nome do negócio. Exemplo: "Posso te mostrar como ficaria a página de encomendas de Natal da Teju…?". A frase ou o fato continua anotado como base, para mostrar ao dono. Só use se o dono puder entregar a prévia quando a pessoa disser sim.
+
 ## 2. Escrever
 Preencha `assunto` e `corpo` de cada mensagem em `leads/mensagens.json`:
 - **Comece pela frase de abertura**, igual ao campo `abertura`. Se for dor, desejo ou pergunta, ela vai entre aspas, porque são palavras da pessoa. Se for fato, vai sem aspas. Se ela for uma pergunta, responda em poucas palavras logo depois, como "Tem, sim.".

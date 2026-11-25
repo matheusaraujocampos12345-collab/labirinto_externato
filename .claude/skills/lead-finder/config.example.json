@@ -9,5 +9,6 @@
   "intervalo_max_minutos": 7,
   "max_perfis": 300,
   "plano_apify": "FREE",
-  "teto_gasto_usd_por_rodada": 2.0
+  "teto_gasto_usd_por_rodada": 2.0,
+  "gancho": "frase"
 }

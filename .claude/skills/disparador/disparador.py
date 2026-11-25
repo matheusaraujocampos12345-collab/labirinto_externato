@@ -86,7 +86,10 @@ def problemas(m, cfg):
     if not corpo:
         return ['corpo vazio']
     inicio = comum.normalizar(corpo).lstrip('"').lstrip()
-    if not frase or not inicio.startswith(frase):
+    if m.get('gancho') == 'previa':  # gancho escolhido pelo dono: oferecer uma prévia com o nome do negócio
+        if not re.search(r'pr[ée]via', corpo, re.I):
+            out.append('gancho de prévia: a mensagem precisa oferecer a prévia')
+    elif not frase or not inicio.startswith(frase):
         out.append(f'não começa pela frase de abertura ({m.get("tipo_abertura", "?")})')
     if m.get('tipo_abertura') == 'fato' and not m.get('base_fato'):
         out.append('fato sem citação que o comprove')
@@ -141,7 +144,7 @@ def cmd_rascunho(a, c, cfg):
             'perfil': r['perfil'], 'rede': r['rede'], 'link': r['link'], 'negocio': r['negocio'],
             'canal': 'email' if email_ else 'whatsapp', 'email': email_, 'whatsapp': whats,
             'para': email_ or whats, 'abertura': abertura, 'tipo_abertura': tipo, 'link_abertura': link_ab,
-            'base_fato': base,
+            'base_fato': base, 'gancho': cfg.get('gancho', 'frase'),
             'assunto': '', 'corpo': '', 'status': 'rascunho'}
         if a.simular:
             m['_simulado'] = True
@@ -183,8 +186,10 @@ def cmd_mostrar(a, c, cfg):
                    f'Para: {m["para"]}  ']
         if m['canal'] == 'email':
             partes.append(f'Assunto: {m["assunto"]}  ')
+        if m.get('gancho') == 'previa':
+            partes.append('Gancho: oferta de prévia com o nome do negócio (se a pessoa topar, a prévia precisa ser entregue)')
         if m['tipo_abertura'] == 'fato':
-            partes.append(f'Abre por um fato público, apoiado em: "{m["base_fato"]}" ({m["link_abertura"]})')
+            partes.append(f'Base: fato público, apoiado em: "{m["base_fato"]}" ({m["link_abertura"]})')
         else:
             partes.append(f'Abre {ARTIGO[m["tipo_abertura"]]}, citada de: {m["link_abertura"]}')
         partes += ['', '```', montar(m, cfg), '```', '']
