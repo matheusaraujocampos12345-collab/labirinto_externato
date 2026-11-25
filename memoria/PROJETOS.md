@@ -114,6 +114,7 @@ Propostas de marca publicadas como páginas (claude.ai, privadas): Talhe, Macte 
   - 37 mensagens esperando o envio. O dono pediu para trocar o gancho de prévia; o gancho atual é o **cumprimento** ("Bom dia/Boa tarde/Boa noite, tudo bem? Vi o perfil da X e achei que o trabalho tem muito potencial. Aqui é da MACH Estúdio… Posso te mostrar um exemplo?"), com a saudação trocada pela hora em que o dono abre a mensagem. O dono liberou "vi o perfil de…". Quem topar recebe um exemplo que já existe, sem trabalho novo;
   - o Claude **não envia** pelo WhatsApp (não há conector, e robô em massa derruba o número). A saída é uma **página privada, "Fila de envio"** (artifact 2xvs1aj4uRfCt1GGdVLUoW): um botão por negócio abre o WhatsApp com a mensagem escrita, o dono envia e marca. O histórico fica no banco da página (coleção `envios`, documento `m<n>`), e o Claude lê de lá para registrar no `leads/enviados.csv`;
   - a rodada custou US$ 0,55, e o mês está em US$ 1,16 dos US$ 5.
+  - **Envio de 25/11:** a fila registrou 12 enviadas (mensagens 8 a 19, entre 19h44 e 19h50). O dono disse ter mandado 20, então 8 ficaram sem marca; confirmar quais antes de abrir a fila de novo, para ninguém receber duas vezes. O limite de 20 por dia é uma regra de segurança nossa, não do WhatsApp.
 - **Prévias para clientes:** ficam em `previas/<cliente>/` (fora do git, porque têm fotos e dados do cliente). Cada uma tem:
   - o site, em `site/`;
   - as imagens e o vídeo, em `entrega/`;
