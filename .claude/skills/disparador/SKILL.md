@@ -1,0 +1,77 @@
+---
+name: disparador
+description: Última etapa do lead-finder. Escreve, para cada lead com e-mail público e uma dor citada, uma mensagem curta que começa pela frase exata da pessoa, mostra todas para o dono aprovar, editar ou cortar e só envia pelo Gmail depois de "pode enviar", no máximo 20 por dia, com intervalo, sem repetir ninguém e respeitando quem pediu SAIR.
+---
+
+# disparador
+
+Fale em português simples. Use `--simular` em todos os comandos para testar com os dados de `leads/exemplo/`.
+
+## 0. Antes de tudo: explicar o Gmail
+Explique as duas opções e pergunte qual o dono prefere.
+
+**Opção A: senha de app (envio automático)**
+1. Ative a verificação em duas etapas em myaccount.google.com, na aba Segurança.
+2. Abra myaccount.google.com/apppasswords, crie uma senha com o nome "lead-finder" e copie os 16 caracteres.
+3. No arquivo `.env` (na raiz ou em `site-mach/`), coloque:
+   ```
+   GMAIL_USER=seu-email@gmail.com
+   GMAIL_APP_PASSWORD=a senha de 16 letras, sem espaços
+   ```
+   **Nunca cole a senha no chat.**
+4. O envio usa `smtp.gmail.com` e lê as respostas em `imap.gmail.com`, para achar quem pediu SAIR.
+   - Sessões do Claude Code na nuvem não alcançam o Gmail. O envio precisa rodar no computador do dono, no Claude Code do app ou do terminal.
+   - Contas de empresa (Google Workspace) podem ter a senha de app bloqueada pelo administrador.
+
+**Opção B: conector do Gmail do Claude (rascunhos)**
+- O conector cria **rascunhos** na conta do dono, e ele clica em Enviar em cada um.
+- Para conectar: claude.ai, Configurações, Conectores, Gmail.
+- Depois que o dono enviar, rode `disparador.py registrar --numeros 1,2,...`. Assim a skill sabe quem já recebeu e nunca repete.
+
+Confira se existe `.claude/skills/lead-finder/config.json` com o nome do remetente. Sem ele, a conferência não deixa passar.
+
+## 1. Rascunho
+```bash
+python3 .claude/skills/disparador/disparador.py rascunho
+```
+O comando cria `leads/mensagens.json` só para quem tem e-mail público **e** uma DOR citada. Quem já recebeu ou pediu para sair fica de fora.
+
+## 2. Escrever
+Preencha `assunto` e `corpo` de cada mensagem em `leads/mensagens.json`:
+- **Comece pela frase exata da dor**, entre aspas, igual ao campo `dor`.
+- **Uma frase** que liga essa dor ao que o dono vende (`o_que_vendo` no config). Seja concreto: diga o que muda para a pessoa.
+- **Termine com uma pergunta.**
+- Sem link, sem preço ou valor, sem "vi seu perfil".
+- Curta: até 90 palavras. Frases curtas, com ponto final.
+- **Não escreva assinatura nem a linha do SAIR.** O script coloca o nome, a empresa e "Se não quiser receber mais, é só responder SAIR.".
+- Assunto curto, até 60 caracteres, sem CAIXA ALTA.
+
+## 3. Conferir
+```bash
+python3 .claude/skills/disparador/disparador.py conferir
+```
+Corrija até tudo dar OK.
+
+## PARADA 2: mostrar TODAS ao dono
+```bash
+python3 .claude/skills/disparador/disparador.py mostrar
+```
+Mostre as mensagens no chat, numeradas, exatamente como vão sair. O dono aprova, edita ou corta:
+- **para editar:** mude o texto no `mensagens.json` e rode `conferir` de novo;
+- **para aprovar:** `aprovar --numeros 1,3` ou `aprovar --todas`;
+- **para cortar:** `cortar --numeros 2`.
+
+## 4. Enviar (só depois de "pode enviar")
+**Só rode este passo se o dono escrever "pode enviar".** Aprovar mensagens não é o mesmo que autorizar o envio.
+```bash
+python3 .claude/skills/disparador/disparador.py enviar --pode-enviar
+```
+- Envia só as **aprovadas**, no máximo `limite_diario` (20) por dia, com 3 a 7 minutos de intervalo. Rode em segundo plano: 20 mensagens levam cerca de 1 hora e meia.
+- Antes do lote, lê as respostas no Gmail e coloca quem pediu SAIR em `leads/nao-contatar.csv`.
+- Nunca envia para quem já está em `leads/enviados.csv` ou em `leads/nao-contatar.csv`.
+- Cada envio é registrado na hora em `leads/enviados.csv`.
+
+Se alguém pedir para sair por outro canal:
+```bash
+python3 .claude/skills/disparador/disparador.py sair --email pessoa@empresa.com.br
+```

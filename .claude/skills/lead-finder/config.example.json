@@ -1,0 +1,13 @@
+{
+  "remetente_nome": "Seu nome",
+  "empresa": "MACH Estúdio",
+  "o_que_vendo": "sites sob medida, feitos do zero, com animação, para pequenas e médias empresas",
+  "site": "https://seu-site.com.br",
+  "instagram": "@mach.sites",
+  "limite_diario": 20,
+  "intervalo_min_minutos": 3,
+  "intervalo_max_minutos": 7,
+  "max_perfis": 300,
+  "plano_apify": "FREE",
+  "teto_gasto_usd_por_rodada": 2.0
+}

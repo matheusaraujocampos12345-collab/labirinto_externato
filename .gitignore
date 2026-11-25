@@ -2,3 +2,7 @@
 .env
 *.env
 .env.*
+
+# Lead-finder: dados de pessoas e config pessoal nunca vão para o GitHub
+leads/
+.claude/skills/lead-finder/config.json
