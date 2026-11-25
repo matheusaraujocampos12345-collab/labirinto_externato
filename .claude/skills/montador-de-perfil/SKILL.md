@@ -1,6 +1,6 @@
 ---
 name: montador-de-perfil
-description: Segunda etapa do lead-finder. Lê leads/bruto.json, descarta concorrentes, marcas grandes, robôs e pessoas físicas, e extrai de cada perfil restante DOR, SONHO e OBJEÇÃO como citações literais com o link do post de origem. Nunca inventa frase. Gera leads/perfis.json.
+description: Segunda etapa do lead-finder. Lê leads/bruto.json, descarta concorrentes, marcas grandes, robôs e pessoas físicas, e extrai de cada perfil restante DOR, SONHO, OBJEÇÃO e PERGUNTA como citações literais com o link do post de origem. Nunca inventa frase. Gera leads/perfis.json.
 ---
 
 # montador-de-perfil
@@ -25,7 +25,8 @@ Para cada perfil, escreva em `leads/analise.json`:
 [{"id": "instagram:usuario", "status": "manter", "negocio": "Padaria artesanal",
   "dor": {"citacao": "trecho copiado igual", "link": "link da fala"},
   "sonho": {"citacao": "", "link": ""},
-  "objecao": {"citacao": "", "link": ""}}]
+  "objecao": {"citacao": "", "link": ""},
+  "pergunta": {"citacao": "", "link": ""}}]
 ```
 **Status:** use `manter` ou um destes motivos de descarte:
 - `descartado: concorrente`: faz sites, é agência, social media, tráfego ou designer;
@@ -38,6 +39,7 @@ Para cada perfil, escreva em `leads/analise.json`:
 - **DOR:** o problema que a pessoa vive hoje.
 - **SONHO:** o que ela quer que aconteça.
 - **OBJEÇÃO:** o que a faria hesitar em comprar, como preço, tempo ou frustração anterior.
+- **PERGUNTA:** uma pergunta que a pessoa fez em público sobre algo que o site resolve, como pedido, cardápio, agenda ou catálogo. O disparador abre por ela quando não há dor nem desejo.
 - Copie o trecho **exatamente** como está, letra por letra, de uma fala do **próprio perfil**. Pode ser um pedaço de frase.
 - Não corrija a escrita, não junte frases e não resuma.
 - Use o link da fala de onde copiou.

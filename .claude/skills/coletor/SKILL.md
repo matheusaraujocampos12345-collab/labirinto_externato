@@ -37,6 +37,15 @@ Como escolher:
 - **Hashtags e palavras em português**, como as pessoas escrevem. O Instagram busca por hashtag. O TikTok aceita hashtag e frases.
 - **Perfis de referência:** só contas reais e públicas, cujo comentário costuma ter dono de negócio. Se não tiver certeza de que a conta existe, marque `"a confirmar"`. Nunca coloque concorrente direto como alvo de contato.
 - Comece com no máximo 6 hashtags por rede.
+- **Ajustes opcionais por rede**, dentro de `instagram` ou `tiktok`:
+  - `"peso"`: divide os perfis entre as redes. Com 0.7 e 0.3, 70% vêm de uma e 30% da outra.
+  - `"prioridade": "autores"`: puxa primeiro os donos dos posts. Use em hashtags de nicho, onde quem posta é o negócio.
+  - Sem `"prioridade"`, vêm primeiro os comentaristas que fizeram pergunta ou escreveram frase longa.
+  - `"comentarios_por_post"`: o padrão é 10. Com 0, a etapa de comentários é desligada nessa rede.
+
+Lição do primeiro teste real:
+- hashtags genéricas do Instagram trazem empresas fazendo propaganda nos comentários, e não donos reclamando;
+- buscas no TikTok sobre ferramentas que o dono usa, como cardápio digital, trazem donos perguntando.
 
 ## 3. Escolher os atores e o custo (não gasta nada)
 ```bash

@@ -2,6 +2,7 @@
 
 Só aceita e-mail que a pessoa PUBLICOU: campo de contato do perfil, bio, link na bio,
 site da empresa (início, contato, rodapé). Não adivinha formato, não usa vazamento.
+Também guarda o WhatsApp que a empresa publicou (link wa.me, bio ou post dela).
 Gera leads/lista.csv. Use --simular para trabalhar em leads/exemplo/ sem acessar a internet.
 """
 import argparse
@@ -119,15 +120,54 @@ def nao_e_site(u):
     return any(r in d for r in REDES_SOCIAIS + NAO_SITES)
 
 
-def cacar(p, leitor, simular):
-    """Devolve (email, fonte) ou ('', '')."""
+RE_WA_LINK = re.compile(r'(?:wa\.me/|whatsapp\.com/send/?\?phone=)\+?(\d{10,13})', re.I)
+RE_FONE_BR = re.compile(r'(?<![\d/])(?:\+?55[\s.-]?)?\(?([1-9]\d)\)?[\s.-]?(9\d{4})[\s.-]?(\d{4})(?![\d/])')
+
+
+def whats_em_links(texto):
+    """WhatsApp só a partir de link wa.me ou whatsapp.com/send (serve para páginas inteiras)."""
+    t = html.unescape(urllib.parse.unquote(texto or ''))
+    for m in RE_WA_LINK.finditer(t):
+        d = m.group(1)
+        d = d if d.startswith('55') else '55' + d
+        if len(d) in (12, 13):
+            return '+' + d
+    return ''
+
+
+def whats_no_texto(texto):
+    """Link wa.me ou celular brasileiro escrito no texto (só para bio e posts do próprio perfil)."""
+    achado = whats_em_links(texto)
+    if achado:
+        return achado
+    m = RE_FONE_BR.search(html.unescape(texto or ''))
+    return f'+55{m.group(1)}{m.group(2)}{m.group(3)}' if m else ''
+
+
+def cacar(p, leitor, simular, posts_proprios=()):
+    """Procura e-mail e WhatsApp PUBLICADOS. Devolve dict com o contato e a fonte de cada um."""
+    r = {'email': '', 'fonte_email': '', 'whatsapp': '', 'fonte_whatsapp': ''}
+
+    def achou_whats(numero, fonte):
+        if numero and not r['whatsapp']:
+            r['whatsapp'], r['fonte_whatsapp'] = numero, fonte
+
+    for u in [p.get('link_bio')] + list(p.get('outros_links') or []):
+        achou_whats(whats_em_links(u or ''), f'link do perfil ({p["link"]})')
+    achou_whats(whats_no_texto(p.get('bio')), f'bio do perfil ({p["link"]})')
+    for post in posts_proprios:
+        achou_whats(whats_no_texto(post.get('texto')), f'post do próprio perfil ({post.get("link")})')
+
     if p.get('email_publico'):
         e = emails_no_texto(p['email_publico'], simular)
         if e:
-            return e[0], f'contato público do perfil ({p["link"]})'
-    e = emails_no_texto(p.get('bio'), simular)
-    if e:
-        return e[0], f'bio do perfil ({p["link"]})'
+            r['email'], r['fonte_email'] = e[0], f'contato público do perfil ({p["link"]})'
+    if not r['email']:
+        e = emails_no_texto(p.get('bio'), simular)
+        if e:
+            r['email'], r['fonte_email'] = e[0], f'bio do perfil ({p["link"]})'
+    if r['email'] and r['whatsapp']:
+        return r
     sementes = [p.get('link_bio')] + list(p.get('outros_links') or []) + re.findall(r'https?://[^\s"\'<>]+', p.get('bio') or '')
     fila = []
     for u in sementes:
@@ -135,19 +175,21 @@ def cacar(p, leitor, simular):
             fila.append(limpar_url(u))
     fila.sort(key=lambda u: 1 if any(ag in dominio(u) for ag in AGREGADORES) else 0)  # site próprio primeiro
     vistos, lidas = set(), 0
-    while fila and lidas < MAX_PAGINAS:
+    while fila and lidas < MAX_PAGINAS and not (r['email'] and r['whatsapp']):
         url = fila.pop(0)
         if url in vistos or nao_e_site(url):
             continue
         vistos.add(url)
         pagina = leitor.ler(url)
         lidas += 1
+        achou_whats(whats_em_links(pagina), url)
         achados = emails_no_texto(pagina, simular)
-        if achados:
+        if achados and not r['email']:
             site = dominio(url)
             achados.sort(key=lambda x: 0 if x.split('@')[1] == site or site.endswith('.' + x.split('@')[1])
                           or x.split('@')[1].endswith('.' + site) else 1)
-            return achados[0], url
+            r['email'], r['fonte_email'] = achados[0], url
+            continue
         links = links_da_pagina(url + '/', pagina)
         if any(ag in dominio(url) for ag in AGREGADORES):  # link na bio: segue para o site da empresa
             novos = [u for u in links if not nao_e_site(u) and not any(ag in dominio(u) for ag in AGREGADORES)][:3]
@@ -155,11 +197,11 @@ def cacar(p, leitor, simular):
             mesmos = [u for u in links if dominio(u) == dominio(url) and re.search(r'contat|contact|fale|sobre|about', u, re.I)]
             novos = mesmos[:2] + [raiz_do_site(url) + c for c in PAGINAS_CONTATO][:2]
         fila = [u for u in novos if u not in vistos and u not in fila] + fila
-    return '', ''
+    return r
 
 
 def fmt(c):
-    return f'"{c["citacao"]}" ({c["link"]})' if c.get('citacao') else ''
+    return f'"{c["citacao"]}" ({c["link"]})' if c and c.get('citacao') else ''
 
 
 def main():
@@ -170,23 +212,31 @@ def main():
     perfis = comum.ler_json(os.path.join(pasta, 'perfis.json'))
     if perfis is None:
         raise SystemExit('Falta perfis.json. Rode o montador antes.')
+    bruto = comum.ler_json(os.path.join(pasta, 'bruto.json'), {'perfis': []})
+    posts = {b['id']: [f for f in b.get('falas', []) if f.get('tipo') == 'post'] for b in bruto['perfis']}
     leitor = Leitor(a.simular, pasta)
-    campos = ['perfil', 'rede', 'link', 'negocio', 'dor', 'sonho', 'objecao', 'email', 'fonte_email']
+    campos = ['perfil', 'rede', 'link', 'negocio', 'dor', 'sonho', 'objecao', 'pergunta',
+              'email', 'fonte_email', 'whatsapp', 'fonte_whatsapp']
     destino = os.path.join(pasta, 'lista.csv')
     if os.path.exists(destino):
         os.remove(destino)
-    com, sem = 0, 0
+    n_email = n_whats = n_sem = 0
     for p in perfis:
         if p.get('status') != 'manter':
             continue
-        email, fonte = cacar(p, leitor, a.simular)
-        com, sem = (com + 1, sem) if email else (com, sem + 1)
+        r = cacar(p, leitor, a.simular, posts.get(p['id'], []))
+        n_email += bool(r['email'])
+        n_whats += bool(r['whatsapp'] and not r['email'])
+        n_sem += not (r['email'] or r['whatsapp'])
         comum.acrescentar_csv(destino, {'perfil': p['usuario'], 'rede': p['rede'], 'link': p['link'],
-                                        'negocio': p.get('negocio', ''), 'dor': fmt(p['dor']),
-                                        'sonho': fmt(p['sonho']), 'objecao': fmt(p['objecao']),
-                                        'email': email or 'sem contato', 'fonte_email': fonte}, campos)
-        print(f'  {p["usuario"]:<28} {email or "sem contato":<42} {fonte}')
-    print(f'\n{com} com e-mail público · {sem} sem contato · salvo em {comum.rel(destino)}')
+                                        'negocio': p.get('negocio', ''), 'dor': fmt(p.get('dor')),
+                                        'sonho': fmt(p.get('sonho')), 'objecao': fmt(p.get('objecao')),
+                                        'pergunta': fmt(p.get('pergunta')),
+                                        'email': r['email'] or 'sem contato', 'fonte_email': r['fonte_email'],
+                                        'whatsapp': r['whatsapp'], 'fonte_whatsapp': r['fonte_whatsapp']}, campos)
+        contato = r['email'] or (f'WhatsApp {r["whatsapp"]}' if r['whatsapp'] else 'sem contato')
+        print(f'  {p["usuario"]:<28} {contato:<40} {r["fonte_email"] or r["fonte_whatsapp"]}')
+    print(f'\n{n_email} com e-mail · {n_whats} só com WhatsApp · {n_sem} sem contato · salvo em {comum.rel(destino)}')
 
 
 if __name__ == '__main__':

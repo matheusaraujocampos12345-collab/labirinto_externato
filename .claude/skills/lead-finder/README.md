@@ -13,9 +13,9 @@ Para usar, digite no Claude Code:
 | Etapa | O que faz | Gera |
 |---|---|---|
 | `coletor` | Lê o site e monta hashtags, palavras e perfis de referência. **Para, mostra o custo e espera seu ok.** Depois puxa posts e comentários públicos do Instagram e do TikTok pela Apify. | `leads/bruto.json` |
-| `montador-de-perfil` | Descarta concorrentes, marcas grandes, robôs e pessoas físicas. Extrai DOR, SONHO e OBJEÇÃO como **citação literal com link**. Citação que não existe igual é apagada. | `leads/perfis.json` |
-| `cacador-de-email` | Procura e-mail **publicado** (bio, link na bio, site da empresa) e guarda a fonte. Sem e-mail, fica "sem contato". | `leads/lista.csv` |
-| `disparador` | Escreve mensagens que começam pela frase da pessoa. **Mostra todas para você aprovar.** Envia só depois de "pode enviar", no máximo 20 por dia. | `leads/enviados.csv` |
+| `montador-de-perfil` | Descarta concorrentes, marcas grandes, robôs e pessoas físicas. Extrai DOR, SONHO, OBJEÇÃO e PERGUNTA como **citação literal com link**. Citação que não existe igual é apagada. | `leads/perfis.json` |
+| `cacador-de-email` | Procura e-mail e WhatsApp **publicados** pela empresa (bio, posts dela, link na bio, site) e guarda a fonte. Sem nenhum dos dois, fica "sem contato". | `leads/lista.csv` |
+| `disparador` | Escreve mensagens que começam pela frase da pessoa (dor, desejo ou pergunta). **Mostra todas para você aprovar.** O e-mail sai pelo Gmail só depois de "pode enviar", no máximo 20 por dia. O WhatsApp vira uma lista com link pronto para **você** mandar à mão. | `leads/enviados.csv` |
 
 ## Configurar (uma vez)
 
@@ -54,7 +54,8 @@ Para usar, digite no Claude Code:
 - **Envio:**
   - só sai o que você aprovou, depois de "pode enviar";
   - no máximo 20 por dia, com 3 a 7 minutos entre um e outro;
-  - ninguém recebe duas vezes.
+  - ninguém recebe duas vezes, nem por e-mail nem por WhatsApp;
+  - o robô nunca envia pelo WhatsApp, porque isso pode bloquear o seu número. Ele só monta o link para você tocar e enviar.
 
 ## Custo (Apify Store, plano gratuito, novembro de 2026)
 

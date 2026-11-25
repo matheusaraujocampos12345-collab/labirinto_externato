@@ -79,16 +79,32 @@ def cmd_loja(a):
 
 # ---------- plano e custo ----------
 
-def plano(n, redes):
-    por_rede = math.ceil(n / len(redes))
-    posts = max(5, math.ceil(por_rede / 2))
-    return {r: {'posts': posts, 'comentarios': posts * COMENTARIOS_POR_POST, 'perfis': por_rede} for r in redes}
+def cpp(busca_rede):
+    return int((busca_rede or {}).get('comentarios_por_post', COMENTARIOS_POR_POST))
 
 
-def estimar(n, redes, atores):
+def plano(n, redes, busca=None):
+    """Divide os perfis entre as redes pelo 'peso' de cada uma no busca.json."""
+    busca = busca or {}
+    pesos = {r: float((busca.get(r) or {}).get('peso', 1)) for r in redes}
+    soma = sum(pesos.values()) or 1
+    out = {}
+    for r in redes:
+        perfis = max(1, round(n * pesos[r] / soma))
+        if (busca.get(r) or {}).get('prioridade') == 'autores':
+            posts = perfis + 3  # cada post traz um dono; sobra um pouco para repetidos
+        else:
+            posts = max(5, math.ceil(perfis / 2))
+        out[r] = {'posts': posts, 'comentarios': posts * cpp(busca.get(r)), 'perfis': perfis}
+    return out
+
+
+def estimar(n, redes, atores, busca=None):
     linhas, total = [], 0.0
-    for rede, etapas in plano(n, redes).items():
+    for rede, etapas in plano(n, redes, busca).items():
         for etapa, qtd in etapas.items():
+            if not qtd:
+                continue
             info = atores['redes'][rede][etapa]['escolhido']
             custo = qtd * (info['us_por_mil'] or 0) / 1000 + (info['us_inicio'] or 0)
             total += custo
@@ -126,7 +142,7 @@ def cmd_resumo(a):
     mostrar_busca(busca)
     redes = [r for r in REDES if busca.get(r)]
     for n in sorted({a.perfis, comum.config().get('max_perfis', 300)}):
-        linhas, total = estimar(n, redes, atores)
+        linhas, total = estimar(n, redes, atores, busca)
         print(f'\nESTIMATIVA PARA {n} PERFIS (plano {atores.get("plano")})')
         for rede, etapa, ator, qtd, pm, custo in linhas:
             print(f'  {rede:<9} {etapa:<11} {ator:<38} {qtd:>5} itens × US${pm}/mil = US${custo:.3f}')
@@ -144,7 +160,7 @@ def entrada(rede, etapa, busca, alvos, qtd):
         return {'directUrls': [f'https://www.instagram.com/{p["usuario"]}/' for p in busca.get('perfis', [])],
                 'resultsType': 'posts', 'resultsLimit': POSTS_POR_PERFIL_REF, 'addParentData': False}
     if rede == 'instagram' and etapa == 'comentarios':
-        return {'directUrls': alvos, 'resultsLimit': COMENTARIOS_POR_POST, 'includeNestedComments': False}
+        return {'directUrls': alvos, 'resultsLimit': cpp(busca), 'includeNestedComments': False}
     if rede == 'instagram' and etapa == 'perfis':
         return {'usernames': alvos, 'includeAboutSection': False}
     sem_extras = {'shouldDownloadVideos': False, 'shouldDownloadCovers': False, 'shouldDownloadAvatars': False,
@@ -156,7 +172,7 @@ def entrada(rede, etapa, busca, alvos, qtd):
                 'resultsPerPage': max(1, math.ceil(qtd / max(1, n_fontes))), 'shouldDownloadMusicCovers': False,
                 **sem_extras}
     if rede == 'tiktok' and etapa == 'comentarios':
-        return {'postURLs': alvos, 'commentsPerPost': COMENTARIOS_POR_POST, 'maxRepliesPerComment': 0}
+        return {'postURLs': alvos, 'commentsPerPost': cpp(busca), 'maxRepliesPerComment': 0}
     if rede == 'tiktok' and etapa == 'perfis':
         return {'profiles': alvos, 'resultsPerPage': 1, 'profileScrapeSections': ['videos'], **sem_extras}
     raise ValueError((rede, etapa))
@@ -180,22 +196,22 @@ def alvos_da_etapa(rede, etapa, pasta, busca, qtd):
     if etapa == 'comentarios':
         com_coment = [p for p in bruto if int(g(p, 'commentsCount', 'commentCount', padrao=0) or 0) > 0]
         com_coment.sort(key=lambda p: -int(g(p, 'commentsCount', 'commentCount', padrao=0) or 0))
-        return [g(p, 'url', 'webVideoUrl') for p in com_coment][:max(1, qtd // COMENTARIOS_POR_POST)]
-    # perfis: quem comentou com frase de verdade primeiro, depois autores dos posts
+        return [g(p, 'url', 'webVideoUrl') for p in com_coment][:max(1, qtd // max(1, cpp(busca)))]
+    # perfis: por padrão, quem comentou com frase de verdade vem primeiro; com "prioridade": "autores",
+    # os donos dos posts (os negócios do nicho) vêm primeiro.
     refs = {p['usuario'].lower() for p in busca.get('perfis', [])}
     coments = comum.ler_json(arq(pasta, f'apify/{rede}-comentarios.json'), [])
+    coments.sort(key=lambda c: (0 if g(c, 'text').strip().endswith('?') else 1, -len(g(c, 'text'))))
+    comentaristas = [g(c, 'ownerUsername', 'owner.username', 'uniqueId', 'user.uniqueId') for c in coments
+                     if len(g(c, 'text').split()) >= 4]
+    autores = [g(p, 'ownerUsername', 'authorMeta.name') for p in bruto]
+    grupos = (autores, comentaristas) if busca.get('prioridade') == 'autores' else (comentaristas, autores)
     vistos, ordem = set(), []
-    coments.sort(key=lambda c: -len(g(c, 'text')))
-    for c in coments:
-        u = g(c, 'ownerUsername', 'owner.username', 'uniqueId', 'user.uniqueId')
-        if u and len(g(c, 'text').split()) >= 4 and u.lower() not in refs and u not in vistos:
-            vistos.add(u)
-            ordem.append(u)
-    for p in bruto:
-        u = g(p, 'ownerUsername', 'authorMeta.name')
-        if u and u.lower() not in refs and u not in vistos:
-            vistos.add(u)
-            ordem.append(u)
+    for grupo in grupos:
+        for u in grupo:
+            if u and u.lower() not in refs and u not in vistos:
+                vistos.add(u)
+                ordem.append(u)
     return ordem[:qtd]
 
 
@@ -211,14 +227,17 @@ def cmd_rodar(a):
         raise SystemExit(f'Máximo combinado é {cfg.get("max_perfis", 300)} perfis.')
     atores = carregar_atores(pasta)
     redes = [r for r in REDES if busca.get(r)] if a.rede == 'todas' else [a.rede]
-    linhas, total = estimar(a.perfis, redes, atores)
+    linhas, total = estimar(a.perfis, redes, atores, busca)
     teto_total = min(cfg.get('teto_gasto_usd_por_rodada', 2.0), round(total * 1.5 + 0.05, 2))
     print(f'Estimativa: US${total:.2f} · teto de segurança: US${teto_total:.2f}')
     gasto_total = 0.0
     etapas = ETAPAS if a.etapa == 'todas' else [a.etapa]
     for rede in redes:
-        qtds = plano(a.perfis, redes)[rede]
+        qtds = plano(a.perfis, redes, busca)[rede]
         for etapa in etapas:
+            if not qtds[etapa]:
+                print(f'  {rede}/{etapa}: desligado nesta busca, pulei.')
+                continue
             ator = atores['redes'][rede][etapa]['escolhido']['ator']
             alvos = alvos_da_etapa(rede, etapa, pasta, busca[rede], qtds[etapa])
             if alvos is not None and not alvos:
@@ -331,7 +350,8 @@ def cmd_simular(a):
          [('post', 'Seu site precisa vender! Chama no direct.', P + '08')]),
         ('tiktok', 'exemplo_hamburgueria_06', 'Exemplo Hamburgueria 06', 'Smash burger · delivery próprio', '', '',
          None, 1200,
-         [('comentario', 'O app de delivery come metade do meu lucro.', T + '09')]),
+         [('comentario', 'O app de delivery come metade do meu lucro.', T + '09'),
+          ('post', 'Pedidos no zap (11) 90000-0006 até as 23h', T + '14')]),
         ('instagram', 'exemplo_rede_nacional_07', 'Exemplo Rede Nacional 07', 'A maior rede de cafés do país.',
          'https://rede07.example.com', 'Restaurante', True, 2400000,
          [('post', 'Novo menu de Natal chegando!', P + '10')]),
@@ -341,8 +361,9 @@ def cmd_simular(a):
         ('instagram', 'exemplo_pessoa_09', 'Exemplo Pessoa 09', 'Amo viajar e café ☕', '', '', False, 310,
          [('comentario', 'Que lindo esse site!', P + '12')]),
         ('instagram', 'exemplo_floricultura_10', 'Exemplo Floricultura 10', 'Flores e presentes. Entregamos na cidade.',
-         '', 'Floricultura', True, 1900,
-         [('post', 'Promoção de buquês esta semana.', P + '13')]),
+         'https://wa.me/5511900000010', 'Floricultura', True, 1900,
+         [('post', 'Promoção de buquês esta semana.', P + '13'),
+          ('comentario', 'Tem como o cliente escolher o buquê e já mandar o pedido no WhatsApp?', P + '15')]),
     ]
     lista = []
     for rede, u, nome, bio, link_bio, cat, neg, seg, falas in perfis:

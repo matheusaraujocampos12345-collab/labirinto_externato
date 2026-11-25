@@ -1,6 +1,6 @@
 ---
 name: disparador
-description: Última etapa do lead-finder. Escreve, para cada lead com e-mail público e uma dor citada, uma mensagem curta que começa pela frase exata da pessoa, mostra todas para o dono aprovar, editar ou cortar e só envia pelo Gmail depois de "pode enviar", no máximo 20 por dia, com intervalo, sem repetir ninguém e respeitando quem pediu SAIR.
+description: Última etapa do lead-finder. Escreve, para cada lead com e-mail ou WhatsApp publicado e uma frase citada (dor, desejo ou pergunta), uma mensagem curta que começa pela frase exata da pessoa. Mostra todas para o dono aprovar, editar ou cortar. E-mail só sai pelo Gmail depois de "pode enviar", no máximo 20 por dia, com intervalo. WhatsApp vira uma lista com link pronto para o dono mandar à mão. Nunca repete ninguém e respeita quem pediu SAIR.
 ---
 
 # disparador
@@ -34,17 +34,19 @@ Confira se existe `.claude/skills/lead-finder/config.json` com o nome do remeten
 ```bash
 python3 .claude/skills/disparador/disparador.py rascunho
 ```
-O comando cria `leads/mensagens.json` só para quem tem e-mail público **e** uma DOR citada. Quem já recebeu ou pediu para sair fica de fora.
+O comando cria `leads/mensagens.json` só para quem publicou e-mail ou WhatsApp **e** tem uma frase citada. Quem já recebeu ou pediu para sair fica de fora.
+- **Frase de abertura:** a DOR. Sem dor, o DESEJO (campo sonho). Sem desejo, a PERGUNTA que a pessoa fez.
+- **Canal:** e-mail, se a pessoa publicou um. Se só publicou WhatsApp, o canal é WhatsApp, que o dono envia à mão.
 
 ## 2. Escrever
 Preencha `assunto` e `corpo` de cada mensagem em `leads/mensagens.json`:
-- **Comece pela frase exata da dor**, entre aspas, igual ao campo `dor`.
+- **Comece pela frase exata da pessoa**, entre aspas, igual ao campo `abertura`. Se ela for uma pergunta, responda em poucas palavras logo depois, como "Tem, sim.".
 - **Uma frase** que liga essa dor ao que o dono vende (`o_que_vendo` no config). Seja concreto: diga o que muda para a pessoa.
 - **Termine com uma pergunta.**
 - Sem link, sem preço ou valor, sem "vi seu perfil".
 - Curta: até 90 palavras. Frases curtas, com ponto final.
 - **Não escreva assinatura nem a linha do SAIR.** O script coloca o nome, a empresa e "Se não quiser receber mais, é só responder SAIR.".
-- Assunto curto, até 60 caracteres, sem CAIXA ALTA.
+- **Só no e-mail:** assunto curto, até 60 caracteres, sem CAIXA ALTA. No WhatsApp não há assunto.
 
 ## 3. Conferir
 ```bash
@@ -71,7 +73,16 @@ python3 .claude/skills/disparador/disparador.py enviar --pode-enviar
 - Nunca envia para quem já está em `leads/enviados.csv` ou em `leads/nao-contatar.csv`.
 - Cada envio é registrado na hora em `leads/enviados.csv`.
 
-Se alguém pedir para sair por outro canal:
+## 5. WhatsApp: o dono envia à mão (só depois de "pode enviar")
 ```bash
-python3 .claude/skills/disparador/disparador.py sair --email pessoa@empresa.com.br
+python3 .claude/skills/disparador/disparador.py whatsapp
+```
+- Gera `leads/whatsapp-para-chamar.md` com um link wa.me por pessoa. O dono toca no link, o WhatsApp abre com a mensagem pronta, ele confere e envia.
+- No máximo `limite_diario` por dia.
+- **Nunca automatize o envio pelo WhatsApp.** Isso pode bloquear o número do dono.
+- Depois que o dono disser quais enviou, rode `registrar --numeros 4,5`. Assim ninguém recebe duas vezes.
+
+Se alguém pedir para sair, por qualquer canal:
+```bash
+python3 .claude/skills/disparador/disparador.py sair --contato pessoa@empresa.com.br   # ou +5511999999999
 ```

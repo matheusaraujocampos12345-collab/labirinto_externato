@@ -1,4 +1,4 @@
-"""Montador de perfil do lead-finder.
+"""Montador de perfil do lead-finder (dor, sonho, objeção e pergunta, sempre citados).
 
   preparar   lê leads/bruto.json e cria leads/para-analisar.md (o Claude lê e decide)
   validar    confere leads/analise.json: toda citação precisa existir, letra por letra,
@@ -13,7 +13,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'lead-finder', 'scripts'))
 import comum  # noqa: E402
 
-CAMPOS = ('dor', 'sonho', 'objecao')
+CAMPOS = ('dor', 'sonho', 'objecao', 'pergunta')
 SINAIS_CONCORRENTE = r'(cria(mos)? sites?|web ?design|desenvolv\w+ de sites?|landing pages?|ag[êe]ncia|social media|' \
                      r'marketing digital|tr[áa]fego pago|programador|designer)'
 SINAIS_ROBO = r'(ganhe seguidores|seguidores gr[áa]tis|sorteio|100% real|clique no link|renda extra|pix na hora)'
@@ -39,7 +39,7 @@ def cmd_preparar(a):
     if not bruto:
         raise SystemExit('Falta bruto.json. Rode o coletor antes.')
     linhas = [f'# Perfis para analisar ({bruto["total"]})', '',
-              'Para cada perfil: decida manter ou descartar e copie DOR, SONHO e OBJEÇÃO',
+              'Para cada perfil: decida manter ou descartar e copie DOR, SONHO, OBJEÇÃO e PERGUNTA',
               'como citação literal de uma fala abaixo, com o link dela. Sem citação, deixe vazio.', '']
     for p in bruto['perfis']:
         linhas.append(f'## {p["id"]} · {p.get("nome", "")}')
@@ -112,7 +112,7 @@ def cmd_validar(a):
         if s['status'] == 'manter':
             for campo in CAMPOS:
                 c = s[campo]
-                print(f'           {campo:<8} ' + (f'"{c["citacao"]}" — {c["link"]}' if c['citacao'] else '(vazio)'))
+                print(f'           {campo:<9}' + (f'"{c["citacao"]}" — {c["link"]}' if c['citacao'] else '(vazio)'))
     if avisos:
         print('\nTRAVA ANTI-INVENÇÃO:')
         for x in avisos:
