@@ -9,3 +9,6 @@ leads/
 
 # Cache do Python
 __pycache__/
+
+# Prévias para clientes reais (fotos e dados deles): fora do repositório público
+previas/

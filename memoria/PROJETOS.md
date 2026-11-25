@@ -92,5 +92,28 @@ Propostas de marca publicadas como páginas (claude.ai, privadas): Talhe, Macte 
 - Publicar (Netlify Drop ou Cloudflare Pages) e trocar o `og:image` pelo endereço completo.
 
 ### 5. GitHub
-- Os commits desta branch (`claude/animated-ad-video-30s-ntk1iz`) não subiram: erro 403, o Claude não tem acesso ao repositório.
-- Para resolver: reconectar o GitHub em claude.ai/connect-github e instalar o app do Claude no repositório.
+- Resolvido em 23/11: o GitHub foi reconectado e os pushes desta branch (`claude/animated-ad-video-30s-ntk1iz`) funcionam.
+
+### 6. Prospecção (skill `/lead-finder`, 25/11)
+- **Onde está:** as skills ficam em `.claude/skills/`: `lead-finder`, `coletor`, `montador-de-perfil`, `cacador-de-email` e `disparador`. Cada uma tem o seu SKILL.md, e o README está em `lead-finder/`.
+- **Fora do GitHub:**
+  - os dados de pessoas, em `leads/`;
+  - o `config.json`, com o nome na assinatura;
+  - o `.env`.
+- **Apify (plano grátis, US$ 5 por mês):** no ciclo de 25/11 a 24/12 já foram gastos cerca de US$ 0,58.
+- **O que funciona melhor:**
+  - Buscar **donos de posts em hashtags de nicho no Instagram**. Eles publicam WhatsApp.
+  - Abrir a mensagem com o gancho de **prévia com o nome do negócio** ("Posso te mostrar como ficaria…?").
+  - No Brasil, pequeno negócio quase nunca publica e-mail. Por isso o WhatsApp é enviado **à mão pelo dono** (link pronto), nunca por robô.
+- **Rodada 2:**
+  - 7 mensagens aprovadas por WhatsApp;
+  - 1 aceitou ver a prévia;
+  - a rodada 3 (100 perfis, cerca de US$ 0,65) espera o ok do dono.
+- **Prévias para clientes:** ficam em `previas/<cliente>/` (fora do git, porque têm fotos e dados do cliente). Cada uma tem:
+  - o site, em `site/`;
+  - as imagens e o vídeo, em `entrega/`;
+  - o LEIA-ME, com o que confirmar antes de publicar.
+- **Regras das prévias:**
+  - não publicar na internet sem a autorização do cliente;
+  - preço só se o cliente publicou;
+  - não usar foto de banco de imagens como se fosse produto do cliente.
