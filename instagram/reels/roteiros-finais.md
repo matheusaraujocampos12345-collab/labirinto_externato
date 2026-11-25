@@ -231,3 +231,34 @@ O que mudou e por quê:
 - **O botão flutuante de WhatsApp do site foi escondido só na gravação,** e os rastreadores de terceiros (Analytics) foram bloqueados para não contar visitas falsas para o cliente.
 - **A versão de tela cheia termina no logo** (quadro calmo), como no vídeo de referência; a versão da mesa fecha em loop.
 - Sem referência de aviação e nada de Apple.
+
+---
+
+## i14 · 12 animações de texto · parte 1 (27 s)
+
+`i14-12-animacoes-de-texto.mp4` · formato "catálogo de animações", feito por código (`cenas/i14.js`). A referência foi um Reels de outro criador; o layout e os textos são nossos.
+
+Na tela o tempo todo (zona segura): o selo **SALVA PRA USAR NO SEU SITE** (mono), o título **12 animações de texto** (Saira 300) e **parte 1 · @mach.sites**. No meio, uma janela grafite com cantos arredondados e o contador **NN / 12**. Embaixo, a lista de 01 a 12 em duas colunas (34 px): a da vez em laranja, as já vistas em alumínio e as que faltam em cinza.
+
+| Tempo | Na janela | Item da lista |
+|---|---|---|
+| 0–1,5 s | **surge** sobe de trás de uma máscara (já em movimento no primeiro quadro) | 01 Máscara subindo |
+| 1,5–3,5 s | **monta**, uma letra de cada vez | 02 Letra por letra |
+| 3,5–5,5 s | **PRÊMIO**: as letras rolam como num caça-níquel e param uma a uma | 03 Caça-níquel |
+| 5,5–7,5 s | **aceso** pisca e firma em neon laranja | 04 Neon acendendo |
+| 7,5–9,5 s | **reluz**, com um brilho que passa duas vezes | 05 Brilho passando |
+| 9,5–11,5 s | **traço**: o contorno se desenha e depois a letra se enche | 06 Contorno se desenhando |
+| 11,5–13,5 s | **veloz** entra deixando cópias fantasmas | 07 Rastro de velocidade |
+| 13,5–15,5 s | **impacto**: dois anéis saem da palavra e as letras tremem um instante | 08 Onda de choque |
+| 15,5–17,5 s | **foco** sai do desfoque | 09 Desfoque para foco |
+| 17,5–19,5 s | **escreve** digitado, com cursor laranja | 10 Máquina de escrever |
+| 19,5–21,5 s | **antes** sobe e **depois** entra | 11 Palavras que trocam |
+| 21,5–23,5 s | **pinta**: o laranja preenche da esquerda para a direita | 12 Texto que se pinta |
+| 23,5–26,5 s | **Qual você quer no seu site?** · **Comenta o número.** ("número" em laranja); a lista toda em alumínio | — |
+| 26,5–27 s | a 01 recomeça; o último quadro emenda no primeiro (loop) | 01 |
+
+Como foi feito:
+- **Cortes a cada 2 s,** todos em múltiplos de 0,5 s (120 bpm). O relógio interno começa meio segundo antes, para a 01 já estar acontecendo no primeiro quadro.
+- **Borrão de movimento** (4 subquadros, obturador de 180°) só no caça-níquel, no rastro, na onda e na troca de palavras.
+- **Laranja:** o item da vez na lista, mais o acento da própria animação (neon, anel, cursor e pintura).
+- **Uma referência de aviação no máximo:** só o nome "Onda de choque" (pedido do roteiro). A palavra na janela é "impacto".

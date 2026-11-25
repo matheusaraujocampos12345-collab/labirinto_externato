@@ -24,3 +24,5 @@ for b in b1-teste b2-coleta b3-dna b4-nextgen b5-nextbreed; do
 done
 node $M/render.mjs $C/i13-tela-cheia.js --workers 2 --manter
 node $M/render.mjs $C/i13-mesa.js --workers 2
+# i14: catálogo de 12 animações de texto (só código)
+node $M/render.mjs $C/i14.js --workers 2

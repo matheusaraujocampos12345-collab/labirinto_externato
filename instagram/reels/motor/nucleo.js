@@ -51,7 +51,9 @@ window.motorPronto = (async () => {
 // desenhar(ctx, t, f, k) recebe k = índice do subquadro (0..n-1).
 let temp = null;
 async function desenharComBorrao(reel, f) {
-  const fps = reel.fps ?? 30, n = reel.subquadros ?? 1, obt = reel.obturador ?? 0.5;
+  const fps = reel.fps ?? 30, obt = reel.obturador ?? 0.5;
+  // subquadros pode ser um número ou uma função do tempo (borrão só onde há movimento rápido)
+  const n = typeof reel.subquadros === 'function' ? reel.subquadros(f / fps, f) : reel.subquadros ?? 1;
   if (n <= 1) return reel.desenhar(ctx, f / fps, f, 0);
   if (!temp) {
     temp = document.createElement('canvas');
