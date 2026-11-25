@@ -11,6 +11,7 @@ Feito primeiro para o celular, com menu fixo, seções curtas e o pedido de orç
 | `styles.css` | Cores, fontes e visual do site (menos a primeira tela). |
 | `main.js` | Configuração (WhatsApp, Instagram, chave da Equus), menu do celular, vídeos, pedido e o jatinho do rodapé. |
 | `primeira-tela.css` e `primeira-tela.js` | A primeira tela, num componente separado (veja abaixo). |
+| `animacoes.html`, `animacoes.css` e `animacoes.js` | A página "Animações": 6 animações ao vivo (veja abaixo). |
 | `assets/` | Imagens, vídeos leves dos trabalhos, ícone e imagem de compartilhamento. |
 
 ## A ordem da página
@@ -25,6 +26,26 @@ Feito primeiro para o celular, com menu fixo, seções curtas e o pedido de orç
 | 6 | Dúvidas (clara) | 6 perguntas em sanfona (abrir uma fecha a outra). |
 | 7 | Pedido | Formulário curto que monta o cartão de embarque (claro) e abre o WhatsApp com a mensagem pronta, ou copia o texto para o direct. |
 | 8 | Rodapé | O jatinho escreve MACH no céu (com o Λ laranja), contato e links. |
+
+## A página "Animações" (`animacoes.html`)
+
+Uma vitrine com 6 animações ao vivo, cada uma num cartão: grade de 3 × 2 no computador, 2 colunas no tablet e 1 coluna no celular.
+Fica no menu ("Animações"), no rodapé e num link logo depois de "Trabalhos".
+
+| # | Animação | O que mostra para o cliente |
+|---|---|---|
+| 1 | Cartão que inclina | O produto ganha peso e brilho, como se estivesse na mão. Segue o mouse ou o dedo, com reflexo de luz. |
+| 2 | Página que se ajusta (clara) | Um controle muda a largura da tela e a página se reorganiza para celular, tablet e computador. |
+| 3 | Relógio em órbita | O conceito ÓRBITA: a hora real cercada por órbitas, que se abrem com o mouse ou o toque. |
+| 4 | Texto que acende (clara) | A frase acende palavra por palavra conforme a pessoa rola a página. |
+| 5 | Paisagem em camadas | Três camadas (sol, serra e primeiro plano) se separam com o mouse ou o dedo. |
+| 6 | Botão magnético | O botão puxa o cursor quando ele chega perto e responde ao toque com uma onda. |
+
+- Cada animação só é montada quando o cartão chega perto da tela e pausa quando ele sai.
+- Tudo funciona com o dedo. As áreas da animação deixam a página rolar normalmente na vertical.
+- Com "menos movimento", nada se mexe sozinho: o texto aparece todo aceso e o resto só responde ao toque.
+- O menu e o rodapé são cópias dos do `index.html`. Se mudar o menu de um, mude no outro.
+- O botão "Pedir orçamento pelo WhatsApp" no fim da página já leva a mensagem "Vi a página de animações e quero um orçamento.".
 
 ## A primeira tela (componente para trocar)
 

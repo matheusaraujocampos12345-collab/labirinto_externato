@@ -1,0 +1,169 @@
+/* MACH Estúdio — página de animações (animacoes.html)
+   Usa as cores e fontes do styles.css. Grade: 1 coluna no celular, 2 no tablet e 3 × 2 no computador.
+   Cartões escuros (grafite) e dois cartões claros (off-white) para dar ritmo. Laranja só como acento. */
+
+.lab-topo { padding: calc(var(--topo-h) + clamp(32px, 6vw, 72px)) 0 clamp(28px, 4vw, 44px); }
+.lab-volta { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--apoio); text-decoration: none; font-size: 16px; }
+.lab-volta:hover { color: var(--texto); }
+.lab-topo h1 { margin-top: 8px; font-family: var(--display); font-weight: 500; font-size: clamp(36px, 6vw, 64px); line-height: 1.04; letter-spacing: -0.015em; }
+
+.lab-sec { padding-bottom: clamp(56px, 8vw, 104px); }
+.lab-grade { display: grid; gap: 16px; }
+@media (min-width: 700px) { .lab-grade { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1100px) { .lab-grade { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; } }
+
+/* cada cartão: a animação em cima, o texto embaixo */
+.lab-card { display: flex; flex-direction: column; background: var(--fundo2); box-shadow: inset 0 0 0 1px var(--linha); border-radius: 8px; overflow: hidden; }
+.lab-card.clara { background: var(--claro); color: var(--tinta); box-shadow: none; }
+.lab-palco { position: relative; height: clamp(300px, 80vw, 340px); overflow: hidden; isolation: isolate; }
+@media (min-width: 700px) { .lab-palco { height: 320px; } }
+.lab-txt { flex: 1; display: grid; align-content: start; gap: 8px; padding: 20px 20px 22px; border-top: 1px solid var(--linha); }
+.lab-card.clara .lab-txt { border-top-color: var(--linha-clara); }
+.lab-n { color: var(--apoio); }
+.lab-card.clara .lab-n { color: var(--apoio-claro); }
+.lab-card h2 { font-size: 24px; line-height: 1.15; }
+.lab-txt > p:not(.lab-n) { font-size: 16px; color: #c9ced3; }
+.lab-card.clara .lab-txt > p:not(.lab-n) { color: var(--apoio-claro); }
+.lab-txt > .lab-dica { display: flex; align-items: baseline; gap: 10px; color: var(--texto) !important; font-weight: 500; }
+.lab-card.clara .lab-txt > .lab-dica { color: var(--tinta) !important; }
+.lab-dica::before { content: ""; flex: none; width: 8px; height: 8px; background: var(--laranja); transform: translateY(-1px) rotate(45deg); }
+
+/* ── 1 · cartão que inclina ── */
+.palco-cartao { display: grid; place-items: center; perspective: 900px; background: radial-gradient(80% 70% at 50% 40%, #23272c, #141619 75%); touch-action: pan-y; -webkit-user-select: none; user-select: none; cursor: grab; }
+.cartao-3d {
+  --gx: 30%;
+  --gy: 20%;
+  position: relative;
+  width: min(82%, 300px);
+  aspect-ratio: 1.586;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #2b3139 0%, #111418 64%);
+  box-shadow: inset 0 0 0 1px rgba(233, 236, 239, 0.16), 0 30px 60px rgba(0, 0, 0, 0.5);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.cartao-3d::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(circle at var(--gx) var(--gy), rgba(233, 236, 239, 0.18), transparent 58%); }
+.cartao-3d::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(circle at var(--gx) var(--gy), rgba(255, 255, 255, 0.26), transparent 30%); mix-blend-mode: screen; }
+.cartao-3d > * { position: absolute; transform: translateZ(36px); }
+.c3d-simbolo { left: 7%; top: 10%; width: 13%; height: auto; overflow: visible; }
+.c3d-chip { right: 7%; top: 12%; width: 42px; height: 31px; border-radius: 6px; box-shadow: inset 0 0 0 1.5px rgba(233, 236, 239, 0.45); background: linear-gradient(90deg, transparent 32%, rgba(233, 236, 239, 0.3) 32% 34%, transparent 34% 66%, rgba(233, 236, 239, 0.3) 66% 68%, transparent 68%), linear-gradient(transparent 46%, rgba(233, 236, 239, 0.3) 46% 54%, transparent 54%); transform: translateZ(52px); }
+.c3d-nome { left: 7%; bottom: 25%; font-family: var(--display); font-weight: 400; font-size: clamp(24px, 6.6vw, 30px); line-height: 1; letter-spacing: -0.02em; }
+.c3d-tag { left: 7%; bottom: 11%; font-size: 10px; color: var(--apoio); transform: translateZ(22px); }
+
+/* ── 2 · página que se ajusta (cartão claro) ── */
+.palco-ajuste { display: flex; flex-direction: column; padding: 16px 18px 6px; }
+.aj-topo { display: flex; justify-content: space-between; gap: 12px; color: var(--apoio-claro); }
+.aj-topo b { color: var(--tinta); font-weight: 500; }
+.aj-area { flex: 1; min-height: 0; display: flex; justify-content: center; padding-top: 12px; }
+.aj-quadro {
+  --v: 1;
+  --min: 96px;
+  container-type: inline-size;
+  width: calc(var(--min) + (100% - var(--min)) * var(--v));
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--fundo);
+  color: var(--texto);
+  border-radius: 4px;
+  transition: border-radius 300ms var(--planar);
+}
+.aj-quadro[data-modo="celular"] { border-radius: 16px; }
+.aj-quadro[data-modo="tablet"] { border-radius: 10px; }
+.aj-barra { height: 16px; flex: none; display: flex; align-items: center; gap: 4px; padding: 0 9px; border-bottom: 1px solid var(--linha); }
+.aj-barra i { width: 5px; height: 5px; border-radius: 50%; background: #3a424c; }
+.aj-quadro[data-modo="celular"] .aj-barra { justify-content: center; border-bottom: 0; }
+.aj-quadro[data-modo="celular"] .aj-barra i:not(:first-child) { display: none; }
+.aj-quadro[data-modo="celular"] .aj-barra i:first-child { width: 28px; height: 5px; border-radius: 3px; }
+.aj-pagina { flex: 1; min-height: 0; padding: 9px; display: grid; gap: 8px; align-content: start; grid-template-columns: minmax(0, 1fr); grid-template-areas: "n" "t" "f" "x"; }
+.aj-nav { grid-area: n; display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.aj-nav b { font-family: var(--mono); font-weight: 500; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--apoio); white-space: nowrap; }
+.aj-nav s { width: 12px; height: 7px; border-block: 1.5px solid var(--apoio); }
+.aj-links { display: none; gap: 8px; }
+.aj-links i { width: 20px; height: 4px; border-radius: 2px; background: #3a424c; }
+.aj-titulo { grid-area: t; font-family: var(--display); font-weight: 400; font-size: min(14cqw, 22px); line-height: 1; letter-spacing: -0.02em; }
+.aj-foto { grid-area: f; height: 64px; border-radius: 60px 60px 4px 4px; background: radial-gradient(70% 60% at 50% 30%, #ff8a45, #a8400b); }
+.aj-texto { grid-area: x; display: grid; gap: 6px; align-content: start; }
+.aj-texto i { height: 5px; border-radius: 3px; background: #343b44; }
+.aj-texto i:nth-child(1) { background: var(--apoio); width: 88%; }
+.aj-texto i:nth-child(2) { width: 70%; }
+.aj-texto i:nth-child(3) { width: 78%; }
+.aj-texto b { justify-self: start; margin-top: 3px; padding: 5px 8px; font: 500 8px/1 var(--body); color: var(--tinta); background: var(--texto); white-space: nowrap; }
+.aj-quadro[data-modo="tablet"] .aj-pagina { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); grid-template-areas: "n n" "t f" "x f"; gap: 10px 12px; padding: 11px; }
+.aj-quadro[data-modo="tablet"] .aj-titulo { font-size: min(8.4cqw, 28px); }
+.aj-quadro[data-modo="tablet"] .aj-foto { height: 110px; border-radius: 90px 90px 6px 6px; }
+.aj-quadro[data-modo="pc"] .aj-pagina { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 0.8fr); grid-template-areas: "n n n" "t x f"; gap: 12px 12px; padding: 12px 14px; }
+.aj-quadro[data-modo="pc"] .aj-titulo { font-size: min(7cqw, 32px); }
+.aj-quadro[data-modo="pc"] .aj-foto { height: 120px; border-radius: 90px 90px 6px 6px; }
+.aj-quadro[data-modo="pc"] .aj-links { display: flex; }
+.aj-quadro[data-modo="pc"] .aj-nav s { display: none; }
+.aj-controle { -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 44px; margin: 6px 0 0; background: transparent; cursor: ew-resize; touch-action: pan-y; }
+.aj-controle::-webkit-slider-runnable-track { height: 2px; background: #bdb7ad; }
+.aj-controle::-moz-range-track { height: 2px; background: #bdb7ad; }
+.aj-controle::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; margin-top: -13px; background: var(--laranja); border: 0; transform: rotate(45deg) scale(0.8); }
+.aj-controle::-moz-range-thumb { width: 22px; height: 22px; background: var(--laranja); border: 0; border-radius: 0; transform: rotate(45deg); }
+.aj-controle:focus-visible { outline: 2px solid var(--laranja-texto); outline-offset: 2px; }
+.aj-marcas { display: flex; justify-content: space-between; color: var(--apoio-claro); }
+.aj-rotulo { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ── 3 · relógio em órbita ── */
+.palco-orbita { background: #0e1116; cursor: crosshair; touch-action: pan-y; }
+.orb-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.orb-marca { position: absolute; left: 18px; bottom: 14px; display: grid; gap: 2px; pointer-events: none; }
+.orb-marca span { font-family: var(--display); font-weight: 400; font-stretch: 125%; font-size: 22px; letter-spacing: 0.14em; line-height: 1; }
+.orb-marca small { color: var(--apoio); font-size: 10px; }
+
+/* ── 4 · texto que acende (cartão claro) ── */
+.palco-texto { display: flex; align-items: center; padding: 24px 22px; }
+.acende { font-family: var(--display); font-weight: 500; font-size: clamp(25px, 6.6vw, 30px); line-height: 1.25; letter-spacing: -0.01em; }
+.acende em { font-style: normal; color: #e85a0c; }
+.acende-js .w { color: #b3ada3; transition: color 280ms ease; }
+.acende-js .w.on { color: var(--tinta); }
+.acende-js .w.destaque.on { color: #e85a0c; }
+
+/* ── 5 · paisagem em 3 camadas ── */
+.palco-camadas { background: linear-gradient(180deg, #121417 0%, #1b1b1d 52%, #2c2622 100%); touch-action: pan-y; cursor: grab; -webkit-user-select: none; user-select: none; }
+.cam { position: absolute; inset: -6% -9% -7%; will-change: transform; pointer-events: none; }
+.cam svg { width: 100%; height: 100%; }
+.cam-nome { position: absolute; left: 12%; top: 21%; text-align: left; font-family: var(--display); font-weight: 500; font-size: 28px; line-height: 1.05; letter-spacing: -0.01em; color: var(--texto); }
+.cam-nome span { display: block; margin-bottom: 4px; font-family: var(--mono); font-weight: 400; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--apoio); }
+
+/* ── 6 · botão magnético ── */
+.palco-ima { background: radial-gradient(circle, #2c3035 1px, transparent 1.6px) 0 0 / 18px 18px, #16181b; touch-action: pan-y; }
+.ima-zona { position: absolute; inset: 0; display: grid; place-items: center; }
+.ima-btn {
+  --c: 12px;
+  position: relative;
+  z-index: 2;
+  min-height: 64px;
+  padding: 0 34px;
+  font: 600 18px/1 var(--body);
+  color: var(--tinta);
+  background: var(--laranja);
+  border: 0;
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - var(--c)) 0, 100% var(--c), 100% 100%, var(--c) 100%, 0 calc(100% - var(--c)));
+  will-change: transform;
+}
+.ima-btn:hover { background: #ff8340; }
+.ima-btn:focus-visible { outline: 2px solid var(--texto); outline-offset: 6px; }
+.ima-rotulo { display: inline-block; will-change: transform; }
+.ima-onda { position: absolute; z-index: 1; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; box-shadow: 0 0 0 1.5px var(--laranja); pointer-events: none; animation: ima-onda 900ms cubic-bezier(0.2, 0.7, 0.3, 1) forwards; }
+@keyframes ima-onda { from { transform: scale(0.4); opacity: 1; } to { transform: scale(28); opacity: 0; } }
+.ima-aviso { position: absolute; left: 0; right: 0; bottom: 16px; text-align: center; color: var(--apoio); min-height: 1em; }
+
+/* ── chamada final ── */
+.lab-fim-in { display: grid; gap: 24px; }
+@media (min-width: 900px) { .lab-fim-in { grid-template-columns: 1fr auto; align-items: end; column-gap: 56px; } }
+.lab-fim .lead { color: var(--apoio-claro); }
+.lab-fim-botoes { display: flex; flex-wrap: wrap; gap: 10px; }
+.lab-fim-botoes .btn { flex: 1 1 auto; }
+@media (min-width: 640px) { .lab-fim-botoes .btn { flex: 0 0 auto; } }
+.btn-escuro { background: var(--fundo); color: var(--texto); }
+.btn-escuro:hover { background: #24272b; }
+.lab-fim :focus-visible { outline-color: var(--laranja-texto); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ima-onda { display: none; }
+}

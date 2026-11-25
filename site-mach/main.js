@@ -150,8 +150,11 @@ const CONFIG = {
     });
   }
 
-  /* ══ PEDIDO · cartão de embarque + WhatsApp / direct ══ */
+  /* ══ PEDIDO · cartão de embarque + WhatsApp / direct ══
+     (só existe no index.html; nas outras páginas este bloco não roda) */
+  (function pedido() {
   const form = $('#form');
+  if (!form) return;
   const campo = (n) => form.elements[n];
   const marcado = (n) => {
     const el = form.querySelector(`input[name="${n}"]:checked`);
@@ -256,6 +259,7 @@ const CONFIG = {
     carimba();
   });
   atualizaPedido();
+  })();
 
   /* ══ RODAPÉ · um jatinho escreve MACH no céu ══ */
   (function jatinho() {
