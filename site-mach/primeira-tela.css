@@ -1,0 +1,151 @@
+/* ═══ PRIMEIRA TELA (componente isolado) ═══
+   Estilo "túnel de anéis": fundo quase preto, um celular genérico em 3D no centro com a tela
+   de um trabalho real e anéis finos (ondas de choque) que passam conforme a rolagem.
+   No fim (cerca de 1 tela de rolagem), uma onda laranja abre o fundo claro do resto do site.
+   Sem JavaScript ou com "menos movimento": a mesma composição, parada e sem rolagem presa.
+   Para trocar a primeira tela: substitua este arquivo, primeira-tela.js e o bloco
+   "PRIMEIRA TELA" do index.html. */
+.pt {
+  --pt-fundo: #0d0e10;
+  position: relative;
+  background: var(--pt-fundo);
+  color: #e9ecef;
+}
+.pt-palco {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding-top: calc(var(--topo-h) + env(safe-area-inset-top, 0px));
+  overflow: hidden;
+  isolation: isolate;
+}
+/* sem JavaScript: três anéis parados desenhados em CSS */
+.pt:not(.pt-js) .pt-palco {
+  background:
+    radial-gradient(circle at 50% 36%, transparent 0 27vmin, rgba(255, 107, 26, 0.75) 27.15vmin, transparent 27.5vmin),
+    radial-gradient(circle at 50% 36%, transparent 0 38vmin, rgba(223, 227, 231, 0.3) 38.1vmin, transparent 38.4vmin),
+    radial-gradient(circle at 50% 36%, transparent 0 52vmin, rgba(223, 227, 231, 0.16) 52.1vmin, transparent 52.4vmin);
+}
+/* com animação: a seção tem 2 telas de altura e o palco fica preso durante 1 tela */
+.pt.pt-anima { height: 200vh; }
+.pt.pt-anima .pt-palco { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 0; }
+
+.pt-aneis { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
+.pt-claro {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--claro, #f4f2ee);
+  clip-path: circle(var(--r, 0px) at var(--cx, 50%) var(--cy, 40%));
+  pointer-events: none;
+}
+.pt-onda {
+  position: absolute;
+  z-index: 2;
+  left: var(--cx, 50%);
+  top: var(--cy, 40%);
+  width: calc(2 * var(--r, 0px));
+  height: calc(2 * var(--r, 0px));
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #ff6b1a, 0 0 28px 4px rgba(255, 107, 26, 0.35);
+  opacity: var(--onda, 0);
+  pointer-events: none;
+}
+
+/* o celular genérico (moldura reta, câmera num furo pequeno) */
+.pt-objeto {
+  position: relative;
+  z-index: 3;
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 14px 0 10px;
+}
+.pt-cena { perspective: 1100px; }
+.pt-celular {
+  --cel-w: min(44vw, 21svh, 250px);
+  position: relative;
+  width: var(--cel-w);
+  aspect-ratio: 9 / 17.2;
+  border-radius: calc(var(--cel-w) * 0.12);
+  transform-style: preserve-3d;
+  transform: rotateY(var(--giro, -12deg)) rotateX(var(--incl, 5deg)) scale(var(--esc, 1));
+  will-change: transform;
+}
+.pt-espessura { position: absolute; inset: 0; border-radius: inherit; background: #2b2f35; transform: translateZ(-3px); }
+.pt-e2 { background: #23262b; transform: translateZ(-6px); }
+.pt-e3 { background: #1a1c20; transform: translateZ(-9px); box-shadow: 0 26px 50px rgba(0, 0, 0, 0.45); }
+.pt-frente {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #08090a;
+  padding: calc(var(--cel-w) * 0.035);
+  box-shadow: inset 0 0 0 1px rgba(233, 236, 239, 0.22), inset 0 0 0 3px #1b1e22;
+  transform: translateZ(0.5px);
+}
+.pt-tela { position: relative; height: 100%; overflow: hidden; border-radius: calc(var(--cel-w) * 0.09); background: #000; }
+.pt-tela img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.pt-brilho {
+  position: absolute;
+  inset: -20% -60%;
+  background: linear-gradient(110deg, transparent 42%, rgba(255, 255, 255, 0.09) 50%, transparent 58%);
+  transform: translateX(var(--brilho, 0%));
+  pointer-events: none;
+}
+.pt-camera { position: absolute; top: calc(var(--cel-w) * 0.065); left: 50%; width: calc(var(--cel-w) * 0.04); aspect-ratio: 1; border-radius: 50%; background: #030303; box-shadow: 0 0 0 1px rgba(233, 236, 239, 0.1); transform: translateX(-50%); }
+.pt-legenda { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #9ba1a8; text-align: center; transition: color 200ms; }
+.pt-legenda.no-claro { color: #5f636a; }
+
+/* o texto: título curto, uma linha e dois botões, sem cobrir o celular */
+.pt-texto {
+  position: relative;
+  z-index: 3;
+  padding: 0 var(--borda) calc(26px + env(safe-area-inset-bottom, 0px));
+  opacity: var(--texto, 1);
+  transform: translateY(calc((1 - var(--texto, 1)) * -14px));
+}
+.pt-texto.some { visibility: hidden; }
+.pt h1 { font-family: var(--display); font-weight: 500; font-size: clamp(30px, 8.2vw, 60px); line-height: 1.05; letter-spacing: -0.015em; max-width: 15ch; text-wrap: balance; }
+.pt-texto p { margin-top: 10px; font-size: 17px; line-height: 1.5; color: #a9afb6; max-width: 32rem; }
+.pt-botoes { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px; }
+.pt-botoes .btn { flex: 1 1 auto; }
+
+@media (max-height: 700px) and (max-width: 899px) {
+  .pt h1 { font-size: clamp(27px, 7.6vw, 40px); }
+  .pt-texto p { font-size: 16px; }
+  .pt-botoes { margin-top: 14px; }
+  .pt-objeto { gap: 10px; padding-top: 10px; }
+}
+@media (min-width: 640px) and (max-width: 899px) { .pt-botoes .btn { flex: 0 0 auto; } }
+@media (min-width: 900px) {
+  .pt-celular { --cel-w: min(29svh, 290px); }
+  .pt-objeto { padding: 24px 0 24px 24vw; }
+  .pt-texto {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: clamp(40px, 9vh, 96px);
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 max(40px, env(safe-area-inset-left, 0px));
+  }
+  .pt-texto > * { max-width: 30rem; }
+  /* um fundo escuro suave atrás do texto, para os anéis não cruzarem as letras */
+  .pt-texto::before { content: ""; position: absolute; z-index: -1; left: -10vw; right: 38%; top: -18vh; bottom: -12vh; background: radial-gradient(closest-side, var(--pt-fundo) 55%, rgba(13, 14, 16, 0)); pointer-events: none; }
+  .pt h1 { font-size: clamp(40px, min(4.4vw, 7.4vh), 60px); }
+  .pt-botoes .btn { flex: 0 0 auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pt-celular { transform: rotateY(-8deg) rotateX(3deg); }
+}

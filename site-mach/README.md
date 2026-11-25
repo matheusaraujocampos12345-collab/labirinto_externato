@@ -1,99 +1,111 @@
-# Site MACH Estúdio (versão única)
+# Site MACH Estúdio
 
 Site oficial da MACH: estático, sem back-end. Abra `index.html` num servidor qualquer e pronto.
-Esta versão junta o site anterior (identidade MACH, medidor, estrondo, filme e cartão de embarque)
-com as ideias da outra versão (MACH em 3D sobre a água, cartão que inclina, página que se ajusta,
-passos em rolagem lateral, feixes de luz, perguntas frequentes e o jatinho do rodapé).
+Feito primeiro para o celular, com menu fixo, seções curtas e o pedido de orçamento pelo WhatsApp.
 
 ## Arquivos
 
 | Arquivo | O que tem |
 |---|---|
-| `index.html` | Todos os textos, na ordem da página. Cada seção começa com um comentário numerado (`<!-- 1 · ABERTURA -->`). |
-| `styles.css` | Cores, fontes e visual. As cores ficam no começo, em `:root`. |
-| `main.js` | Número do WhatsApp e tudo o que se mexe, menos o 3D. |
-| `mach3d.js` | O 3D (abertura e símbolo dos passos). Só é baixado quando o aparelho aguenta. |
-| `assets/` | Imagens, filme, ícone e a imagem de compartilhamento. |
+| `index.html` | Todos os textos, na ordem da página. |
+| `styles.css` | Cores, fontes e visual do site (menos a primeira tela). |
+| `main.js` | Configuração (WhatsApp, Instagram, chave da Equus), menu do celular, vídeos, pedido e o jatinho do rodapé. |
+| `primeira-tela.css` e `primeira-tela.js` | A primeira tela, num componente separado (veja abaixo). |
+| `assets/` | Imagens, vídeos leves dos trabalhos, ícone e imagem de compartilhamento. |
 
 ## A ordem da página
 
-| # | Seção | O que faz |
+| # | Seção | O que tem |
 |---|---|---|
-| 1 | Abertura | As letras MΛCH em 3D sobre um espelho d'água, sempre inteiras na tela. Duas frases só. A rolagem presa dura meia tela no celular. |
-| 2 | O problema | Sites de template empilham, o contador vai de 1 a 47, dá glitch e apaga: "E se o seu fosse diferente?" (cerca de 1 tela de rolagem) |
-| 2b | A barreira e o filme | Ao cruzar M 1.0, o estrondo sônico (um só). "Cada site começa do zero." e o filme de 30 s. |
-| 3 | As provas | Primeiro o **cliente real** (Equus Genetics). Depois o cartão que inclina, a página que se ajusta (celular, tablet, computador) e os três **conceitos** do hangar. |
-| 4 | Como funciona | 4 passos em rolagem lateral. O símbolo Λ em 3D vai do traço ao sólido conforme os passos passam. |
-| 5 | A chamada | "Quer um site que só a sua empresa tem?" sob feixes de luz. |
-| 6 | Pedido | O cartão de embarque se monta enquanto a pessoa preenche. Abre o WhatsApp ou copia o texto para o direct. |
-| 7 | Dúvidas | Perguntas frequentes em sanfona (abrir uma fecha a outra). |
-| 8 | Rodapé | Um jatinho escreve MACH no céu. Tocar no desenho faz o voo de novo. |
+| 1 | Primeira tela | Fundo escuro, um celular com o site da Equus e anéis finos (ondas de choque) que passam enquanto a pessoa rola. Depois de 1 tela de rolagem, uma onda laranja abre o fundo claro do resto do site. Título, uma linha e os botões "Pedir orçamento" e "Ver trabalhos". |
+| 2 | O que fazemos | Institucional, landing page, portfólio e cardápio ou catálogo, com uma frase cada. |
+| 3 | Trabalhos (seção escura) | Equus Genetics (**cliente real**), Padaria Quatro Horas e Barbearia Navalha (**conceitos**). Um vídeo curto de cada, uma vez só. |
+| 4 | Como funciona | 4 passos: conversa, orçamento, desenho e construção, no ar. |
+| 5 | O que está incluso | Multiplataforma, animação sob medida, carregamento rápido, WhatsApp e Instagram, ajuda com domínio e hospedagem. |
+| 6 | Dúvidas | 6 perguntas em sanfona (abrir uma fecha a outra). |
+| 7 | Pedido | Formulário curto que monta o cartão de embarque e abre o WhatsApp com a mensagem pronta, ou copia o texto para o direct. |
+| 8 | Rodapé | O jatinho escreve MACH no céu (em grafite, com o Λ laranja), contato e links. |
 
-O **medidor de Mach** fica no canto da tela da abertura até o filme. Depois do estrondo ele sai de cena.
+## A primeira tela (componente para trocar)
+
+Fica em três lugares, todos marcados com "PRIMEIRA TELA":
+- o bloco entre `<!-- PRIMEIRA TELA · início -->` e `<!-- PRIMEIRA TELA · fim -->` no `index.html`;
+- `primeira-tela.css`;
+- `primeira-tela.js`.
+
+Para trocar a primeira tela, substitua só essas três partes. O resto do site não depende delas.
+
+Como funciona: a seção tem 2 telas de altura e o palco fica parado durante 1 tela. Nesse tempo os anéis passam, o celular gira até ficar de frente e o fundo claro se abre a partir do celular.
+É tudo em canvas 2D e CSS, sem WebGL e sem biblioteca. Sem JavaScript, a mesma composição aparece parada, com os anéis em CSS.
+Com "menos movimento" ligado no aparelho, nada prende a rolagem e tudo fica parado.
 
 ## Onde mudar as coisas
 
-**Número do WhatsApp e Instagram:** no começo do `main.js`.
+**WhatsApp, Instagram e a chave da Equus:** no começo do `main.js`.
 
 ```js
 const CONFIG = {
   whatsapp: '5511939045618',   // DDI + DDD + número, só dígitos
   instagram: 'mach.sites',
+  mostrarEquus: true,          // false = tira a Equus do site
 };
 ```
 
-O número também aparece uma vez no `index.html` (botão "Enviar pelo WhatsApp"), só como reserva caso o JavaScript não carregue. Se trocar o número, troque nos dois lugares.
+O número aparece também no `index.html` (menu, botão do pedido e rodapé), como texto e como reserva caso o JavaScript não carregue. Se trocar o número, procure `5511939045618` e `93904-5618` nos dois arquivos.
 
-**Textos:** direto no `index.html`. Procure a frase e troque. As perguntas frequentes ficam na seção 7.
-As duas frases da abertura 3D são os blocos `id="s1"` e `id="s2"`.
+**Equus Genetics (cliente real):** com `mostrarEquus: false`, a Equus some da primeira tela e dos trabalhos. A primeira tela passa a mostrar a Padaria Quatro Horas (conceito) e o texto dos trabalhos muda sozinho.
+O navegador ainda baixa a imagem do celular da Equus (46 KB), porque ela é a primeira imagem da página, mas ela não aparece. Para tirar de vez, apague também `assets/equus-celular.*` e `assets/trabalho-equus*`.
 
-## Cliente real: Equus Genetics (liga e desliga)
+**Textos:** direto no `index.html`. Procure a frase e troque.
 
-O bloco do equusbr.com é o primeiro das provas, com o selo **Cliente real** (os do hangar têm o selo **Conceito**).
-Mostra a primeira tela no computador e no celular. Enquanto a pessoa rola, o site no computador desce devagar até os quatro passos do teste.
-O link "Ver o site" abre o equusbr.com em outra aba.
-
-**Para esconder o bloco** (por exemplo, enquanto o cliente não autoriza), abra o `main.js` e troque:
-
-```js
-mostrarEquus: true,    // aparece
-mostrarEquus: false,   // some por inteiro, e as imagens nem são baixadas
-```
-
-As imagens ficam em `assets/equus-computador` e `assets/equus-celular` (`.webp` e `.jpg`). Vieram das capturas em
-`instagram/reels/fontes-equus/` (computador: primeira tela + "como testar"; celular: primeira tela).
-O texto do bloco está no `index.html`, logo depois de "As provas".
-
-**Cores:** no começo do `styles.css`:
+**Cores (60/30/10):** no começo do `styles.css`:
 
 ```css
---estrato: #0a0c0f;   /* fundo */
---titanio2: #1b2026;  /* superfícies */
---aluminio: #dfe3e7;  /* texto */
---nevoa: #8a929b;     /* texto de apoio */
---laranja: #ff6b1a;   /* acento: no máximo um destaque por tela */
+--claro: #f4f2ee;      /* 60% · fundo da maior parte do site */
+--tinta: #111214;      /* texto sobre o claro */
+--apoio: #5f636a;      /* texto de apoio sobre o claro */
+--grafite: #16181b;    /* 30% · primeira tela, menu, seção de trabalhos, cartão do pedido */
+--texto-escuro: #e9ecef; /* texto sobre o grafite */
+--laranja: #ff6b1a;    /* 10% · botões principais, Λ e pequenos destaques */
+--laranja-texto: #c2410a; /* laranja para texto pequeno sobre o claro (contraste AA) */
 ```
 
-As cores do 3D ficam dentro do `mach3d.js` (o laranja aparece como `1.0, .42, .10`).
+O laranja #E85A0C sobre o claro só passa no contraste em letra grande; para texto pequeno use `--laranja-texto`.
+O texto dos botões laranja é escuro (#111214), porque branco sobre o laranja não tem contraste suficiente.
 
-**Fontes:** Saira (títulos), Hanken Grotesk (texto) e JetBrains Mono (números e rótulos), carregadas do Google Fonts no `index.html`.
+**Fontes:** Saira (títulos), Hanken Grotesk (texto) e JetBrains Mono (só em rótulos pequenos), do Google Fonts.
+
+## Vídeos dos trabalhos
+
+Versões leves (720p, sem som, em loop), feitas a partir dos Reels:
+
+| Arquivo | Origem | Tamanho |
+|---|---|---|
+| `assets/trabalho-equus.mp4` | `instagram/reels/i13-equus-tela-cheia.mp4` (inteiro, 16,5 s) | 1,7 MB |
+| `assets/trabalho-padaria.mp4` | `instagram/reels/i12-padaria-em-uso.mp4` (0 a 34 s, sem o convite final) | 1,6 MB |
+| `assets/trabalho-navalha.mp4` | `instagram/reels/i02-o-site-que-todo-mundo-tem.mp4` (6,5 a 17,5 s, só a Navalha) | 0,3 MB |
+
+Cada vídeo só é baixado quando a pessoa chega perto dele, toca sem som quando está na tela e para quando sai. Há um botão para pausar.
+Para gerar de novo (exemplo da Equus):
+
+```bash
+ffmpeg -i instagram/reels/i13-equus-tela-cheia.mp4 -an -vf scale=720:1280 -c:v libx264 -preset slow -crf 27 -pix_fmt yuv420p -movflags +faststart site-mach/assets/trabalho-equus.mp4
+```
+
+## O que o dono pode completar depois
+
+O site não mostra números que não temos. Quando houver, dá para acrescentar:
+- **preço inicial** ("a partir de R$ …"), na seção "O que está incluso" e na pergunta "Quanto custa?";
+- **prazo médio** ("em média … semanas"), na pergunta "Quanto tempo leva?";
+- **novos clientes reais** em "Trabalhos", com autorização de cada um;
+- **depoimentos** de clientes, se houver.
 
 ## Rápido e leve
 
-- O 3D é feito em WebGL puro, sem biblioteca. O arquivo inteiro tem cerca de 26 KB.
-- O `mach3d.js` só é baixado se a pessoa não pediu "menos movimento" no aparelho e não está em modo de economia de dados.
-- Se o aparelho não tiver WebGL, a abertura vira uma tela comum com uma imagem estática: `assets/abertura-3d.jpg` (computador) e `assets/abertura-3d-celular.jpg` (celular). Os passos mostram o símbolo Λ parado.
-- O símbolo 3D dos passos só liga quando a seção chega perto da tela.
-- O filme (4 MB) só é baixado quando aparece na tela, e a capa dele só quando a pessoa está chegando.
-- As imagens da Equus só são baixadas perto da seção (e nunca, se o bloco estiver desligado).
-- Medido num celular simulado (390×844, rede de 1,6 Mbps com 150 ms de atraso): texto na tela em cerca de 1,2 s e 3D rodando em cerca de 2,4 s.
-  Os arquivos do site somam 38 KB comprimidos; as fontes e o Lenis, 185 KB.
-- Com "menos movimento" ligado: sem rolagem suave, sem tremor e sem animações automáticas.
-
-As imagens estáticas foram geradas a partir do próprio 3D: é o primeiro quadro da abertura, sem os textos. Se o 3D mudar, gere as duas de novo.
-
-A câmera da abertura fica em `mach3d.js`, na função `rota()`: dois enquadramentos (de leve pela esquerda e de frente),
-um para celular em pé e outro para telas largas. `sobeCel` controla a altura da palavra no celular.
+Medido num celular simulado (390×844, rede de 1,6 Mbps com 150 ms de atraso):
+- texto na tela em cerca de 0,8 s;
+- a primeira carga é de cerca de 275 KB (110 KB do site e 165 KB de fontes);
+- a página inteira, sem os vídeos, tem cerca de 390 KB. Os 3 vídeos somam 3,5 MB e só são baixados se a pessoa rolar até eles.
 
 ## Como publicar (grátis)
 
@@ -104,13 +116,7 @@ um para celular em pé e outro para telas largas. `sobeCel` controla a altura da
 Depois de publicar, troque `content="assets/og-mach.jpg"` no `index.html` pelo endereço completo
 (ex.: `https://seudominio.com.br/assets/og-mach.jpg`) para a prévia aparecer bonita no WhatsApp e no Instagram.
 
-## Atenção: o filme de 30 s
+## Base
 
-Nos primeiros segundos, o filme mostra de propósito um site de template com a frase "Eleve seu negócio ao próximo nível", como sátira.
-Se preferir que a frase não apareça em lugar nenhum do site, ela fica em `video-anuncio/src/genericSite.js`: troque e gere o filme de novo.
-
-## Base open source
-
-- [Lenis](https://github.com/darkroomengineering/lenis) 1.1.13 (MIT): rolagem suave, carregada do jsdelivr. Se não carregar, o site usa a rolagem normal.
 - Fontes do Google Fonts (licença OFL): Saira, Hanken Grotesk e JetBrains Mono.
-- Todo o resto (3D, animações, canvas, efeitos) é código próprio, sem template.
+- Nenhuma biblioteca. Todo o código (anéis, menu, vídeos, pedido, jatinho) é próprio, sem template.
