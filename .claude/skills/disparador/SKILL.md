@@ -40,6 +40,7 @@ O comando cria `leads/mensagens.json` só para quem publicou e-mail ou WhatsApp 
 
 ## Gancho (`gancho` no config.json)
 - `"frase"` (padrão): a mensagem abre pela frase de abertura (dor, desejo, pergunta ou fato).
+- `"cena"`: a mensagem abre com **"Imagina…"**, pintando o cliente do negócio usando o site (escolhe, e o pedido chega pronto no WhatsApp). Termina com "Quer ver um exemplo funcionando?". Quem responder sim recebe um exemplo que já existe (vídeo ou site-conceito da MACH), sem trabalho novo.
 - `"previa"`: a mensagem abre oferecendo uma **prévia** do site com o nome do negócio. Exemplo: "Posso te mostrar como ficaria a página de encomendas de Natal da Teju…?". A frase ou o fato continua anotado como base, para mostrar ao dono. Só use se o dono puder entregar a prévia quando a pessoa disser sim.
 
 ## 2. Escrever

@@ -89,6 +89,9 @@ def problemas(m, cfg):
     if m.get('gancho') == 'previa':  # gancho escolhido pelo dono: oferecer uma prévia com o nome do negócio
         if not re.search(r'pr[ée]via', corpo, re.I):
             out.append('gancho de prévia: a mensagem precisa oferecer a prévia')
+    elif m.get('gancho') == 'cena':  # gancho escolhido pelo dono: pintar a cena do negócio funcionando
+        if not inicio.lower().startswith('imagina'):
+            out.append('gancho de cena: a mensagem precisa começar com "Imagina…"')
     elif not frase or not inicio.startswith(frase):
         out.append(f'não começa pela frase de abertura ({m.get("tipo_abertura", "?")})')
     if m.get('tipo_abertura') == 'fato' and not m.get('base_fato'):
@@ -195,6 +198,8 @@ def cmd_mostrar(a, c, cfg):
             partes.append(f'Assunto: {m["assunto"]}  ')
         if m.get('gancho') == 'previa':
             partes.append('Gancho: oferta de prévia com o nome do negócio (se a pessoa topar, a prévia precisa ser entregue)')
+        if m.get('gancho') == 'cena':
+            partes.append('Gancho: cena pronta ("Imagina…"). Se a pessoa topar, manda-se um exemplo que já existe, sem trabalho novo')
         if m['tipo_abertura'] == 'fato':
             partes.append(f'Base: fato público, apoiado em: "{m["base_fato"]}" ({m["link_abertura"]})')
         else:

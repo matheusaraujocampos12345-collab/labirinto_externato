@@ -111,7 +111,8 @@ Propostas de marca publicadas como páginas (claude.ai, privadas): Talhe, Macte 
 - **Rodada 3 (25/11):**
   - 99 perfis novos de 8 hashtags de nicho (bolos, doces, hambúrguer, pizza, tatuagem, floricultura, barbearia e padaria);
   - 64 com cara de cliente e 37 com WhatsApp publicado;
-  - 37 mensagens com gancho de prévia esperando a aprovação do dono;
+  - 37 mensagens esperando o envio. O dono pediu para trocar o gancho de prévia; o novo é a **cena pronta** ("Imagina o cliente da X escolhendo… e o pedido chegando já pronto no seu WhatsApp"), que não cria trabalho novo: quem topar recebe um exemplo que já existe;
+  - o Claude **não envia** pelo WhatsApp (não há conector, e robô em massa derruba o número). A saída é uma **página privada, "Fila de envio"** (artifact 2xvs1aj4uRfCt1GGdVLUoW): um botão por negócio abre o WhatsApp com a mensagem escrita, o dono envia e marca. O histórico fica no banco da página (coleção `envios`, documento `m<n>`), e o Claude lê de lá para registrar no `leads/enviados.csv`;
   - a rodada custou US$ 0,55, e o mês está em US$ 1,16 dos US$ 5.
 - **Prévias para clientes:** ficam em `previas/<cliente>/` (fora do git, porque têm fotos e dados do cliente). Cada uma tem:
   - o site, em `site/`;
