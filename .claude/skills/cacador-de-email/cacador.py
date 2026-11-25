@@ -27,8 +27,9 @@ REDES_SOCIAIS = ('instagram.com', 'tiktok.com', 'facebook.com', 'wa.me', 'whatsa
 LIXO = ('sentry', 'wixpress.com', 'seudominio', 'seuemail', 'dominio.com', 'email.com', 'nome@', 'exemplo.com',
         'noreply', 'no-reply', 'naoresponda', 'nao-responda', 'donotreply')
 PAGINAS_CONTATO = ('/contato', '/contact', '/fale-conosco')
+NAO_SITES = ('app.google', 'calendly.com', 'forms.gle', 'docs.google', 'drive.google', 'bit.ly')
 UA = 'Mozilla/5.0 (compatible; lead-finder/1.0; contato publico)'
-MAX_PAGINAS = 5
+MAX_PAGINAS = 6
 
 
 def emails_no_texto(texto, simular):
@@ -88,12 +89,17 @@ class Leitor:
             return ''
 
 
+def limpar_url(u):
+    """Tira o #trecho e a barra do fim, para não ler a mesma página duas vezes."""
+    return urllib.parse.urldefrag(u.strip())[0].rstrip('/')
+
+
 def links_da_pagina(base, pagina):
     out = []
     for href in re.findall(r'href=["\']([^"\']+)["\']', pagina or '', re.I):
-        if href.startswith('mailto:'):
+        if href.startswith(('mailto:', 'tel:', 'javascript:', '#')):
             continue
-        u = urllib.parse.urljoin(base, href)
+        u = limpar_url(urllib.parse.urljoin(base, href))
         if u.startswith('http') and u not in out:
             out.append(u)
     return out
@@ -101,6 +107,16 @@ def links_da_pagina(base, pagina):
 
 def dominio(u):
     return urllib.parse.urlparse(u).netloc.lower().removeprefix('www.')
+
+
+def raiz_do_site(u):
+    p = urllib.parse.urlparse(u)
+    return f'{p.scheme}://{p.netloc}'
+
+
+def nao_e_site(u):
+    d = dominio(u)
+    return any(r in d for r in REDES_SOCIAIS + NAO_SITES)
 
 
 def cacar(p, leitor, simular):
@@ -112,11 +128,16 @@ def cacar(p, leitor, simular):
     e = emails_no_texto(p.get('bio'), simular)
     if e:
         return e[0], f'bio do perfil ({p["link"]})'
-    fila = [u for u in [p.get('link_bio')] + list(p.get('outros_links') or []) if u]
+    sementes = [p.get('link_bio')] + list(p.get('outros_links') or []) + re.findall(r'https?://[^\s"\'<>]+', p.get('bio') or '')
+    fila = []
+    for u in sementes:
+        if u and not nao_e_site(u) and limpar_url(u) not in fila:
+            fila.append(limpar_url(u))
+    fila.sort(key=lambda u: 1 if any(ag in dominio(u) for ag in AGREGADORES) else 0)  # site próprio primeiro
     vistos, lidas = set(), 0
     while fila and lidas < MAX_PAGINAS:
-        url = fila.pop(0).rstrip('/')
-        if url in vistos or any(r in dominio(url) for r in REDES_SOCIAIS):
+        url = fila.pop(0)
+        if url in vistos or nao_e_site(url):
             continue
         vistos.add(url)
         pagina = leitor.ler(url)
@@ -129,10 +150,11 @@ def cacar(p, leitor, simular):
             return achados[0], url
         links = links_da_pagina(url + '/', pagina)
         if any(ag in dominio(url) for ag in AGREGADORES):  # link na bio: segue para o site da empresa
-            fila = [u for u in links if not any(r in dominio(u) for r in REDES_SOCIAIS + AGREGADORES)][:3] + fila
+            novos = [u for u in links if not nao_e_site(u) and not any(ag in dominio(u) for ag in AGREGADORES)][:3]
         else:
             mesmos = [u for u in links if dominio(u) == dominio(url) and re.search(r'contat|contact|fale|sobre|about', u, re.I)]
-            fila = mesmos[:2] + [url + c for c in PAGINAS_CONTATO if url + c not in vistos][:1] + fila
+            novos = mesmos[:2] + [raiz_do_site(url) + c for c in PAGINAS_CONTATO][:2]
+        fila = [u for u in novos if u not in vistos and u not in fila] + fila
     return '', ''
 
 
