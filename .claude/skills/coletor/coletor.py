@@ -92,7 +92,7 @@ def plano(n, redes, busca=None):
     for r in redes:
         perfis = max(1, round(n * pesos[r] / soma))
         if (busca.get(r) or {}).get('prioridade') == 'autores':
-            posts = perfis + 3  # cada post traz um dono; sobra um pouco para repetidos
+            posts = math.ceil(perfis * 1.5)  # cada post traz um dono; sobra para repetidos e já vistos
         else:
             posts = max(5, math.ceil(perfis / 2))
         out[r] = {'posts': posts, 'comentarios': posts * cpp(busca.get(r)), 'perfis': perfis}
@@ -189,6 +189,18 @@ def g(d, *chaves, padrao=''):
     return padrao
 
 
+def ja_vistos(pasta, rede):
+    """Perfis que já vieram em rodadas anteriores (leads/*/bruto.json): não pagamos por eles de novo."""
+    vistos = set()
+    for raiz, _, arquivos in os.walk(pasta):
+        if 'exemplo' in raiz or 'bruto.json' not in arquivos or os.path.abspath(raiz) == os.path.abspath(pasta):
+            continue
+        for p in (comum.ler_json(os.path.join(raiz, 'bruto.json'), {}) or {}).get('perfis', []):
+            if p.get('rede') == rede:
+                vistos.add(p['usuario'].lower())
+    return vistos
+
+
 def alvos_da_etapa(rede, etapa, pasta, busca, qtd):
     if etapa == 'posts':
         return None
@@ -199,7 +211,7 @@ def alvos_da_etapa(rede, etapa, pasta, busca, qtd):
         return [g(p, 'url', 'webVideoUrl') for p in com_coment][:max(1, qtd // max(1, cpp(busca)))]
     # perfis: por padrão, quem comentou com frase de verdade vem primeiro; com "prioridade": "autores",
     # os donos dos posts (os negócios do nicho) vêm primeiro.
-    refs = {p['usuario'].lower() for p in busca.get('perfis', [])}
+    refs = {p['usuario'].lower() for p in busca.get('perfis', [])} | ja_vistos(pasta, rede)
     coments = comum.ler_json(arq(pasta, f'apify/{rede}-comentarios.json'), [])
     coments.sort(key=lambda c: (0 if g(c, 'text').strip().endswith('?') else 1, -len(g(c, 'text'))))
     comentaristas = [g(c, 'ownerUsername', 'owner.username', 'uniqueId', 'user.uniqueId') for c in coments

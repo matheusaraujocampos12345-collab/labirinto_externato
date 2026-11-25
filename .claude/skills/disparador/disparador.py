@@ -153,10 +153,17 @@ def cmd_rascunho(a, c, cfg):
             fora.append((r['perfil'], bloq))
             continue
         msgs.append(m)
-    for i, m in enumerate(msgs, 1):
-        m['n'] = i
-    comum.salvar_json(c['msgs'], msgs)
-    print(f'{len(msgs)} mensagens para escrever em {comum.rel(c["msgs"])}')
+    # mantém as mensagens de rodadas anteriores (com o mesmo número) e numera só as novas
+    novas = {m['perfil'] for m in msgs}
+    antigas_fora = [m for m in antigas.values() if m['perfil'] not in novas]
+    proximo = max([m.get('n', 0) for m in antigas.values()] + [0]) + 1
+    for m in msgs:
+        if not m.get('n'):
+            m['n'] = proximo
+            proximo += 1
+    todas = sorted(antigas_fora + msgs, key=lambda m: m['n'])
+    comum.salvar_json(c['msgs'], todas)
+    print(f'{len(msgs)} mensagens nesta lista ({len(antigas_fora)} de rodadas anteriores guardadas) em {comum.rel(c["msgs"])}')
     for m in msgs:
         print(f'  {m["n"]}. {m["perfil"]} · {m["canal"]} · abre {ARTIGO[m["tipo_abertura"]]}: "{m["abertura"]}"')
     for p, motivo in fora:
