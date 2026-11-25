@@ -60,14 +60,15 @@ Para usar, digite no Claude Code:
 
 | Rede | Etapa | Ator | US$ por mil |
 |---|---|---|---|
-| Instagram | posts | apify/instagram-scraper | 2,70 |
+| Instagram | posts (hashtags) | apify/instagram-hashtag-scraper | 2,60 |
+| Instagram | posts (perfis de referência) | apify/instagram-scraper | 2,70 |
 | Instagram | comentários | apify/instagram-comment-scraper | 2,60 |
 | Instagram | perfis | apify/instagram-profile-scraper | 2,60 |
 | TikTok | posts | clockworks/tiktok-scraper | 3,70 |
 | TikTok | comentários | clockworks/tiktok-comments-scraper | 1,25 |
 | TikTok | perfis | clockworks/tiktok-profile-scraper | 3,00 |
 
-A estimativa é de cerca de **US$ 0,25 para o teste de 10 perfis** e **US$ 4,20 para 300**. Os preços mudam: rode `coletor.py loja` para ver os atuais.
+A Apify exige um teto mínimo de US$ 0,50 por execução, mas os limites de quantidade de cada busca mantêm o gasto real em centavos no teste. A estimativa é de cerca de **US$ 0,25 para o teste de 10 perfis** e **US$ 4,20 para 300**. Os preços mudam: rode `coletor.py loja` para ver os atuais.
 
 ## Testar sem gastar nada
 

@@ -20,7 +20,7 @@ ETAPAS = ('posts', 'comentarios', 'perfis')
 
 # Atores escolhidos: os mais usados e mais bem avaliados de cada etapa (conferido na Store).
 ESCOLHA = {
-    'instagram': {'posts': 'apify/instagram-scraper',
+    'instagram': {'posts': 'apify/instagram-hashtag-scraper',
                   'comentarios': 'apify/instagram-comment-scraper',
                   'perfis': 'apify/instagram-profile-scraper'},
     'tiktok': {'posts': 'clockworks/tiktok-scraper',
@@ -28,11 +28,15 @@ ESCOLHA = {
                'perfis': 'clockworks/tiktok-profile-scraper'},
 }
 BUSCA_LOJA = {
-    ('instagram', 'posts'): 'instagram scraper', ('instagram', 'comentarios'): 'instagram comments scraper',
+    ('instagram', 'posts'): 'instagram hashtag scraper', ('instagram', 'comentarios'): 'instagram comments scraper',
     ('instagram', 'perfis'): 'instagram profile scraper', ('tiktok', 'posts'): 'tiktok scraper',
     ('tiktok', 'comentarios'): 'tiktok comments scraper', ('tiktok', 'perfis'): 'tiktok profile scraper',
 }
 COMENTARIOS_POR_POST = 10
+# Posts dos perfis de referência no Instagram: o robô de hashtag não lê perfil, então usamos o genérico.
+ATOR_IG_PERFIS_REF = 'apify/instagram-scraper'
+POSTS_POR_PERFIL_REF = 3
+TETO_MINIMO_APIFY = 0.50  # a Apify não aceita teto menor que US$ 0,50 por execução
 
 
 def arq(pasta, nome):
@@ -134,10 +138,11 @@ def cmd_resumo(a):
 
 def entrada(rede, etapa, busca, alvos, qtd):
     if rede == 'instagram' and etapa == 'posts':
-        urls = [f'https://www.instagram.com/explore/tags/{h}/' for h in busca.get('hashtags', [])]
-        urls += [f'https://www.instagram.com/{p["usuario"]}/' for p in busca.get('perfis', [])]
-        return {'directUrls': urls, 'resultsType': 'posts', 'addParentData': False,
-                'resultsLimit': max(1, math.ceil(qtd / max(1, len(urls))))}
+        tags = busca.get('hashtags', [])
+        return {'hashtags': tags, 'resultsType': 'posts', 'resultsLimit': max(1, math.ceil(qtd / max(1, len(tags))))}
+    if rede == 'instagram' and etapa == 'posts_perfis_ref':
+        return {'directUrls': [f'https://www.instagram.com/{p["usuario"]}/' for p in busca.get('perfis', [])],
+                'resultsType': 'posts', 'resultsLimit': POSTS_POR_PERFIL_REF, 'addParentData': False}
     if rede == 'instagram' and etapa == 'comentarios':
         return {'directUrls': alvos, 'resultsLimit': COMENTARIOS_POR_POST, 'includeNestedComments': False}
     if rede == 'instagram' and etapa == 'perfis':
@@ -220,9 +225,16 @@ def cmd_rodar(a):
                 print(f'  {rede}/{etapa}: nada para buscar, pulei.')
                 continue
             ent = entrada(rede, etapa, busca[rede], alvos, qtds[etapa])
-            teto = max(0.05, round(teto_total - gasto_total, 2))
+            teto = max(TETO_MINIMO_APIFY, round(teto_total - gasto_total, 2))
             itens, status, gasto = comum.rodar_ator(ator, ent, qtds[etapa], teto)
             gasto_total += float(gasto or 0)
+            if rede == 'instagram' and etapa == 'posts' and busca[rede].get('perfis'):
+                ent = entrada(rede, 'posts_perfis_ref', busca[rede], None, 0)
+                n = POSTS_POR_PERFIL_REF * len(busca[rede]['perfis'])
+                extra, _, gasto = comum.rodar_ator(ATOR_IG_PERFIS_REF, ent, n, TETO_MINIMO_APIFY)
+                gasto_total += float(gasto or 0)
+                itens += [x for x in extra if x.get('url') and x.get('ownerUsername')]
+            itens = [x for x in itens if not x.get('error')]
             comum.salvar_json(arq(pasta, f'apify/{rede}-{etapa}.json'), itens)
             if gasto_total >= teto_total:
                 print('Teto de gasto atingido: parei aqui.')
