@@ -17,7 +17,7 @@ Feito primeiro para o celular, com menu fixo, seções curtas e o pedido de orç
 
 | # | Seção | O que tem |
 |---|---|---|
-| 1 | Primeira tela | Túnel de anéis (ondas de choque) e riscos de ar em volta de um celular com o site da Equus. Tudo se mexe sozinho; na rolagem o túnel acelera e o celular vem para a frente. Depois de 1 tela de rolagem, uma onda de choque laranja passa e revela o grafite do site. Título, uma linha e os botões "Pedir orçamento" e "Ver trabalhos". |
+| 1 | Primeira tela | O Λ da marca em 3D, com os três diamantes de choque, como uma nave dentro de um túnel de anéis (ondas de choque) e riscos de ar. Tudo se mexe sozinho; na rolagem o túnel acelera, o Λ vem na direção da câmera e solta uma onda de choque laranja que revela o grafite do site. Título, uma linha e os botões "Pedir orçamento" e "Ver trabalhos". |
 | 2 | O que fazemos | Institucional, landing page, portfólio e cardápio ou catálogo, em cartões claros, com uma frase cada. |
 | 3 | Trabalhos | Equus Genetics (**cliente real**), Padaria Quatro Horas e Barbearia Navalha (**conceitos**). Um vídeo curto de cada, uma vez só. |
 | 4 | Como funciona (clara) | 4 passos: conversa, orçamento, desenho e construção, no ar. |
@@ -36,9 +36,10 @@ Fica em três lugares, todos marcados com "PRIMEIRA TELA":
 Para trocar a primeira tela, substitua só essas três partes. O resto do site não depende delas.
 
 Como funciona:
-- **Parada:** os anéis avançam e pulsam devagar, passam riscos de ar, o celular flutua e gira de leve e um brilho percorre a borda dele.
-- **Rolando:** a seção tem 2 telas de altura e o palco fica preso durante 1 tela. O túnel acelera, o celular vai para o centro e vem na direção da câmera, e no fim uma onda de choque laranja revela o grafite do site.
-- **Mouse (computador):** anéis e celular se mexem de leve com o mouse. **Toque (celular):** um toque dá um impulso no túnel e puxa a perspectiva para o lado tocado.
+- **Parada:** os anéis avançam e pulsam devagar, passam riscos de ar, o Λ flutua e gira de leve, um brilho corre pelo traço e os diamantes pulsam em sequência, como o escape de um jato.
+- **Rolando:** a seção tem 2 telas de altura e o palco fica preso durante 1 tela. O túnel acelera, o Λ vai para o centro e vem na direção da câmera, os diamantes se alongam como um pós-combustor e, no fim, o Λ solta uma onda de choque laranja que revela o grafite do site.
+- **Mouse (computador):** anéis e Λ se mexem de leve com o mouse. **Toque (celular):** um toque dá um impulso no túnel e puxa a perspectiva para o lado tocado.
+- **O Λ:** é o mesmo desenho do logo (`marca-mach/svg/simbolo-*.svg`), em SVG. O volume são cópias do traço empilhadas atrás, criadas pelo `primeira-tela.js`. Embaixo, "MACH Estúdio" em letras pequenas; a palavra MΛCH fica sempre no menu.
 - É tudo em canvas 2D e CSS, sem WebGL e sem biblioteca. Sem JavaScript, a mesma composição aparece parada, com os anéis em CSS. Com "menos movimento" ligado no aparelho, nada prende a rolagem e tudo fica parado.
 - **Modo leve automático:** se o aparelho não segurar o ritmo nos primeiros segundos, o túnel baixa a resolução e o número de riscos. O desenho continua o mesmo.
 
@@ -56,8 +57,7 @@ const CONFIG = {
 
 O número aparece também no `index.html` (menu, botão do pedido e rodapé), como texto e como reserva caso o JavaScript não carregue. Se trocar o número, procure `5511939045618` e `93904-5618` nos dois arquivos.
 
-**Equus Genetics (cliente real):** com `mostrarEquus: false`, a Equus some da primeira tela e dos trabalhos. A primeira tela passa a mostrar a Padaria Quatro Horas (conceito) e o texto dos trabalhos muda sozinho.
-O navegador ainda baixa a imagem do celular da Equus (46 KB), porque ela é a primeira imagem da página, mas ela não aparece. Para tirar de vez, apague também `assets/equus-celular.*` e `assets/trabalho-equus*`.
+**Equus Genetics (cliente real):** aparece só em "Trabalhos". Com `mostrarEquus: false`, o bloco some, o vídeo dela não é baixado e o texto da seção muda sozinho. Para tirar de vez, apague também `assets/trabalho-equus*`.
 
 **Textos:** direto no `index.html`. Procure a frase e troque.
 
@@ -108,15 +108,15 @@ O site não mostra números que não temos. Quando houver, dá para acrescentar:
 ## Rápido e leve
 
 Medido num celular simulado (390×844, rede de 1,6 Mbps com 150 ms de atraso):
-- texto na tela em cerca de 1,2 s;
-- a primeira carga é de cerca de 280 KB (115 KB do site e 165 KB de fontes);
+- texto na tela em cerca de 1 s;
+- a primeira carga é de cerca de 235 KB (70 KB do site e 165 KB de fontes), sem nenhuma imagem;
 - a página inteira, sem os vídeos, tem cerca de 390 KB. Os 3 vídeos somam 3,5 MB e só são baixados se a pessoa rolar até eles.
 
 Fluidez da primeira tela, medida num navegador de teste sem placa de vídeo (num aparelho de verdade tende a ser melhor):
 - celular 390×844: 60 fps parado e rolando;
-- celular 390×844 com o processador 4 vezes mais lento: 59 a 60 fps;
-- celular 360×640 com o processador 4 vezes mais lento: 48 a 57 fps;
-- computador 1440×900 em tela de alta resolução: cerca de 53 fps.
+- celular 390×844 com o processador 4 vezes mais lento: 59 fps parado e 52 rolando;
+- celular 360×640 com o processador 4 vezes mais lento: 58 a 60 fps;
+- computador 1440×900 em tela de alta resolução: 57 a 58 fps.
 
 ## Como publicar (grátis)
 

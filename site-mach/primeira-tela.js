@@ -2,10 +2,12 @@
    Tudo num canvas 2D, sem WebGL e sem biblioteca:
    - anéis finos (ondas de choque) que avançam e pulsam sozinhos, como um túnel;
    - riscos de ar passando, como velocidade;
-   - na rolagem, o túnel acelera e o celular avança na direção da câmera;
-   - no computador, anéis e celular reagem de leve ao mouse; no celular, ao toque e à rolagem;
-   - no fim da rolagem presa (1 tela), uma onda de choque laranja passa e revela o grafite do site.
-   O celular é CSS 3D: flutua e gira de leve. O brilho que percorre a borda é uma animação de CSS.
+   - no centro, o Λ da marca como uma nave: flutua e gira de leve; o brilho no traço e o pulso
+     dos diamantes são animações de CSS;
+   - na rolagem, o túnel acelera, o Λ vem na direção da câmera, os diamantes se alongam como um
+     pós-combustor e, no fim da rolagem presa (1 tela), o Λ solta uma onda de choque laranja que
+     revela o grafite do site;
+   - no computador, anéis e Λ reagem de leve ao mouse; no celular, ao toque e à rolagem.
    Com "menos movimento", tudo fica parado e nada prende a rolagem.
    Para trocar a primeira tela: substitua este arquivo, primeira-tela.css e o bloco do index.html. */
 (function () {
@@ -15,13 +17,34 @@
   var palco = sec.querySelector('.pt-palco');
   var cv = sec.querySelector('.pt-aneis');
   var cena = sec.querySelector('.pt-cena');
-  var cel = sec.querySelector('.pt-celular');
+  var cel = sec.querySelector('.pt-simbolo');
   var texto = sec.querySelector('.pt-texto');
-  var reflexo = sec.querySelector('.pt-brilho');
+  var chamas = sec.querySelector('.pt-chamas');
   var ctx = cv && cv.getContext ? cv.getContext('2d') : null;
   if (!ctx || !cel) return; // fica a versão em CSS, parada
   var calmo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   sec.classList.add('pt-js');
+
+  /* o volume do Λ: cópias do traço atrás da frente, cada vez mais fundas e mais escuras */
+  var frente = cel.querySelector('.pt-frente');
+  var CAMADAS = 10, PASSO = 2.2;
+  for (var c = CAMADAS; c >= 1; c--) {
+    var cam = frente.cloneNode(true);
+    cam.classList.remove('pt-frente');
+    cam.classList.add('pt-camada');
+    cam.removeAttribute('role');
+    cam.removeAttribute('aria-label');
+    cam.setAttribute('aria-hidden', 'true');
+    var def = cam.querySelector('defs'); if (def) def.remove();
+    var ref = cam.querySelector('.pt-reflexo'); if (ref) ref.remove();
+    var ch = cam.querySelector('.pt-chamas'); if (ch) ch.remove();
+    var k = c / CAMADAS;
+    var r = Math.round(196 - 96 * k), g = Math.round(78 - 40 * k), b = Math.round(14 - 8 * k);
+    cam.style.setProperty('--cor', 'rgb(' + r + ',' + g + ',' + b + ')');
+    cam.style.transform = 'translateZ(' + (-c * PASSO).toFixed(1) + 'px)';
+    cel.insertBefore(cam, frente);
+  }
+  frente.style.transform = 'translateZ(0.5px)';
   if (!calmo) sec.classList.add('pt-anima');
 
   var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
@@ -34,6 +57,7 @@
   function medir() {
     cena.style.transform = 'none';
     cel.style.transform = 'none';
+    if (chamas) chamas.style.transform = '';
     // linhas finas e suaves não pedem mais que 1,5x; em aparelho lento, 1x (veja "leve" abaixo)
     dpr = Math.min(window.devicePixelRatio || 1, leve ? 1 : 1.5);
     W = palco.clientWidth;
@@ -43,15 +67,15 @@
     var rp = palco.getBoundingClientRect();
     var rc = cena.getBoundingClientRect();
     cx = rc.left - rp.left + rc.width / 2;
-    cy = rc.top - rp.top + rc.height / 2;
-    celH = rc.height;
+    cy = rc.top - rp.top + rc.height * 0.36; // o centro do Λ fica no terço de cima do símbolo
+    celH = rc.height * 0.62;
     // no fim, o celular vai para o centro da área abaixo do menu, sem passar da altura da tela
     var topo = parseFloat(getComputedStyle(palco).paddingTop) || 0;
     paraX = W / 2 - cx;
-    paraY = topo + (H - topo) / 2 - cy;
-    pertoMax = clamp((H - topo - 56) / Math.max(1, celH), 1, 1.34);
+    paraY = topo + (H - topo) * 0.42 - cy;
+    pertoMax = clamp((H - topo - 40) / Math.max(1, rc.height * 1.2), 1, 1.6); // 1.2: espaço para os diamantes alongados
     raioFim = Math.hypot(W / 2 + Math.abs(paraX), H) * 1.05;
-    halo = ctx.createRadialGradient(0, 0, 0, 0, 0, celH * 0.95);
+    halo = ctx.createRadialGradient(0, 0, 0, 0, 0, celH * 1.1);
     halo.addColorStop(0, 'rgba(255,107,26,0.08)');
     halo.addColorStop(1, 'rgba(255,107,26,0)');
   }
@@ -69,7 +93,7 @@
     if (onda >= 1) { ctx.fillStyle = FUNDO_SITE; ctx.fillRect(0, 0, W, H); return; }
     ctx.clearRect(0, 0, W, H);
     var ccx = cx + dX, ccy = cy + dY; // centro do celular agora
-    var rh = celH * 0.95; // o halo só ocupa um quadrado em volta do celular
+    var rh = celH * 1.1; // o halo só ocupa um quadrado em volta do Λ
     ctx.translate(ccx, ccy);
     ctx.fillStyle = halo;
     ctx.fillRect(-rh, -rh, rh * 2, rh * 2);
@@ -77,7 +101,7 @@
 
     // ponto de fuga e deslocamento por profundidade (paralaxe)
     var fx = ccx + px * W * 0.05, fy = ccy + py * H * 0.04;
-    var base = celH * 0.7;
+    var base = celH * 0.78;
     var volta = N * VAO;
     ctx.globalCompositeOperation = 'lighter';
 
@@ -104,10 +128,11 @@
     for (var j = 0; j < N; j++) {
       var d = ((j * VAO + percurso) % volta + volta) % volta;
       var z = LONGE - d;
-      var a = suave(LONGE, LONGE - 2.4, z) * suave(PERTO, PERTO + 0.55, z);
+      var r = base / z;
+      // some quando nasce (longe) e quando passa pela câmera; e não desenha anéis menores que o Λ
+      var a = suave(LONGE, LONGE - 2.4, z) * suave(PERTO, PERTO + 0.55, z) * suave(celH * 0.5, celH * 0.95, r);
       if (a < 0.01) continue;
       var pulso = 0.62 + 0.38 * (0.5 + 0.5 * Math.sin(t * 2.1 - z * 1.3));
-      var r = base / z;
       var ox = fx - px * 70 / (z + 0.4), oy = fy - py * 56 / (z + 0.4);
       var laranja = j % 4 === 0;
       var cor = laranja ? '255,107,26' : '223,227,231';
@@ -141,14 +166,14 @@
     }
   }
 
-  /* ── o celular e o texto ── */
-  var textoVisivel = true, ultimoTexto = -1;
+  /* ── o Λ e o texto ── */
+  var textoVisivel = true, ultimoTexto = -1, ultimaQueima = 1;
   function aplica(p, t, px, py) {
     var m = calmo ? 0 : 1;
     var frente = suave(0, 0.6, p);
-    var giro = -12 + 12 * frente + m * (Math.sin(t * 0.5) * 5 + px * 16);
-    var incl = 5 - 5 * frente + m * (Math.sin(t * 0.7) * 2.5 - py * 12);
-    var rola = m * Math.sin(t * 0.4) * 1.2;
+    var giro = -14 + 14 * frente + m * (Math.sin(t * 0.5) * 9 + px * 18);
+    var incl = 6 + 6 * suave(0.15, 0.55, p) + m * (Math.sin(t * 0.7) * 3 - py * 12); // inclina para a frente ao acelerar
+    var rola = m * Math.sin(t * 0.4) * 2;
     var perto = 1 + (pertoMax - 1) * suave(0.08, 0.85, p);
     var flutua = m * Math.sin(t * 0.9) * 7 * (1 - frente * 0.6);
     var centro = suave(0.1, 0.6, p);
@@ -156,7 +181,9 @@
     dY = paraY * centro;
     cena.style.transform = 'translate3d(' + (dX + m * px * -12).toFixed(1) + 'px,' + (dY + flutua).toFixed(1) + 'px,0)';
     cel.style.transform = 'rotateY(' + giro.toFixed(2) + 'deg) rotateX(' + incl.toFixed(2) + 'deg) rotateZ(' + rola.toFixed(2) + 'deg) scale(' + perto.toFixed(3) + ')';
-    if (reflexo) reflexo.style.transform = 'translate3d(' + (-30 + 60 * suave(0, 1, p) + giro * 2).toFixed(1) + '%,0,0)';
+    // pós-combustor: os diamantes se alongam enquanto o Λ acelera
+    var queima = 1 + 0.9 * suave(0.12, 0.55, p) * (1 - 0.5 * suave(0.75, 1, p));
+    if (chamas && Math.abs(queima - ultimaQueima) > 0.004) { ultimaQueima = queima; chamas.style.transform = 'scale(1,' + queima.toFixed(3) + ')'; }
     var tx = 1 - suave(0.12, 0.34, p);
     if (Math.abs(tx - ultimoTexto) > 0.002 || (tx !== ultimoTexto && (tx === 0 || tx === 1))) { ultimoTexto = tx; sec.style.setProperty('--texto', tx.toFixed(3)); }
     if ((tx > 0.02) !== textoVisivel) { textoVisivel = tx > 0.02; texto.classList.toggle('some', !textoVisivel); }

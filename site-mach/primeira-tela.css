@@ -1,9 +1,10 @@
 /* ═══ PRIMEIRA TELA (componente isolado) ═══
-   Estilo "túnel de anéis" (referência: Aether): fundo quase preto, um celular genérico em 3D no
-   centro com a tela de um trabalho real, anéis finos (ondas de choque) e riscos de ar que passam
-   sozinhos e aceleram com a rolagem. No fim (cerca de 1 tela de rolagem), uma onda de choque
-   laranja passa e revela o grafite do resto do site. Os anéis, os riscos e a onda são desenhados
-   no canvas por primeira-tela.js; o celular é feito em CSS 3D.
+   Estilo "túnel de anéis" (referência: Aether): fundo quase preto e, no centro, o Λ da marca em 3D
+   com os três diamantes de choque, como uma nave dentro de um túnel de anéis (ondas de choque) e
+   riscos de ar que passam sozinhos e aceleram com a rolagem. No fim (cerca de 1 tela de rolagem),
+   o Λ vem na direção da câmera e solta uma onda de choque laranja que revela o grafite do resto
+   do site. Os anéis, os riscos e a onda são desenhados no canvas por primeira-tela.js; o Λ é SVG
+   em camadas com CSS 3D.
    Sem JavaScript ou com "menos movimento": a mesma composição, parada e sem rolagem presa.
    Para trocar a primeira tela: substitua este arquivo, primeira-tela.js e o bloco
    "PRIMEIRA TELA" do index.html. */
@@ -36,7 +37,7 @@
 
 .pt-aneis { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
 
-/* o celular genérico (moldura reta, câmera num furo pequeno) */
+/* o símbolo da marca: o Λ laranja com volume e os três diamantes de choque */
 .pt-objeto {
   position: relative;
   z-index: 3;
@@ -47,67 +48,35 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 16px;
   padding: 14px 0 10px;
 }
-.pt-cena { perspective: 1100px; will-change: transform; }
-.pt-celular {
-  --cel-w: min(44vw, 21svh, 250px);
+.pt-cena { perspective: 900px; will-change: transform; }
+.pt-simbolo {
+  --s: min(44vw, 25svh, 200px);
   position: relative;
-  width: var(--cel-w);
-  aspect-ratio: 9 / 17.2;
-  border-radius: calc(var(--cel-w) * 0.12);
+  width: var(--s);
+  aspect-ratio: 152 / 232;
   transform-style: preserve-3d;
-  transform: rotateY(-12deg) rotateX(5deg);
+  transform: rotateY(-14deg) rotateX(6deg);
+  transform-origin: 50% 36%; /* o centro do Λ, onde o túnel também se centra */
   will-change: transform;
 }
-.pt-espessura { position: absolute; inset: 0; border-radius: inherit; background: #2b2f35; transform: translateZ(-3px); }
-.pt-e2 { background: #23262b; transform: translateZ(-6px); }
-.pt-e3 { background: #1a1c20; transform: translateZ(-9px); box-shadow: 0 26px 50px rgba(0, 0, 0, 0.5); }
-.pt-frente {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: #08090a;
-  padding: calc(var(--cel-w) * 0.035);
-  box-shadow: inset 0 0 0 1px rgba(233, 236, 239, 0.2), inset 0 0 0 3px #1b1e22;
-  transform: translateZ(0.5px);
-}
-.pt-tela { position: relative; height: 100%; overflow: hidden; border-radius: calc(var(--cel-w) * 0.09); background: #000; }
-.pt-tela img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
-.pt-brilho {
-  position: absolute;
-  inset: -20% -60%;
-  background: linear-gradient(110deg, transparent 42%, rgba(255, 255, 255, 0.09) 50%, transparent 58%);
-  will-change: transform;
-  pointer-events: none;
-}
-.pt-camera { position: absolute; top: calc(var(--cel-w) * 0.065); left: 50%; width: calc(var(--cel-w) * 0.04); aspect-ratio: 1; border-radius: 50%; background: #030303; box-shadow: 0 0 0 1px rgba(233, 236, 239, 0.1); transform: translateX(-50%); }
-/* um brilho que percorre a borda do aparelho (animação de CSS, roda fora do JavaScript) */
-.pt-borda {
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1.5px;
-  overflow: hidden;
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-  transform: translateZ(1px);
-  pointer-events: none;
-}
-.pt-borda::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 260%;
-  aspect-ratio: 1;
-  background: conic-gradient(transparent 0deg, transparent 290deg, rgba(255, 220, 190, 0.85) 326deg, rgba(255, 107, 26, 0.75) 342deg, transparent 360deg);
-  transform: translate(-50%, -50%) rotate(210deg);
-  animation: pt-gira 4.8s linear infinite;
-}
-@keyframes pt-gira { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+.pt-lambda { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.pt-lambda path { fill: none; stroke-width: 9; stroke-linejoin: miter; }
+.pt-traco { stroke: #ff6b1a; }
+/* as camadas de trás dão espessura ao Λ (criadas pelo JS, cada vez mais escuras) */
+.pt-camada .pt-traco { stroke: var(--cor, #a8400b); }
+/* um brilho que corre pelo traço */
+.pt-lambda .pt-reflexo { stroke: #fff1e8; stroke-width: 2.4; stroke-dasharray: 16 84; stroke-dashoffset: 100; opacity: 0.9; animation: pt-corre 3.2s linear infinite; }
+@keyframes pt-corre { to { stroke-dashoffset: 0; } }
+/* os diamantes pulsam em sequência, como o escape de um jato */
+.pt-chamas { transform-box: view-box; transform-origin: 54px 112px; }
+.pt-chamas path { fill: #ff6b1a; stroke: none; animation: pt-escape 1.4s ease-in-out infinite; }
+.pt-d1 { --o: 1; opacity: 1; }
+.pt-d2 { --o: 0.62; opacity: 0.62; animation-delay: 0.18s !important; }
+.pt-d3 { --o: 0.34; opacity: 0.34; animation-delay: 0.36s !important; }
+@keyframes pt-escape { 0%, 100% { opacity: var(--o); } 45% { opacity: calc(var(--o) * 0.3); } }
 .pt-legenda { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #9ba1a8; text-align: center; opacity: var(--texto, 1); }
 
 /* o texto: título curto, uma linha e dois botões, sem cobrir o celular */
@@ -134,7 +103,7 @@
 }
 @media (min-width: 640px) and (max-width: 899px) { .pt-botoes .btn { flex: 0 0 auto; } }
 @media (min-width: 900px) {
-  .pt-celular { --cel-w: min(29svh, 290px); }
+  .pt-simbolo { --s: min(30svh, 260px); }
   .pt-objeto { padding: 24px 0 24px 24vw; }
   .pt-texto {
     position: absolute;
@@ -154,5 +123,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pt-celular { transform: rotateY(-8deg) rotateX(3deg); }
+  .pt-simbolo { transform: rotateY(-10deg) rotateX(4deg); }
 }
