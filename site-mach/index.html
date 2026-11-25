@@ -208,18 +208,49 @@
     </div>
   </section>
 
-  <!-- COMO FUNCIONA (seção off-white) -->
+  <!-- COMO FUNCIONA (seção off-white)
+       Os passos acendem ao descer e o Λ ao lado se desenha conforme o progresso
+       (esboço → traço → volume laranja → diamantes). Sem rolagem presa.
+       Sem JavaScript ou com "menos movimento", tudo aparece aceso e o Λ completo. -->
   <section class="secao clara" id="como" aria-labelledby="h-como">
-    <div class="wrap">
-      <div class="sec-topo" data-revela>
+    <div class="wrap como-grid">
+      <div class="sec-topo como-topo" data-revela>
         <h2 id="h-como">Como funciona.</h2>
         <p class="lead">Quatro passos, e você acompanha todos.</p>
       </div>
-      <ol class="passos">
-        <li data-revela><span class="passo-n">1</span><h3>Conversa</h3><p>Você conta o que a empresa faz, para quem vende e o que o site precisa resolver. Pode ser pelo WhatsApp.</p></li>
-        <li data-revela><span class="passo-n">2</span><h3>Orçamento</h3><p>Você recebe o valor, o prazo e as páginas do site. Só começamos depois do seu ok.</p></li>
-        <li data-revela><span class="passo-n">3</span><h3>Desenho e construção</h3><p>Você vê as telas e as animações tomando forma e pede ajustes antes de publicar.</p></li>
-        <li data-revela><span class="passo-n">4</span><h3>No ar</h3><p>Publicamos, conferimos no celular, no tablet e no computador e entregamos os acessos.</p></li>
+      <div class="como-desenho" aria-hidden="true">
+        <svg viewBox="-22 -24 152 232">
+          <defs><clipPath id="como-corte"><rect x="-40" y="-40" width="200" height="144.5"/></clipPath></defs>
+          <g class="cd-guias">
+            <line x1="-18" y1="104.5" x2="126" y2="104.5" vector-effect="non-scaling-stroke"/>
+            <line x1="54" y1="-20" x2="54" y2="204" vector-effect="non-scaling-stroke"/>
+          </g>
+          <g clip-path="url(#como-corte)">
+            <g class="cd-volume">
+              <path d="M-4.32 108 L54 0 L112.32 108" pathLength="1" transform="translate(4.2 3.4)"/>
+              <path d="M-4.32 108 L54 0 L112.32 108" pathLength="1" transform="translate(2.8 2.3)"/>
+              <path d="M-4.32 108 L54 0 L112.32 108" pathLength="1" transform="translate(1.4 1.1)"/>
+            </g>
+            <path class="cd-escuro" d="M-4.32 108 L54 0 L112.32 108" pathLength="1"/>
+            <path class="cd-laranja" d="M-4.32 108 L54 0 L112.32 108" pathLength="1"/>
+            <path class="cd-esboco" d="M-4.32 108 L54 0 L112.32 108" pathLength="1" vector-effect="non-scaling-stroke"/>
+          </g>
+          <g class="cd-contornos">
+            <path d="M54 114 L63 128 L54 142 L45 128 Z" pathLength="1" vector-effect="non-scaling-stroke"/>
+            <path d="M54 147 L60.5 157 L54 167 L47.5 157 Z" pathLength="1" vector-effect="non-scaling-stroke"/>
+            <path d="M54 173 L58.5 180 L54 187 L49.5 180 Z" pathLength="1" vector-effect="non-scaling-stroke"/>
+          </g>
+          <path class="cd-d1" d="M54 114 L63 128 L54 142 L45 128 Z"/>
+          <path class="cd-d2" d="M54 147 L60.5 157 L54 167 L47.5 157 Z"/>
+          <path class="cd-d3" d="M54 173 L58.5 180 L54 187 L49.5 180 Z"/>
+        </svg>
+        <p class="como-rotulo mono"><span class="como-n">4 passos</span> <span class="como-t"></span></p>
+      </div>
+      <ol class="passos" id="passos">
+        <li><span class="passo-n">1</span><h3>Conversa</h3><p>Você conta o que a empresa faz, para quem vende e o que o site precisa resolver. Pode ser pelo WhatsApp.</p></li>
+        <li><span class="passo-n">2</span><h3>Orçamento</h3><p>Você recebe o valor, o prazo e as páginas do site. Só começamos depois do seu ok.</p></li>
+        <li><span class="passo-n">3</span><h3>Desenho e construção</h3><p>Você vê as telas e as animações tomando forma e pede ajustes antes de publicar.</p></li>
+        <li><span class="passo-n">4</span><h3>No ar</h3><p>Publicamos, conferimos no celular, no tablet e no computador e entregamos os acessos.</p></li>
       </ol>
     </div>
   </section>

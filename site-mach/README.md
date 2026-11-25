@@ -20,7 +20,7 @@ Feito primeiro para o celular, com menu fixo, seções curtas e o pedido de orç
 | 1 | Primeira tela | O Λ da marca em 3D, com os três diamantes de choque, como uma nave dentro de um túnel de anéis (ondas de choque) e riscos de ar. Tudo se mexe sozinho; na rolagem o túnel acelera, o Λ vem na direção da câmera e solta uma onda de choque laranja que revela o grafite do site. Título, uma linha e os botões "Pedir orçamento" e "Ver trabalhos". |
 | 2 | O que fazemos | Institucional, landing page, portfólio e cardápio ou catálogo, em cartões claros, com uma frase cada. |
 | 3 | Trabalhos | Equus Genetics (**cliente real**), Padaria Quatro Horas e Barbearia Navalha (**conceitos**). Um vídeo curto de cada, uma vez só. |
-| 4 | Como funciona (clara) | 4 passos: conversa, orçamento, desenho e construção, no ar. |
+| 4 | Como funciona (clara) | 4 passos um embaixo do outro, ligados por uma linha que se preenche de laranja ao descer. O passo da vez acende; os que passaram ficam acesos e discretos. Ao lado, o Λ se desenha conforme o progresso: esboço (passo 1), traço completo (2), volume e cor laranja (3) e os diamantes acendendo em sequência (4). No celular, o Λ fica pequeno numa faixa fixa no topo da seção, com "Passo X de 4"; no computador, grande numa coluna fixa à esquerda. Sem rolagem presa. Parado e sem JavaScript: tudo aceso e o Λ completo. |
 | 5 | O que está incluso | Multiplataforma, animação sob medida, carregamento rápido, WhatsApp e Instagram, ajuda com domínio e hospedagem. |
 | 6 | Dúvidas (clara) | 6 perguntas em sanfona (abrir uma fecha a outra). |
 | 7 | Pedido | Formulário curto que monta o cartão de embarque (claro) e abre o WhatsApp com a mensagem pronta, ou copia o texto para o direct. |

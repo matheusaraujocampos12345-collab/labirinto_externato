@@ -82,6 +82,61 @@ const CONFIG = {
     naTela.observe(v);
   });
 
+  /* ══ COMO FUNCIONA · os passos acendem ao descer e o Λ se desenha ao lado ══
+     A "linha de leitura" fica a 60% da altura da tela. q vai de 0 a 4 conforme os marcadores
+     dos passos cruzam essa linha; cada etapa do desenho usa uma parte de q:
+     esboço (passo 1) → traço (2) → volume e cor laranja (3) → diamantes em sequência (4).
+     Só calcula enquanto a seção está perto da tela. Com "menos movimento", fica tudo aceso. */
+  (function comoFunciona() {
+    const como = $('#como'), lista = $('#passos');
+    if (!como || !lista || reduz || !('IntersectionObserver' in window)) return;
+    const itens = $$('li', lista), desenho = $('.como-desenho', como);
+    const rN = $('.como-n', como), rT = $('.como-t', como);
+    const titulos = itens.map((li) => $('h3', li).textContent);
+    como.classList.add('como-anima');
+    let ativo = -2, pertoDaTela = false, pedido = false;
+    const vars = {};
+    const poe = (el, nome, v) => {
+      const s = v.toFixed(3);
+      if (vars[nome] !== s) { vars[nome] = s; el.style.setProperty(nome, s); }
+    };
+    function atualiza() {
+      pedido = false;
+      const linha = window.innerHeight * 0.6;
+      const rl = lista.getBoundingClientRect();
+      const ys = itens.map((li) => li.getBoundingClientRect().top + 15);
+      let q;
+      if (linha < ys[0]) q = (linha - ys[0]) / Math.max(1, ys[1] - ys[0]);
+      else {
+        let i = 0;
+        while (i < ys.length - 1 && linha >= ys[i + 1]) i++;
+        const fim = i < ys.length - 1 ? ys[i + 1] : rl.bottom;
+        q = i + (linha - ys[i]) / Math.max(1, fim - ys[i]);
+      }
+      q = clamp(q, -1, 4);
+      poe(lista, '--p', clamp((linha - rl.top) / Math.max(1, rl.height)));
+      poe(desenho, '--a', clamp(q));
+      poe(desenho, '--b', clamp(q - 1));
+      poe(desenho, '--c', clamp(q - 2));
+      const d = clamp(q - 3);
+      poe(desenho, '--d1', clamp(d * 3));
+      poe(desenho, '--d2', clamp(d * 3 - 1));
+      poe(desenho, '--d3', clamp(d * 3 - 2));
+      const at = q < 0 ? -1 : Math.min(itens.length - 1, Math.floor(q));
+      if (at !== ativo) {
+        ativo = at;
+        itens.forEach((li, i) => { li.classList.toggle('ativo', i === at); li.classList.toggle('passou', i < at); });
+        rN.textContent = at < 0 ? itens.length + ' passos' : 'Passo ' + (at + 1) + ' de ' + itens.length;
+        rT.textContent = at < 0 ? '' : '· ' + titulos[at];
+      }
+    }
+    const agenda = () => { if (!pedido) { pedido = true; requestAnimationFrame(atualiza); } };
+    new IntersectionObserver((en) => { pertoDaTela = en[0].isIntersecting; if (pertoDaTela) agenda(); }, { rootMargin: '25% 0px' }).observe(como);
+    window.addEventListener('scroll', () => { if (pertoDaTela) agenda(); }, { passive: true });
+    window.addEventListener('resize', agenda);
+    atualiza();
+  })();
+
   /* ── blocos entram suaves (só os que começam fora da tela) ── */
   if (!reduz && 'IntersectionObserver' in window) {
     const ioB = new IntersectionObserver((en) => {
