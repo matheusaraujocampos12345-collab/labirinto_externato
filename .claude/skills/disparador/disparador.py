@@ -1,7 +1,8 @@
 """Disparador do lead-finder.
 
   rascunho          cria leads/mensagens.json para quem publicou e-mail ou WhatsApp e tem uma frase citada
-                    (abre pela DOR; sem dor, pelo DESEJO; sem desejo, pela PERGUNTA da pessoa)
+                    (abre pela DOR; sem dor, pelo DESEJO; sem desejo, pela PERGUNTA da pessoa;
+                     sem nada disso, por um FATO público do próprio negócio, apoiado numa citação)
   conferir          checa as regras de cada mensagem (começa pela frase, sem link, sem preço...)
   mostrar           mostra TODAS as mensagens prontas, numeradas, para o dono aprovar
   aprovar --numeros 1,2 | --todas      marca como aprovadas
@@ -31,7 +32,8 @@ import comum  # noqa: E402
 
 C_ENVIADOS = ['data', 'canal', 'contato', 'perfil', 'rede', 'link', 'assunto']
 C_NAO = ['data', 'contato', 'perfil', 'motivo']
-ORDEM_ABERTURA = (('dor', 'dor'), ('sonho', 'desejo'), ('pergunta', 'pergunta'))
+ORDEM_ABERTURA = (('dor', 'dor'), ('sonho', 'desejo'), ('pergunta', 'pergunta'), ('fato', 'fato'))
+ARTIGO = {'dor': 'pela dor', 'desejo': 'pelo desejo', 'pergunta': 'pela pergunta', 'fato': 'pelo fato'}
 RE_LINK = re.compile(r'(https?://|www\.|\b[a-z0-9-]+\.(com|br|net|org|io|app|site|me|link)\b)', re.I)
 RE_PRECO = re.compile(r'(R\$|\breais\b|\bpre[çc]os?\b|\bvalor(es)?\b|\bdesconto|\bgr[áa]tis\b|\bpromo[çc][ãa]o|\d+\s*mil\b)', re.I)
 RE_VI_PERFIL = re.compile(r'\bvi\s+(o\s+|a\s+)?(seu|sua|teu|tua)\s+(perfil|post|instagram|tiktok|conta|p[áa]gina|v[íi]deo)', re.I)
@@ -85,7 +87,9 @@ def problemas(m, cfg):
         return ['corpo vazio']
     inicio = comum.normalizar(corpo).lstrip('"').lstrip()
     if not frase or not inicio.startswith(frase):
-        out.append(f'não começa pela frase exata da pessoa ({m.get("tipo_abertura", "?")})')
+        out.append(f'não começa pela frase de abertura ({m.get("tipo_abertura", "?")})')
+    if m.get('tipo_abertura') == 'fato' and not m.get('base_fato'):
+        out.append('fato sem citação que o comprove')
     resto = comum.normalizar(corpo).replace(frase, '', 1)
     assunto = m.get('assunto', '') if m.get('canal') == 'email' else ''
     if RE_LINK.search(resto) or RE_LINK.search(assunto):
@@ -114,9 +118,14 @@ def cmd_rascunho(a, c, cfg):
     b, _ = bloqueados(c)
     msgs, fora = [], []
     for r in comum.ler_csv(c['lista']):
-        abertura, link_ab, tipo = '', '', ''
+        abertura, link_ab, tipo, base = '', '', '', ''
         for campo, nome in ORDEM_ABERTURA:
             cit, lk = citacao(r.get(campo, ''))
+            if campo == 'fato' and cit:  # o fato abre com a frase curta; a citação fica como prova
+                if r.get('fato_frase'):
+                    abertura, link_ab, tipo, base = r['fato_frase'], lk, nome, cit
+                    break
+                continue
             if cit:
                 abertura, link_ab, tipo = cit, lk, nome
                 break
@@ -126,12 +135,13 @@ def cmd_rascunho(a, c, cfg):
             fora.append((r['perfil'], 'não publicou e-mail nem WhatsApp'))
             continue
         if not abertura:
-            fora.append((r['perfil'], 'não escreveu dor, desejo nem pergunta: sem frase para abrir'))
+            fora.append((r['perfil'], 'sem dor, desejo, pergunta nem fato público: sem frase para abrir'))
             continue
         m = antigas.get(r['perfil']) or {
             'perfil': r['perfil'], 'rede': r['rede'], 'link': r['link'], 'negocio': r['negocio'],
             'canal': 'email' if email_ else 'whatsapp', 'email': email_, 'whatsapp': whats,
             'para': email_ or whats, 'abertura': abertura, 'tipo_abertura': tipo, 'link_abertura': link_ab,
+            'base_fato': base,
             'assunto': '', 'corpo': '', 'status': 'rascunho'}
         if a.simular:
             m['_simulado'] = True
@@ -145,7 +155,7 @@ def cmd_rascunho(a, c, cfg):
     comum.salvar_json(c['msgs'], msgs)
     print(f'{len(msgs)} mensagens para escrever em {comum.rel(c["msgs"])}')
     for m in msgs:
-        print(f'  {m["n"]}. {m["perfil"]} · {m["canal"]} · abre pela {m["tipo_abertura"]}: "{m["abertura"]}"')
+        print(f'  {m["n"]}. {m["perfil"]} · {m["canal"]} · abre {ARTIGO[m["tipo_abertura"]]}: "{m["abertura"]}"')
     for p, motivo in fora:
         print(f'  fora: {p} — {motivo}')
 
@@ -173,8 +183,11 @@ def cmd_mostrar(a, c, cfg):
                    f'Para: {m["para"]}  ']
         if m['canal'] == 'email':
             partes.append(f'Assunto: {m["assunto"]}  ')
-        partes += [f'Abre pela {m["tipo_abertura"]}, citada de: {m["link_abertura"]}', '', '```', montar(m, cfg),
-                   '```', '']
+        if m['tipo_abertura'] == 'fato':
+            partes.append(f'Abre por um fato público, apoiado em: "{m["base_fato"]}" ({m["link_abertura"]})')
+        else:
+            partes.append(f'Abre {ARTIGO[m["tipo_abertura"]]}, citada de: {m["link_abertura"]}')
+        partes += ['', '```', montar(m, cfg), '```', '']
     with open(c['md'], 'w', encoding='utf-8') as f:
         f.write('\n'.join(partes))
     print('\n'.join(partes))

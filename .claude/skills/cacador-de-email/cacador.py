@@ -71,6 +71,19 @@ class Leitor:
         rp = self.robots[base]
         return True if rp is None else rp.can_fetch(UA, url)
 
+    def resolver_atalho(self, url):
+        """Abre um atalho de WhatsApp publicado (wa.link, wa.me/message) e vê para qual número ele leva."""
+        if self.simular:
+            return ''
+        try:
+            req = urllib.request.Request(url, headers={'User-Agent': UA})
+            with urllib.request.urlopen(req, timeout=10) as r:
+                final = r.geturl()
+                corpo = r.read(200_000).decode('utf-8', errors='replace')
+            return whats_em_links(final) or whats_em_links(corpo)
+        except Exception:
+            return ''
+
     def ler(self, url):
         if self.simular:
             return self.simuladas.get(url.rstrip('/'), '')
@@ -154,6 +167,9 @@ def cacar(p, leitor, simular, posts_proprios=()):
 
     for u in [p.get('link_bio')] + list(p.get('outros_links') or []):
         achou_whats(whats_em_links(u or ''), f'link do perfil ({p["link"]})')
+    for u in [p.get('link_bio')] + list(p.get('outros_links') or []):
+        if u and not r['whatsapp'] and re.search(r'(^|//)(wa\.link/|wa\.me/message/|api\.whatsapp\.com/message/)', u):
+            achou_whats(leitor.resolver_atalho(u), f'atalho de WhatsApp no perfil ({u})')
     achou_whats(whats_no_texto(p.get('bio')), f'bio do perfil ({p["link"]})')
     for post in posts_proprios:
         achou_whats(whats_no_texto(post.get('texto')), f'post do próprio perfil ({post.get("link")})')
@@ -215,7 +231,7 @@ def main():
     bruto = comum.ler_json(os.path.join(pasta, 'bruto.json'), {'perfis': []})
     posts = {b['id']: [f for f in b.get('falas', []) if f.get('tipo') == 'post'] for b in bruto['perfis']}
     leitor = Leitor(a.simular, pasta)
-    campos = ['perfil', 'rede', 'link', 'negocio', 'dor', 'sonho', 'objecao', 'pergunta',
+    campos = ['perfil', 'rede', 'link', 'negocio', 'dor', 'sonho', 'objecao', 'pergunta', 'fato', 'fato_frase',
               'email', 'fonte_email', 'whatsapp', 'fonte_whatsapp']
     destino = os.path.join(pasta, 'lista.csv')
     if os.path.exists(destino):
@@ -231,7 +247,8 @@ def main():
         comum.acrescentar_csv(destino, {'perfil': p['usuario'], 'rede': p['rede'], 'link': p['link'],
                                         'negocio': p.get('negocio', ''), 'dor': fmt(p.get('dor')),
                                         'sonho': fmt(p.get('sonho')), 'objecao': fmt(p.get('objecao')),
-                                        'pergunta': fmt(p.get('pergunta')),
+                                        'pergunta': fmt(p.get('pergunta')), 'fato': fmt(p.get('fato')),
+                                        'fato_frase': (p.get('fato') or {}).get('frase', '') if fmt(p.get('fato')) else '',
                                         'email': r['email'] or 'sem contato', 'fonte_email': r['fonte_email'],
                                         'whatsapp': r['whatsapp'], 'fonte_whatsapp': r['fonte_whatsapp']}, campos)
         contato = r['email'] or (f'WhatsApp {r["whatsapp"]}' if r['whatsapp'] else 'sem contato')

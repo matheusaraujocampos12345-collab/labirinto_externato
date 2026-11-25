@@ -35,12 +35,12 @@ Confira se existe `.claude/skills/lead-finder/config.json` com o nome do remeten
 python3 .claude/skills/disparador/disparador.py rascunho
 ```
 O comando cria `leads/mensagens.json` só para quem publicou e-mail ou WhatsApp **e** tem uma frase citada. Quem já recebeu ou pediu para sair fica de fora.
-- **Frase de abertura:** a DOR. Sem dor, o DESEJO (campo sonho). Sem desejo, a PERGUNTA que a pessoa fez.
+- **Frase de abertura:** a DOR. Sem dor, o DESEJO (campo sonho). Sem desejo, a PERGUNTA que a pessoa fez. Sem nada disso, a frase do FATO público do negócio. Ela não leva aspas, e a citação que a prova aparece para o dono na aprovação.
 - **Canal:** e-mail, se a pessoa publicou um. Se só publicou WhatsApp, o canal é WhatsApp, que o dono envia à mão.
 
 ## 2. Escrever
 Preencha `assunto` e `corpo` de cada mensagem em `leads/mensagens.json`:
-- **Comece pela frase exata da pessoa**, entre aspas, igual ao campo `abertura`. Se ela for uma pergunta, responda em poucas palavras logo depois, como "Tem, sim.".
+- **Comece pela frase de abertura**, igual ao campo `abertura`. Se for dor, desejo ou pergunta, ela vai entre aspas, porque são palavras da pessoa. Se for fato, vai sem aspas. Se ela for uma pergunta, responda em poucas palavras logo depois, como "Tem, sim.".
 - **Uma frase** que liga essa dor ao que o dono vende (`o_que_vendo` no config). Seja concreto: diga o que muda para a pessoa.
 - **Termine com uma pergunta.**
 - Sem link, sem preço ou valor, sem "vi seu perfil".

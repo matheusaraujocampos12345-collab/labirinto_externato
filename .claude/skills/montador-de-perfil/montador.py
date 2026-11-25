@@ -13,7 +13,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'lead-finder', 'scripts'))
 import comum  # noqa: E402
 
-CAMPOS = ('dor', 'sonho', 'objecao', 'pergunta')
+CAMPOS = ('dor', 'sonho', 'objecao', 'pergunta', 'fato')
 SINAIS_CONCORRENTE = r'(cria(mos)? sites?|web ?design|desenvolv\w+ de sites?|landing pages?|ag[êe]ncia|social media|' \
                      r'marketing digital|tr[áa]fego pago|programador|designer)'
 SINAIS_ROBO = r'(ganhe seguidores|seguidores gr[áa]tis|sorteio|100% real|clique no link|renda extra|pix na hora)'
@@ -57,8 +57,8 @@ def cmd_preparar(a):
     print(f'{bruto["total"]} perfis em {comum.rel(destino)}. Agora o Claude escreve analise.json.')
 
 
-def achar(citacao, link, falas):
-    """Devolve (link_confirmado, motivo). A citação precisa estar dentro de uma fala do próprio perfil."""
+def achar(citacao, link, falas, bio='', link_perfil=''):
+    """Devolve (link_confirmado, motivo). A citação precisa estar numa fala ou na bio do próprio perfil."""
     c = comum.normalizar(citacao).strip('"').strip()
     if not c:
         return '', ''
@@ -68,6 +68,8 @@ def achar(citacao, link, falas):
     for f in falas:
         if c in comum.normalizar(f['texto']):
             return f['link'], 'link corrigido para o post onde a frase aparece'
+    if bio and c in comum.normalizar(bio):
+        return link_perfil, '' if link == link_perfil else 'a frase está na bio: link trocado para o perfil'
     return None, 'apagada: a frase não aparece igual em nenhum texto público deste perfil'
 
 
@@ -94,12 +96,16 @@ def cmd_validar(a):
             if not cit:
                 reg[campo] = {'citacao': '', 'link': ''}
                 continue
-            ok, motivo = achar(cit, link, p.get('falas', []))
+            ok, motivo = achar(cit, link, p.get('falas', []), p.get('bio', ''), p.get('link', ''))
             if ok is None:
                 reg[campo] = {'citacao': '', 'link': ''}
                 avisos.append(f'{p["id"]} · {campo}: "{cit}" {motivo}')
             else:
                 reg[campo] = {'citacao': comum.normalizar(cit).strip('"'), 'link': ok}
+                if campo == 'fato':
+                    reg[campo]['frase'] = (d.get('frase') or '').strip()
+                    if not reg[campo]['frase']:
+                        avisos.append(f'{p["id"]} · fato: falta a frase curta que resume o fato')
                 if motivo:
                     avisos.append(f'{p["id"]} · {campo}: {motivo}')
         saida.append(reg)
@@ -112,6 +118,9 @@ def cmd_validar(a):
         if s['status'] == 'manter':
             for campo in CAMPOS:
                 c = s[campo]
+                if campo == 'fato' and c['citacao']:
+                    print(f'           fato     {c.get("frase", "")}  [apoiado em: "{c["citacao"]}" — {c["link"]}]')
+                    continue
                 print(f'           {campo:<9}' + (f'"{c["citacao"]}" — {c["link"]}' if c['citacao'] else '(vazio)'))
     if avisos:
         print('\nTRAVA ANTI-INVENÇÃO:')

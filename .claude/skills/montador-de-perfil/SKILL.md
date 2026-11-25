@@ -26,7 +26,8 @@ Para cada perfil, escreva em `leads/analise.json`:
   "dor": {"citacao": "trecho copiado igual", "link": "link da fala"},
   "sonho": {"citacao": "", "link": ""},
   "objecao": {"citacao": "", "link": ""},
-  "pergunta": {"citacao": "", "link": ""}}]
+  "pergunta": {"citacao": "", "link": ""},
+  "fato": {"citacao": "", "link": "", "frase": ""}}]
 ```
 **Status:** use `manter` ou um destes motivos de descarte:
 - `descartado: concorrente`: faz sites, é agência, social media, tráfego ou designer;
@@ -40,7 +41,11 @@ Para cada perfil, escreva em `leads/analise.json`:
 - **SONHO:** o que ela quer que aconteça.
 - **OBJEÇÃO:** o que a faria hesitar em comprar, como preço, tempo ou frustração anterior.
 - **PERGUNTA:** uma pergunta que a pessoa fez em público sobre algo que o site resolve, como pedido, cardápio, agenda ou catálogo. O disparador abre por ela quando não há dor nem desejo.
-- Copie o trecho **exatamente** como está, letra por letra, de uma fala do **próprio perfil**. Pode ser um pedaço de frase.
+- **FATO:** só para um negócio que **publicou contato** e não tem dor, desejo nem pergunta. É algo público do próprio negócio, tirado da bio ou de um post dele, como "encomendas de Natal abertas" ou "atendimento por ordem de chegada".
+  - Em `citacao`, copie o trecho literal que prova o fato.
+  - Em `frase`, escreva uma frase curta, com suas palavras, que diga **só o que a citação prova**. Exemplo: "As encomendas de Natal da Teju já estão abertas."
+  - Nunca use o fato para falar de problema que o negócio não disse ter.
+- Copie o trecho **exatamente** como está, letra por letra, de uma fala ou da bio do **próprio perfil**. Pode ser um pedaço de frase.
 - Não corrija a escrita, não junte frases e não resuma.
 - Use o link da fala de onde copiou.
 - **Sem citação boa, o campo fica vazio.** Vazio é melhor que inventado.
