@@ -24,7 +24,7 @@ import smtplib
 import sys
 import time
 import urllib.parse
-from datetime import date
+from datetime import date, datetime
 from email.message import EmailMessage
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'lead-finder', 'scripts'))
@@ -74,9 +74,16 @@ def motivo_bloqueio(m, b):
     return ''
 
 
-def montar(m, cfg):
+def saudacao(agora=None):
+    """Bom dia, boa tarde ou boa noite, conforme a hora em que a mensagem é aberta."""
+    h = (agora or datetime.now()).hour
+    return 'Bom dia' if 5 <= h < 12 else 'Boa tarde' if 12 <= h < 18 else 'Boa noite'
+
+
+def montar(m, cfg, resolver=True):
     assinatura = f'{cfg["remetente_nome"]}\n{cfg["empresa"]}'
-    return f'{m["corpo"].strip()}\n\n{assinatura}\n\n{comum.LINHA_SAIR}'
+    texto = f'{m["corpo"].strip()}\n\n{assinatura}\n\n{comum.LINHA_SAIR}'
+    return texto.replace('{{saudacao}}', saudacao()) if resolver else texto
 
 
 def problemas(m, cfg):
@@ -89,6 +96,9 @@ def problemas(m, cfg):
     if m.get('gancho') == 'previa':  # gancho escolhido pelo dono: oferecer uma prévia com o nome do negócio
         if not re.search(r'pr[ée]via', corpo, re.I):
             out.append('gancho de prévia: a mensagem precisa oferecer a prévia')
+    elif m.get('gancho') == 'cumprimento':  # gancho escolhido pelo dono: cumprimento simpático e oferta do site
+        if not inicio.startswith('{{saudacao}}') or 'tudo bem' not in inicio.lower():
+            out.append('gancho de cumprimento: comece com {{saudacao}}, tudo bem?')
     elif m.get('gancho') == 'cena':  # gancho escolhido pelo dono: pintar a cena do negócio funcionando
         if not inicio.lower().startswith('imagina'):
             out.append('gancho de cena: a mensagem precisa começar com "Imagina…"')
@@ -102,7 +112,7 @@ def problemas(m, cfg):
         out.append('tem link (proibido na primeira mensagem)')
     if RE_PRECO.search(resto) or RE_PRECO.search(assunto):
         out.append('fala de preço ou valor')
-    if RE_VI_PERFIL.search(corpo) or RE_VI_PERFIL.search(assunto):
+    if m.get('gancho') != 'cumprimento' and (RE_VI_PERFIL.search(corpo) or RE_VI_PERFIL.search(assunto)):
         out.append('usa "vi seu perfil" ou parecido')
     if not corpo.splitlines()[-1].strip().endswith('?'):
         out.append('não termina com pergunta')
@@ -198,6 +208,8 @@ def cmd_mostrar(a, c, cfg):
             partes.append(f'Assunto: {m["assunto"]}  ')
         if m.get('gancho') == 'previa':
             partes.append('Gancho: oferta de prévia com o nome do negócio (se a pessoa topar, a prévia precisa ser entregue)')
+        if m.get('gancho') == 'cumprimento':
+            partes.append('Gancho: cumprimento (bom dia, boa tarde ou boa noite, conforme a hora), elogio ao trabalho e oferta do site')
         if m.get('gancho') == 'cena':
             partes.append('Gancho: cena pronta ("Imagina…"). Se a pessoa topar, manda-se um exemplo que já existe, sem trabalho novo')
         if m['tipo_abertura'] == 'fato':
