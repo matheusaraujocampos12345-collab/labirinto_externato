@@ -28,7 +28,8 @@ REDES_SOCIAIS = ('instagram.com', 'tiktok.com', 'facebook.com', 'wa.me', 'whatsa
 LIXO = ('sentry', 'wixpress.com', 'seudominio', 'seuemail', 'dominio.com', 'email.com', 'nome@', 'exemplo.com',
         'noreply', 'no-reply', 'naoresponda', 'nao-responda', 'donotreply')
 PAGINAS_CONTATO = ('/contato', '/contact', '/fale-conosco')
-NAO_SITES = ('app.google', 'calendly.com', 'forms.gle', 'docs.google', 'drive.google', 'bit.ly')
+NAO_SITES = ('app.google', 'calendly.com', 'forms.gle', 'docs.google', 'drive.google', 'bit.ly', 'is.gd', 'abre.ai',
+             'cutt.ly', 'tinyurl.com', 't.ly', 'encurtador.com.br', 'wa.link')
 UA = 'Mozilla/5.0 (compatible; lead-finder/1.0; contato publico)'
 MAX_PAGINAS = 6
 
@@ -72,17 +73,18 @@ class Leitor:
         return True if rp is None else rp.can_fetch(UA, url)
 
     def resolver_atalho(self, url):
-        """Abre um atalho de WhatsApp publicado (wa.link, wa.me/message) e vê para qual número ele leva."""
+        """Segue um atalho que a empresa publicou na bio (wa.link, wa.me/message, bit.ly...).
+        Devolve (número de WhatsApp ou '', endereço final)."""
         if self.simular:
-            return ''
+            return '', ''
         try:
             req = urllib.request.Request(url, headers={'User-Agent': UA})
             with urllib.request.urlopen(req, timeout=10) as r:
                 final = r.geturl()
-                corpo = r.read(200_000).decode('utf-8', errors='replace')
-            return whats_em_links(final) or whats_em_links(corpo)
+                corpo = r.read(200_000).decode('utf-8', errors='replace') if 'html' in (r.headers.get('Content-Type') or 'html') else ''
+            return whats_em_links(final) or whats_em_links(corpo), final
         except Exception:
-            return ''
+            return '', ''
 
     def ler(self, url):
         if self.simular:
@@ -133,7 +135,16 @@ def nao_e_site(u):
     return any(r in d for r in REDES_SOCIAIS + NAO_SITES)
 
 
-RE_WA_LINK = re.compile(r'(?:wa\.me/|whatsapp\.com/send/?\?phone=)\+?(\d{10,13})', re.I)
+RE_WA_LINK = re.compile(r'(?:wa\.me/(?:c/)?|whatsapp\.com/send/?\?phone=)\+?(\d{10,13})', re.I)
+# atalhos que a própria empresa publicou na bio e que levam ao WhatsApp (ou ao site dela)
+ATALHOS = re.compile(r'(^|//)(wa\.link/|wa\.me/message/|api\.whatsapp\.com/message/|bit\.ly/|is\.gd/|abre\.ai/|cutt\.ly/|tinyurl\.com/|t\.ly/|encurtador\.com\.br/)', re.I)
+
+
+def normaliza_numero(d):
+    """Só dígitos → +55DDDNÚMERO. Aceita com ou sem o 55; devolve '' se não parecer um número brasileiro."""
+    if len(d) in (10, 11):
+        d = '55' + d
+    return '+' + d if len(d) in (12, 13) and d.startswith('55') else ''
 RE_FONE_BR = re.compile(r'(?<![\d/])(?:\+?55[\s.-]?)?\(?([1-9]\d)\)?[\s.-]?(9\d{4})[\s.-]?(\d{4})(?![\d/])')
 
 
@@ -141,10 +152,9 @@ def whats_em_links(texto):
     """WhatsApp só a partir de link wa.me ou whatsapp.com/send (serve para páginas inteiras)."""
     t = html.unescape(urllib.parse.unquote(texto or ''))
     for m in RE_WA_LINK.finditer(t):
-        d = m.group(1)
-        d = d if d.startswith('55') else '55' + d
-        if len(d) in (12, 13):
-            return '+' + d
+        n = normaliza_numero(m.group(1))
+        if n:
+            return n
     return ''
 
 
@@ -165,11 +175,17 @@ def cacar(p, leitor, simular, posts_proprios=()):
         if numero and not r['whatsapp']:
             r['whatsapp'], r['fonte_whatsapp'] = numero, fonte
 
-    for u in [p.get('link_bio')] + list(p.get('outros_links') or []):
-        achou_whats(whats_em_links(u or ''), f'link do perfil ({p["link"]})')
-    for u in [p.get('link_bio')] + list(p.get('outros_links') or []):
-        if u and not r['whatsapp'] and re.search(r'(^|//)(wa\.link/|wa\.me/message/|api\.whatsapp\.com/message/)', u):
-            achou_whats(leitor.resolver_atalho(u), f'atalho de WhatsApp no perfil ({u})')
+    links_perfil = [u for u in [p.get('link_bio')] + list(p.get('outros_links') or []) +
+                    re.findall(r'https?://[^\s"\'<>]+', p.get('bio') or '') if u]
+    for u in links_perfil:
+        achou_whats(whats_em_links(u), f'link do perfil ({p["link"]})')
+    finais = []  # sites para onde os atalhos levam (entram na fila de leitura)
+    for u in links_perfil:
+        if ATALHOS.search(u):
+            numero, final = leitor.resolver_atalho(u)
+            achou_whats(numero, f'atalho de WhatsApp no perfil ({u})')
+            if final and not whats_em_links(final) and not nao_e_site(final):
+                finais.append(final)
     achou_whats(whats_no_texto(p.get('bio')), f'bio do perfil ({p["link"]})')
     for post in posts_proprios:
         achou_whats(whats_no_texto(post.get('texto')), f'post do próprio perfil ({post.get("link")})')
@@ -184,7 +200,7 @@ def cacar(p, leitor, simular, posts_proprios=()):
             r['email'], r['fonte_email'] = e[0], f'bio do perfil ({p["link"]})'
     if r['email'] and r['whatsapp']:
         return r
-    sementes = [p.get('link_bio')] + list(p.get('outros_links') or []) + re.findall(r'https?://[^\s"\'<>]+', p.get('bio') or '')
+    sementes = finais + [p.get('link_bio')] + list(p.get('outros_links') or []) + re.findall(r'https?://[^\s"\'<>]+', p.get('bio') or '')
     fila = []
     for u in sementes:
         if u and not nao_e_site(u) and limpar_url(u) not in fila:
@@ -223,8 +239,11 @@ def fmt(c):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--simular', action='store_true')
+    ap.add_argument('--refazer', action='store_true', help='ignora o que já foi achado antes (leads/contatos.json)')
     a = ap.parse_args()
     pasta = comum.pasta_leads(a.simular)
+    arq_cache = os.path.join(pasta, 'contatos.json')
+    cache = {} if a.refazer else comum.ler_json(arq_cache, {})
     perfis = comum.ler_json(os.path.join(pasta, 'perfis.json'))
     if perfis is None:
         raise SystemExit('Falta perfis.json. Rode o montador antes.')
@@ -240,7 +259,13 @@ def main():
     for p in perfis:
         if p.get('status') != 'manter':
             continue
-        r = cacar(p, leitor, a.simular, posts.get(p['id'], []))
+        chave = f'{p["id"]}|{p.get("link_bio") or ""}|{p.get("bio") or ""}'
+        if chave in cache:
+            r = cache[chave]
+        else:
+            r = cacar(p, leitor, a.simular, posts.get(p['id'], []))
+            cache[chave] = r
+            comum.salvar_json(arq_cache, cache)  # guarda a cada perfil: se cair, não perde o que já achou
         n_email += bool(r['email'])
         n_whats += bool(r['whatsapp'] and not r['email'])
         n_sem += not (r['email'] or r['whatsapp'])

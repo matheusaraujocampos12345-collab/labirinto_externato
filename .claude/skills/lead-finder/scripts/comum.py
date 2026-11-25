@@ -8,6 +8,7 @@ import os
 import re
 import sys
 import time
+import unicodedata
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -203,7 +204,8 @@ def rodar_ator(ator, entrada, max_itens, teto_usd, espera_max=900):
 # ---------- texto ----------
 
 def normalizar(t):
-    t = (t or '').replace('“', '"').replace('”', '"').replace('’', "'")
+    t = unicodedata.normalize('NFC', t or '')  # o mesmo "ú" pode vir escrito de dois jeitos no Unicode
+    t = t.replace('“', '"').replace('”', '"').replace('’', "'")
     return re.sub(r'\s+', ' ', t).strip()
 
 

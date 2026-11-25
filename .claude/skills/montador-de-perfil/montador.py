@@ -24,7 +24,7 @@ def pistas(p):
     texto = f'{p.get("nome", "")} {p.get("bio", "")} {p.get("categoria", "")}'.lower()
     if re.search(SINAIS_CONCORRENTE, texto):
         out.append('concorrente?')
-    if (p.get('seguidores') or 0) >= 100000 or p.get('verificado'):
+    if (p.get('seguidores') or 0) >= 100000:  # o selo de verificado hoje é pago e pequenos negócios também têm
         out.append('marca grande?')
     if re.search(SINAIS_ROBO, texto + ' ' + ' '.join(f['texto'].lower() for f in p.get('falas', []))):
         out.append('robô?')

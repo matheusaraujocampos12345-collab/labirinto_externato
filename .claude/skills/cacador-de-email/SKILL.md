@@ -19,6 +19,9 @@ python3 .claude/skills/cacador-de-email/cacador.py --simular  # dados fictícios
 3. O link na bio. Se for um agregador (Linktree e parecidos), segue para o site da empresa.
 4. O site da empresa: página inicial, página de contato e rodapé. Ele lê no máximo 6 páginas por perfil, espera 1 segundo entre elas e respeita o `robots.txt`.
 
+5. **Links curtos que a própria empresa pôs na bio** (wa.link, bit.ly, abre.ai e parecidos) são seguidos só para achar o número ou o site dela. Links `wa.me/message/…` escondem o número de propósito: esses perfis ficam "sem contato".
+6. O que já foi achado fica em `leads/contatos.json`, e uma nova rodada não repete a busca. Para refazer do zero, rode com `--refazer`.
+
 ## WhatsApp
 Pequeno negócio no Brasil costuma publicar WhatsApp, e não e-mail. O caçador também guarda o WhatsApp **publicado** pela própria empresa, com a fonte:
 - link wa.me no perfil ou no site;

@@ -107,8 +107,12 @@ Propostas de marca publicadas como páginas (claude.ai, privadas): Talhe, Macte 
   - No Brasil, pequeno negócio quase nunca publica e-mail. Por isso o WhatsApp é enviado **à mão pelo dono** (link pronto), nunca por robô.
 - **Rodada 2:**
   - 7 mensagens aprovadas por WhatsApp;
-  - 1 aceitou ver a prévia;
-  - a rodada 3 (100 perfis, cerca de US$ 0,65) espera o ok do dono.
+  - 1 aceitou ver a prévia (Doces Helena, prévia feita em `previas/doces-helena/`).
+- **Rodada 3 (25/11):**
+  - 99 perfis novos de 8 hashtags de nicho (bolos, doces, hambúrguer, pizza, tatuagem, floricultura, barbearia e padaria);
+  - 64 com cara de cliente e 37 com WhatsApp publicado;
+  - 37 mensagens com gancho de prévia esperando a aprovação do dono;
+  - a rodada custou US$ 0,55, e o mês está em US$ 1,16 dos US$ 5.
 - **Prévias para clientes:** ficam em `previas/<cliente>/` (fora do git, porque têm fotos e dados do cliente). Cada uma tem:
   - o site, em `site/`;
   - as imagens e o vídeo, em `entrega/`;
