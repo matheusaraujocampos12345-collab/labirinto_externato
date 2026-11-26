@@ -1,0 +1,355 @@
+<title>Rotina de postagens MACH</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: coluna única de seções; a grade da semana vira lista por dia no celular. Tema escuro único da marca. */
+:root {
+  --bg: #0A0C0F;
+  --surface: #12161B;
+  --surface-2: #1B2026;
+  --line: rgba(223,227,231,0.12);
+  --fg: #DFE3E7;
+  --muted: #8A929B;
+  --faint: #5A626C;
+  --accent: #FF6B1A;
+  --display: "Saira", "Arial Narrow", system-ui, sans-serif;
+  --body: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.5; }
+.wrap { max-width: 880px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 80px; }
+.rotulo { font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-weight: 300; font-size: clamp(34px, 7vw, 54px); line-height: 1.06; margin: 10px 0 14px; text-wrap: balance; }
+h2 { font-family: var(--display); font-weight: 400; font-size: 28px; line-height: 1.15; margin: 0 0 6px; text-wrap: balance; }
+h3 { font-family: var(--display); font-weight: 400; font-size: 21px; margin: 0; }
+p { margin: 0; }
+.intro { color: var(--muted); max-width: 62ch; }
+.intro strong { color: var(--fg); font-weight: 500; }
+.resumo { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-top: 22px; }
+.resumo div { display: flex; flex-direction: column; }
+.resumo b { font-family: var(--display); font-weight: 300; font-size: 34px; line-height: 1; font-variant-numeric: tabular-nums; }
+.resumo span { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 6px; }
+
+section { margin-top: 56px; display: flex; flex-direction: column; gap: 16px; }
+.sub { color: var(--muted); max-width: 64ch; }
+
+/* grade da semana */
+.grade { display: grid; grid-template-columns: 4.5em repeat(6, minmax(0, 1fr)); gap: 6px; }
+.grade .cab { font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); padding: 4px 2px; }
+.grade .hora { font-family: var(--mono); font-size: 13px; color: var(--muted); padding-top: 12px; font-variant-numeric: tabular-nums; }
+.slot { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.slot.vazio { background: transparent; border-style: dashed; color: var(--faint); font-size: 13px; justify-content: center; }
+.slot .nome { font-weight: 500; font-size: 14px; line-height: 1.3; overflow-wrap: anywhere; }
+.slot.estrela { border-color: var(--accent); }
+.chips { display: flex; gap: 4px; flex-wrap: wrap; }
+.chip { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); border-radius: 99px; padding: 2px 7px; white-space: nowrap; }
+.chip.app { color: var(--fg); }
+.legenda { display: flex; flex-wrap: wrap; gap: 8px 18px; color: var(--muted); font-size: 14px; }
+.legenda i { display: inline-block; width: 12px; height: 12px; border-radius: 4px; border: 1px solid var(--accent); vertical-align: -1px; margin-right: 6px; }
+@media (max-width: 720px) {
+  .grade { grid-template-columns: 1fr; gap: 8px; }
+  .grade .cab, .grade .hora { display: none; }
+  .slot::before { content: attr(data-quando); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .slot.vazio { display: none; }
+  .slot { order: var(--o); }
+}
+
+/* listas com horário */
+.passos { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.passos li { display: grid; grid-template-columns: 7.5em 1fr; gap: 4px 16px; padding: 14px 2px; border-bottom: 1px solid var(--line); }
+.passos .quando { font-family: var(--mono); font-size: 13px; color: var(--muted); padding-top: 2px; font-variant-numeric: tabular-nums; }
+.passos .oque b { font-weight: 600; }
+.passos .oque span { display: block; color: var(--muted); font-size: 14px; margin-top: 2px; }
+.passos .quem { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+.passos .quem.voce { color: var(--accent); }
+.passos .quem.claude { color: var(--muted); }
+@media (max-width: 520px) { .passos li { grid-template-columns: 1fr; } }
+
+/* calendário */
+.semana { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+.semana header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px 12px; }
+.contagem { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.dias { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.dias li { display: grid; grid-template-columns: 6.8em 3.4em 1fr auto; gap: 4px 12px; align-items: baseline; padding: 10px 0; border-top: 1px solid var(--line); }
+.dias .dia { font-family: var(--mono); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.dias .h { font-family: var(--mono); font-size: 13px; color: var(--fg); font-variant-numeric: tabular-nums; }
+.dias .peca { min-width: 0; overflow-wrap: anywhere; }
+.dias .peca small { display: block; color: var(--muted); font-size: 13px; }
+.estado { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 99px; padding: 2px 8px; white-space: nowrap; border: 1px solid var(--line); color: var(--muted); }
+.estado.pronto { color: var(--fg); border-color: rgba(223,227,231,0.4); }
+.estado.novo { color: var(--accent); border-color: rgba(255,107,26,0.6); }
+.estado.fazer { border-style: dashed; }
+@media (max-width: 560px) { .dias li { grid-template-columns: 6.2em 3.2em 1fr; } .dias .estado { grid-column: 3; justify-self: start; } }
+
+/* mensagens prontas */
+.msg { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+.msg blockquote { margin: 0; padding: 12px 14px; background: var(--bg); border-radius: 10px; border: 1px solid var(--line); white-space: pre-line; user-select: all; }
+.msg button { align-self: flex-start; }
+
+/* decisões */
+.decisao { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+.decisao[data-decisao="aprovar"] { border-color: var(--accent); }
+.botoes { display: flex; gap: 8px; flex-wrap: wrap; }
+button { font: 500 15px var(--body); color: var(--fg); background: var(--surface-2); border: 1px solid var(--line); border-radius: 99px; padding: 10px 18px; cursor: pointer; min-height: 44px; }
+button:hover { border-color: rgba(223,227,231,0.35); }
+button:focus-visible, textarea:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+button[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+button[data-v="aprovar"][aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #0A0C0F; }
+button:disabled { opacity: 0.5; cursor: default; }
+textarea { width: 100%; box-sizing: border-box; min-height: 60px; resize: vertical; font: 15px/1.45 var(--body); color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.salvo { font-family: var(--mono); font-size: 12px; color: var(--faint); min-height: 1.4em; }
+.estado-db { font-family: var(--mono); font-size: 12px; color: var(--faint); }
+.rodape { margin-top: 40px; color: var(--faint); font-size: 14px; max-width: 64ch; }
+</style>
+
+<div class="wrap">
+  <div class="rotulo">MACH · Instagram · a partir de 30/11</div>
+  <h1>Rotina de postagens</h1>
+  <p class="intro">Todo dia tem post, e cada dia da semana tem o seu formato. Você grava a semana inteira de uma vez no domingo, pelo app, com música. Nos outros dias, o seu trabalho é <strong>responder quem comentou</strong> e mandar as mensagens de prospecção.</p>
+  <div class="resumo">
+    <div><b>11</b><span>posts por semana</span></div>
+    <div><b>7</b><span>Reels</span></div>
+    <div><b>4</b><span>carrosséis</span></div>
+    <div><b>≈30 min</b><span>seu tempo por dia</span></div>
+  </div>
+
+  <section aria-labelledby="t-grade">
+    <h2 id="t-grade">A semana-modelo</h2>
+    <p class="sub">Cada formato tem dia e hora fixos: quem segue sabe o que vem, e eu produzo sempre o mesmo pacote. O "12 animações", que é o que mais alcança quem não segue, sai duas vezes por semana.</p>
+    <div class="grade" id="grade"></div>
+    <div class="legenda"><span><i></i>formato que mais deu alcance (catálogo com "Comenta PROMPT")</span><span>APP = você agenda no app, com música · ROBÔ = sai sozinho</span></div>
+  </section>
+
+  <section aria-labelledby="t-dia">
+    <h2 id="t-dia">O seu dia</h2>
+    <p class="sub">De segunda a sexta. No sábado, só os comentários. No domingo, o agendamento da semana.</p>
+    <ul class="passos">
+      <li><span class="quando">12h e 19h</span><span class="oque"><b>O post sai sozinho.</b><span>Os Reels você já agendou no domingo; os carrosséis o robô publica.</span></span></li>
+      <li><span class="quando">12h–13h · 19h–20h</span><span class="oque"><b>Responda todo comentário na primeira hora.</b><span>É quando o Instagram decide se mostra o vídeo para mais gente. Quem comentou PROMPT ou SITE recebe a mensagem pronta abaixo.</span></span></li>
+      <li><span class="quando">19h30</span><span class="oque"><b>Mande as 20 mensagens de prospecção.</b><span>Pela fila de envio, com uns 2 minutos entre uma e outra.</span></span></li>
+      <li><span class="quando">ao longo do dia</span><span class="oque"><b>2 ou 3 stories.</b><span>Compartilhe o Reels do dia e um bastidor do kit da semana. Enquete na terça e na quinta.</span></span></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="t-ciclo">
+    <h2 id="t-ciclo">O ciclo da semana</h2>
+    <p class="sub">A produção corre uma semana na frente: o que eu faço na quinta vai ao ar a partir da segunda seguinte.</p>
+    <ul class="passos">
+      <li><span class="quando">quinta</span><span class="oque"><span class="quem claude">Claude</span><b>Produzo a semana seguinte.</b><span>7 Reels, 4 carrosséis, legendas e o kit de stories, numa página para você aprovar.</span></span></li>
+      <li><span class="quando">sexta</span><span class="oque"><span class="quem voce">Você</span><b>Aprova, pede ajuste ou corta.</b><span>Na mesma página, com um toque em cada peça.</span></span></li>
+      <li><span class="quando">sábado</span><span class="oque"><span class="quem claude">Claude</span><b>Monto o calendário e o kit de agendamento.</b><span>O robô fica com os carrosséis; os Reels vão para o kit (vídeo, capa e legenda de cada um).</span></span></li>
+      <li><span class="quando">domingo · 30 min</span><span class="oque"><span class="quem voce">Você</span><b>Agenda os 7 Reels no app, com música.</b><span>Pelo próprio Instagram: criar Reels, escolher a música, Configurações avançadas, Programar.</span></span></li>
+      <li><span class="quando">segunda · 10 min</span><span class="oque"><span class="quem voce">Você</span><b>Me manda os números da semana.</b><span>Um print dos insights de cada post (alcance e quem não segue). Eu digo qual formato repetir e qual trocar.</span></span></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="t-cal">
+    <h2 id="t-cal">As próximas semanas</h2>
+    <p class="sub">Esta semana e a próxima usam o que já está pronto e aprovado. A rotina completa começa em 07/12.</p>
+    <div id="semanas" style="display:flex;flex-direction:column;gap:16px"></div>
+  </section>
+
+  <section aria-labelledby="t-msg">
+    <h2 id="t-msg">Mensagens prontas para o direct</h2>
+    <p class="sub">Copie, cole e troque o que estiver entre colchetes.</p>
+    <div class="msg">
+      <h3>Quem comentou PROMPT</h3>
+      <blockquote id="m-prompt">Oi! Que bom que você gostou. Aqui está o prompt das animações do vídeo.
+[cole aqui o texto do arquivo da parte certa]
+É só colar na sua IA ou mandar para quem cuida do seu site. Se quiser alguma delas no seu, me chama aqui.</blockquote>
+      <button type="button" data-copiar="m-prompt">Copiar mensagem</button>
+    </div>
+    <div class="msg">
+      <h3>Quem comentou SITE</h3>
+      <blockquote id="m-site">Oi! Vi que você comentou SITE. Me conta: qual é o seu negócio e você já tem site? Te mostro o que dá para melhorar.</blockquote>
+      <button type="button" data-copiar="m-site">Copiar mensagem</button>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-ok">
+    <h2 id="t-ok">O que você aprova</h2>
+    <p class="sub">Depois da aprovação, eu coloco as duas semanas no calendário do robô e preparo o kit de domingo. <span class="estado-db" id="estado">carregando respostas…</span></p>
+    <div id="decisoes" style="display:flex;flex-direction:column;gap:14px"></div>
+  </section>
+
+  <p class="rodape">Os horários são de Brasília. Se um post vier com pouco alcance, ele não sai da grade: a gente troca o formato na semana seguinte, olhando os números.</p>
+</div>
+
+<script>
+const DIAS = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+const GRADE = {
+  "12h": [
+    { nome: "Carrossel de dica para quem tem negócio", tipo: "Carrossel", como: "robô" },
+    { nome: "Errado × certo", tipo: "Reels", como: "app" },
+    { nome: "Carrossel", tipo: "Carrossel", como: "robô" },
+    { nome: "Animação que explica tecnologia", tipo: "Reels", como: "app" },
+    { nome: "Efeito explicado ou site 3D com IA", tipo: "Reels", como: "app" },
+    { nome: "Carrossel leve: lista, ferramentas, bastidor", tipo: "Carrossel", como: "robô", hora: "11h" },
+  ],
+  "19h": [
+    { nome: "12 animações de site (Comenta PROMPT)", tipo: "Reels", como: "app", estrela: true },
+    { nome: "Antes e depois (Comenta SITE)", tipo: "Reels", como: "app" },
+    { nome: "Efeito explicado", tipo: "Reels", como: "app" },
+    { nome: "Carrossel", tipo: "Carrossel", como: "robô" },
+    { nome: "12 animações temático (Comenta PROMPT)", tipo: "Reels", como: "app", estrela: true },
+    null,
+  ],
+};
+const SEMANAS = [
+  { titulo: "Esta semana · 27 a 29/11", itens: [
+    ["Sex 27/11", "12h", "12 animações de site · parte 2", "Reels · você posta pelo app", "pronto"],
+    ["Sex 27/11", "19h", "12 animações de site · parte 3", "Reels · você posta pelo app", "pronto"],
+    ["Sáb 28/11", "18h", "Teaser do lançamento", "Reels · já estava no calendário", "pronto"],
+    ["Dom 29/11", "—", "Agendar a semana 30/11–05/12 no app", "30 min, com o kit que eu mando no sábado", "voce"],
+  ] },
+  { titulo: "Semana 1 · 30/11 a 05/12", itens: [
+    ["Seg 30/11", "12h", "Raio-X da primeira tela", "Carrossel", "pronto"],
+    ["Seg 30/11", "19h", "Caixa-preta 01", "Reels", "pronto"],
+    ["Ter 01/12", "12h", "Isso não é um vídeo", "Reels", "pronto"],
+    ["Ter 01/12", "19h", "Antes e depois: doceria", "Reels · Comenta SITE", "novo"],
+    ["Qua 02/12", "12h", "Parallax em 30 segundos", "Reels", "pronto"],
+    ["Qua 02/12", "19h", "Feito para padaria", "Reels", "pronto"],
+    ["Qui 03/12", "12h", "Errado × certo 01: botão do WhatsApp", "Reels", "novo"],
+    ["Qui 03/12", "19h", "O site que todo mundo tem", "Reels", "pronto"],
+    ["Sex 04/12", "12h", "1 segundo, 30 quadros", "Reels", "pronto"],
+    ["Sex 04/12", "19h", "Mito: animação deixa o site lento", "Carrossel", "pronto"],
+    ["Sáb 05/12", "11h", "Do zero à primeira tela", "Reels", "pronto"],
+  ] },
+  { titulo: "Semana 2 · 07 a 12/12 · a rotina completa", itens: [
+    ["Seg 07/12", "12h", "3 coisas que o site do seu negócio precisa ter", "Carrossel", "fazer"],
+    ["Seg 07/12", "19h", "12 animações de site · parte 4", "Reels · Comenta PROMPT", "fazer"],
+    ["Ter 08/12", "12h", "Errado × certo 02: a foto do topo", "Reels", "fazer"],
+    ["Ter 08/12", "19h", "Antes e depois 02: barbearia", "Reels · Comenta SITE", "fazer"],
+    ["Qua 09/12", "12h", "Carrossel de dica", "Carrossel", "fazer"],
+    ["Qua 09/12", "19h", "Efeito explicado 01: revelar ao rolar", "Reels · Comenta PROMPT", "fazer"],
+    ["Qui 10/12", "12h", "Como um site abre em 1 segundo", "Reels", "novo"],
+    ["Qui 10/12", "19h", "Carrossel de dica", "Carrossel", "fazer"],
+    ["Sex 11/12", "12h", "Site 3D feito com IA", "Reels", "fazer"],
+    ["Sex 11/12", "19h", "10 animações de botão", "Reels · Comenta PROMPT", "fazer"],
+    ["Sáb 12/12", "11h", "3 ferramentas grátis para a sua loja", "Carrossel", "fazer"],
+  ] },
+];
+const ESTADO = { pronto: ["pronto", "pronto"], novo: ["novo", "pronto, novo"], fazer: ["fazer", "a produzir"], voce: ["", "você"] };
+const DECISOES = [
+  { id: "grade", nome: "A semana-modelo", desc: "Os formatos fixos por dia e horário." },
+  { id: "dia", nome: "O seu dia e o ciclo da semana", desc: "Responder na primeira hora, prospecção às 19h30, agendamento aos domingos." },
+  { id: "semana-1", nome: "Esta semana e a semana 1", desc: "27/11 a 05/12, com os vídeos novos de antes e depois (01/12) e errado × certo (03/12)." },
+  { id: "semana-2", nome: "A semana 2", desc: "07 a 12/12. Eu começo a produzir na quinta, 03/12." },
+];
+
+function el(tag, attrs = {}, ...filhos) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") n.className = v; else if (k === "text") n.textContent = v; else n.setAttribute(k, v);
+  }
+  for (const f of filhos) if (f) n.append(f);
+  return n;
+}
+
+// grade
+(() => {
+  const g = document.getElementById("grade");
+  g.append(el("span", { class: "cab" }));
+  DIAS.forEach((d) => g.append(el("span", { class: "cab", text: d })));
+  for (const hora of ["12h", "19h"]) {
+    g.append(el("span", { class: "hora", text: hora }));
+    GRADE[hora].forEach((s, i) => {
+      if (!s) { g.append(el("div", { class: "slot vazio", text: "livre" })); return; }
+      const h = s.hora || hora;
+      const slot = el("div", { class: "slot" + (s.estrela ? " estrela" : ""), "data-quando": `${DIAS[i]} · ${h}`, style: `--o:${i * 2 + (hora === "19h" ? 1 : 0)}` },
+        el("span", { class: "nome", text: s.nome }),
+        el("div", { class: "chips" }, el("span", { class: "chip", text: s.tipo }), el("span", { class: "chip" + (s.como === "app" ? " app" : ""), text: s.como === "app" ? "app" : "robô" }), s.hora ? el("span", { class: "chip", text: s.hora }) : null));
+      g.append(slot);
+    });
+  }
+})();
+
+// semanas
+(() => {
+  const box = document.getElementById("semanas");
+  for (const s of SEMANAS) {
+    const n = { pronto: 0, novo: 0, fazer: 0 };
+    s.itens.forEach((it) => { if (n[it[4]] !== undefined) n[it[4]]++; });
+    const partes = [];
+    if (n.pronto + n.novo) partes.push(`${n.pronto + n.novo} prontos`);
+    if (n.fazer) partes.push(`${n.fazer} a produzir`);
+    const ul = el("ul", { class: "dias" });
+    for (const [dia, h, peca, det, est] of s.itens) {
+      const [cls, rot] = ESTADO[est];
+      ul.append(el("li", {}, el("span", { class: "dia", text: dia }), el("span", { class: "h", text: h }),
+        el("span", { class: "peca" }, document.createTextNode(peca), el("small", { text: det })),
+        el("span", { class: "estado " + cls, text: rot })));
+    }
+    box.append(el("div", { class: "semana" }, el("header", {}, el("h3", { text: s.titulo }), el("span", { class: "contagem", text: partes.join(" · ") })), ul));
+  }
+})();
+
+// copiar mensagens
+document.querySelectorAll("[data-copiar]").forEach((b) => {
+  b.addEventListener("click", async () => {
+    const alvo = document.getElementById(b.dataset.copiar);
+    try { await navigator.clipboard.writeText(alvo.textContent); b.textContent = "Copiada"; }
+    catch (e) { const r = document.createRange(); r.selectNodeContents(alvo); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); b.textContent = "Texto selecionado: copie"; }
+    setTimeout(() => { b.textContent = "Copiar mensagem"; }, 2500);
+  });
+});
+
+// decisões (guardadas para o Claude ler)
+const ROT = { aprovar: "Aprovar", ajustar: "Ajustar", nao: "Não" };
+const respostas = {};
+let db = null;
+function montarDecisoes() {
+  const box = document.getElementById("decisoes");
+  for (const d of DECISOES) {
+    const card = el("div", { class: "decisao", id: "d-" + d.id, "data-decisao": "" }, el("h3", { text: d.nome }), el("p", { class: "sub", text: d.desc }));
+    const bs = el("div", { class: "botoes", role: "group", "aria-label": "Decisão: " + d.nome });
+    for (const v of ["aprovar", "ajustar", "nao"]) {
+      const b = el("button", { type: "button", "data-v": v, "aria-pressed": "false", text: ROT[v] });
+      b.addEventListener("click", () => { if (db) salvar(d.id, { decisao: v }); });
+      bs.append(b);
+    }
+    const idn = "nota-" + d.id;
+    const ta = el("textarea", { id: idn, placeholder: "O que mudar? Ex.: carrossel às 12h na quarta, não." });
+    ta.addEventListener("change", () => { if (db && ta.value !== ((respostas[d.id] || {}).nota || "")) salvar(d.id, { nota: ta.value.slice(0, 2000) }); });
+    card.append(bs, el("label", { class: "rotulo", for: idn, text: "Comentário (opcional)" }), ta, el("div", { class: "salvo", id: "s-" + d.id }));
+    box.append(card);
+  }
+}
+function pintar() {
+  for (const d of DECISOES) {
+    const r = respostas[d.id] || {};
+    const card = document.getElementById("d-" + d.id);
+    card.dataset.decisao = r.decisao || "";
+    card.querySelectorAll("button").forEach((b) => { b.setAttribute("aria-pressed", String(b.dataset.v === r.decisao)); b.disabled = !db; });
+    const ta = document.getElementById("nota-" + d.id);
+    if (document.activeElement !== ta && typeof r.nota === "string") ta.value = r.nota;
+    ta.disabled = !db;
+  }
+}
+async function salvar(id, dados) {
+  const msg = document.getElementById("s-" + id);
+  const antes = { ...(respostas[id] || {}) };
+  respostas[id] = { ...antes, ...dados, em: new Date().toISOString() };
+  pintar();
+  msg.textContent = "salvando…";
+  try { await db.collection("decisoes").doc(id).set(respostas[id]); msg.textContent = "salvo"; }
+  catch (e) { respostas[id] = antes; pintar(); msg.textContent = "não salvou: tente de novo em instantes"; }
+}
+montarDecisoes();
+pintar();
+(async () => {
+  const estado = document.getElementById("estado");
+  try { db = await claude.use("db"); } catch (e) { db = null; }
+  if (!db) { estado.textContent = "Abra logado no claude.ai para responder."; pintar(); return; }
+  pintar();
+  const relogio = setTimeout(() => { estado.textContent = "As respostas ainda não chegaram."; }, 10000);
+  db.collection("decisoes").onSnapshot((snap) => {
+    for (const d of snap.docs) respostas[d.id] = d.data();
+    if (!snap.metadata.fromCache) { clearTimeout(relogio); estado.textContent = "As respostas ficam salvas para o Claude ler."; }
+    pintar();
+  }, () => { clearTimeout(relogio); estado.textContent = "Não deu para carregar as respostas."; });
+})();
+</script>
