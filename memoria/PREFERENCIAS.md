@@ -26,6 +26,11 @@
 - Indicações dadas para posts: "Cornfield Chase" (Hans Zimmer), "Nightcall" (Kavinsky), "Top Gun Anthem".
 - Contas comerciais ("Empresa") têm biblioteca de música reduzida; a conta de "Criador de conteúdo" costuma liberar o catálogo completo.
 
+## Palavra de pedido nos vídeos (26/11)
+- Cada vídeo tem a **sua própria palavra** para a pessoa comentar e receber o material (ex.: CARTÃO, NAVALHA, MOVIMENTO, SITE). Nunca repetir "PROMPT" em todos.
+- A palavra aparece no vídeo e na legenda. As dos 36 efeitos do dia estão em `instagram/reels/cenas/efeito-do-dia.js` (PALAVRAS); a do catálogo é o parâmetro `palavra` em `catalogo()`.
+- Ele prefere o vídeo mais elaborado ao básico: o "Efeito do dia" curto (só o efeito em loop) achou "muito básico"; o caprichado (efeito grande, por dentro em camadas, números, no site) é o padrão.
+
 ## Segurança
 - Nunca pedir senha no chat. Tokens só por formulário seguro.
 - Login do Facebook ou Instagram a partir de computador na nuvem é arriscado (a conta da Meta é nova). Prefira que ele mesmo clique no próprio Mac.

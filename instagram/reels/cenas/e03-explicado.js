@@ -1,7 +1,7 @@
 // Efeito do dia 03, versão elaborada (20 s): "Cartão 3D que inclina", explicado.
 // 1) o cartão grande segue o dedo; 2) "por dentro": o cartão se desmonta em 4 camadas (sombra, base, texto,
 // reflexo) numa vista em 3D; 3) os três números do efeito (12°, 8°, 900 px); 4) o cartão no site da
-// Barbearia Navalha (conceito); 5) "Quer o prompt? Comenta PROMPT."
+// Barbearia Navalha (conceito); 5) "Quer o prompt? Comenta CARTÃO." (palavra própria deste vídeo)
 import { clamp, lerp, prog, ease } from '../motor/tempo.js';
 import { COR, fundo, bloco, rotulo, assinatura, dedo, vinheta } from '../motor/marca.js';
 import { riscos } from './comum.js';
@@ -220,7 +220,7 @@ function quadro(ctx, t) {
   bloco(ctx, t, { texto: 'E três números.', x: 88, y: 338, tamanho: 84, entra: A3, sai: A4 - 0.3, durSaida: 0.3 });
   bloco(ctx, t, { texto: 'No site, vira o\ncartão do clube.', x: 88, y: 338, tamanho: 84, entra: A4, sai: A5 - 0.3, durSaida: 0.3 });
   bloco(ctx, t, { texto: 'Quer o prompt?', x: 88, y: 338, tamanho: 84, entra: A5 });
-  bloco(ctx, t, { estilo: 'texto', texto: 'Comenta PROMPT que eu mando no direct.', x: 90, y: 444, tamanho: 40, peso: 500, destaque: 'PROMPT', entra: A5 + 0.35, entrada: 'fade' });
+  bloco(ctx, t, { estilo: 'texto', texto: 'Comenta CARTÃO que eu mando no direct.', x: 90, y: 444, tamanho: 40, peso: 500, destaque: 'CARTÃO', entra: A5 + 0.35, entrada: 'fade' });
 
   if (t < A2) {
     // 1 — o cartão segue o dedo

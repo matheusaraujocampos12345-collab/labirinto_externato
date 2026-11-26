@@ -15,6 +15,12 @@ export const TODOS = [
   ...P2.map((it, i) => ({ ...it, parte: 2, n: i + 1 })),
   ...P3.map((it, i) => ({ ...it, parte: 3, n: i + 1 })),
 ];
+// palavra de pedido de cada efeito (nunca repetir a mesma em vídeos diferentes)
+export const PALAVRAS = [
+  'ROLAGEM', 'PARALLAX', 'CARTÃO', 'BOTÃO', 'ACENDE', 'MÁSCARA', 'LUPA', 'MENU', 'NÚMEROS', 'GALERIA', 'TRANSIÇÃO', 'TÚNEL',
+  'LETREIRO', 'LETRAS', 'ANTES', 'PILHA', 'LUZ', 'LINHA', 'LEITURA', 'DÚVIDAS', 'SACOLA', 'DIGITA', 'HORIZONTAL', 'CORTINA',
+  'COR', 'FOTO', 'FIXA', 'ÍCONE', 'CONTAGEM', 'MAPA', 'CONFIRMA', 'VIRA', 'ZOOM', 'ESTRELAS', 'FILTRO', 'PARTÍCULAS',
+];
 const CICLO = 2.7, VOLTAS = 3, DUR = CICLO * VOLTAS;
 const JY = 640; // a janela desce um pouco em relação ao catálogo: o título pode ter duas linhas
 
@@ -76,7 +82,7 @@ export function efeitoDoDia(num) {
     riscos(ctx, t, DUR, { alfa: 0.6, semente: 40 + num });
     rotulo(ctx, t, { texto: `Efeito do dia · ${nn}`, x: 90, y: 292, entra: -1, entrada: 'corte' });
     const caixa = bloco(ctx, t, { texto: it.nome + '.', x: 88, y: 338, tamanho: 84, entra: -1, entrada: 'corte', largura: 852 });
-    bloco(ctx, t, { estilo: 'texto', texto: 'Quer o prompt? Comenta PROMPT.', x: 90, y: Math.max(462, caixa.base + 18), tamanho: 40, peso: 500, destaque: 'PROMPT', entra: -1, entrada: 'corte' });
+    bloco(ctx, t, { estilo: 'texto', texto: `Quer o prompt? Comenta ${PALAVRAS[num - 1]}.`, x: 90, y: Math.max(462, caixa.base + 18), tamanho: 40, peso: 500, destaque: PALAVRAS[num - 1], entra: -1, entrada: 'corte' });
     janela(ctx, u);
     // progresso do loop e de onde o efeito veio
     ctx.fillStyle = 'rgba(223,227,231,0.12)';

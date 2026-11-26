@@ -121,7 +121,7 @@ textarea { width: 100%; box-sizing: border-box; min-height: 60px; resize: vertic
     <p class="sub">Cada formato tem dia e hora fixos: quem segue sabe o que vem, e eu produzo sempre o mesmo pacote. O "12 animações", que é o que mais alcança quem não segue, sai duas vezes por semana, e os efeitos dele voltam um por dia às 9h. Os 36 efeitos prontos dão para 7 semanas.</p>
     <p class="sub"><strong style="color:var(--fg);font-weight:500">Teste de 2 semanas.</strong> Na pesquisa de 22/11, o ganho de alcance diminuía depois de 1 ou 2 posts por dia. Por isso o terceiro post reaproveita conteúdo pronto, sem cair a qualidade. Se o alcance por post cair muito até 12/12, voltamos para 2.</p>
     <div class="grade" id="grade"></div>
-    <div class="legenda"><span><i></i>formato que mais deu alcance (catálogo com "Comenta PROMPT")</span><span>APP = você agenda no app, com música · ROBÔ = sai sozinho</span></div>
+    <div class="legenda"><span><i></i>formato que mais deu alcance (catálogo com palavra de pedido)</span><span>APP = você agenda no app, com música · ROBÔ = sai sozinho</span></div>
   </section>
 
   <section aria-labelledby="t-dia">
@@ -129,7 +129,7 @@ textarea { width: 100%; box-sizing: border-box; min-height: 60px; resize: vertic
     <p class="sub">De segunda a sexta. No sábado, só os comentários. No domingo, o agendamento da semana.</p>
     <ul class="passos">
       <li><span class="quando">9h, 12h e 19h</span><span class="oque"><b>O post sai sozinho.</b><span>Os Reels você já agendou no domingo; os carrosséis o robô publica.</span></span></li>
-      <li><span class="quando">até 1 h depois de cada post</span><span class="oque"><b>Responda todo comentário na primeira hora.</b><span>É quando o Instagram decide se mostra o vídeo para mais gente. Quem comentou PROMPT ou SITE recebe a mensagem pronta abaixo.</span></span></li>
+      <li><span class="quando">até 1 h depois de cada post</span><span class="oque"><b>Responda todo comentário na primeira hora.</b><span>É quando o Instagram decide se mostra o vídeo para mais gente. Cada vídeo tem a sua palavra de pedido (CARTÃO, MOVIMENTO, SITE…), que vai no vídeo e na legenda. Quem comentar a palavra recebe a mensagem pronta abaixo.</span></span></li>
       <li><span class="quando">19h30</span><span class="oque"><b>Mande as 20 mensagens de prospecção.</b><span>Pela fila de envio, com uns 2 minutos entre uma e outra.</span></span></li>
       <li><span class="quando">ao longo do dia</span><span class="oque"><b>2 ou 3 stories.</b><span>Compartilhe o Reels do dia e um bastidor do kit da semana. Enquete na terça e na quinta.</span></span></li>
     </ul>
@@ -157,7 +157,7 @@ textarea { width: 100%; box-sizing: border-box; min-height: 60px; resize: vertic
     <h2 id="t-msg">Mensagens prontas para o direct</h2>
     <p class="sub">Copie, cole e troque o que estiver entre colchetes.</p>
     <div class="msg">
-      <h3>Quem comentou PROMPT</h3>
+      <h3>Quem comentou a palavra do vídeo (pediu o prompt)</h3>
       <blockquote id="m-prompt">Oi! Que bom que você gostou. Aqui está o prompt das animações do vídeo.
 [cole aqui o texto do arquivo da parte certa]
 É só colar na sua IA ou mandar para quem cuida do seu site. Se quiser alguma delas no seu, me chama aqui.</blockquote>
@@ -183,11 +183,11 @@ textarea { width: 100%; box-sizing: border-box; min-height: 60px; resize: vertic
 const DIAS = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 const GRADE = {
   "9h": [
-    { nome: "Efeito do dia (Comenta PROMPT)", tipo: "Reels curto", como: "app", estrela: true },
-    { nome: "Efeito do dia (Comenta PROMPT)", tipo: "Reels curto", como: "app", estrela: true },
-    { nome: "Efeito do dia (Comenta PROMPT)", tipo: "Reels curto", como: "app", estrela: true },
-    { nome: "Efeito do dia (Comenta PROMPT)", tipo: "Reels curto", como: "app", estrela: true },
-    { nome: "Efeito do dia (Comenta PROMPT)", tipo: "Reels curto", como: "app", estrela: true },
+    { nome: "Efeito do dia (palavra própria)", tipo: "Reels curto", como: "app", estrela: true },
+    { nome: "Efeito do dia (palavra própria)", tipo: "Reels curto", como: "app", estrela: true },
+    { nome: "Efeito do dia (palavra própria)", tipo: "Reels curto", como: "app", estrela: true },
+    { nome: "Efeito do dia (palavra própria)", tipo: "Reels curto", como: "app", estrela: true },
+    { nome: "Efeito do dia (palavra própria)", tipo: "Reels curto", como: "app", estrela: true },
     null,
   ],
   "12h": [
@@ -199,56 +199,57 @@ const GRADE = {
     { nome: "Carrossel leve: lista, ferramentas, bastidor", tipo: "Carrossel", como: "robô", hora: "11h" },
   ],
   "19h": [
-    { nome: "12 animações de site (Comenta PROMPT)", tipo: "Reels", como: "app", estrela: true },
+    { nome: "12 animações de site (palavra própria)", tipo: "Reels", como: "app", estrela: true },
     { nome: "Antes e depois (Comenta SITE)", tipo: "Reels", como: "app" },
     { nome: "Efeito explicado", tipo: "Reels", como: "app" },
     { nome: "Carrossel", tipo: "Carrossel", como: "robô" },
-    { nome: "12 animações temático (Comenta PROMPT)", tipo: "Reels", como: "app", estrela: true },
+    { nome: "12 animações temático (palavra própria)", tipo: "Reels", como: "app", estrela: true },
     null,
   ],
 };
 const SEMANAS = [
   { titulo: "Esta semana · 26 a 29/11", itens: [
-    ["Qui 26/11", "10h", "Efeito do dia 03: cartão 3D que inclina", "Reels curto · Comenta PROMPT · você posta pelo app", "novo"],
-    ["Sex 27/11", "12h", "12 animações de site · parte 2", "Reels · você posta pelo app", "pronto"],
-    ["Sex 27/11", "19h", "12 animações de site · parte 3", "Reels · você posta pelo app", "pronto"],
+    ["Qui 26/11", "10h", "Errado × certo 01: botão do WhatsApp", "Reels · você posta pelo app", "novo"],
+    ["Sex 27/11", "9h", "Efeito do dia 03, caprichado: cartão 3D", "Reels · Comenta CARTÃO", "novo"],
+    ["Sex 27/11", "12h", "12 animações de site · parte 2", "Reels · Comenta MOVIMENTO", "pronto"],
+    ["Sex 27/11", "19h", "12 animações de site · parte 3", "Reels · Comenta EFEITOS", "pronto"],
     ["Sáb 28/11", "18h", "Teaser do lançamento", "Reels · já estava no calendário", "pronto"],
     ["Dom 29/11", "—", "Agendar a semana 30/11–05/12 no app", "30 min, com o kit que eu mando no sábado", "voce"],
   ] },
   { titulo: "Semana 1 · 30/11 a 05/12", itens: [
-    ["Seg 30/11", "9h", "Efeito do dia 01: revelar ao rolar", "Reels curto · Comenta PROMPT", "novo"],
+    ["Seg 30/11", "9h", "Efeito do dia 01: revelar ao rolar", "Reels · Comenta ROLAGEM", "novo"],
     ["Seg 30/11", "12h", "Raio-X da primeira tela", "Carrossel", "pronto"],
     ["Seg 30/11", "19h", "Caixa-preta 01", "Reels", "pronto"],
-    ["Ter 01/12", "9h", "Efeito do dia 04: botão magnético", "Reels curto · Comenta PROMPT", "novo"],
+    ["Ter 01/12", "9h", "Efeito do dia 04: botão magnético", "Reels · Comenta BOTÃO", "novo"],
     ["Ter 01/12", "12h", "Isso não é um vídeo", "Reels", "pronto"],
     ["Ter 01/12", "19h", "Antes e depois: doceria", "Reels · Comenta SITE", "novo"],
-    ["Qua 02/12", "9h", "Efeito do dia 07: cursor que vira lupa", "Reels curto · Comenta PROMPT", "novo"],
+    ["Qua 02/12", "9h", "Efeito do dia 07: cursor que vira lupa", "Reels · Comenta LUPA", "novo"],
     ["Qua 02/12", "12h", "Parallax em 30 segundos", "Reels", "pronto"],
     ["Qua 02/12", "19h", "Feito para padaria", "Reels", "pronto"],
-    ["Qui 03/12", "9h", "Efeito do dia 08: menu que se expande", "Reels curto · Comenta PROMPT", "novo"],
-    ["Qui 03/12", "12h", "Errado × certo 01: botão do WhatsApp", "Reels", "novo"],
+    ["Qui 03/12", "9h", "Efeito do dia 08: menu que se expande", "Reels · Comenta MENU", "novo"],
+    ["Qui 03/12", "12h", "Como um site abre em 1 segundo", "Reels", "novo"],
     ["Qui 03/12", "19h", "O site que todo mundo tem", "Reels", "pronto"],
-    ["Sex 04/12", "9h", "Efeito do dia 09: números que sobem", "Reels curto · Comenta PROMPT", "novo"],
+    ["Sex 04/12", "9h", "Efeito do dia 09: números que sobem", "Reels · Comenta NÚMEROS", "novo"],
     ["Sex 04/12", "12h", "1 segundo, 30 quadros", "Reels", "pronto"],
     ["Sex 04/12", "19h", "Mito: animação deixa o site lento", "Carrossel", "pronto"],
     ["Sáb 05/12", "11h", "Do zero à primeira tela", "Reels", "pronto"],
   ] },
   { titulo: "Semana 2 · 07 a 12/12 · a rotina completa", itens: [
-    ["Seg 07/12", "9h", "Efeito do dia 06: imagem com máscara", "Reels curto · Comenta PROMPT", "novo"],
+    ["Seg 07/12", "9h", "Efeito do dia 06: imagem com máscara", "Reels · Comenta MÁSCARA", "novo"],
     ["Seg 07/12", "12h", "3 coisas que o site do seu negócio precisa ter", "Carrossel", "fazer"],
-    ["Seg 07/12", "19h", "12 animações de site · parte 4", "Reels · Comenta PROMPT", "fazer"],
-    ["Ter 08/12", "9h", "Efeito do dia 10: galeria que desliza", "Reels curto · Comenta PROMPT", "novo"],
+    ["Seg 07/12", "19h", "12 animações de site · parte 4", "Reels · palavra própria", "fazer"],
+    ["Ter 08/12", "9h", "Efeito do dia 10: galeria que desliza", "Reels · Comenta GALERIA", "novo"],
     ["Ter 08/12", "12h", "Errado × certo 02: a foto do topo", "Reels", "fazer"],
     ["Ter 08/12", "19h", "Antes e depois 02: barbearia", "Reels · Comenta SITE", "fazer"],
-    ["Qua 09/12", "9h", "Efeito do dia 11: transição entre páginas", "Reels curto · Comenta PROMPT", "novo"],
+    ["Qua 09/12", "9h", "Efeito do dia 11: transição entre páginas", "Reels · Comenta TRANSIÇÃO", "novo"],
     ["Qua 09/12", "12h", "Carrossel de dica", "Carrossel", "fazer"],
-    ["Qua 09/12", "19h", "Efeito explicado 01: revelar ao rolar", "Reels · Comenta PROMPT", "fazer"],
-    ["Qui 10/12", "9h", "Efeito do dia 12: túnel 3D na abertura", "Reels curto · Comenta PROMPT", "novo"],
-    ["Qui 10/12", "12h", "Como um site abre em 1 segundo", "Reels", "novo"],
+    ["Qua 09/12", "19h", "Efeito explicado 01: revelar ao rolar", "Reels · palavra própria", "fazer"],
+    ["Qui 10/12", "9h", "Efeito do dia 12: túnel 3D na abertura", "Reels · Comenta TÚNEL", "novo"],
+    ["Qui 10/12", "12h", "Animação que explica tecnologia 02", "Reels", "fazer"],
     ["Qui 10/12", "19h", "Carrossel de dica", "Carrossel", "fazer"],
-    ["Sex 11/12", "9h", "Efeito do dia 17: luz que segue o cursor", "Reels curto · Comenta PROMPT", "novo"],
+    ["Sex 11/12", "9h", "Efeito do dia 17: luz que segue o cursor", "Reels · Comenta LUZ", "novo"],
     ["Sex 11/12", "12h", "Site 3D feito com IA", "Reels", "fazer"],
-    ["Sex 11/12", "19h", "10 animações de botão", "Reels · Comenta PROMPT", "fazer"],
+    ["Sex 11/12", "19h", "10 animações de botão", "Reels · palavra própria", "fazer"],
     ["Sáb 12/12", "11h", "3 ferramentas grátis para a sua loja", "Carrossel", "fazer"],
   ] },
 ];
@@ -256,7 +257,7 @@ const ESTADO = { pronto: ["pronto", "pronto"], novo: ["novo", "pronto, novo"], f
 const DECISOES = [
   { id: "grade", nome: "A semana-modelo, com 3 posts por dia", desc: "Os formatos fixos por dia e horário, com o Efeito do dia às 9h e o teste de 2 semanas." },
   { id: "dia", nome: "O seu dia e o ciclo da semana", desc: "Responder na primeira hora, prospecção às 19h30, agendamento aos domingos." },
-  { id: "semana-1", nome: "Esta semana e a semana 1", desc: "27/11 a 05/12, com os vídeos novos de antes e depois (01/12) e errado × certo (03/12), e o Efeito do dia às 9h a partir de 30/11." },
+  { id: "semana-1", nome: "Esta semana e a semana 1", desc: "26/11 a 05/12: errado × certo hoje às 10h, Efeito do dia 03 caprichado amanhã às 9h, antes e depois em 01/12, como um site abre em 03/12, e o Efeito do dia às 9h a partir de 30/11." },
   { id: "semana-2", nome: "A semana 2", desc: "07 a 12/12. Eu começo a produzir na quinta, 03/12." },
 ];
 

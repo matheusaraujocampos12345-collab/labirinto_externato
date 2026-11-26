@@ -825,6 +825,6 @@ const ITENS = [
   { nome: 'Logo de partículas', site: 'estudiofaisca.com.br', fx: particulas, borrao: [0.1, 1.4] },
 ];
 
-export default catalogo({ id: 'i17', nome: 'i17-12-animacoes-de-site-parte-3', parte: 3, itens: ITENS, semente: 17, capa: 7 * 2 + 0.64 });
+export default catalogo({ id: 'i17', nome: 'i17-12-animacoes-de-site-parte-3', parte: 3, itens: ITENS, semente: 17, palavra: 'EFEITOS', capa: 7 * 2 + 0.64 });
 
 export { ITENS };

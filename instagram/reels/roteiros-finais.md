@@ -367,3 +367,8 @@ Os três usam o celular genérico e o site fictício **Doceria Laço** de `cenas
 - **5,3–6,7 s:** o dedo arrasta a alça e revela o depois.
 - **6,7–13,6 s · DEPOIS / FEITO SOB MEDIDA:** "Outra primeira impressão." Foto grande, "Encomendas de Natal abertas.", botão laranja, cartões que aparecem ao rolar e a pílula do WhatsApp fixa.
 - **13,6–18 s:** os dois lado a lado · "Quer o seu assim?" · "Comenta SITE que eu te chamo no direct."
+
+---
+
+## Palavra de pedido (26/11)
+A pedido do dono, cada vídeo tem a sua própria palavra para comentar, e não mais "PROMPT" em todos: i16 = **MOVIMENTO**, i17 = **EFEITOS**, Efeito do dia 03 caprichado (`cenas/e03-explicado.js`) = **CARTÃO**, i20 = **SITE**. Os 36 efeitos do dia têm a lista `PALAVRAS` em `cenas/efeito-do-dia.js`. O i15 (já postado) ficou com PROMPT.

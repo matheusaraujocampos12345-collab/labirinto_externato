@@ -745,6 +745,6 @@ const ITENS = [
   { nome: 'Cortina ao carregar', site: 'hotelatlantico.com.br', fx: cortina, borrao: [0.92, 1.5] },
 ];
 
-export default catalogo({ id: 'i16', nome: 'i16-12-animacoes-de-site-parte-2', parte: 2, itens: ITENS, semente: 16, capa: 2 * 2 + 0.95 });
+export default catalogo({ id: 'i16', nome: 'i16-12-animacoes-de-site-parte-2', parte: 2, itens: ITENS, semente: 16, palavra: 'MOVIMENTO', capa: 2 * 2 + 0.95 });
 
 export { ITENS };

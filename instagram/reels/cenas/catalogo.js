@@ -1,7 +1,7 @@
 // Moldura dos Reels "12 animações de site" (parte 2 em diante). Mesmo formato do i15:
-// selo "Quer o prompt? Comenta PROMPT", título fixo, janela de navegador com um mini-site
+// selo "Quer o prompt? Comenta <PALAVRA>" (cada vídeo tem a sua palavra de pedido), título fixo, janela de navegador com um mini-site
 // fictício, lista de 01 a 12 embaixo, 2 s por item (corte na batida de 120 bpm) e o fecho
-// "Quer o prompt de cada uma? Comenta PROMPT." O vídeo emenda o fim no começo (loop).
+// "Quer o prompt de cada uma? Comenta <PALAVRA>." O vídeo emenda o fim no começo (loop).
 // Cada cena só define os 12 efeitos: { nome, site, fx(g, u, fila, P), borrao? }.
 //   g    = contexto já posicionado na área do site (850 × 510)
 //   u    = segundos desde o início do item (0 a 2)
@@ -111,7 +111,7 @@ export function tela(w, h) {
 }
 
 // ── a página do Reels ──────────────────────────────────────────
-export function catalogo({ id, nome, parte, itens, semente = 15, capa = 2.2 }) {
+export function catalogo({ id, nome, parte, itens, semente = 15, capa = 2.2, palavra = 'PROMPT' }) {
   const relogio = (t) => (((t + 0.5) % DUR) + DUR) % DUR;
   const slotDe = (T) => (T < FIM ? Math.floor(T / SLOT) : -1);
 
@@ -119,14 +119,14 @@ export function catalogo({ id, nome, parte, itens, semente = 15, capa = 2.2 }) {
     ctx.save();
     ctx.font = FONTE.mono(24, 500);
     ctx.letterSpacing = '4px';
-    const w = ctx.measureText('QUER O PROMPT? COMENTA PROMPT').width + 36;
+    const w = ctx.measureText(`QUER O PROMPT? COMENTA ${palavra}`).width + 36;
     ctx.strokeStyle = 'rgba(223,227,231,0.4)';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.roundRect(90, 268, w, 48, 24);
     ctx.stroke();
     ctx.restore();
-    bloco(ctx, 99, { estilo: 'rotulo', texto: 'Quer o prompt? Comenta PROMPT', x: 108, y: 278, tamanho: 24, peso: 500, espaco: 0.16, cor: COR.aluminio, destaque: 'PROMPT', entrada: 'corte', largura: 820 });
+    bloco(ctx, 99, { estilo: 'rotulo', texto: `Quer o prompt? Comenta ${palavra}`, x: 108, y: 278, tamanho: 24, peso: 500, espaco: 0.16, cor: COR.aluminio, destaque: palavra, entrada: 'corte', largura: 820 });
     bloco(ctx, 99, { texto: '12 animações de site', x: 88, y: 336, tamanho: 84, espaco: -0.01, entrada: 'corte' });
     bloco(ctx, 99, { estilo: 'rotulo', caixa: 'normal', texto: `parte ${parte} · @mach.sites`, x: 90, y: 444, tamanho: 26, espaco: 0.06, entrada: 'corte' });
   }
@@ -178,7 +178,7 @@ export function catalogo({ id, nome, parte, itens, semente = 15, capa = 2.2 }) {
       ctx.restore();
       const u = T - FIM;
       bloco(ctx, u, { texto: 'Quer o prompt\nde cada uma?', alinhar: 'center', x: 515, y: 640, tamanho: 76, entrelinha: 1.12, entra: 0, durEntrada: 0.6 });
-      bloco(ctx, u, { estilo: 'texto', texto: 'Comenta PROMPT.', alinhar: 'center', x: 515, y: 860, tamanho: 52, peso: 500, destaque: 'PROMPT', entra: 0.35, entrada: 'fade', durEntrada: 0.5 });
+      bloco(ctx, u, { estilo: 'texto', texto: `Comenta ${palavra}.`, alinhar: 'center', x: 515, y: 860, tamanho: 52, peso: 500, destaque: palavra, entra: 0.35, entrada: 'fade', durEntrada: 0.5 });
     }
   }
 
