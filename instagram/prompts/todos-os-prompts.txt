@@ -1,0 +1,91 @@
+12 ANIMAÇÕES DE SITE · OS PROMPTS
+
+Do Reels "12 animações de site · parte 1" da @mach.sites.
+Copie o prompt do estilo que você quer e cole no seu assistente de IA, ou mande para quem cuida do seu site.
+
+----------------------------------------
+01 · Revelar ao rolar
+----------------------------------------
+
+Quando cada bloco da página (título, foto, cartão) entrar na tela durante a rolagem, faça ele aparecer: sai de 0 para 100% de opacidade e sobe 40 px até o lugar dele. Dispara quando o topo do bloco passa de 85% da altura da tela, uma vez só (depois fica parado). Duração de 0,7 s com saída suave (ease-out). Em grupos, como três cartões lado a lado, cada um entra 0,1 s depois do anterior. No celular, use 24 px de deslocamento. Se a pessoa desligou as animações no aparelho, mostre tudo direto.
+
+
+----------------------------------------
+02 · Parallax em camadas
+----------------------------------------
+
+Monte a primeira tela em três camadas: fundo (céu ou textura), meio (paisagem ou foto recortada) e frente (título e chamada). Ao rolar, cada camada anda numa velocidade: fundo a 15%, meio a 40% e frente a 100% da rolagem. O movimento acompanha o dedo sem atraso e sem tranco. Use só transform (translate3d) para ficar leve. No celular, reduza a diferença pela metade. Se a pessoa desligou as animações no aparelho, deixe as camadas paradas.
+
+
+----------------------------------------
+03 · Cartão 3D que inclina
+----------------------------------------
+
+Faça o cartão (de produto, plano ou associado) inclinar em 3D na direção do cursor: até 12° para os lados e 8° para cima e para baixo, com perspectiva de 900 px. Um reflexo claro e suave anda pelo cartão no sentido contrário, como luz batendo, e a sombra embaixo se desloca um pouco. O cartão segue o cursor com suavidade (uns 0,15 s de atraso) e volta a ficar reto em 0,5 s quando o cursor sai. No celular, a inclinação vem do toque arrastando sobre o cartão, ou fica desligada.
+
+
+----------------------------------------
+04 · Botão magnético
+----------------------------------------
+
+Faça o botão principal ("Agendar", "Comprar") ser atraído pelo cursor: quando o cursor chega a 120 px dele, o botão anda até 30% da distância na direção do cursor, e o texto dentro anda um pouco menos. A volta é suave, em 0,4 s, sem quicar. Ao clicar, o botão afunda 4% e acende na cor de destaque. No celular não há cursor: deixe só o efeito do toque (afundar e acender).
+
+
+----------------------------------------
+05 · Texto que acende com a rolagem
+----------------------------------------
+
+Pegue a frase principal da seção (uma ou duas linhas grandes) e mostre todas as palavras apagadas, em cinza-escuro. Conforme a pessoa rola, as palavras acendem uma a uma até a cor do texto, ligadas à posição da rolagem: rolando para cima, elas apagam de novo. A frase inteira acende ao longo de uns 60% da altura da tela. A seção pode ficar presa enquanto a frase acende. No celular, funciona igual com o dedo.
+
+
+----------------------------------------
+06 · Imagem com máscara
+----------------------------------------
+
+Quando a foto principal entrar na tela, revele ela por uma máscara: começa como uma faixa estreita no meio (uns 10% da largura) e abre até o tamanho final, com cantos arredondados. Ao mesmo tempo, a foto dentro faz um zoom de 130% para 100%. Duração de 1,1 s com ease-in-out e uma vez só. Depois que a máscara abre, o título entra por cima com um fade de 0,4 s. No celular, a máscara abre de cima para baixo.
+
+
+----------------------------------------
+07 · Cursor que vira lupa
+----------------------------------------
+
+Na foto do produto, troque o cursor por um círculo pequeno. Quando ele passar por cima da foto, o círculo cresce até 180 px de diâmetro em 0,3 s e vira uma lupa, mostrando aquele pedaço da foto ampliado 2,5 vezes (use a imagem em alta resolução). A lupa segue o cursor com suavidade e volta a ser um círculo pequeno ao sair. No celular, a lupa aparece onde a pessoa toca e segura, ou a foto abre ampliada com pinça.
+
+
+----------------------------------------
+08 · Menu que se expande
+----------------------------------------
+
+Ao tocar no ícone de menu (três linhas), um painel da cor da marca cresce em círculo a partir do ícone até cobrir a tela inteira, em 0,6 s com ease-in-out. As três linhas viram um X ao mesmo tempo. Os itens do menu entram em letras grandes, de baixo para cima, um depois do outro (0,08 s entre eles). Para fechar, tudo volta pelo mesmo caminho, mais rápido. A tela por trás não rola enquanto o menu está aberto.
+
+
+----------------------------------------
+09 · Números que sobem
+----------------------------------------
+
+Na faixa de números ("1.200 alunos", "14 anos", "98%"), faça cada número contar de 0 até o valor quando a faixa entrar na tela. Dura 1,4 s, começa rápido e desacelera no fim (ease-out), e cada número começa 0,12 s depois do anterior. Use o separador de milhar brasileiro (1.200) e algarismos de largura fixa, para o número não tremer. Uma linha fina embaixo de cada um enche junto. Uma vez só.
+
+
+----------------------------------------
+10 · Galeria que desliza
+----------------------------------------
+
+Faça a galeria de fotos deslizar na horizontal com o dedo ou com o arraste do mouse, com inércia: ao soltar, ela continua andando e desacelera até parar, encaixando sempre numa foto inteira (scroll snap). Mostre a foto seguinte cortada na borda, para a pessoa entender que dá para arrastar. Pontos embaixo mostram a posição, com a foto atual na cor de destaque. No computador, as setas do teclado também funcionam.
+
+
+----------------------------------------
+11 · Transição entre páginas
+----------------------------------------
+
+Ao clicar num cartão de projeto, a foto do cartão cresce suavemente até virar a foto de topo da página do projeto, sem tela branca entre as duas (View Transitions API, ou uma animação equivalente). Os outros cartões somem com fade enquanto isso. Duração de 0,6 s com ease-in-out. Depois, o título e o texto da página nova entram com um fade de 0,4 s. O botão voltar faz o caminho inverso.
+
+
+----------------------------------------
+12 · Túnel 3D na primeira tela
+----------------------------------------
+
+Na primeira tela, desenhe um túnel de retângulos de cantos arredondados, um dentro do outro, vindo do centro em direção a quem olha, em loop contínuo e lento (cada retângulo leva uns 3 s para atravessar). As linhas são finas, na cor do texto, e um em cada seis na cor de destaque. Os retângulos de longe aparecem devagar e os de perto somem antes de ficar grandes demais. O título fica parado no centro, por cima. Com a rolagem, o túnel acelera um pouco. Use canvas ou WebGL e pause quando a tela não estiver visível. No celular, use menos retângulos.
+
+----------------------------------------
+
+Quer isso feito sob medida no seu site? Chama no direct.

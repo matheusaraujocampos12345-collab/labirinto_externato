@@ -1,0 +1,1 @@
+Faça o botão principal ("Agendar", "Comprar") ser atraído pelo cursor: quando o cursor chega a 120 px dele, o botão anda até 30% da distância na direção do cursor, e o texto dentro anda um pouco menos. A volta é suave, em 0,4 s, sem quicar. Ao clicar, o botão afunda 4% e acende na cor de destaque. No celular não há cursor: deixe só o efeito do toque (afundar e acender).
