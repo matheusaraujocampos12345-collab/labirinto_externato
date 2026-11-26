@@ -327,12 +327,12 @@ function montar() {
     m.position.set(-5.5 + (i % 5) * 2.7 + hash(i) * 0.6, 7.2 + Math.floor(i / 5) * 1.6 + hash(i + 9) * 0.3, -4.95);
     cena.add(m);
   }
-  const neonMat = new THREE.MeshStandardMaterial({ color: 0x2a140a, emissive: 0xff6b1a, emissiveIntensity: 0.25 });
+  const neonMat = new THREE.MeshStandardMaterial({ color: 0x2a140a, emissive: 0xff6b1a, emissiveIntensity: 0.06 });
   const neon = new THREE.Group();
   for (const s of [-1, 1]) {
     const perna = new THREE.Mesh(new THREE.CapsuleGeometry(0.08, 2.1, 6, 12), neonMat);
     perna.position.set(0.55 * s, 0, 0);
-    perna.rotation.z = -0.48 * s;
+    perna.rotation.z = 0.48 * s; // as duas pernas se encontram no alto: Λ
     neon.add(perna);
   }
   neon.position.set(-2.2, 5.7, -4.85);
@@ -490,8 +490,8 @@ function camera3d(t) {
   const planos = [
     [0.25, 2.3, 18.0, 0.0],
     [0.15, 2.35, 17.0, -0.06],
-    [0.4, 2.4, 16.5, 0.05],
-    [0.55, 2.4, 16.0, 0.08],
+    [0.3, 2.4, 16.8, 0.05],
+    [0.35, 2.4, 16.5, 0.08],
     [0.1, 2.9, 19.5, -0.04],
     [0.4, 2.35, 17.0, 0.04],
   ];
@@ -562,7 +562,7 @@ function atualizar3d(t) {
   // o Λ de neon acende quando a MACH entra
   const acende = ease.outCubic(prog(t, 22.25, 22.7));
   const pisca = t > 22.25 && t < 22.6 ? (Math.floor(t * 30) % 3 ? 1 : 0.3) : 1;
-  R.neonMat.emissiveIntensity = 0.25 + 2.6 * acende * pisca;
+  R.neonMat.emissiveIntensity = 0.06 + 2.8 * acende * pisca;
   R.brilhoNeon.intensity = 18 * acende * pisca;
   // o celular gigante dá um "pulo" nas trocas de tela
   R.quadroCel.position.y = 2.45 + 0.05 * Math.sin(t * 1.1);
