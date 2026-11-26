@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Estúdio do boneco MACH</title>
+<style>html,body{margin:0;background:#0A0C0F}canvas{display:block}</style>
+<script type="importmap">{ "imports": { "three": "/video-anuncio/vendor/three.module.js" } }</script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from '/video-anuncio/vendor/RoomEnvironment.js';
+import { criarBoneco } from './boneco.js';
+
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+
+const cena = new THREE.Scene();
+cena.background = new THREE.Color(0x0a0c0f);
+const pmrem = new THREE.PMREMGenerator(renderer);
+cena.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+cena.environmentIntensity = 0.35;
+
+cena.add(new THREE.HemisphereLight(0xdfe3e7, 0x0a0c0f, 0.6));
+const chave = new THREE.DirectionalLight(0xfff1e6, 1.8);
+chave.position.set(-4, 8, 6);
+cena.add(chave);
+const preenche = new THREE.DirectionalLight(0xbfd0e0, 0.7);
+preenche.position.set(5, 3, 4);
+cena.add(preenche);
+const recorte = new THREE.DirectionalLight(0xff6b1a, 1.3); // a luz laranja da marca, de lado e por trás
+recorte.position.set(6, 4, -3);
+cena.add(recorte);
+const recorte2 = new THREE.DirectionalLight(0xdfe3e7, 1.1);
+recorte2.position.set(-5, 4, -5);
+cena.add(recorte2);
+
+// chão escuro e sombra suave sob os pés
+cena.add(new THREE.Mesh(new THREE.CircleGeometry(4, 64).rotateX(-Math.PI / 2), new THREE.MeshStandardMaterial({ color: 0x0e1115, roughness: 1 })));
+{
+  const c = document.createElement('canvas');
+  c.width = c.height = 256;
+  const g = c.getContext('2d');
+  const gr = g.createRadialGradient(128, 128, 10, 128, 128, 128);
+  gr.addColorStop(0, 'rgba(0,0,0,0.75)');
+  gr.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = gr;
+  g.fillRect(0, 0, 256, 256);
+  const sombra = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 1.6).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthWrite: false }));
+  sombra.position.y = 0.005;
+  cena.add(sombra);
+}
+
+const { boneco, pose } = criarBoneco();
+cena.add(boneco);
+const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 100);
+
+window.fotografar = ({ az = 0, el = 0.06, alvoY = 2.15, dist = 12.5, nomePose = 'neutra', w = 1080, h = 1350, giro = 0 } = {}) => {
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  pose(nomePose);
+  boneco.rotation.y = giro;
+  camera.position.set(Math.sin(az) * Math.cos(el) * dist, alvoY + Math.sin(el) * dist, Math.cos(az) * Math.cos(el) * dist);
+  camera.lookAt(0, alvoY, 0);
+  renderer.render(cena, camera);
+  return canvas.toDataURL('image/png');
+};
+window.pronto = true;
+</script>
+</body>
+</html>
