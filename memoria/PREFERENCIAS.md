@@ -31,6 +31,10 @@
 - A palavra aparece no vídeo e na legenda. As dos 36 efeitos do dia estão em `instagram/reels/cenas/efeito-do-dia.js` (PALAVRAS); a do catálogo é o parâmetro `palavra` em `catalogo()`.
 - Ele prefere o vídeo mais elaborado ao básico: o "Efeito do dia" curto (só o efeito em loop) achou "muito básico"; o caprichado (efeito grande, por dentro em camadas, números, no site) é o padrão.
 
+## Vídeos com o boneco 3D (26/11)
+- Ele quer **voz de IA** nos vídeos do boneco (narração em português, voz masculina; padrão: Piper "faber").
+- Fundo vazio "não segura ninguém": o cenário precisa ter informação o tempo todo (telas que mudam com a fala, etiquetas, letreiro, movimento) e a câmera precisa cortar a cada frase.
+
 ## Segurança
 - Nunca pedir senha no chat. Tokens só por formulário seguro.
 - Login do Facebook ou Instagram a partir de computador na nuvem é arriscado (a conta da Meta é nova). Prefira que ele mesmo clique no próprio Mac.

@@ -1,0 +1,14 @@
+{
+  "fps": 30, "inicio": 0.3, "fim": 1.3,
+  "linhas": [
+    {"texto": "Três erros que fazem o cliente fechar o seu site.", "fala": "Três erros que fazem o cliente fechar o seu sáite.", "destaque": "erros", "secao": true},
+    {"texto": "Primeiro: demora para abrir.", "fala": "Primeiro: demora pra abrir.", "destaque": "demora", "secao": true},
+    {"texto": "Passou de 3 segundos carregando, ele volta pro feed.", "fala": "Passou de três segundos carregando, ele volta pro fíd.", "destaque": "segundos"},
+    {"texto": "Segundo: o WhatsApp escondido.", "fala": "Segundo: o uótsap escondido.", "destaque": "WhatsApp", "secao": true},
+    {"texto": "Se ele precisa procurar o botão, ele desiste.", "destaque": "desiste."},
+    {"texto": "Terceiro: a foto do topo.", "destaque": "foto", "secao": true},
+    {"texto": "É ela que decide se ele fica ou sai.", "destaque": "decide"},
+    {"texto": "A MACH resolve os três de uma vez.", "fala": "A Mák resolve os três de uma vez.", "destaque": "MACH", "secao": true},
+    {"texto": "Comenta SITE que eu olho o seu.", "fala": "Comenta sáite, que eu olho o seu.", "destaque": "SITE", "secao": true, "pausa": 0.2}
+  ]
+}

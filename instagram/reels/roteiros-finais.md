@@ -390,3 +390,11 @@ A pedido do dono, cada vídeo tem a sua própria palavra para comentar, e não m
 
 - Troca de parte com fumaça cobrindo a câmera (9,6 s, 15,8 s, 22 s e 25,6 s).
 - Sem áudio. A boca do boneco mexe no ritmo da legenda, e o dono pode narrar por cima seguindo o texto.
+
+### i21 · versão 2 (26/11): voz de IA e estúdio cheio
+O dono pediu voz de IA e um fundo com mais informação ("muito pobre, não vai segurar ninguém").
+- **Voz:** Piper (offline), voz pt_BR "faber" (amostra com faber, cadu e jeff enviada ao dono). Roteiro em `voz/i21/roteiro.json`, gerado por `voz/narrar.py` → `voz/i21/voz.wav`, `linhas.json` (tempos das frases e dos pedaços da legenda) e `boca.json` (abertura da boca por quadro). Duração: 22,6 s. Os modelos de voz (.onnx, 63 MB cada) não ficam no repositório: baixar de huggingface.co/rhasspy/piper-voices (pt/pt_BR/faber/medium) e `pip install piper-tts`.
+- **Estúdio:** 9 monitores na parede que mudam com a fala (sites, gráfico, código e número; depois carregando, balões, fotos borradas que ficam nítidas, Λ laranja, comentários); letreiro de LED ("SITE QUE ABRE EM 1 SEGUNDO ◆ WHATSAPP À VISTA ◆ FOTO QUE VENDE ◆ MACH ESTÚDIO"); grade no chão; anel laranja que pulsa com a voz; poeira nos fachos de luz, que varrem devagar.
+- **Etiquetas 3D:** ERRO 1/2/3, "carregando…", "3,0 s", "cadê o botão?", "foto escura" → "foto que vende", checklist da MACH ("abre em 0,9 s", "WhatsApp à vista", "foto que vende") e balões "SITE"/"quero!" subindo.
+- **Câmera:** um plano por frase (rosto, geral, médio, tela, lado, de baixo), aproximação na palavra em destaque, pulinho do boneco quando a MACH entra e números 1, 2, 3 grandes nas trocas de parte, com o progresso dos 3 erros embaixo da faixa.
+- **Juntar a voz:** `ffmpeg -i i21-….mp4 -i voz/i21/voz.wav -c:v copy -c:a aac -shortest saída.mp4`.

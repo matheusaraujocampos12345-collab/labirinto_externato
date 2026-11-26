@@ -1,0 +1,243 @@
+{
+ "duracao": 22.585,
+ "fps": 30,
+ "linhas": [
+  {
+   "texto": "Três erros que fazem o cliente fechar o seu site.",
+   "ini": 0.3,
+   "fim": 2.641,
+   "destaque": "erros",
+   "secao": true,
+   "pedacos": [
+    {
+     "t": 0.3,
+     "texto": "Três"
+    },
+    {
+     "t": 0.551,
+     "texto": "erros que"
+    },
+    {
+     "t": 1.011,
+     "texto": "fazem o"
+    },
+    {
+     "t": 1.387,
+     "texto": "cliente"
+    },
+    {
+     "t": 1.763,
+     "texto": "fechar o"
+    },
+    {
+     "t": 2.181,
+     "texto": "seu site."
+    }
+   ]
+  },
+  {
+   "texto": "Primeiro: demora para abrir.",
+   "ini": 3.241,
+   "fim": 4.581,
+   "destaque": "demora",
+   "secao": true,
+   "pedacos": [
+    {
+     "t": 3.241,
+     "texto": "Primeiro:"
+    },
+    {
+     "t": 3.688,
+     "texto": "demora"
+    },
+    {
+     "t": 4.013,
+     "texto": "para"
+    },
+    {
+     "t": 4.256,
+     "texto": "abrir."
+    }
+   ]
+  },
+  {
+   "texto": "Passou de 3 segundos carregando, ele volta pro feed.",
+   "ini": 4.831,
+   "fim": 7.54,
+   "destaque": "segundos",
+   "secao": false,
+   "pedacos": [
+    {
+     "t": 4.831,
+     "texto": "Passou de"
+    },
+    {
+     "t": 5.345,
+     "texto": "3 segundos"
+    },
+    {
+     "t": 5.905,
+     "texto": "carregando,"
+    },
+    {
+     "t": 6.512,
+     "texto": "ele volta"
+    },
+    {
+     "t": 7.026,
+     "texto": "pro feed."
+    }
+   ]
+  },
+  {
+   "texto": "Segundo: o WhatsApp escondido.",
+   "ini": 8.14,
+   "fim": 9.778,
+   "destaque": "WhatsApp",
+   "secao": true,
+   "pedacos": [
+    {
+     "t": 8.14,
+     "texto": "Segundo: o"
+    },
+    {
+     "t": 8.718,
+     "texto": "WhatsApp"
+    },
+    {
+     "t": 9.2,
+     "texto": "escondido."
+    }
+   ]
+  },
+  {
+   "texto": "Se ele precisa procurar o botão, ele desiste.",
+   "ini": 10.028,
+   "fim": 12.403,
+   "destaque": "desiste.",
+   "secao": false,
+   "pedacos": [
+    {
+     "t": 10.028,
+     "texto": "Se ele"
+    },
+    {
+     "t": 10.4,
+     "texto": "precisa"
+    },
+    {
+     "t": 10.82,
+     "texto": "procurar o"
+    },
+    {
+     "t": 11.378,
+     "texto": "botão, ele"
+    },
+    {
+     "t": 11.937,
+     "texto": "desiste."
+    }
+   ]
+  },
+  {
+   "texto": "Terceiro: a foto do topo.",
+   "ini": 13.003,
+   "fim": 14.503,
+   "destaque": "foto",
+   "secao": true,
+   "pedacos": [
+    {
+     "t": 13.003,
+     "texto": "Terceiro: a"
+    },
+    {
+     "t": 13.676,
+     "texto": "foto do"
+    },
+    {
+     "t": 14.141,
+     "texto": "topo."
+    }
+   ]
+  },
+  {
+   "texto": "É ela que decide se ele fica ou sai.",
+   "ini": 14.753,
+   "fim": 16.654,
+   "destaque": "decide",
+   "secao": false,
+   "pedacos": [
+    {
+     "t": 14.753,
+     "texto": "É ela"
+    },
+    {
+     "t": 15.07,
+     "texto": "que decide"
+    },
+    {
+     "t": 15.613,
+     "texto": "se ele"
+    },
+    {
+     "t": 15.975,
+     "texto": "fica ou"
+    },
+    {
+     "t": 16.382,
+     "texto": "sai."
+    }
+   ]
+  },
+  {
+   "texto": "A MACH resolve os três de uma vez.",
+   "ini": 17.254,
+   "fim": 18.921,
+   "destaque": "MACH",
+   "secao": true,
+   "pedacos": [
+    {
+     "t": 17.254,
+     "texto": "A MACH"
+    },
+    {
+     "t": 17.596,
+     "texto": "resolve os"
+    },
+    {
+     "t": 18.109,
+     "texto": "três de"
+    },
+    {
+     "t": 18.494,
+     "texto": "uma vez."
+    }
+   ]
+  },
+  {
+   "texto": "Comenta SITE que eu olho o seu.",
+   "ini": 19.521,
+   "fim": 21.085,
+   "destaque": "SITE",
+   "secao": true,
+   "pedacos": [
+    {
+     "t": 19.521,
+     "texto": "Comenta"
+    },
+    {
+     "t": 19.912,
+     "texto": "SITE que"
+    },
+    {
+     "t": 20.346,
+     "texto": "eu olho"
+    },
+    {
+     "t": 20.737,
+     "texto": "o seu."
+    }
+   ]
+  }
+ ]
+}
