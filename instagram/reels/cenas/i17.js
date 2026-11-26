@@ -826,3 +826,5 @@ const ITENS = [
 ];
 
 export default catalogo({ id: 'i17', nome: 'i17-12-animacoes-de-site-parte-3', parte: 3, itens: ITENS, semente: 17, capa: 7 * 2 + 0.64 });
+
+export { ITENS };

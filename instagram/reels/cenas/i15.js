@@ -763,3 +763,5 @@ export default {
     quadro(ctx, 2 * SLOT + 0.7 - 0.5);
   },
 };
+
+export { ITENS };
