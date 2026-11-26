@@ -292,3 +292,51 @@ O que mudou em relação ao pedido e por quê:
 - **Dois nomes ficaram mais curtos na lista,** para caber em duas colunas a 34 px: "Texto que acende" (o pedido era "Texto que acende com a rolagem") e "Túnel 3D na abertura" (era "Túnel 3D na primeira tela"). No arquivo de prompts estão os nomes completos.
 - **Borrão de movimento** só no menu, na galeria, na transição e no túnel.
 - Todos os negócios são fictícios (a Navalha e a Quatro Horas são os nossos conceitos).
+
+---
+
+## i16 · 12 animações de site · parte 2 (27 s)
+
+`i16-12-animacoes-de-site-parte-2.mp4` · continuação do i15, que foi o Reels com mais alcance fora dos seguidores. Mesmo formato e mesmo ritmo, com 12 efeitos novos. A moldura (selo **QUER O PROMPT? COMENTA PROMPT**, título, janela, lista e fecho) está em `cenas/catalogo.js`; os efeitos estão em `cenas/i16.js`. Prompts: `instagram/prompts/12-animacoes-de-site-parte-2.md`.
+
+| Tempo | Mini-site (fictício) | O que acontece | Item da lista |
+|---|---|---|---|
+| 0–1,5 s | Hamburgueria Fumaça | duas faixas de letreiro cruzadas aceleram quando o dedo rola | 01 Letreiro que corre |
+| 1,5–3,5 s | Tinta Preta Tattoo | "Traço fino. Pele inteira." sobe letra por letra de trás de uma máscara | 02 Letras que sobem |
+| 3,5–5,5 s | Casa Nova Reformas | o dedo arrasta a alça e a sala passa de antes para depois | 03 Antes e depois |
+| 5,5–7,5 s | Escola Ponte Idiomas | os passos 01, 02 e 03 sobem e se empilham | 04 Cartões empilhados |
+| 7,5–9,5 s | Lúpulo Norte | página no escuro; um círculo de luz segue o cursor e acende texto e garrafa | 05 Luz que segue o cursor |
+| 9,5–11,5 s | Moura Advocacia | a linha laranja do menu estica e desliza de item em item | 06 Sublinhado que desliza |
+| 11,5–13,5 s | Nutri Clara | a barra do topo enche com a leitura; a etiqueta conta "faltam X min" | 07 Barra de leitura |
+| 13,5–15,5 s | Pet Amigo | toque numa pergunta: a resposta abre e o "+" vira "×"; depois troca de pergunta | 08 Perguntas que abrem |
+| 15,5–17,5 s | Confeitaria Cacau | o doce voa em arco até a sacola e o contador sobe (1, depois 2) | 09 Item voa para a sacola |
+| 17,5–19,5 s | Imobiliária Chave | "Seu apê em Pinheiros." se apaga e vira "Moema." | 10 Título que se digita |
+| 19,5–21,5 s | Café Origem | o dedo rola para baixo e os cartões andam para o lado | 11 Rolagem na horizontal |
+| 21,5–23,5 s | Hotel Atlântico | contador 000 → 100; a tela abre ao meio e mostra a foto e "Atlântico." | 12 Cortina ao carregar |
+| 23,5–26,5 s | — | **Quer o prompt de cada uma?** · **Comenta PROMPT.** | — |
+
+Borrão de movimento só no letreiro e na abertura da cortina.
+
+## i17 · 12 animações de site · parte 3 (27 s)
+
+`i17-12-animacoes-de-site-parte-3.mp4` · mesmo formato, efeitos em `cenas/i17.js`. Prompts: `instagram/prompts/12-animacoes-de-site-parte-3.md`.
+
+| Tempo | Mini-site (fictício) | O que acontece | Item da lista |
+|---|---|---|---|
+| 0–1,5 s | Sorveteria Polar | ao rolar, o fundo passa de pistache para morango e chocolate | 01 Fundo que muda de cor |
+| 1,5–3,5 s | Studio Traço | o cursor desce pela lista de projetos e a foto de cada um o segue | 02 Foto que segue o mouse |
+| 3,5–5,5 s | Pilates Eixo | a foto fica presa à esquerda e troca a cada passo (Postura, Força, Respiração) | 03 Seção que fica presa |
+| 5,5–7,5 s | Volt Instalações | lâmpada, tomada e raio se desenham, um depois do outro | 04 Ícone que se desenha |
+| 7,5–9,5 s | Casa Nonna Panetones | os números giram até 12 : 08 : 45 : 37 e o segundo cai para 36 | 05 Contagem regressiva |
+| 9,5–11,5 s | Pizzaria Forno Velho | o pino cai no mapa, o raio de entrega se abre e entra "Entregamos até 5 km." | 06 Mapa de entrega |
+| 11,5–13,5 s | Studio Bela | o botão encolhe, carrega e vira um círculo laranja com ✓ | 07 Botão que confirma |
+| 13,5–15,5 s | Empório Grão | toque em cada cartão: ele gira e mostra o verso | 08 Cartão que vira |
+| 15,5–17,5 s | Refúgio Maré | a foto pequena cresce com a rolagem até a tela inteira | 09 Zoom ao rolar |
+| 17,5–19,5 s | Odonto Riso | a nota conta até 4,9, as estrelas enchem e os depoimentos entram | 10 Estrelas que acendem |
+| 19,5–21,5 s | Ateliê Linho | toque em "Camisas" e depois em "Vestidos": a grade se reorganiza | 11 Filtro que reorganiza |
+| 21,5–23,5 s | Estúdio Faísca | partículas espalhadas se juntam e formam "FAÍSCA" | 12 Logo de partículas |
+| 23,5–26,5 s | — | **Quer o prompt de cada uma?** · **Comenta PROMPT.** | — |
+
+- O item 02 se chamava "Foto que segue o cursor"; ficou "mouse" para não encostar na segunda coluna da lista.
+- Borrão de movimento só nas partículas.
+- Os depoimentos da Odonto Riso são de um negócio fictício, só para mostrar o efeito. O prompt pede para usar avaliações reais.

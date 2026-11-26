@@ -14,6 +14,7 @@
 | Fábrica de carrosséis (texto → slides) | `instagram/fabrica/carrossel.mjs` | ver `instagram/README.md` |
 | Calendário e robô de publicação | `instagram/calendario.json`, `instagram/publicar.mjs` | `node instagram/publicar.mjs --testar` |
 | Piloto automático (a cada hora) | `.github/workflows/instagram-publicar.yml` | roda no GitHub depois de configurar os segredos |
+| Reels "12 animações de site", partes 1, 2 e 3 (27 s cada) | `instagram/reels/i15-…`, `i16-12-animacoes-de-site-parte-2.mp4`, `i17-12-animacoes-de-site-parte-3.mp4` | `node instagram/reels/motor/render.mjs instagram/reels/cenas/i16.js` (ou `i17.js`) |
 
 Propostas de marca publicadas como páginas (claude.ai, privadas): Talhe, Macte e Mach. A escolhida foi a **Mach**.
 
@@ -39,6 +40,7 @@ Propostas de marca publicadas como páginas (claude.ai, privadas): Talhe, Macte 
   - Site-conceito "Casca & Miolo" em `instagram/sites-conceito/padaria/`.
 - **Mudança feita pelo Claude, a confirmar com o dono na rodada 2:** o i11 deixou de ser "60 minutos contra o relógio" e virou "Do zero à primeira tela", sem cronômetro.
 - **Calendário da semana 1:** manifesto no domingo 29/11 às 19h. De segunda 30/11 a sábado 05/12, conforme a tabela da página. A foto da padaria fica de reserva para a semana 2.
+- **Formato que mais deu alcance (26/11):** o i15 ("12 animações de site", gancho "Comenta PROMPT") teve mais visualizações e mais interações de quem não segue. O dono pediu para seguir nessa linha. Foram feitos o **i16 (parte 2)** e o **i17 (parte 3)**, cada um com 12 efeitos novos, para postar em 27/11 às 12h e às 19h (o dono posta com música). A moldura comum (selo, título, janela, lista e fecho) está em `instagram/reels/cenas/catalogo.js`: uma parte nova só precisa dos 12 efeitos. Prompts: `instagram/prompts/12-animacoes-de-site-parte-2.md` e `-parte-3.md`, com os .txt em `instagram/prompts/txt/parte-2/` e `parte-3/` e um .txt com todos de cada parte.
 
 #### Rodada 1 (histórico)
 - Pesquisa de formatos virais (TikTok, Instagram, YouTube) feita em 22/11/2026. Resumo e links em `instagram/pauta/gerar_pauta.py`.

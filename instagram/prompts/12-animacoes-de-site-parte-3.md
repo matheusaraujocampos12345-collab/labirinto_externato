@@ -1,0 +1,58 @@
+# 12 animações de site · parte 3 · os prompts
+
+Do Reels "12 animações de site · parte 3" da @mach.sites.
+Copie o prompt do estilo que você quer e cole no seu assistente de IA, ou mande para quem cuida do seu site.
+
+---
+
+## 01 · Fundo que muda de cor
+
+> Divida a página em seções, uma por produto (sabor, coleção ou serviço), e dê a cada uma a sua cor de fundo. Ao rolar, o fundo da página inteira passa suavemente de uma cor para a outra quando a próxima seção chega ao meio da tela, sem cortes secos entre os blocos. Use cores escuras e fechadas, para o texto claro continuar legível. Use IntersectionObserver ou uma animação ligada à rolagem, com transição de 0,6 s.
+
+## 02 · Foto que segue o mouse
+
+> Mostre os projetos (ou produtos) como uma lista de nomes grandes, um por linha, com o ano à direita. Quando o cursor passa por um nome, ele acende e anda 18 px para a direita. Ao mesmo tempo, uma foto pequena do projeto aparece perto do cursor e o segue com um leve atraso (0,1 s), inclinando um pouco na direção do movimento. Ao trocar de linha, a foto troca com fade. No celular não há cursor: mostre a foto ao lado de cada nome ou abra a foto ao tocar.
+
+## 03 · Seção que fica presa
+
+> Monte uma seção em duas colunas. À esquerda, uma foto grande que fica presa na tela (position: sticky). À direita, os passos ("Postura.", "Força.", "Respiração.") rolam normalmente. Quando um passo chega ao meio da tela, ele acende (os outros ficam apagados) e a foto da esquerda troca para a foto daquele passo, com uma cortina de baixo para cima. Um número grande no canto da foto mostra o passo atual. No celular, cada passo fica com a sua foto em cima do texto.
+
+## 04 · Ícone que se desenha
+
+> Nos cartões de serviço, use ícones de linha (SVG) e faça cada um se desenhar quando o cartão entra na tela, como se uma caneta traçasse o contorno: anime o stroke-dashoffset do comprimento total até 0, em 0,8 s, com ease-in-out. Os cartões vão um depois do outro, com 0,28 s de intervalo. O título e o texto de cada cartão entram com fade quando o ícone termina. O ícone principal pode ser na cor de destaque, com um brilho leve no fim. Uma vez só.
+
+## 05 · Contagem regressiva
+
+> Mostre uma contagem regressiva até a data limite (por exemplo, o fim das encomendas de Natal) em quatro caixas: dias, horas, minutos e segundos. Ao entrar na tela, cada algarismo gira como um contador mecânico até o valor certo, um pouco depois do anterior (0,05 s). Depois, os segundos continuam caindo de verdade, com o algarismo novo descendo de cima. Use fonte de largura fixa nos números e a hora do servidor para a data limite. Os segundos ficam na cor de destaque. Embaixo, o botão de encomendar.
+
+## 06 · Mapa de entrega
+
+> Na seção de entrega, mostre um mapa estilizado escuro, com as ruas em cinza e sem nomes demais. Ao entrar na tela, um pino na cor de destaque cai do alto até o endereço da loja, e a sombra dele cresce no chão. Depois, um círculo tracejado se abre a partir do pino até mostrar o raio de entrega, e ondas finas saem do pino de tempos em tempos. Um cartão aparece por cima com "Entregamos até 5 km" e o tempo médio. Pode ser um SVG desenhado, sem API de mapas.
+
+## 07 · Botão que confirma
+
+> No botão de enviar do formulário (agendar, comprar, cadastrar), crie três estados no mesmo lugar. Ao tocar, o texto some e o botão encolhe até virar um círculo (0,3 s). Dentro dele, um anel gira enquanto o envio acontece. Quando o servidor confirma, o círculo muda para a cor de destaque e um sinal de certo se desenha dentro dele. Logo abaixo, aparece a frase de confirmação ("Pronto. Te esperamos sábado, 10h."). Se der erro, o botão volta ao normal com a mensagem do erro. O botão não aceita um segundo toque durante o envio.
+
+## 08 · Cartão que vira
+
+> Nos cartões de produto, coloque a foto, o nome e o preço na frente, e os detalhes no verso (ingredientes, tamanho, origem e um botão de adicionar). Ao tocar, o cartão gira 180° no eixo vertical em 0,55 s, com perspectiva de 1.100 px. Enquanto gira, ele sobe um pouco e escurece de leve na metade do giro, como luz de lado. Tocar de novo faz ele voltar. Use transform-style: preserve-3d e backface-visibility: hidden. Se a pessoa desligou as animações no aparelho, troque a frente pelo verso com fade.
+
+## 09 · Zoom ao rolar
+
+> Na primeira tela, mostre o título e, logo abaixo, uma foto pequena com cantos arredondados (uns 40% da largura). Ao rolar, a foto cresce até ocupar a tela inteira e perde os cantos arredondados, enquanto o título sobe e some. Por dentro, a foto faz um zoom contrário, de 130% para 100%, para dar profundidade. A seção fica presa enquanto isso acontece e, no fim, entra uma frase por cima da foto. Use uma animação ligada à rolagem. No celular, funciona igual com o dedo.
+
+## 10 · Estrelas que acendem
+
+> Na seção de avaliações, faça a nota contar de 0,0 até a nota real (por exemplo, 4,9) quando a seção entrar na tela. Junto com o número, as cinco estrelas se enchem da esquerda para a direita na cor de destaque (com 4,9, a última fica 90% cheia) e o número de avaliações conta também. Depois, os cartões com os depoimentos entram deslizando da direita, um depois do outro (0,2 s de intervalo), com o terceiro cortado na borda para mostrar que dá para arrastar. Use só avaliações reais de clientes.
+
+## 11 · Filtro que reorganiza
+
+> Na grade de produtos, coloque abas de filtro no topo (Tudo, Vestidos, Camisas, Calças). Ao tocar numa aba, um destaque em forma de pílula desliza até ela. Os produtos que saem somem e encolhem no lugar, os que ficam deslizam até a nova posição na grade e os que entram aparecem por último (técnica FLIP, 0,5 s, ease-in-out). Um contador mostra quantas peças ficaram. A altura da grade também anima, para a página não pular de uma vez.
+
+## 12 · Logo de partículas
+
+> Na abertura, espalhe centenas de partículas pequenas (quadradinhos de 3 px) pela tela: quase todas na cor do texto e umas poucas na cor de destaque. Em 1 s, cada partícula viaja em curva até um ponto do logo ou do nome do negócio, cada uma com um atraso diferente, até o nome ficar formado. Depois, as partículas brilham de leve e a frase de apoio entra com fade embaixo. Use canvas: desenhe o nome num canvas escondido e tire os pontos dos pixels. No celular, use menos partículas.
+
+---
+
+Quer isso feito sob medida no seu site? Chama no direct.
