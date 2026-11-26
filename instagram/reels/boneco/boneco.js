@@ -1,10 +1,10 @@
 // O boneco 3D da MACH (o mascote que narra os vídeos). Estilo "brinquedo de vinil": formas arredondadas,
-// cabelo em mechas facetadas, nada de blocos. Roupa e cabelo a partir das fotos de referência do dono
+// cabelo liso em mechas lisas e penteadas (pedido do dono em 26/11), nada de blocos. Roupa e cabelo a partir das fotos de referência do dono
 // (as fotos não ficam no repositório).
 //   Moletom cinza de tecido técnico, com zíper preto, costuras pretas na diagonal e punhos pretos;
 //   no peito, um Λ laranja da MACH no lugar do logo da marca da roupa.
 //   Calça jeans larga cinza-claro, lavada. Óculos pretos esportivos, que envolvem o rosto.
-//   Cabelo castanho-escuro, bagunçado, com franja. Cavanhaque e bigode ralo. Celular de capa azul.
+//   Cabelo castanho-escuro, liso, com franja caindo na testa. Cavanhaque e bigode ralo. Celular de capa azul.
 // Unidade: 1 = 10 cm. Pés em y = 0, olhando para +z.
 import * as THREE from 'three';
 
@@ -119,48 +119,36 @@ function criarBraco(lado, M) {
 }
 
 function criarCabelo(M, cabeca) {
+  // cabelo liso: uma peça só, lisa, com os fios penteados marcados de leve e a franja caindo
+  // para o lado até perto dos óculos, com as pontas recortadas
   const g = new THREE.Group();
   const [hx, hy, hz] = cabeca;
-  const C = new THREE.Vector3(hx, hy + 0.06, hz - 0.02);
-  const R = 0.62;
-  // calota: cobre o topo até a altura das orelhas
-  g.add(malha(new THREE.SphereGeometry(R, 36, 18, 0, Math.PI * 2, 0, Math.PI * 0.5), M.cabelo, [C.x, C.y, C.z], [1.04, 1.0, 1.05]));
-  const r = rng(42);
-  const geo = new THREE.IcosahedronGeometry(1, 1);
-  const coroa = new THREE.Vector3(0, R * 1.0, -R * 0.25);
-  /** mecha que nasce em (lat, lon) da calota e escorre para fora e para baixo */
-  const mecha = (lat, lon, comp, larg, op = {}) => {
-    const n = new THREE.Vector3(Math.sin(lat) * Math.sin(lon), Math.cos(lat), Math.sin(lat) * Math.cos(lon));
-    const p = n.clone().multiplyScalar(R * 1.02);
-    // direção: da coroa para o ponto, tangente à cabeça, puxada para baixo
-    let dir = p.clone().sub(coroa);
-    dir.addScaledVector(n, -dir.dot(n)).normalize();
-    dir.y -= op.cai ?? 0.35;
-    dir.add(new THREE.Vector3((r() - 0.5) * 0.35, (r() - 0.5) * 0.15, (r() - 0.5) * 0.2)).normalize();
-    if (op.lado) dir.x += op.lado;
-    dir.normalize();
-    const centro = C.clone().add(p).addScaledVector(dir, comp * 0.55).addScaledVector(n, larg * 0.35);
-    const m = malha(geo, M.cabelo, [centro.x, centro.y, centro.z], [larg, comp, larg * 0.6]);
-    m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
-    m.rotateY((r() - 0.5) * 0.8);
-    return m;
-  };
-  // topo: mechas por cima de toda a calota, um pouco bagunçadas
-  for (let i = 0; i < 46; i++) {
-    const lat = 0.12 + r() * 1.1, lon = r() * Math.PI * 2;
-    g.add(mecha(lat, lon, 0.24 + r() * 0.12, 0.1 + r() * 0.04, { cai: 0.2 + r() * 0.3 }));
+  const C = new THREE.Vector3(hx, hy + 0.05, hz - 0.02);
+  const R = 0.645;
+  const geo = new THREE.SphereGeometry(R, 120, 60, 0, Math.PI * 2, 0, Math.PI * 0.66);
+  const pos = geo.attributes.position;
+  const v = new THREE.Vector3();
+  for (let i = 0; i < pos.count; i++) {
+    v.fromBufferAttribute(pos, i).normalize();
+    const horiz = Math.hypot(v.x, v.z) || 1;
+    const phi = Math.atan2(v.x, v.z); // 0 = frente
+    const frente = Math.max(0, v.z / horiz);
+    // limite de baixo: nuca abaixo das orelhas; frente = franja até perto dos óculos,
+    // mais baixa do lado para onde ela cai (x < 0) e com pontas recortadas
+    const pontas = 0.045 * Math.abs(Math.sin(phi * 11));
+    let minY = THREE.MathUtils.lerp(Math.cos(Math.PI * 0.64), Math.cos(Math.PI * 0.43), Math.pow(frente, 1.4));
+    minY += frente * (0.07 * v.x / horiz + pontas);
+    if (v.y < minY) {
+      const k = Math.sqrt(Math.max(0, 1 - minY * minY)) / horiz;
+      v.set(v.x * k, minY, v.z * k);
+    }
+    // volume no alto e atrás; fios penteados (sulcos leves que descem do topo)
+    const sulco = 0.012 * Math.sin(phi * 34 + v.y * 3) * (1 - Math.max(0, v.y) * 0.6);
+    const volume = 1.0 + 0.07 * Math.max(0, v.y) + 0.03 * Math.max(0, -v.z) + sulco;
+    pos.setXYZ(i, v.x * R * volume, v.y * R * volume, v.z * R * volume);
   }
-  // franja: cai na testa, de leve para um lado, e para acima dos óculos
-  for (let i = 0; i < 11; i++) {
-    const lon = -0.85 + (i / 10) * 1.7 + (r() - 0.5) * 0.12;
-    g.add(mecha(0.55 + r() * 0.2, lon, 0.26 + r() * 0.05, 0.09 + r() * 0.03, { cai: 0.55, lado: -0.15 }));
-  }
-  // laterais e nuca
-  for (let i = 0; i < 18; i++) {
-    const lado = i % 2 ? 1 : -1;
-    g.add(mecha(0.95 + r() * 0.4, lado * (1.3 + r() * 0.8), 0.26 + r() * 0.06, 0.1 + r() * 0.03, { cai: 0.6 }));
-  }
-  for (let i = 0; i < 12; i++) g.add(mecha(1.0 + r() * 0.35, Math.PI + (r() - 0.5) * 1.8, 0.28, 0.12, { cai: 0.7 }));
+  geo.computeVertexNormals();
+  g.add(malha(geo, M.cabelo, [C.x, C.y, C.z], [1.06, 1.04, 1.07]));
   return g;
 }
 
@@ -184,7 +172,7 @@ function criarOculos(M, cabeca) {
 export function criarBoneco(op = {}) {
   const M = {
     pele: mat(COR.pele, { rough: 0.6 }),
-    cabelo: mat(COR.cabelo, { rough: 0.9, flat: true }),
+    cabelo: new THREE.MeshPhysicalMaterial({ color: COR.cabelo, roughness: 0.55, sheen: 0.25, sheenColor: 0x5a4436, sheenRoughness: 0.5, side: THREE.DoubleSide }),
     barba: mat(COR.barba, { rough: 1 }),
     moletom: mat(COR.moletom, { rough: 0.92 }),
     preto: mat(COR.preto, { rough: 0.6 }),
