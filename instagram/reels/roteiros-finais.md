@@ -340,3 +340,30 @@ Borrão de movimento só no letreiro e na abertura da cortina.
 - O item 02 se chamava "Foto que segue o cursor"; ficou "mouse" para não encostar na segunda coluna da lista.
 - Borrão de movimento só nas partículas.
 - Os depoimentos da Odonto Riso são de um negócio fictício, só para mostrar o efeito. O prompt pede para usar avaliações reais.
+
+---
+
+## i18, i19 e i20 · primeiros vídeos dos formatos aprovados em 26/11
+
+Os três usam o celular genérico e o site fictício **Doceria Laço** de `cenas/celular.js` (versão boa e escura, versão "modelo pronto" clara, pílula fixa do WhatsApp, rolagem com o dedo).
+
+### i18 · Errado × certo · 01: o botão do WhatsApp (20 s)
+`i18-errado-certo-botao-whatsapp.mp4` · formato "certo × errado".
+- **0–9 s · ERRADO:** "Onde fica o botão do WhatsApp?". O dedo rola, volta, rola de novo; o contador marca "PROCURANDO HÁ X S" até achar o contato, pequeno, no rodapé (6,2 s).
+- **9–17 s · CERTO** (etiqueta laranja): "Fixo na tela. Mensagem pronta." A pílula fica parada enquanto a página rola; um toque abre a conversa com "Oi! Quero encomendar um bolo para sábado." pronta, o dedo envia e a doceria responde.
+- **17–20 s:** "Confere no seu site hoje." · "Salva este vídeo para não esquecer."
+
+### i19 · Como um site abre em 1 segundo (24 s)
+`i19-como-um-site-abre-em-1-segundo.mp4` · formato "animação que explica tecnologia".
+- **0–2,4 s:** "1 segundo." · "É o que um site rápido leva para abrir."
+- **2,4–13,8 s:** cronômetro em tempo de verdade (o vídeo mostra em câmera lenta). 1. o toque no link · 2. o pedido (ponto laranja) vai até o servidor · 3. voltam HTML (página branca sem estilo), CSS (o layout aparece) e FOTOS · 4. a tela pronta em 0,92 s (em laranja).
+- **13,8–19,8 s:** "Num site pesado, as fotos chegam por último." Escala de 0 a 5 s; o bloco FOTOS se arrasta, as fotos ficam girando e, em 3,4 s, o dedo volta para o feed: "E o cliente já foi."
+- **19,8–24 s:** "A MACH mede isso em cada site." · régua M 0.40 → M 1.20 (a única referência de aviação da peça) · "Manda para quem tem site."
+- Os tempos são de exemplo, não medição de um site real.
+
+### i20 · Antes e depois · conceito: Doceria Laço (18 s)
+`i20-antes-e-depois-doceria.mp4` · formato "antes e depois".
+- **0–5,3 s · ANTES / MODELO PRONTO:** "Mesmo negócio." Site claro e genérico: "PROMOÇÃO!!!", "Bem-vindo ao nosso site!", parede de texto, "Clique aqui", "Consulte o preço".
+- **5,3–6,7 s:** o dedo arrasta a alça e revela o depois.
+- **6,7–13,6 s · DEPOIS / FEITO SOB MEDIDA:** "Outra primeira impressão." Foto grande, "Encomendas de Natal abertas.", botão laranja, cartões que aparecem ao rolar e a pílula do WhatsApp fixa.
+- **13,6–18 s:** os dois lado a lado · "Quer o seu assim?" · "Comenta SITE que eu te chamo no direct."
