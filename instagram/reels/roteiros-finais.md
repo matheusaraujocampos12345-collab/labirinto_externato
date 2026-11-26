@@ -398,3 +398,20 @@ O dono pediu voz de IA e um fundo com mais informação ("muito pobre, não vai 
 - **Etiquetas 3D:** ERRO 1/2/3, "carregando…", "3,0 s", "cadê o botão?", "foto escura" → "foto que vende", checklist da MACH ("abre em 0,9 s", "WhatsApp à vista", "foto que vende") e balões "SITE"/"quero!" subindo.
 - **Câmera:** um plano por frase (rosto, geral, médio, tela, lado, de baixo), aproximação na palavra em destaque, pulinho do boneco quando a MACH entra e números 1, 2, 3 grandes nas trocas de parte, com o progresso dos 3 erros embaixo da faixa.
 - **Juntar a voz:** `ffmpeg -i i21-….mp4 -i voz/i21/voz.wav -c:v copy -c:a aac -shortest saída.mp4`.
+
+---
+
+## i22 · Boneco 02: só o Instagram não basta (≈25 s)
+
+`i22-boneco-so-instagram-nao-basta.mp4` · série do boneco às 19h (rotina v3, 26/11). Mesma base do i21 (`cenas/i22.js`), voz Faber (`voz/i22/`). Palavra de pedido: **INSTA**.
+
+| Parte | Faixa | No estúdio | Fala |
+|---|---|---|---|
+| abertura | SÓ INSTAGRAM É UM RISCO | perfil da doceria no celular gigante; etiquetas "só Instagram?" e "risco" | "Só ter Instagram é um risco pro seu negócio." |
+| 1 | 1. A CONTA PODE CAIR | o perfil vira "Conta indisponível" e um cadeado 3D despenca na frente; monitores com cadeados | "Primeiro: a conta pode cair. Um bloqueio, e a sua vitrine some no mesmo dia." |
+| 2 | 2. O GOOGLE NÃO TE ACHA | busca "doceria perto de mim" só com concorrentes ("Doceria Laço: nenhum resultado"); ele procura com a lupa e balança a cabeça | "Segundo: o Google não te acha. Quem pesquisa doceria perto de mim acha o concorrente." |
+| 3 | 3. O CARDÁPIO SE PERDE | o feed corre rápido; a fumaça passa e vira o cardápio do site, com preço e "Pedir" | "Terceiro: o cardápio se perde no feed. No site, preço e pedido ficam num lugar só." |
+| MACH | SITE + INSTAGRAM, JUNTOS | Λ acende; checklist "não cai", "aparece no Google", "pedido fácil" | "A MACH faz o site que trabalha junto com o seu Instagram." |
+| fecho | COMENTA INSTA | alguém comenta INSTA; "NA SUA DM!" | "Comenta INSTA que eu te mostro como fica o seu." |
+
+Os nomes dos concorrentes na busca (Doce Ponto, Casa do Bolo, Doces da Vila) são inventados.

@@ -1,0 +1,14 @@
+{
+  "fps": 30, "inicio": 0.3, "fim": 1.3,
+  "linhas": [
+    {"texto": "Só ter Instagram é um risco pro seu negócio.", "fala": "Só ter Ínstagram é um risco pro seu negócio.", "destaque": "risco", "secao": true},
+    {"texto": "Primeiro: a conta pode cair.", "destaque": "cair.", "secao": true},
+    {"texto": "Um bloqueio, e a sua vitrine some no mesmo dia.", "destaque": "vitrine"},
+    {"texto": "Segundo: o Google não te acha.", "fala": "Segundo: o gúgou não te acha.", "destaque": "Google", "secao": true},
+    {"texto": "Quem pesquisa doceria perto de mim acha o concorrente.", "destaque": "concorrente."},
+    {"texto": "Terceiro: o cardápio se perde no feed.", "fala": "Terceiro: o cardápio se perde no fíd.", "destaque": "cardápio", "secao": true},
+    {"texto": "No site, preço e pedido ficam num lugar só.", "fala": "No sáite, preço e pedido ficam num lugar só.", "destaque": "pedido"},
+    {"texto": "A MACH faz o site que trabalha junto com o seu Instagram.", "fala": "A Mák faz o sáite que trabalha junto com o seu Ínstagram.", "destaque": "MACH", "secao": true},
+    {"texto": "Comenta INSTA que eu te mostro como fica o seu.", "fala": "Comenta ínsta, que eu te mostro como fica o seu.", "destaque": "INSTA", "secao": true, "pausa": 0.2}
+  ]
+}

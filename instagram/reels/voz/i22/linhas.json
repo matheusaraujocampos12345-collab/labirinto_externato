@@ -1,0 +1,275 @@
+{
+ "duracao": 24.894,
+ "fps": 30,
+ "linhas": [
+  {
+   "texto": "Só ter Instagram é um risco pro seu negócio.",
+   "ini": 0.3,
+   "fim": 2.405,
+   "destaque": "risco",
+   "secao": true,
+   "pedacos": [
+    {
+     "t": 0.3,
+     "texto": "Só ter"
+    },
+    {
+     "t": 0.637,
+     "texto": "Instagram é"
+    },
+    {
+     "t": 1.184,
+     "texto": "um risco"
+    },
+    {
+     "t": 1.605,
+     "texto": "pro seu"
+    },
+    {
+     "t": 1.984,
+     "texto": "negócio."
+    }
+   ]
+  },
+  {
+   "texto": "Primeiro: a conta pode cair.",
+   "ini": 3.005,
+   "fim": 4.515,
+   "destaque": "cair.",
+   "secao": true,
+   "pedacos": [
+    {
+     "t": 3.005,
+     "texto": "Primeiro: a"
+    },
+    {
+     "t": 3.6,
+     "texto": "conta"
+    },
+    {
+     "t": 3.92,
+     "texto": "pode"
+    },
+    {
+     "t": 4.195,
+     "texto": "cair."
+    }
+   ]
+  },
+  {
+   "texto": "Um bloqueio, e a sua vitrine some no mesmo dia.",
+   "ini": 4.765,
+   "fim": 7.335,
+   "destaque": "vitrine",
+   "secao": false,
+   "pedacos": [
+    {
+     "t": 4.765,
+     "texto": "Um bloqueio,"
+    },
+    {
+     "t": 5.431,
+     "texto": "e a"
+    },
+    {
+     "t": 5.669,
+     "texto": "sua vitrine"
+    },
+    {
+     "t": 6.288,
+     "texto": "some no"
+    },
+    {
+     "t": 6.716,
+     "texto": "mesmo"
+    },
+    {
+     "t": 7.049,
+     "texto": "dia."
+    }
+   ]
+  },
+  {
+   "texto": "Segundo: o Google não te acha.",
+   "ini": 7.935,
+   "fim": 9.532,
+   "destaque": "Google",
+   "secao": true,
+   "pedacos": [
+    {
+     "t": 7.935,
+     "texto": "Segundo: o"
+    },
+    {
+     "t": 8.498,
+     "texto": "Google não"
+    },
+    {
+     "t": 9.062,
+     "texto": "te acha."
+    }
+   ]
+  },
+  {
+   "texto": "Quem pesquisa doceria perto de mim acha o concorrente.",
+   "ini": 9.782,
+   "fim": 12.202,
+   "destaque": "concorrente.",
+   "secao": false,
+   "pedacos": [
+    {
+     "t": 9.782,
+     "texto": "Quem"
+    },
+    {
+     "t": 10.02,
+     "texto": "pesquisa"
+    },
+    {
+     "t": 10.417,
+     "texto": "doceria"
+    },
+    {
+     "t": 10.774,
+     "texto": "perto de"
+    },
+    {
+     "t": 11.171,
+     "texto": "mim acha"
+    },
+    {
+     "t": 11.568,
+     "texto": "o concorrente."
+    }
+   ]
+  },
+  {
+   "texto": "Terceiro: o cardápio se perde no feed.",
+   "ini": 12.802,
+   "fim": 14.864,
+   "destaque": "cardápio",
+   "secao": true,
+   "pedacos": [
+    {
+     "t": 12.802,
+     "texto": "Terceiro: o"
+    },
+    {
+     "t": 13.426,
+     "texto": "cardápio se"
+    },
+    {
+     "t": 14.049,
+     "texto": "perde no"
+    },
+    {
+     "t": 14.529,
+     "texto": "feed."
+    }
+   ]
+  },
+  {
+   "texto": "No site, preço e pedido ficam num lugar só.",
+   "ini": 15.114,
+   "fim": 17.327,
+   "destaque": "pedido",
+   "secao": false,
+   "pedacos": [
+    {
+     "t": 15.114,
+     "texto": "No site,"
+    },
+    {
+     "t": 15.566,
+     "texto": "preço e"
+    },
+    {
+     "t": 15.972,
+     "texto": "pedido"
+    },
+    {
+     "t": 16.333,
+     "texto": "ficam num"
+    },
+    {
+     "t": 16.83,
+     "texto": "lugar só."
+    }
+   ]
+  },
+  {
+   "texto": "A MACH faz o site que trabalha junto com o seu Instagram.",
+   "ini": 17.927,
+   "fim": 20.505,
+   "destaque": "MACH",
+   "secao": true,
+   "pedacos": [
+    {
+     "t": 17.927,
+     "texto": "A MACH"
+    },
+    {
+     "t": 18.244,
+     "texto": "faz o"
+    },
+    {
+     "t": 18.522,
+     "texto": "site que"
+    },
+    {
+     "t": 18.918,
+     "texto": "trabalha"
+    },
+    {
+     "t": 19.315,
+     "texto": "junto com"
+    },
+    {
+     "t": 19.751,
+     "texto": "o seu"
+    },
+    {
+     "t": 20.029,
+     "texto": "Instagram."
+    }
+   ]
+  },
+  {
+   "texto": "Comenta INSTA que eu te mostro como fica o seu.",
+   "ini": 21.105,
+   "fim": 23.394,
+   "destaque": "INSTA",
+   "secao": true,
+   "pedacos": [
+    {
+     "t": 21.105,
+     "texto": "Comenta"
+    },
+    {
+     "t": 21.48,
+     "texto": "INSTA que"
+    },
+    {
+     "t": 21.938,
+     "texto": "eu te"
+    },
+    {
+     "t": 22.229,
+     "texto": "mostro"
+    },
+    {
+     "t": 22.562,
+     "texto": "como"
+    },
+    {
+     "t": 22.812,
+     "texto": "fica o"
+    },
+    {
+     "t": 23.145,
+     "texto": "seu."
+    }
+   ]
+  }
+ ]
+}
