@@ -1,10 +1,10 @@
 // O boneco 3D da MACH (o mascote que narra os vídeos). Estilo "brinquedo de vinil": formas arredondadas,
-// cabelo liso em mechas lisas e penteadas (pedido do dono em 26/11), nada de blocos. Roupa e cabelo a partir das fotos de referência do dono
+// cabelo liso com topete curto (pedidos do dono em 26/11), nada de blocos. Roupa e cabelo a partir das fotos de referência do dono
 // (as fotos não ficam no repositório).
 //   Moletom cinza de tecido técnico, com zíper preto, costuras pretas na diagonal e punhos pretos;
 //   no peito, um Λ laranja da MACH no lugar do logo da marca da roupa.
 //   Calça jeans larga cinza-claro, lavada. Óculos pretos esportivos, que envolvem o rosto.
-//   Cabelo castanho-escuro, liso, com franja caindo na testa. Cavanhaque e bigode ralo. Celular de capa azul.
+//   Cabelo castanho-escuro, liso, com topete curto: lados baixos, alto penteado para cima e para trás. Cavanhaque e bigode ralo. Celular de capa azul.
 // Unidade: 1 = 10 cm. Pés em y = 0, olhando para +z.
 import * as THREE from 'three';
 
@@ -119,36 +119,41 @@ function criarBraco(lado, M) {
 }
 
 function criarCabelo(M, cabeca) {
-  // cabelo liso: uma peça só, lisa, com os fios penteados marcados de leve e a franja caindo
-  // para o lado até perto dos óculos, com as pontas recortadas
+  // topete curto (pedido do dono em 26/11): lados baixos e rentes, alto com volume penteado para cima e
+  // para trás, e a frente levantada formando o topete. Peça única lisa, com as marcas do pente.
   const g = new THREE.Group();
   const [hx, hy, hz] = cabeca;
-  const C = new THREE.Vector3(hx, hy + 0.05, hz - 0.02);
-  const R = 0.645;
-  const geo = new THREE.SphereGeometry(R, 120, 60, 0, Math.PI * 2, 0, Math.PI * 0.66);
+  const C = new THREE.Vector3(hx, hy + 0.03, hz - 0.01);
+  const R = 0.62;
+  const geo = new THREE.SphereGeometry(R, 120, 72, 0, Math.PI * 2, 0, Math.PI * 0.64);
   const pos = geo.attributes.position;
   const v = new THREE.Vector3();
+  const suave = (a, b, x) => {
+    const t = THREE.MathUtils.clamp((x - a) / (b - a), 0, 1);
+    return t * t * (3 - 2 * t);
+  };
   for (let i = 0; i < pos.count; i++) {
     v.fromBufferAttribute(pos, i).normalize();
     const horiz = Math.hypot(v.x, v.z) || 1;
-    const phi = Math.atan2(v.x, v.z); // 0 = frente
     const frente = Math.max(0, v.z / horiz);
-    // limite de baixo: nuca abaixo das orelhas; frente = franja até perto dos óculos,
-    // mais baixa do lado para onde ela cai (x < 0) e com pontas recortadas
-    const pontas = 0.045 * Math.abs(Math.sin(phi * 11));
-    let minY = THREE.MathUtils.lerp(Math.cos(Math.PI * 0.64), Math.cos(Math.PI * 0.43), Math.pow(frente, 1.4));
-    minY += frente * (0.07 * v.x / horiz + pontas);
+    const lado = Math.abs(v.x / horiz);
+    // linha do cabelo: alta na testa, logo acima da orelha nos lados, nuca embaixo
+    const base = THREE.MathUtils.lerp(Math.cos(Math.PI * 0.62), Math.cos(Math.PI * 0.47), THREE.MathUtils.clamp(lado * 1.2 + frente * 1.2, 0, 1));
+    const minY = THREE.MathUtils.lerp(base, Math.cos(Math.PI * 0.37), suave(0.5, 0.82, frente)); // testa: linha reta
     if (v.y < minY) {
       const k = Math.sqrt(Math.max(0, 1 - minY * minY)) / horiz;
       v.set(v.x * k, minY, v.z * k);
     }
-    // volume no alto e atrás; fios penteados (sulcos leves que descem do topo)
-    const sulco = 0.012 * Math.sin(phi * 34 + v.y * 3) * (1 - Math.max(0, v.y) * 0.6);
-    const volume = 1.0 + 0.07 * Math.max(0, v.y) + 0.03 * Math.max(0, -v.z) + sulco;
-    pos.setXYZ(i, v.x * R * volume, v.y * R * volume, v.z * R * volume);
+    const topo = suave(0.25, 0.9, v.y); // 0 nos lados, 1 no alto
+    // topete: volume na frente do alto, empurrado para fora e para cima
+    const topete = suave(0.2, 0.52, Math.max(0, v.z) * Math.max(0, v.y));
+    // marcas do pente: no alto correm de trás para a frente; nos lados, na horizontal
+    const pente = 0.012 * (topo * Math.sin(v.x * 48) + (1 - topo) * 0.6 * Math.sin(v.y * 40));
+    const volume = 1.0 + 0.1 * topo + 0.2 * topete + pente;
+    pos.setXYZ(i, v.x * R * volume, v.y * R * volume + 0.1 * topete, v.z * R * volume + 0.04 * topete);
   }
   geo.computeVertexNormals();
-  g.add(malha(geo, M.cabelo, [C.x, C.y, C.z], [1.06, 1.04, 1.07]));
+  g.add(malha(geo, M.cabelo, [C.x, C.y, C.z], [1.02, 1.02, 1.03]));
   return g;
 }
 
