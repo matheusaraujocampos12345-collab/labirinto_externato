@@ -372,3 +372,21 @@ Os três usam o celular genérico e o site fictício **Doceria Laço** de `cenas
 
 ## Palavra de pedido (26/11)
 A pedido do dono, cada vídeo tem a sua própria palavra para comentar, e não mais "PROMPT" em todos: i16 = **MOVIMENTO**, i17 = **EFEITOS**, Efeito do dia 03 caprichado (`cenas/e03-explicado.js`) = **CARTÃO**, i20 = **SITE**. Os 36 efeitos do dia têm a lista `PALAVRAS` em `cenas/efeito-do-dia.js`. O i15 (já postado) ficou com PROMPT.
+
+---
+
+## i21 · Boneco 3D: 3 erros que espantam cliente (30 s)
+
+`i21-boneco-3-erros-que-espantam-cliente.mp4` · primeiro vídeo com o boneco 3D da MACH (`boneco/boneco.js`), feito para mostrar o potencial do 3D. Segue a estrutura do Reels de referência desmontado (`instagram/pauta/desmonte-reels-3-comandos-claude.md`), com tudo próprio. Cena 3D em `cenas/i21.js` (three.js dentro do motor); a faixa, a legenda e o balão são 2D por cima.
+
+| Tempo | Faixa no topo | No estúdio 3D | Legenda |
+|---|---|---|---|
+| 0–3,4 s | TRÊS ERROS QUE ESPANTAM CLIENTE | o boneco explica; o celular gigante mostra "3 ERROS" | "Três erros que fazem o cliente fechar o seu site." |
+| 3,4–9,6 s | 1. DEMORA PARA ABRIR | ampulheta com areia laranja; a tela carrega e o tempo passa de 3 s; ele olha o relógio; a tela vira o feed | "Primeiro: demora para abrir. Passou de 3 segundos, ele volta pro feed." |
+| 9,6–15,8 s | 2. WHATSAPP ESCONDIDO | ele procura com uma lupa; o contato pequeno no rodapé acende tarde; a tela vira o feed | "Segundo: o WhatsApp escondido. Se ele precisa procurar, ele desiste." |
+| 15,8–22 s | 3. FOTO RUIM NO TOPO | a foto do topo está escura e borrada; ele varre, a fumaça cobre e a foto volta nítida | "Terceiro: a foto do topo. É ela que decide se ele fica ou sai." |
+| 22–25,6 s | A MACH RESOLVE OS TRÊS | o Λ de neon acende; a tela mostra o site bom (0,9 s, botão do WhatsApp fixo); joinha | "A MACH resolve os três de uma vez." |
+| 25,6–30 s | COMENTA SITE | a tela mostra os comentários; alguém digita SITE e publica; balão "NA SUA DM!" com confete | "Comenta SITE que eu olho o seu." |
+
+- Troca de parte com fumaça cobrindo a câmera (9,6 s, 15,8 s, 22 s e 25,6 s).
+- Sem áudio. A boca do boneco mexe no ritmo da legenda, e o dono pode narrar por cima seguindo o texto.

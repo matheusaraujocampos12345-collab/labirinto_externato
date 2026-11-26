@@ -248,6 +248,9 @@ export function criarBoneco(op = {}) {
   for (const s of [-1, 1]) cab.add(malha(esfera(1), M.pele, [hx + 0.57 * s, hy - 0.03, hz - 0.02], [0.08, 0.14, 0.1]));
   cab.add(malha(capsula(0.055, 0.1), mat(COR.peleSombra, { rough: 0.6 }), [hx, hy - 0.13, hz + 0.56], [1, 1, 1], [0.35, 0, 0]));
   cab.add(malha(capsula(0.02, 0.11), mat(0xc58f7d, { rough: 0.5 }), [hx, hy - 0.33, hz + 0.505], [0.85, 1, 0.6], [0, 0, Math.PI / 2]));
+  // boca aberta (escala vertical controlada por animar({ boca }))
+  const boca = malha(esfera(1, 24, 12), mat(0x3a1d1a, { rough: 0.8 }), [hx, hy - 0.345, hz + 0.49], [0.06, 0.004, 0.035]);
+  cab.add(boca);
   cab.add(malha(capsula(0.009, 0.13), mat(0x8a6a58, { rough: 1 }), [hx, hy - 0.275, hz + 0.53], [1, 1, 0.6], [0, 0, Math.PI / 2]));
   cab.add(malha(esfera(1), M.barba, [hx, hy - 0.49, hz + 0.37], [0.13, 0.07, 0.07]));
   cab.add(malha(capsula(0.014, 0.05), M.barba, [hx, hy - 0.41, hz + 0.475], [1, 1, 0.7]));
@@ -297,6 +300,29 @@ export function criarBoneco(op = {}) {
       celular.quaternion.copy(qp.invert().multiply(alvo));
     }
   }
+  /**
+   * Pose livre, quadro a quadro (para os vídeos):
+   * { e: { ombro: [x,y,z], cotovelo: [x,y,z], pulso: [x,y,z] }, d: {...}, cabeca: [x,y,z], boca: 0..1, celular: bool }
+   * Partes omitidas ficam na pose neutra.
+   */
+  function animar(est = {}) {
+    pose('neutra');
+    for (const [k, b] of [['e', bracoE], ['d', bracoD]]) {
+      const o = est[k];
+      if (!o) continue;
+      if (o.ombro) b.ombro.rotation.set(...o.ombro);
+      if (o.cotovelo) b.cotovelo.rotation.set(...o.cotovelo);
+      if (o.pulso) b.pulso.rotation.set(...o.pulso);
+    }
+    if (est.cabeca) {
+      cab.rotation.set(...est.cabeca);
+      cab.position.set(0, 0, 0);
+      const q = new THREE.Quaternion().setFromEuler(cab.rotation);
+      cab.position.copy(pivoCabeca).sub(new THREE.Vector3().copy(pivoCabeca).applyQuaternion(q));
+    }
+    boca.scale.y = 0.004 + 0.05 * Math.max(0, Math.min(1, est.boca ?? 0));
+    corpo.scale.set(1, 1 + 0.008 * Math.sin(est.respira ?? 0), 1);
+  }
   pose(op.pose ?? 'neutra');
-  return { boneco, pose, partes: { bracoE, bracoD, cab, celular } };
+  return { boneco, pose, animar, partes: { bracoE, bracoD, cab, celular } };
 }
