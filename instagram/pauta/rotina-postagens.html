@@ -82,6 +82,7 @@ section { margin-top: 56px; display: flex; flex-direction: column; gap: 16px; }
 .estado.pronto { color: var(--fg); border-color: rgba(223,227,231,0.4); }
 .estado.novo { color: var(--accent); border-color: rgba(255,107,26,0.6); }
 .estado.fazer { border-style: dashed; }
+.estado.publicado { color: var(--bg); background: var(--fg); border-color: var(--fg); }
 @media (max-width: 560px) { .dias li { grid-template-columns: 6.2em 3.2em 1fr; } .dias .estado { grid-column: 3; justify-self: start; } }
 
 /* mensagens prontas */
@@ -209,8 +210,8 @@ const GRADE = {
 };
 const SEMANAS = [
   { titulo: "Esta semana · 26 a 29/11", itens: [
-    ["Qui 26/11", "10h", "Errado × certo 01: botão do WhatsApp", "Reels · você posta pelo app", "novo"],
-    ["Sex 27/11", "9h", "Efeito do dia 03, caprichado: cartão 3D", "Reels · Comenta CARTÃO", "novo"],
+    ["Qui 26/11", "10h", "Efeito do dia 03, caprichado: cartão 3D", "Reels · Comenta CARTÃO", "publicado"],
+    ["Sex 27/11", "9h", "Errado × certo 01: botão do WhatsApp", "Reels · você posta pelo app", "novo"],
     ["Sex 27/11", "12h", "12 animações de site · parte 2", "Reels · Comenta MOVIMENTO", "pronto"],
     ["Sex 27/11", "19h", "12 animações de site · parte 3", "Reels · Comenta EFEITOS", "pronto"],
     ["Sáb 28/11", "18h", "Teaser do lançamento", "Reels · já estava no calendário", "pronto"],
@@ -253,11 +254,11 @@ const SEMANAS = [
     ["Sáb 12/12", "11h", "3 ferramentas grátis para a sua loja", "Carrossel", "fazer"],
   ] },
 ];
-const ESTADO = { pronto: ["pronto", "pronto"], novo: ["novo", "pronto, novo"], fazer: ["fazer", "a produzir"], voce: ["", "você"] };
+const ESTADO = { pronto: ["pronto", "pronto"], novo: ["novo", "pronto, novo"], fazer: ["fazer", "a produzir"], voce: ["", "você"], publicado: ["publicado", "publicado"] };
 const DECISOES = [
   { id: "grade", nome: "A semana-modelo, com 3 posts por dia", desc: "Os formatos fixos por dia e horário, com o Efeito do dia às 9h e o teste de 2 semanas." },
   { id: "dia", nome: "O seu dia e o ciclo da semana", desc: "Responder na primeira hora, prospecção às 19h30, agendamento aos domingos." },
-  { id: "semana-1", nome: "Esta semana e a semana 1", desc: "26/11 a 05/12: errado × certo hoje às 10h, Efeito do dia 03 caprichado amanhã às 9h, antes e depois em 01/12, como um site abre em 03/12, e o Efeito do dia às 9h a partir de 30/11." },
+  { id: "semana-1", nome: "Esta semana e a semana 1", desc: "26/11 a 05/12: Efeito do dia 03 caprichado (publicado hoje às 10h), errado × certo amanhã às 9h, antes e depois em 01/12, como um site abre em 03/12, e o Efeito do dia às 9h a partir de 30/11." },
   { id: "semana-2", nome: "A semana 2", desc: "07 a 12/12. Eu começo a produzir na quinta, 03/12." },
 ];
 
@@ -295,6 +296,8 @@ function el(tag, attrs = {}, ...filhos) {
     const n = { pronto: 0, novo: 0, fazer: 0 };
     s.itens.forEach((it) => { if (n[it[4]] !== undefined) n[it[4]]++; });
     const partes = [];
+    const pub = s.itens.filter((it) => it[4] === "publicado").length;
+    if (pub) partes.push(`${pub} publicado${pub > 1 ? "s" : ""}`);
     if (n.pronto + n.novo) partes.push(`${n.pronto + n.novo} prontos`);
     if (n.fazer) partes.push(`${n.fazer} a produzir`);
     const ul = el("ul", { class: "dias" });
