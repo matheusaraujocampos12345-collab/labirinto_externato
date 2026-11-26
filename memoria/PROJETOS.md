@@ -132,6 +132,10 @@ Propostas de marca publicadas como páginas (claude.ai, privadas): Talhe, Macte 
     - Destaques: o Duplo Brazza (receita do post deles) se monta camada por camada com a rolagem; as fagulhas viram um hambúrguer no céu ("Não ignore os sinais", campanha deles); o selo mostra aberto ou fechado pela hora de Canaã; a sacola manda nome, endereço e pagamento para o WhatsApp.
     - O logo deles tem a caveira de um anime (marca de terceiros), e eles postam artes com personagens. O site usa o nome em letras douradas, sem a caveira, e deixa essas artes de fora.
     - Para regerar: `python3 ferramentas/preparar_imagens.py`, `ferramentas/telas.mjs`, `ferramentas/apresentacao.mjs` e `node instagram/reels/motor/capturar.mjs previas/one-burguer/ferramentas/video-captura.mjs` (os servidores estão descritos no topo de cada arquivo).
+  - **Prévia antes do primeiro contato (26/11):** o dono pediu um site para o ateliê de bolos da mensagem 34 da fila (cake designer em MG), para mandar já com o exemplo pronto. A prévia está em `previas/atelie-nattalia/` e foi feita com o perfil que a rodada 3 já tinha baixado (sem gastar crédito).
+    - Sem logo no perfil: a identidade saiu dos bolos dela (creme, vinho, rosa, ouro e prata; Bodoni Moda, Jost e uma assinatura cursiva desenhada a partir dos contornos da fonte com `ferramentas/assinatura.py`).
+    - Animações: assinatura desenhada como glacê, saco de confeiteiro fazendo borda de conchas, portfólio em trilho lateral, lupa no acabamento, bolo que cresce com o número de convidados, caixa do cento que enche por sabor e ficha de orçamento que vai pronta para o WhatsApp.
+    - Ficaram de fora os bolos com nome ou foto de criança e o de tema de banda (marca de terceiros).
 - **Prévias para clientes:** ficam em `previas/<cliente>/` (fora do git, porque têm fotos e dados do cliente). Cada uma tem:
   - o site, em `site/`;
   - as imagens e o vídeo, em `entrega/`;
