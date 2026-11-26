@@ -1,0 +1,302 @@
+<title>Referências de vídeo MACH</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: uma coluna de cartões (um por formato), placar fixo no topo; tema escuro único da marca. */
+:root {
+  --bg: #0A0C0F;          /* estratosfera */
+  --surface: #12161B;
+  --surface-2: #1B2026;   /* titânio */
+  --line: rgba(223,227,231,0.12);
+  --fg: #DFE3E7;          /* alumínio */
+  --muted: #8A929B;       /* névoa */
+  --faint: #5A626C;
+  --accent: #FF6B1A;      /* laranja: só no que foi aprovado */
+  --ok-bg: rgba(255,107,26,0.12);
+  --display: "Saira", "Arial Narrow", system-ui, sans-serif;
+  --body: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.5; }
+.wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 80px; }
+.rotulo { font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-weight: 300; font-size: clamp(34px, 7vw, 52px); line-height: 1.08; margin: 10px 0 14px; text-wrap: balance; }
+.intro { color: var(--muted); max-width: 60ch; margin: 0; }
+.intro strong { color: var(--fg); font-weight: 500; }
+
+.placar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); margin: 28px 0 8px; padding-block: 12px; display: flex; gap: 18px; flex-wrap: wrap; align-items: baseline; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.placar span { font-family: var(--mono); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.placar b { color: var(--fg); font-weight: 500; }
+.placar .aprov b { color: var(--accent); }
+.estado { margin-left: auto; font-family: var(--mono); font-size: 12px; color: var(--faint); }
+
+.lista { display: flex; flex-direction: column; gap: 18px; margin-top: 18px; }
+.formato { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.formato[data-decisao="aprovar"] { border-color: var(--accent); }
+.topo { display: flex; gap: 12px; align-items: baseline; justify-content: space-between; flex-wrap: wrap; }
+.formato h2 { font-family: var(--display); font-weight: 400; font-size: 26px; line-height: 1.15; margin: 0; text-wrap: balance; }
+.tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); border-radius: 99px; padding: 3px 10px; white-space: nowrap; }
+.par { display: grid; grid-template-columns: 9.5em 1fr; gap: 4px 14px; margin: 0; }
+.par dt { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); padding-top: 3px; }
+.par dd { margin: 0; min-width: 0; }
+@media (max-width: 520px) { .par { grid-template-columns: 1fr; } .par dd { margin-bottom: 8px; } }
+
+.exemplos { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+.exemplos li { border-bottom: 1px solid var(--line); }
+.exemplos a { display: grid; grid-template-columns: 1fr auto; gap: 2px 14px; padding: 12px 2px; color: inherit; text-decoration: none; min-width: 0; }
+.exemplos a:hover .quem, .exemplos a:focus-visible .quem { text-decoration: underline; text-underline-offset: 3px; }
+.exemplos a:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; border-radius: 6px; }
+.quem { font-weight: 500; overflow-wrap: anywhere; }
+.rede { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); justify-self: end; }
+.oque { grid-column: 1 / -1; color: var(--muted); font-size: 14px; }
+.numeros { grid-column: 1 / -1; font-family: var(--mono); font-size: 12px; color: var(--faint); font-variant-numeric: tabular-nums; }
+
+.decidir { display: flex; gap: 8px; flex-wrap: wrap; }
+.decidir button { font: 500 15px var(--body); color: var(--fg); background: var(--surface-2); border: 1px solid var(--line); border-radius: 99px; padding: 10px 18px; cursor: pointer; min-height: 44px; }
+.decidir button:hover { border-color: rgba(223,227,231,0.35); }
+.decidir button:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+.decidir button[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.decidir button[data-v="aprovar"][aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #0A0C0F; }
+.decidir button:disabled { opacity: 0.5; cursor: default; }
+.nota label { display: block; margin-bottom: 6px; }
+.nota textarea { width: 100%; box-sizing: border-box; min-height: 64px; resize: vertical; font: 15px/1.45 var(--body); color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.nota textarea:focus-visible { outline: 2px solid var(--fg); outline-offset: 1px; }
+.salvo { font-family: var(--mono); font-size: 12px; color: var(--faint); min-height: 1.4em; }
+.rodape { margin-top: 36px; color: var(--faint); font-size: 14px; max-width: 62ch; }
+@media (prefers-reduced-motion: no-preference) { .decidir button { transition: background .15s, color .15s, border-color .15s; } }
+</style>
+
+<div class="wrap">
+  <div class="rotulo">MACH · pauta · 26/11</div>
+  <h1>Referências de vídeo</h1>
+  <p class="intro">Doze formatos de vídeo com tecnologia que viralizam: dicas, animações, antes e depois, IA, humor. Abra os exemplos e marque <strong>Aprovar</strong>, <strong>Talvez</strong> ou <strong>Não</strong> em cada formato. Os aprovados viram vídeos da MACH, com ideia própria (não copiamos nenhum).</p>
+
+  <div class="placar" aria-live="polite">
+    <span class="aprov"><b id="n-aprovar">0</b> aprovados</span>
+    <span><b id="n-talvez">0</b> talvez</span>
+    <span><b id="n-nao">0</b> não</span>
+    <span><b id="n-falta">12</b> sem resposta</span>
+    <span class="estado" id="estado">carregando respostas…</span>
+  </div>
+
+  <div class="lista" id="lista"></div>
+
+  <p class="rodape">Os números vêm do que a busca mostrou em 26/11 ou da pesquisa de formatos de 22/11. "Não conferido" quer dizer que não conseguimos abrir a página para contar: o vídeo pode ter muito ou pouco alcance. Os links abrem no TikTok ou no YouTube.</p>
+</div>
+
+<script>
+const NC = "não conferido";
+const FORMATOS = [
+  { id: "efeito-explicado", nome: "Efeito explicado em 30 segundos", tipo: "Dica",
+    oque: "Mostra um efeito de site funcionando e, logo depois, como ele é feito, em poucos passos na tela.",
+    porque: "Quem trabalha com site salva para usar depois, e quem não trabalha fica olhando o efeito.",
+    mach: "Pegar um efeito dos nossos Reels de catálogo e abrir ele em 3 passos, com \"comenta PROMPT\" no fim.",
+    exemplos: [
+      { quem: "@radwebdesigns", rede: "TikTok", url: "https://www.tiktok.com/@radwebdesigns/video/7447938339778350379", oque: "Animação de rolagem para uma startup, com o passo a passo", numeros: NC },
+      { quem: "Hyperplexed", rede: "YouTube", url: "https://www.youtube.com/watch?v=W5oawMJaXbU", oque: "Efeito de texto \"hacker\" explicado com HTML, CSS e JS", numeros: "≈362 mil visualizações (pesquisa de 22/11)" },
+      { quem: "Hyperplexed", rede: "YouTube Shorts", url: "https://www.youtube.com/shorts/VTw2cUVFl1c", oque: "Efeito líquido interativo, feito só com blocos de HTML", numeros: NC },
+      { quem: "Cartões que se empilham", rede: "YouTube", url: "https://www.youtube.com/watch?v=yDV-PyYlWQE", oque: "O efeito de rolagem premiado no Awwwards, refeito e explicado", numeros: NC },
+    ] },
+  { id: "ia-3d", nome: "Site 3D feito com IA", tipo: "IA",
+    oque: "Mostra um site 3D impressionante e lista, na legenda, os passos e a IA usada.",
+    porque: "Junta dois assuntos do momento, IA e 3D, e promete um resultado caro com pouco esforço.",
+    mach: "Mostrar um site nosso em 3D e o \"como\" em 5 passos, sem prometer milagre: a IA ajuda, o acabamento é nosso.",
+    exemplos: [
+      { quem: "@webloved", rede: "TikTok", url: "https://www.tiktok.com/@webloved/video/7632744843709549856", oque: "Como fazer um site 3D com IA, em 6 passos", numeros: "≈187,8 mil curtidas · 1.185 comentários (busca de 26/11)" },
+      { quem: "@webloved", rede: "TikTok", url: "https://www.tiktok.com/@webloved/video/7636095739738737952", oque: "IA + animação 3D que anda com a rolagem", numeros: NC },
+      { quem: "@lukasdeem", rede: "TikTok", url: "https://www.tiktok.com/@lukasdeem/video/7532123352647961911", oque: "Modelo 3D colocado dentro do site com Three.js", numeros: "936 curtidas (busca de 26/11)" },
+      { quem: "3eyes", rede: "YouTube Shorts", url: "https://www.youtube.com/shorts/fCJ465Da4S4", oque: "Cena 3D feita com three.js", numeros: "≈236 mil visualizações (pesquisa de 22/11)" },
+    ] },
+  { id: "comenta-palavra", nome: "Comenta a palavra e recebe", tipo: "Gancho",
+    oque: "O vídeo mostra um resultado e pede para comentar uma palavra. Quem comenta recebe o material no direct.",
+    porque: "Cada comentário conta para o alcance, e o direct abre conversa com quem se interessou.",
+    mach: "O i15 já fez isso com PROMPT. Dá para variar a palavra e o presente: SITE (checklist), PALETA (cores), PROMPT.",
+    exemplos: [
+      { quem: "@sebastienjefferies", rede: "TikTok", url: "https://www.tiktok.com/@sebastienjefferies/video/7486929052834663703", oque: "Comenta \"AI\" e recebe os prompts do gerador de imagens", numeros: NC },
+      { quem: "@charlycreator", rede: "TikTok · espanhol", url: "https://www.tiktok.com/@charlycreator/video/7435309372747599137", oque: "Comenta \"REEL\" e recebe o prompt de roteiro", numeros: NC },
+      { quem: "@valterazevedobr", rede: "TikTok · Brasil", url: "https://www.tiktok.com/@valterazevedobr/video/7500933646275104005", oque: "Comenta e recebe o guia das IAs de vídeo", numeros: NC },
+    ] },
+  { id: "antes-depois", nome: "Antes e depois de site", tipo: "Transformação",
+    oque: "Mostra o site velho e o novo, lado a lado ou com um corte seco no meio.",
+    porque: "Transformação prende até o fim, e o dono de negócio se imagina no lugar.",
+    mach: "Refazer, como conceito, o site de um tipo de negócio (sem expor ninguém) e mostrar a virada em 15 s.",
+    exemplos: [
+      { quem: "@pixeldesignlab", rede: "TikTok", url: "https://www.tiktok.com/@pixeldesignlab/video/7456835308869520662", oque: "Redesenho com 3D leve: \"não precisa ser tudo animado, mas não pode ser chato\"", numeros: NC },
+      { quem: "Antes e depois", rede: "YouTube Shorts", url: "https://www.youtube.com/shorts/OtPDu0TgsfA", oque: "Site antigo virando um site limpo e atual", numeros: NC },
+      { quem: "Juxtopposed", rede: "YouTube", url: "https://www.youtube.com/watch?v=OUM6XmhViN4", oque: "Redesenho de uma interface famosa, explicado passo a passo", numeros: "≈1,7 mi visualizações (pesquisa de 22/11)" },
+      { quem: "Hyperplexed", rede: "YouTube Shorts", url: "https://www.youtube.com/shorts/91bkhlzu03Q", oque: "Redesenho da tela de perfis da Netflix", numeros: NC },
+    ] },
+  { id: "certo-errado", nome: "Certo × errado em 30 segundos", tipo: "Dica",
+    oque: "Duas versões da mesma tela. Em uma frase, o vídeo diz por que uma funciona e a outra não.",
+    porque: "É rápido, ensina algo útil e as pessoas concordam ou discordam nos comentários.",
+    mach: "Série \"Seu site em 30 s\": botão, menu, foto do topo, sempre com a versão MACH no fim.",
+    exemplos: [
+      { quem: "Interface bonita, uso ruim", rede: "YouTube Shorts", url: "https://www.youtube.com/shorts/Q0LDqZSJIeU", oque: "Por que uma tela bonita pode ser difícil de usar, em 30 s", numeros: NC },
+      { quem: "A porta de Don Norman", rede: "YouTube Shorts", url: "https://www.youtube.com/shorts/DJ6AlwY3L9Q", oque: "Porta boa × porta ruim: o exemplo clássico de design", numeros: NC },
+    ] },
+  { id: "dica-codigo", nome: "Dica de código de 1 minuto", tipo: "Dica · Brasil",
+    oque: "Um efeito pequeno (botão, fundo animado, carregando) feito na hora, com o código na tela.",
+    porque: "Tem muita gente aprendendo programação no Brasil, e esse público salva e compartilha.",
+    mach: "Atrai mais designers do que quem compra site. Só vale se o objetivo for alcance puro.",
+    exemplos: [
+      { quem: "@tigercodes", rede: "TikTok · Brasil", url: "https://www.tiktok.com/@tigercodes/video/7254639440616787205", oque: "Animação de carregamento só com HTML e CSS", numeros: NC },
+      { quem: "@anabcodes", rede: "TikTok · Brasil", url: "https://www.tiktok.com/@anabcodes/video/7455818516495650054", oque: "Fundo animado com HTML e CSS", numeros: NC },
+      { quem: "@sujeitoprogramador", rede: "TikTok · Brasil", url: "https://www.tiktok.com/@sujeitoprogramador/video/7176374415507197189", oque: "Balão de conversa só com CSS", numeros: NC },
+    ] },
+  { id: "lista-ferramentas", nome: "Lista de ferramentas e sites úteis", tipo: "Lista",
+    oque: "\"3 sites que você não conhece\" ou \"3 IAs grátis\", mostrando a tela de cada um.",
+    porque: "Promete uma vantagem rápida e vira favorito salvo.",
+    mach: "Versão para dono de negócio: \"3 coisas que o seu site precisa ter\" ou \"3 ferramentas grátis para a sua loja\".",
+    exemplos: [
+      { quem: "@thedigitalhubb", rede: "TikTok", url: "https://www.tiktok.com/@thedigitalhubb/video/7193461145120869637", oque: "3 sites que \"não querem que você conheça\"", numeros: NC },
+      { quem: "@bubowsia", rede: "TikTok · Brasil", url: "https://www.tiktok.com/@bubowsia/video/7437237226599222584", oque: "3 IAs gratuitas para criar vídeos", numeros: NC },
+      { quem: "@ofernandorank", rede: "TikTok · Brasil", url: "https://www.tiktok.com/@ofernandorank/video/7513736234582183173", oque: "As 3 melhores IAs para criar vídeos", numeros: NC },
+    ] },
+  { id: "explicativo", nome: "Animação que explica tecnologia", tipo: "Animação",
+    oque: "Animação 3D ou de motion que mostra por dentro como algo funciona, como a internet ou o Wi-Fi.",
+    porque: "Mata a curiosidade e é bonita de ver mesmo sem som.",
+    mach: "\"Como o seu site chega no celular do cliente em 1 segundo\", animado no nosso motor, com a régua de velocidade.",
+    exemplos: [
+      { quem: "Como a internet funciona", rede: "YouTube", url: "https://www.youtube.com/watch?v=rMnwg7vwxKA", oque: "Uma mensagem atravessando a rede, em animação 3D", numeros: NC },
+      { quem: "Como o Wi-Fi funciona", rede: "YouTube", url: "https://www.youtube.com/watch?v=ggRMv8feuiw", oque: "O sinal de Wi-Fi explicado em animação 3D", numeros: NC },
+      { quem: "Fireship", rede: "YouTube", url: "https://www.youtube.com/watch?v=Tn6-PIqc4UM", oque: "\"React em 100 segundos\": tecnologia explicada no ritmo de cortes rápidos", numeros: NC },
+    ] },
+  { id: "tipografia", nome: "Tipografia animada", tipo: "Animação",
+    oque: "Palavras que se mexem no ritmo da música, com efeito de eco, túnel ou texto correndo num caminho.",
+    porque: "Prende nos 3 primeiros segundos e combina com o áudio que está em alta.",
+    mach: "Frases curtas da MACH em Saira, no ritmo da música do momento. O nosso motor de vídeo já faz isso.",
+    exemplos: [
+      { quem: "@designbyjake", rede: "TikTok", url: "https://www.tiktok.com/@designbyjake/video/7298824774564744481", oque: "Tipografia com o efeito CC Power Pin, no After Effects", numeros: "≈12,2 mil curtidas (busca de 26/11)" },
+      { quem: "@designbyjake", rede: "TikTok", url: "https://www.tiktok.com/@designbyjake/video/7291335950003703073", oque: "Texto correndo em caminhos, no After Effects", numeros: "≈1,4 mil curtidas (busca de 26/11)" },
+    ] },
+  { id: "construcao", nome: "Construção acelerada", tipo: "Bastidores",
+    oque: "O site sendo montado do zero, acelerado, até a versão final.",
+    porque: "Mostra trabalho de verdade e passa confiança em quem faz.",
+    mach: "O i11 (\"Do zero à primeira tela\") já segue essa linha. Pode virar série: um tipo de negócio por semana.",
+    exemplos: [
+      { quem: "Framer", rede: "YouTube Shorts", url: "https://www.youtube.com/shorts/vEml2rLb50w", oque: "Uma semana de site em menos de 1 minuto", numeros: NC },
+      { quem: "Coding ASMR", rede: "YouTube Shorts", url: "https://www.youtube.com/shorts/xTeuOA2MGBE", oque: "Botão com raio no hover, montado ao som do teclado", numeros: NC },
+    ] },
+  { id: "analise", nome: "Análise de site", tipo: "Opinião",
+    oque: "Um designer abre sites e comenta o que está bom e o que está ruim.",
+    porque: "Gera debate nos comentários, e muita gente manda o próprio site para ser analisado.",
+    mach: "Analisar sites premiados (nunca o de um negócio sem pedir) e depois abrir para quem quiser mandar o seu.",
+    exemplos: [
+      { quem: "Reação a sites premiados", rede: "YouTube", url: "https://www.youtube.com/watch?v=dtmgESw1cp8", oque: "Ex-designer-chefe comenta 3 sites que ganharam prêmio", numeros: NC },
+      { quem: "Analisando os sites de vocês", rede: "YouTube", url: "https://www.youtube.com/watch?v=8sgTP9f-e2g", oque: "Especialista analisa lojas virtuais enviadas pelo público", numeros: NC },
+      { quem: "Framer", rede: "YouTube Shorts", url: "https://www.youtube.com/shorts/k5zR5Y3SZQA", oque: "Como estão os sites em 2026, parte 1", numeros: NC },
+    ] },
+  { id: "humor", nome: "Humor de bastidor", tipo: "Humor",
+    oque: "Cena curta de designer e cliente: \"só mais uma mudancinha\", \"arquivo_final_final2\".",
+    porque: "Quem trabalha com cliente se identifica e marca os colegas.",
+    mach: "Funciona melhor com gente na câmera. Sem aparecer, dá para fazer em texto animado.",
+    exemplos: [
+      { quem: "@naladesignn", rede: "TikTok", url: "https://www.tiktok.com/@naladesignn/video/7292794886665899296", oque: "Piadas de cliente para quem é designer", numeros: NC },
+    ] },
+];
+
+const ROTULO = { aprovar: "Aprovar", talvez: "Talvez", nao: "Não" };
+const respostas = {};
+let db = null;
+
+function el(tag, attrs = {}, ...filhos) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") n.className = v; else if (k === "text") n.textContent = v; else n.setAttribute(k, v);
+  }
+  for (const f of filhos) if (f) n.append(f);
+  return n;
+}
+
+function montar() {
+  const lista = document.getElementById("lista");
+  for (const f of FORMATOS) {
+    const card = el("article", { class: "formato", id: f.id, "data-decisao": "" });
+    card.append(el("div", { class: "topo" }, el("h2", { text: f.nome }), el("span", { class: "tag", text: f.tipo })));
+    const dl = el("dl", { class: "par" });
+    dl.append(el("dt", { text: "O que é" }), el("dd", { text: f.oque }));
+    dl.append(el("dt", { text: "Por que viraliza" }), el("dd", { text: f.porque }));
+    dl.append(el("dt", { text: "Na MACH" }), el("dd", { text: f.mach }));
+    card.append(dl);
+    const ul = el("ul", { class: "exemplos" });
+    for (const x of f.exemplos) {
+      const a = el("a", { href: x.url, target: "_blank", rel: "noopener" },
+        el("span", { class: "quem", text: x.quem }),
+        el("span", { class: "rede", text: x.rede }),
+        el("span", { class: "oque", text: x.oque }),
+        el("span", { class: "numeros", text: x.numeros }));
+      ul.append(el("li", {}, a));
+    }
+    card.append(ul);
+    const dec = el("div", { class: "decidir", role: "group", "aria-label": "Decisão para " + f.nome });
+    for (const v of ["aprovar", "talvez", "nao"]) {
+      const b = el("button", { type: "button", "data-v": v, "aria-pressed": "false", text: ROTULO[v] });
+      b.addEventListener("click", () => decidir(f.id, v));
+      dec.append(b);
+    }
+    card.append(dec);
+    const idNota = "nota-" + f.id;
+    const ta = el("textarea", { id: idNota, placeholder: "Ex.: gostei, mas quero com a nossa cara escura." });
+    ta.addEventListener("change", () => anotar(f.id, ta.value));
+    card.append(el("div", { class: "nota" }, el("label", { class: "rotulo", for: idNota, text: "Comentário (opcional)" }), ta, el("div", { class: "salvo", id: "salvo-" + f.id })));
+    lista.append(card);
+  }
+}
+
+function pintar() {
+  const cont = { aprovar: 0, talvez: 0, nao: 0 };
+  for (const f of FORMATOS) {
+    const r = respostas[f.id] || {};
+    const card = document.getElementById(f.id);
+    card.dataset.decisao = r.decisao || "";
+    card.querySelectorAll(".decidir button").forEach((b) => {
+      b.setAttribute("aria-pressed", String(b.dataset.v === r.decisao));
+      b.disabled = !db;
+    });
+    const ta = document.getElementById("nota-" + f.id);
+    if (document.activeElement !== ta && typeof r.nota === "string") ta.value = r.nota;
+    ta.disabled = !db;
+    if (r.decisao) cont[r.decisao]++;
+  }
+  for (const k of Object.keys(cont)) document.getElementById("n-" + k).textContent = cont[k];
+  document.getElementById("n-falta").textContent = FORMATOS.length - cont.aprovar - cont.talvez - cont.nao;
+}
+
+async function salvar(id, dados) {
+  const msg = document.getElementById("salvo-" + id);
+  const antes = { ...(respostas[id] || {}) };
+  respostas[id] = { ...antes, ...dados, em: new Date().toISOString() };
+  pintar();
+  msg.textContent = "salvando…";
+  try {
+    await db.collection("formatos").doc(id).set(respostas[id]);
+    msg.textContent = "salvo";
+  } catch (e) {
+    respostas[id] = antes;
+    pintar();
+    msg.textContent = "não salvou: " + (e && e.code === "not_granted" ? "sem permissão para responder nesta página" : "tente de novo em instantes");
+  }
+}
+function decidir(id, v) { if (db) salvar(id, { decisao: v }); }
+function anotar(id, texto) { if (db && texto !== ((respostas[id] || {}).nota || "")) salvar(id, { nota: texto.slice(0, 2000) }); }
+
+montar();
+pintar();
+
+(async () => {
+  const estado = document.getElementById("estado");
+  try { db = await claude.use("db"); } catch (e) { db = null; }
+  if (!db) { estado.textContent = "abra logado no claude.ai para responder"; pintar(); return; }
+  pintar();
+  const relogio = setTimeout(() => { estado.textContent = "respostas ainda não chegaram"; }, 10000);
+  db.collection("formatos").onSnapshot((snap) => {
+    for (const d of snap.docs) respostas[d.id] = d.data();
+    if (!snap.metadata.fromCache) { clearTimeout(relogio); estado.textContent = "respostas salvas para o Claude ler"; }
+    pintar();
+  }, () => { clearTimeout(relogio); estado.textContent = "não deu para carregar as respostas"; });
+})();
+</script>
